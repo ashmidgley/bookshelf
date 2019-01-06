@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import { Card, Heading, Media, Content } from 'react-bulma-components';
+import './main.css';
 
 class Main extends Component {
 
@@ -29,8 +30,10 @@ class Main extends Component {
     return (
         <div>
             {this.reviews.map(review =>
-                <Card style={{ "max-width" : "300px", "margin" : "30px auto" }}>
-                <Card.Image src={review.image} />
+                <Card style={{ "max-width" : "300px", "margin" : "50px auto" }}>
+                <a>
+                    <Card.Image src={review.image} />
+                </a>
                 <Card.Content>
                     <Media>
                     <Media.Item>

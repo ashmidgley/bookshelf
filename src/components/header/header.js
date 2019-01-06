@@ -11,7 +11,7 @@ class Header extends Component {
                 <Hero color="primary">
                 <Hero.Body>
                     <Container>
-                    <Heading>Midgley's Book Reviews</Heading>
+                    <Heading>Book Reviews</Heading>
                     <Heading subtitle size={4}>Eat, sleep, read, repeat.</Heading>
                     </Container>
                 </Hero.Body>
