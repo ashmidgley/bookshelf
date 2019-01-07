@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Link, Route } from "react-router-dom";
+import { BrowserRouter as Router, Link, Route } from 'react-router-dom';
+import Header from './components/header/header';
 import Review from './components/review/review';
-import { Heading, Section, Hero, Container, Card, Media, Content } from 'react-bulma-components';
-
+import { Heading, Card, Media, Content } from 'react-bulma-components';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import './App.css';
-
-
 
 class App extends Component {
   
@@ -42,16 +40,7 @@ class App extends Component {
     return (
       <Router>
         <div className="App">
-          <Section style= {{ "padding": "0" }}>
-              <Hero color="primary">
-              <Hero.Body>
-                  <Container>
-                  <Heading>Book Reviews</Heading>
-                  <Heading subtitle size={4}>Eat, sleep, read, repeat.</Heading>
-                  </Container>
-              </Hero.Body>
-              </Hero>
-          </Section>
+          <Header />
 
           <Route exact={true} path="/" render={() => (
             <div>
