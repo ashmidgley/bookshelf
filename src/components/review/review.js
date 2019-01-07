@@ -6,6 +6,10 @@ import './review.css';
 
 class Review extends Component {
 
+    componentDidMount() {
+        window.scrollTo(0, 0);
+    }
+
     render() {
         var paragraphs = this.props.review.content.split("\n");
         return (
