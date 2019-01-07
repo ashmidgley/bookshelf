@@ -1,0 +1,17 @@
+
+#body {
+    margin: 20px 20%;
+}
+
+#header {
+    text-align: center;
+}
+
+#review-img {
+    width: 20rem;
+    margin-bottom: 20px;
+}
+
+p {
+    margin-bottom: 20px;
+}
