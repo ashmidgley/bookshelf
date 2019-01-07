@@ -1,0 +1,12 @@
+
+.card {
+    transition: all 0.25s;
+    -o-transition: 0.25s linear; /* opera */
+    -ms-transition: 0.25s linear; /* IE 10 */
+    -moz-transition: 0.25s linear; /* Firefox */
+    -webkit-transition: 0.25s linear; /*safari and chrome */
+}
+
+.card:hover {
+    transform:scale(1.1);
+}
