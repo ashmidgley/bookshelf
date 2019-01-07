@@ -6,21 +6,26 @@ import './review.css';
 
 class Review extends Component {
 
+    componentDidMount() {
+        window.scrollTo(0, 0);
+    }
+
     render() {
         var paragraphs = this.props.review.content.split("\n");
         return (
             <div id="body">
-                <Link to={'/'}>
-                    <a href="#">Back to Home</a>
-                </Link>
                 <div id="header">
-                    <Heading size={2} style={{ 'margin-bottom' : '.5rem' }}>{ this.props.review.title }</Heading>
-                    <Heading size={6}>{ this.props.review.createdOn }</Heading>
+                    <Heading size={2}>{ this.props.review.title }</Heading>
+                    <Heading subtitle size={6}>By { this.props.review.author }</Heading>
                     <img id='review-img' src={ this.props.review.image } alt='Review' />
                 </div>
                 {paragraphs.map(p =>
                     <p>{ p }</p>
                 )}
+                <Heading size={6}>Posted on { this.props.review.createdOn }.</Heading>
+                <Link to={'/'}>
+                    <a href="#">Back to Home</a>
+                </Link>
             </div>
         );
     }

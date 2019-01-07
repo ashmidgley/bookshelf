@@ -6,6 +6,10 @@ import './home.css'
 
 class Home extends Component {
 
+    componentDidMount() {
+        window.scrollTo(0, 0);
+    }
+
     render(){
         return (
             <div>
@@ -18,10 +22,11 @@ class Home extends Component {
                     <Media>
                     <Media.Item>
                         <Heading size={4}>{review.title}</Heading>
-                        <Heading subtitle size={6}>{review.createdOn}</Heading>
+                        <Heading subtitle size={6}>By {review.author}</Heading>
                     </Media.Item>
                     </Media>
                     <Content>{review.content.substr(0, 50)}...</Content>
+                    <Heading size={6}>Posted on {review.createdOn}</Heading>
                 </Card.Content>
                 </Card>
                 )}
