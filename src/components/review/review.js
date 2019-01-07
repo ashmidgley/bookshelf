@@ -7,17 +7,20 @@ import './review.css';
 class Review extends Component {
 
     render() {
+        var paragraphs = this.props.review.content.split("\n");
         return (
             <div id="body">
                 <Link to={'/'}>
-                    <a>Back to Home</a>
+                    <a href="#">Back to Home</a>
                 </Link>
                 <div id="header">
                     <Heading size={2} style={{ 'margin-bottom' : '.5rem' }}>{ this.props.review.title }</Heading>
                     <Heading size={6}>{ this.props.review.createdOn }</Heading>
-                    <img src={ this.props.review.image } alt='Review' />
+                    <img id='review-img' src={ this.props.review.image } alt='Review' />
                 </div>
-                <p>{ this.props.review.content }</p>
+                {paragraphs.map(p =>
+                    <p>{ p }</p>
+                )}
             </div>
         );
     }

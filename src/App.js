@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Header from './components/header/header';
 import Home from './components/home/home';
 import Review from './components/review/review';
+import Foot from './components/foot/foot';
+import 'react-bulma-components/dist/react-bulma-components.min.css';
 import './App.css';
 
 class App extends Component {
@@ -12,7 +14,13 @@ class App extends Component {
       id: "0",
       image: "http://bulma.io/images/placeholders/1280x960.png",
       title: "Title 1",
-      content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+      content: `Lorem ipsum dolor sit amet, 
+
+      Double space
+      
+      consectetur adipiscing elit,
+      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.`,
       createdOn: "30-12-2018"
     },
     {
@@ -49,6 +57,7 @@ class App extends Component {
             <Review review={ this.reviews.find(r => r.id === match.params.reviewId )} />
           )} />
 
+          <Foot />
         </div>
       </Router>
     );

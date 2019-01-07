@@ -7,7 +7,11 @@
     text-align: center;
 }
 
-img {
-    max-width: 300px;
+#review-img {
+    width: 20rem;
+    margin-bottom: 20px;
+}
+
+p {
     margin-bottom: 20px;
 }
