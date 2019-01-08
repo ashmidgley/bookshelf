@@ -12,23 +12,25 @@ class Home extends Component {
 
     render(){
         return (
-            <div>
+            <div style={{ "text-align": "center"}}>
               {this.props.reviews.map(review =>
-                <Card style={{ "maxWidth" : "300px", "margin" : "50px auto" }}>
-                <Link to={`/review/${review.id}`}>
-                    <Card.Image src={review.image} />
-                </Link>
-                <Card.Content>
-                    <Media>
-                    <Media.Item>
-                        <Heading size={4}>{review.title}</Heading>
-                        <Heading subtitle size={6}>By {review.author}</Heading>
-                    </Media.Item>
-                    </Media>
-                    <Content>{review.content.substr(0, 50)}...</Content>
-                    <Heading size={6}>Posted on {review.createdOn}</Heading>
-                </Card.Content>
-                </Card>
+                <div style={{ "maxWidth" : "300px", "margin" : "30px", "display" : "inline-block"  }}>
+                    <Link to={`/review/${review.id}`}>
+                        <Card>
+                        <Card.Image src={window.location.origin + '/images/' + review.image} />
+                        <Card.Content>
+                            <Media>
+                            <Media.Item>
+                                <Heading size={4}>{review.title}</Heading>
+                                <Heading subtitle size={6}>By {review.author}</Heading>
+                            </Media.Item>
+                            </Media>
+                            <Content style={{ "text-align" : "left" }}>{review.content.substr(0, 50)}...</Content>
+                            <Heading size={6}>Posted on {review.createdOn}</Heading>
+                        </Card.Content>
+                        </Card>
+                    </Link>
+                </div>
                 )}
             </div>
         )

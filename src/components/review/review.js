@@ -16,16 +16,14 @@ class Review extends Component {
             <div id="body">
                 <div id="header">
                     <Heading size={2}>{ this.props.review.title }</Heading>
-                    <Heading subtitle size={6}>By { this.props.review.author }</Heading>
-                    <img id='review-img' src={ this.props.review.image } alt='Review' />
+                    <Heading subtitle>By { this.props.review.author }</Heading>
+                    <img src={window.location.origin + '/images/' + this.props.review.image} alt='Review' id='review-img' />
                 </div>
                 {paragraphs.map(p =>
                     <p>{ p }</p>
                 )}
-                <Heading size={6}>Posted on { this.props.review.createdOn }.</Heading>
-                <Link to={'/'}>
-                    <a href="#">Back to Home</a>
-                </Link>
+                <Heading size={6} style={{ "text-align" : "center"}}>Posted on { this.props.review.createdOn }</Heading>
+                <Link to={'/'}><a href="#">Back to Home</a></Link>
             </div>
         );
     }
