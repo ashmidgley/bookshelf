@@ -10,7 +10,7 @@ class Header extends Component {
   render() {
     return (
         <Section style= {{ "padding": "0" }}>
-            <Hero color="primary">
+            <Hero color="info">
             <Hero.Body>
                 <Container>
                     <Heading size={1}><Link to={'/'}>2019 Book Reviews</Link></Heading>
