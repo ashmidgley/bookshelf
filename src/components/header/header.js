@@ -9,7 +9,7 @@ class Header extends Component {
 
   render() {
     return (
-        <Section style= {{ "padding": "0", "margin-bottom" : "15px" }}>
+        <Section style= {{ "padding": "0" }}>
             <Hero color="primary">
             <Hero.Body>
                 <Container>
