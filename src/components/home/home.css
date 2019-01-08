@@ -1,3 +1,4 @@
+
 .card {
     transition: all 0.25s;
     -o-transition: 0.25s linear; /* opera */
@@ -8,4 +9,20 @@
 
 .card:hover {
     transform:scale(1.1);
+}
+
+#parent {
+    margin: auto 80px;
+}
+
+.child {
+    margin-top : 30px;
+    padding: 1.25rem;
+}
+
+/* Mobile */
+@media only screen and (max-width: 600px) {
+    #parent {
+        margin: auto 15px;
+    }
 }

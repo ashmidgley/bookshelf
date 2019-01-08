@@ -11,3 +11,16 @@
 p {
     margin-bottom: 20px;
 }
+
+#body {
+    margin: 25px 20%;
+    
+}
+
+/* Mobile */
+@media only screen and (max-width: 600px) {
+    #body {
+        margin: 25px;
+        font-size: 14px;
+    }
+}
