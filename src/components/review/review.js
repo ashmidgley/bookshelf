@@ -20,10 +20,10 @@ class Review extends Component {
                     <img src={window.location.origin + '/images/' + this.props.review.image} alt='Review' id='review-img' />
                 </div>
                 {paragraphs.map(p =>
-                    <p>{ p }</p>
+                    <p>{p}</p>
                 )}
-                <Heading size={6} style={{ "text-align" : "center"}}>Posted on { this.props.review.createdOn }</Heading>
-                <Link to={'/'}><a href="#">Back to Home</a></Link>
+                <Heading size={6} style={{ "textAlign" : "center" }}>Posted on {this.props.review.createdOn}</Heading>
+                <Link to={'/'}>Back to Home</Link>
             </div>
         );
     }

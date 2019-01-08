@@ -7,7 +7,7 @@ class Foot extends Component {
 
     render() {
         return (
-          <Hero.Footer style={{ "margin-top" : "30px" }}>
+          <Hero.Footer style={{ "marginTop" : "30px" }}>
             <Footer>
               <Container>
                 <Content style={{ textAlign: 'center' }}>
