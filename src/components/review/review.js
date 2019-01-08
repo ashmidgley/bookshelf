@@ -17,7 +17,7 @@ class Review extends Component {
                 <div id="header">
                     <Heading size={2}>{ this.props.review.title }</Heading>
                     <Heading subtitle size={6}>By { this.props.review.author }</Heading>
-                    <img id='review-img' src={ this.props.review.image } alt='Review' />
+                    <img src={window.location.origin + '/images/' + this.props.review.image} alt='Review' id='review-img' />
                 </div>
                 {paragraphs.map(p =>
                     <p>{ p }</p>

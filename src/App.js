@@ -12,7 +12,7 @@ class App extends Component {
   reviews = [
     {
       id: "0",
-      image: "https://photos1.blogger.com/blogger/801/276/1600/Dan%20Brown-Da%20Vinci%20Code.jpg",
+      image: "the-da-vinci-code.jpg",
       title: "The Da Vinci Code",
       author: "Dan Brown",
       content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aliquam nulla facilisi cras fermentum odio eu feugiat. Nullam non nisi est sit amet. Consequat interdum varius sit amet mattis vulputate enim nulla. Ac ut consequat semper viverra nam libero justo. Vitae purus faucibus ornare suspendisse sed nisi lacus. Erat imperdiet sed euismod nisi porta. Magna sit amet purus gravida quis. Ornare suspendisse sed nisi lacus. Justo laoreet sit amet cursus sit.
@@ -28,7 +28,7 @@ class App extends Component {
     },
     {
       id: "1",
-      image: "http://www.socialbookshelves.com/wp-content/uploads/2013/07/angelsdemons.jpg",
+      image: "the-da-vinci-code.jpg",
       title: "Angels and Demons",
       author: "Dan Brown",
       content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sit amet commodo nulla facilisi nullam vehicula ipsum a arcu. Egestas tellus rutrum tellus pellentesque eu. Lobortis scelerisque fermentum dui faucibus. Faucibus scelerisque eleifend donec pretium vulputate sapien. Enim facilisis gravida neque convallis a cras semper. Adipiscing bibendum est ultricies integer quis. Neque gravida in fermentum et sollicitudin ac orci phasellus. Nulla at volutpat diam ut venenatis tellus in metus. Ultrices in iaculis nunc sed augue. Neque aliquam vestibulum morbi blandit cursus risus at ultrices. Scelerisque eleifend donec pretium vulputate sapien nec sagittis aliquam malesuada. Montes nascetur ridiculus mus mauris vitae ultricies leo integer.
@@ -44,7 +44,39 @@ class App extends Component {
     },
     {
       id: "2",
-      image: "http://www.extravaganzi.com/wp-content/uploads/2014/03/First-edition-of-Harry-Potter-books3.jpg",
+      image: "the-da-vinci-code.jpg",
+      title: "Harry Potter",
+      author: "J.K Rowling",
+      content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sit amet commodo nulla facilisi nullam vehicula ipsum a arcu. Egestas tellus rutrum tellus pellentesque eu. Lobortis scelerisque fermentum dui faucibus. Faucibus scelerisque eleifend donec pretium vulputate sapien. Enim facilisis gravida neque convallis a cras semper. Adipiscing bibendum est ultricies integer quis. Neque gravida in fermentum et sollicitudin ac orci phasellus. Nulla at volutpat diam ut venenatis tellus in metus. Ultrices in iaculis nunc sed augue. Neque aliquam vestibulum morbi blandit cursus risus at ultrices. Scelerisque eleifend donec pretium vulputate sapien nec sagittis aliquam malesuada. Montes nascetur ridiculus mus mauris vitae ultricies leo integer.
+
+      Lectus quam id leo in vitae turpis. Mauris cursus mattis molestie a iaculis at. Imperdiet dui accumsan sit amet nulla facilisi morbi tempus. Phasellus faucibus scelerisque eleifend donec pretium vulputate sapien nec. Elit duis tristique sollicitudin nibh sit amet commodo nulla facilisi. Sodales neque sodales ut etiam sit amet nisl. Scelerisque in dictum non consectetur a. Volutpat diam ut venenatis tellus in metus vulputate. Vestibulum lectus mauris ultrices eros in cursus. Sed risus ultricies tristique nulla aliquet enim tortor at auctor.
+      
+      Vitae purus faucibus ornare suspendisse. Fermentum et sollicitudin ac orci. In nisl nisi scelerisque eu ultrices. Purus ut faucibus pulvinar elementum integer enim neque. Placerat in egestas erat imperdiet sed euismod nisi porta. Viverra justo nec ultrices dui sapien eget mi. Quis risus sed vulputate odio ut enim blandit. Sit amet massa vitae tortor condimentum lacinia. Et malesuada fames ac turpis egestas. Tincidunt tortor aliquam nulla facilisi cras fermentum. Aenean pharetra magna ac placerat vestibulum. Amet facilisis magna etiam tempor orci eu lobortis elementum nibh. Ut etiam sit amet nisl purus in mollis nunc sed. Sed tempus urna et pharetra pharetra massa. Morbi tristique senectus et netus et malesuada fames. Volutpat est velit egestas dui. Egestas purus viverra accumsan in nisl nisi scelerisque eu ultrices. Cursus turpis massa tincidunt dui ut ornare.
+      
+      Felis bibendum ut tristique et egestas. Ac tortor vitae purus faucibus ornare suspendisse sed. Sociis natoque penatibus et magnis. Velit euismod in pellentesque massa placerat duis. Etiam sit amet nisl purus in mollis nunc sed. Ridiculus mus mauris vitae ultricies leo integer malesuada nunc vel. Congue quisque egestas diam in arcu cursus. In cursus turpis massa tincidunt dui ut ornare. Massa sed elementum tempus egestas sed sed. Tincidunt eget nullam non nisi est sit amet facilisis magna. Tristique sollicitudin nibh sit amet commodo. Odio facilisis mauris sit amet massa vitae tortor. Viverra vitae congue eu consequat ac felis donec et.
+      
+      Gravida quis blandit turpis cursus in hac habitasse platea. A condimentum vitae sapien pellentesque habitant morbi tristique. Lorem dolor sed viverra ipsum nunc aliquet bibendum. Interdum velit euismod in pellentesque massa placerat duis. Arcu non odio euismod lacinia at quis. Quam elementum pulvinar etiam non quam lacus suspendisse faucibus interdum. Non curabitur gravida arcu ac tortor dignissim. Aliquam etiam erat velit scelerisque in dictum. Mattis rhoncus urna neque viverra justo nec ultrices dui sapien. Mollis nunc sed id semper risus in hendrerit gravida. Tincidunt nunc pulvinar sapien et. Felis imperdiet proin fermentum leo vel orci porta non. Interdum varius sit amet mattis vulputate enim.`,
+      createdOn: "15-02-2019"
+    },
+    {
+      id: "3",
+      image: "the-da-vinci-code.jpg",
+      title: "Harry Potter",
+      author: "J.K Rowling",
+      content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sit amet commodo nulla facilisi nullam vehicula ipsum a arcu. Egestas tellus rutrum tellus pellentesque eu. Lobortis scelerisque fermentum dui faucibus. Faucibus scelerisque eleifend donec pretium vulputate sapien. Enim facilisis gravida neque convallis a cras semper. Adipiscing bibendum est ultricies integer quis. Neque gravida in fermentum et sollicitudin ac orci phasellus. Nulla at volutpat diam ut venenatis tellus in metus. Ultrices in iaculis nunc sed augue. Neque aliquam vestibulum morbi blandit cursus risus at ultrices. Scelerisque eleifend donec pretium vulputate sapien nec sagittis aliquam malesuada. Montes nascetur ridiculus mus mauris vitae ultricies leo integer.
+
+      Lectus quam id leo in vitae turpis. Mauris cursus mattis molestie a iaculis at. Imperdiet dui accumsan sit amet nulla facilisi morbi tempus. Phasellus faucibus scelerisque eleifend donec pretium vulputate sapien nec. Elit duis tristique sollicitudin nibh sit amet commodo nulla facilisi. Sodales neque sodales ut etiam sit amet nisl. Scelerisque in dictum non consectetur a. Volutpat diam ut venenatis tellus in metus vulputate. Vestibulum lectus mauris ultrices eros in cursus. Sed risus ultricies tristique nulla aliquet enim tortor at auctor.
+      
+      Vitae purus faucibus ornare suspendisse. Fermentum et sollicitudin ac orci. In nisl nisi scelerisque eu ultrices. Purus ut faucibus pulvinar elementum integer enim neque. Placerat in egestas erat imperdiet sed euismod nisi porta. Viverra justo nec ultrices dui sapien eget mi. Quis risus sed vulputate odio ut enim blandit. Sit amet massa vitae tortor condimentum lacinia. Et malesuada fames ac turpis egestas. Tincidunt tortor aliquam nulla facilisi cras fermentum. Aenean pharetra magna ac placerat vestibulum. Amet facilisis magna etiam tempor orci eu lobortis elementum nibh. Ut etiam sit amet nisl purus in mollis nunc sed. Sed tempus urna et pharetra pharetra massa. Morbi tristique senectus et netus et malesuada fames. Volutpat est velit egestas dui. Egestas purus viverra accumsan in nisl nisi scelerisque eu ultrices. Cursus turpis massa tincidunt dui ut ornare.
+      
+      Felis bibendum ut tristique et egestas. Ac tortor vitae purus faucibus ornare suspendisse sed. Sociis natoque penatibus et magnis. Velit euismod in pellentesque massa placerat duis. Etiam sit amet nisl purus in mollis nunc sed. Ridiculus mus mauris vitae ultricies leo integer malesuada nunc vel. Congue quisque egestas diam in arcu cursus. In cursus turpis massa tincidunt dui ut ornare. Massa sed elementum tempus egestas sed sed. Tincidunt eget nullam non nisi est sit amet facilisis magna. Tristique sollicitudin nibh sit amet commodo. Odio facilisis mauris sit amet massa vitae tortor. Viverra vitae congue eu consequat ac felis donec et.
+      
+      Gravida quis blandit turpis cursus in hac habitasse platea. A condimentum vitae sapien pellentesque habitant morbi tristique. Lorem dolor sed viverra ipsum nunc aliquet bibendum. Interdum velit euismod in pellentesque massa placerat duis. Arcu non odio euismod lacinia at quis. Quam elementum pulvinar etiam non quam lacus suspendisse faucibus interdum. Non curabitur gravida arcu ac tortor dignissim. Aliquam etiam erat velit scelerisque in dictum. Mattis rhoncus urna neque viverra justo nec ultrices dui sapien. Mollis nunc sed id semper risus in hendrerit gravida. Tincidunt nunc pulvinar sapien et. Felis imperdiet proin fermentum leo vel orci porta non. Interdum varius sit amet mattis vulputate enim.`,
+      createdOn: "15-02-2019"
+    },
+    {
+      id: "4",
+      image: "the-da-vinci-code.jpg",
       title: "Harry Potter",
       author: "J.K Rowling",
       content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Sit amet commodo nulla facilisi nullam vehicula ipsum a arcu. Egestas tellus rutrum tellus pellentesque eu. Lobortis scelerisque fermentum dui faucibus. Faucibus scelerisque eleifend donec pretium vulputate sapien. Enim facilisis gravida neque convallis a cras semper. Adipiscing bibendum est ultricies integer quis. Neque gravida in fermentum et sollicitudin ac orci phasellus. Nulla at volutpat diam ut venenatis tellus in metus. Ultrices in iaculis nunc sed augue. Neque aliquam vestibulum morbi blandit cursus risus at ultrices. Scelerisque eleifend donec pretium vulputate sapien nec sagittis aliquam malesuada. Montes nascetur ridiculus mus mauris vitae ultricies leo integer.
