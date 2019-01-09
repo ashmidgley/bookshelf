@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import { Heading, Section, Hero, Container } from 'react-bulma-components';
 import { Link } from 'react-router-dom';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
+import './header.css';
 
 class Header extends Component {
 
   render() {
     return (
-        <Section style= {{ "padding": "0" }}>
+        <Section id="header-body">
             <Hero color="info">
             <Hero.Body>
                 <Container>

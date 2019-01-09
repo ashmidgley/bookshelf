@@ -45,7 +45,7 @@ class Home extends Component {
             <div id="parent">
                 <div id="progress-container">
                     <Progress max={this.props.totalReviews} value={this.props.reviews.length} color="success" />
-                    <p style={{ "margin" : "0" }}><FontAwesomeIcon icon={faCalculator}/> {this.props.reviews.length} of {this.props.totalReviews} complete</p>
+                    <p><FontAwesomeIcon icon={faCalculator}/> {this.props.reviews.length} of {this.props.totalReviews} complete</p>
                 </div>
                 <Columns>
                     {this.props.reviews.map(review =>

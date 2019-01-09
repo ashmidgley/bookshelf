@@ -12,9 +12,13 @@ p {
     margin-bottom: 20px;
 }
 
-#body {
+#review-body {
     margin: 25px 20%;
     
+}
+
+#createdon {
+    text-align: center;
 }
 
 /* Mobile */

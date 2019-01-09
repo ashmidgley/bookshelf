@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Header from './components/header/header';
 import Home from './components/home/home';
 import Review from './components/review/review';
-import Foot from './components/foot/foot';
+import Footer from './components/footer/footer';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import './App.css';
 
@@ -106,11 +106,11 @@ class App extends Component {
             <Home reviews={this.reviews} totalReviews={25} />
           )} />
 
-          <Route path="/review/:reviewId" render={({ match }) => (
+          <Route path="/review/:reviewId" render={({match}) => (
             <Review review={ this.reviews.find(r => r.id === match.params.reviewId )} />
           )} />
 
-          <Foot />
+          <Footer />
         </div>
       </Router>
     );
