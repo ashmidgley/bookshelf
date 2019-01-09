@@ -20,6 +20,11 @@
     padding: 1.25rem;
 }
 
+#progress-container {
+    margin-top: 35px;
+    text-align: center;
+}
+
 /* Mobile */
 @media only screen and (max-width: 600px) {
     #parent {

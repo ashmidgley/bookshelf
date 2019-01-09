@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Heading, Section, Hero, Container } from 'react-bulma-components';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalculator } from '@fortawesome/free-solid-svg-icons';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 
 class Header extends Component {
@@ -13,8 +11,8 @@ class Header extends Component {
             <Hero color="info">
             <Hero.Body>
                 <Container>
-                    <Heading size={1}><Link to={'/'}>2019 Book Reviews</Link></Heading>
-                    <Heading subtitle><FontAwesomeIcon icon={faCalculator}/> 0 down, 25 to go.</Heading>
+                    <Heading size={1}><Link to={'/'}>Midgley's 2019 Reads</Link></Heading>
+                    <Heading subtitle>Ticking off the New Year's resolution one cover at a time.</Heading>
                 </Container>
             </Hero.Body>
             </Hero>

@@ -103,7 +103,7 @@ class App extends Component {
           <Header />
 
           <Route exact={true} path="/" render={() => (
-            <Home reviews={this.reviews} />
+            <Home reviews={this.reviews} totalReviews={25} />
           )} />
 
           <Route path="/review/:reviewId" render={({ match }) => (
