@@ -10,8 +10,8 @@ class Header extends Component {
     return (
         <Section id="header-body">
             <Hero color="info">
-            <Hero.Body>
-                <Container>
+            <Hero.Body id="header-hero">
+                <Container id="header-container">
                     <Heading size={1}><Link to={'/'}>Midgley's 2019 Reads</Link></Heading>
                     <Heading subtitle>Ticking off the New Year's resolution one cover at a time.</Heading>
                 </Container>

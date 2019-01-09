@@ -23,8 +23,8 @@ p {
 
 /* Mobile */
 @media only screen and (max-width: 600px) {
-    #body {
-        margin: 25px;
+    #review-body {
+        margin: 30px;
         font-size: 14px;
     }
 }

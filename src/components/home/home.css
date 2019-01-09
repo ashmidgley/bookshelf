@@ -21,7 +21,8 @@
 }
 
 #progress-container {
-    margin-top: 35px;
+    margin: auto 20px;
+    margin-top: 40px;
     text-align: center;
 }
 
@@ -32,6 +33,11 @@
 /* Mobile */
 @media only screen and (max-width: 600px) {
     #parent {
-        margin: auto 15px;
+        margin: auto 30px;
+    }
+
+    #progress-container {
+        margin-left: 0;
+        margin-right: 0;
     }
 }
