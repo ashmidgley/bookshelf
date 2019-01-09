@@ -30,6 +30,17 @@
         margin: 0;
     }
 
+#tile-content {
+    font-size: 12px;
+    margin-bottom : 1rem;
+}
+
+#tile-createdon {
+    margin: 0; 
+    font-size: 12px; 
+    font-weight: bold;
+}
+
 /* Mobile */
 @media only screen and (max-width: 600px) {
     #parent {

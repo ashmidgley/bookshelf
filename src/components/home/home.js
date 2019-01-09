@@ -30,12 +30,12 @@ class Home extends Component {
         var newVal = null;
         if(window.innerWidth < 769) {
             newVal = null;
-        } else if(window.innerWidth > 769 && window.innerWidth < 900) {
-            newVal = 'half';
-        } else if(window.innerWidth > 900 && window.innerWidth < 1200) {
+        }else if(window.innerWidth > 769 && window.innerWidth < 1000) {
             newVal = 'one-third';
-        } else if(window.innerWidth > 1000) {
+        } else if(window.innerWidth > 1000 && window.innerWidth < 1200) {
             newVal = 'one-quarter';
+        } else if(window.innerWidth > 1200) {
+            newVal = 'one-fifth';
         }
         this.setState({columnSize: newVal}); 
     }
@@ -60,8 +60,8 @@ class Home extends Component {
                                         <Heading subtitle size={6}>By {review.author}</Heading>
                                     </Med.Item>
                                     </Med>
-                                    <Content>{review.content.substr(0, 50)}...</Content>
-                                    <Heading size={6}>{review.createdOn}</Heading>
+                                    <Content id="tile-content">{review.content.substr(0, 50)}...</Content>
+                                    <p id="tile-createdon">{review.createdOn}</p>
                                 </Card.Content>
                                 </Card>
                             </Link>
