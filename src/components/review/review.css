@@ -12,15 +12,19 @@ p {
     margin-bottom: 20px;
 }
 
-#body {
+#review-body {
     margin: 25px 20%;
     
 }
 
+#createdon {
+    text-align: center;
+}
+
 /* Mobile */
 @media only screen and (max-width: 600px) {
-    #body {
-        margin: 25px;
+    #review-body {
+        margin: 30px;
         font-size: 14px;
     }
 }

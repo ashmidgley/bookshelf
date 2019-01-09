@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { Heading, Card, Media as Med, Content, Columns } from 'react-bulma-components';
+import { Heading, Card, Media as Med, Content, Columns, Progress } from 'react-bulma-components';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalculator } from '@fortawesome/free-solid-svg-icons';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import './home.css'
 
@@ -28,39 +30,45 @@ class Home extends Component {
         var newVal = null;
         if(window.innerWidth < 769) {
             newVal = null;
-        } else if(window.innerWidth > 769 && window.innerWidth < 900) {
-            newVal = 'half';
-        } else if(window.innerWidth > 900 && window.innerWidth < 1200) {
+        }else if(window.innerWidth > 769 && window.innerWidth < 1000) {
             newVal = 'one-third';
-        } else if(window.innerWidth > 1000) {
+        } else if(window.innerWidth > 1000 && window.innerWidth < 1200) {
             newVal = 'one-quarter';
+        } else if(window.innerWidth > 1200) {
+            newVal = 'one-fifth';
         }
         this.setState({columnSize: newVal}); 
     }
 
     render(){
         return (
-            <Columns id="parent">
-                {this.props.reviews.map(review =>
-                    <Columns.Column key={review.id} size={this.state.columnSize} className="child">
-                        <Link to={`/review/${review.id}`}>
-                            <Card>
-                            <Card.Image src={window.location.origin + '/images/' + review.image} />
-                            <Card.Content>
-                                <Med>
-                                <Med.Item>
-                                    <Heading size={6}>{review.title}</Heading>
-                                    <Heading subtitle size={6}>By {review.author}</Heading>
-                                </Med.Item>
-                                </Med>
-                                <Content>{review.content.substr(0, 50)}...</Content>
-                                <Heading size={6}>{review.createdOn}</Heading>
-                            </Card.Content>
-                            </Card>
-                        </Link>
-                    </Columns.Column>
-                )}
-            </Columns>
+            <div id="parent">
+                <div id="progress-container">
+                    <Progress max={this.props.totalReviews} value={this.props.reviews.length} color="success" />
+                    <p><FontAwesomeIcon icon={faCalculator}/> {this.props.reviews.length} of {this.props.totalReviews} complete</p>
+                </div>
+                <Columns>
+                    {this.props.reviews.map(review =>
+                        <Columns.Column key={review.id} size={this.state.columnSize} className="child">
+                            <Link to={`/review/${review.id}`}>
+                                <Card>
+                                <Card.Image src={window.location.origin + '/images/' + review.image} />
+                                <Card.Content>
+                                    <Med>
+                                    <Med.Item>
+                                        <Heading size={6}>{review.title}</Heading>
+                                        <Heading subtitle size={6}>By {review.author}</Heading>
+                                    </Med.Item>
+                                    </Med>
+                                    <Content id="tile-content">{review.content.substr(0, 50)}...</Content>
+                                    <p id="tile-createdon">{review.createdOn}</p>
+                                </Card.Content>
+                                </Card>
+                            </Link>
+                        </Columns.Column>
+                    )}
+                </Columns>
+            </div>
         )
     }
 }
