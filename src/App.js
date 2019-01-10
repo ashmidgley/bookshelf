@@ -124,28 +124,55 @@ class App extends Component {
     }
   ];
 
+  constructor(props){
+    super(props);
+    this.state = {
+      loading: true
+    }
+  }
+
   componentDidMount(){
-    //grab reviews from API
+    setTimeout(() => {
+      this.setState({loading: false});
+    }, 2000);
   }
 
   render() {
-    return (
-      <Router>
-        <div className="App">
-          <Header />
+    if(this.state.loading) {
+      return (
+        <Router>
+          <div className="App">
+            <Header />
+            <div className="spinner">
+              <div className="rect1"></div>
+              <div className="rect2"></div>
+              <div className="rect3"></div>
+              <div className="rect4"></div>
+              <div className="rect5"></div>
+            </div>
+            <Footer />
+          </div>
+        </Router>
+      )
+    } else {
+      return (
+        <Router>
+          <div className="App">
+            <Header />
 
-          <Route exact={true} path="/" render={() => (
-            <Home reviews={this.reviews} totalReviews={25} />
-          )} />
+            <Route exact={true} path="/" render={() => (
+              <Home reviews={this.reviews} totalReviews={25} />
+            )} />
 
-          <Route path="/review/:reviewId" render={({match}) => (
-            <Review review={ this.reviews.find(r => r.id === match.params.reviewId )} />
-          )} />
+            <Route path="/review/:reviewId" render={({match}) => (
+              <Review review={ this.reviews.find(r => r.id === match.params.reviewId )} />
+            )} />
 
-          <Footer />
-        </div>
-      </Router>
-    );
+            <Footer />
+          </div>
+        </Router>
+      )
+    }
   }
 }
 
