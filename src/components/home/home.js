@@ -11,15 +11,11 @@ class Home extends Component {
     constructor(props){
         super(props);
         this.state = {
-            columnSize: null,
-            loading: true
+            columnSize: null
         }
     }
 
     componentDidMount() {
-        setTimeout(() => {
-            this.setState({loading: false});
-        }, 2000);
         window.scrollTo(0, 0);
         this.checkDimensions();
         window.addEventListener("resize", this.checkDimensions);
@@ -45,47 +41,35 @@ class Home extends Component {
     }
 
     render(){
-        if(this.state.loading) {
-            return (
-                <div className="spinner">
-                    <div className="rect1"></div>
-                    <div className="rect2"></div>
-                    <div className="rect3"></div>
-                    <div className="rect4"></div>
-                    <div className="rect5"></div>
+        return (
+            <div id="parent">
+                <div id="progress-container">
+                    <Progress max={this.props.totalReviews} value={this.props.reviews.length} color="success" />
+                    <p><FontAwesomeIcon icon={faCalculator}/> {this.props.reviews.length} of {this.props.totalReviews} complete</p>
                 </div>
-            )
-        } else {
-            return (
-                <div id="parent">
-                    <div id="progress-container">
-                        <Progress max={this.props.totalReviews} value={this.props.reviews.length} color="success" />
-                        <p><FontAwesomeIcon icon={faCalculator}/> {this.props.reviews.length} of {this.props.totalReviews} complete</p>
-                    </div>
-                    <Columns>
-                        {this.props.reviews.map(review =>
-                            <Columns.Column key={review.id} size={this.state.columnSize} className="child">
-                                <Link to={`/review/${review.id}`}>
-                                    <Card>
-                                    <Card.Image src={window.location.origin + '/images/' + review.image} />
-                                    <Card.Content>
-                                        <Med>
-                                        <Med.Item>
-                                            <Heading size={6}>{review.title}</Heading>
-                                            <Heading subtitle size={6}>By {review.author}</Heading>
-                                        </Med.Item>
-                                        </Med>
-                                        <Content id="tile-content">{review.content.substr(0, 50)}...</Content>
-                                        <p id="tile-createdon">{review.createdOn}</p>
-                                    </Card.Content>
-                                    </Card>
-                                </Link>
-                            </Columns.Column>
-                        )}
-                    </Columns>
-                </div>
-            )
-        }
+                <Columns>
+                    {this.props.reviews.map(review =>
+                        <Columns.Column key={review.id} size={this.state.columnSize} className="child">
+                            <Link to={`/review/${review.id}`}>
+                                <Card>
+                                <Card.Image src={window.location.origin + '/images/' + review.image} />
+                                <Card.Content>
+                                    <Med>
+                                    <Med.Item>
+                                        <Heading size={6}>{review.title}</Heading>
+                                        <Heading subtitle size={6}>By {review.author}</Heading>
+                                    </Med.Item>
+                                    </Med>
+                                    <Content id="tile-content">{review.content.substr(0, 50)}...</Content>
+                                    <p id="tile-createdon">{review.createdOn}</p>
+                                </Card.Content>
+                                </Card>
+                            </Link>
+                        </Columns.Column>
+                    )}
+                </Columns>
+            </div>
+        )
     }
 }
 
