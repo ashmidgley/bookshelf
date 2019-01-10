@@ -11,7 +11,6 @@ class Review extends Component {
     }
 
     render() {
-        var paragraphs = this.props.review.content.split("\n");
         return (
             <div id="review-body">
                 <div id="header">
@@ -19,9 +18,7 @@ class Review extends Component {
                     <Heading subtitle>By {this.props.review.author}</Heading>
                     <img src={window.location.origin + '/images/' + this.props.review.image} alt='Review' id='review-img' />
                 </div>
-                {paragraphs.map(p =>
-                    <p>{p}</p>
-                )}
+                <div dangerouslySetInnerHTML={{ __html: this.props.review.content }}></div>
                 <Heading size={6} id="createdon">{this.props.review.createdOn}</Heading>
                 <Link to={'/'}>Back to Home</Link>
             </div>
