@@ -1,21 +1,30 @@
 
-#header {
+.review-body {
+    margin: 25px 20%;
+}
+
+.review-header {
     text-align: center;
 }
 
-#review-img {
-    width: 20rem;
-    margin-bottom: 20px;
+    .review-header > img {
+        width: 20rem;
+        margin-bottom: 20px;
+    }
+
+.review-content {
+    text-align: center;
 }
 
-p {
-    margin-bottom: 20px;
-}
+    .review-content > p {
+        text-align: left;
+        margin-bottom: 20px;
+    }
 
-#review-body {
-    margin: 25px 20%;
-    
-}
+    .review-content > img {
+        margin-top: 20px;
+        margin-bottom: 40px;
+    }
 
 #createdon {
     text-align: center;
