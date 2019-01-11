@@ -60,7 +60,7 @@ class Home extends Component {
                                         <Heading subtitle size={6}>By {review.author}</Heading>
                                     </Med.Item>
                                     </Med>
-                                    <Content id="tile-content">{review.content.substr(0, 50)}...</Content>
+                                    <Content id="tile-content">{review.content.replace(/<[^>]+>/g, '').substr(0, 50)}...</Content>
                                     <p id="tile-createdon">{review.createdOn}</p>
                                 </Card.Content>
                                 </Card>
