@@ -22,8 +22,8 @@
     }
 
     .review-content > img {
-        margin-top: 20px;
-        margin-bottom: 40px;
+        margin-top: 10px;
+        margin-bottom: 30px;
     }
 
 #createdon {
@@ -32,8 +32,24 @@
 
 /* Mobile */
 @media only screen and (max-width: 600px) {
-    #review-body {
-        margin: 30px;
+    .review-body {
+        margin: 20px 0;
         font-size: 14px;
     }
+
+        .review-body > a {
+            margin-left: 20px;
+        }
+
+    .review-header > h1 {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    
+    .review-content > p {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
+    
 }
