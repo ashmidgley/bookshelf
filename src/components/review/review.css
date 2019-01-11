@@ -23,7 +23,7 @@
 
     .review-content > img {
         margin-top: 10px;
-        margin-bottom: 30px;
+        margin-bottom: 25px;
     }
 
 #createdon {
@@ -45,11 +45,14 @@
         margin-left: 20px;
         margin-right: 20px;
     }
+
+    .review-header > img {
+        margin-left: 0;
+        margin-right: 0;
+    }
     
     .review-content > p {
         margin-left: 20px;
         margin-right: 20px;
     }
-
-    
 }
