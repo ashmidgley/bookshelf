@@ -40,7 +40,7 @@ class Home extends Component {
         return (
             <div id="parent">
                 <div id="progress-container">
-                    <progress className="progress is-primary" value={this.props.reviews.length} max={this.props.totalReviews}></progress>
+                    <progress className="progress is-success" value={this.props.reviews.length} max={this.props.totalReviews}></progress>
                     <p><FontAwesomeIcon icon={faCalculator}/> {this.props.reviews.length} of {this.props.totalReviews} complete</p>
                 </div>
                 <div className="columns">
