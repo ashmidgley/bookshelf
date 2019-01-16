@@ -5,21 +5,18 @@ import './header.css';
 class Header extends Component {
 
   title = "2019 Reads";
-  subtitle = "Man vs. New Year's resolution.";
+  subtitle = "Man vs. New Year's resolution";
 
   render() {
     return (
-        // <Section id="header-body">
-        //     <Hero color="info">
-        //     <Hero.Body id="header-hero">
-        //         <Container id="header-container">
-        //             <Heading size={1}><Link to={'/'}>Midgley's 2019 Reads</Link></Heading>
-        //             <Heading subtitle>Ticking off the New Year's resolution one cover at a time.</Heading>
-        //         </Container>
-        //     </Hero.Body>
-        //     </Hero>
-        // </Section>
-        <p>Header</p>
+        <section className="hero is-info">
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="title"><Link to={'/'}>{this.title}</Link></h1>
+              <h2 className="subtitle">{this.subtitle}</h2>
+            </div>
+          </div>
+        </section>
     )
   }
 }

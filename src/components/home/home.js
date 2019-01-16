@@ -49,10 +49,10 @@ class Home extends Component {
                     {this.props.reviews.map(review =>
                         <div className="column child" key={review.id}>
                             <Link to={`/review/${review.id}`}>
-                                <div class="card">
-                                    <div class="card-image">
+                                <div className="card">
+                                    <div className="card-image">
                                         <figure className="image">
-                                            <img src={window.location.origin + '/images/' + review.image} alt="Review tile image" />
+                                            <img src={window.location.origin + '/images/' + review.image} alt="Review tile" />
                                         </figure>
                                     </div>
                                     <div className="card-content">

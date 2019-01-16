@@ -1,0 +1,78 @@
+
+.card {
+    transition: all 0.25s;
+    -o-transition: 0.25s linear; /* opera */
+    -ms-transition: 0.25s linear; /* IE 10 */
+    -moz-transition: 0.25s linear; /* Firefox */
+    -webkit-transition: 0.25s linear; /*safari and chrome */
+}
+
+.card:hover {
+    transform:scale(1.1);
+}
+
+#parent {
+    margin: auto 80px;
+}
+
+.child {
+    margin-top : 30px;
+    padding: 1.25rem;
+}
+
+#progress-container {
+    margin: auto 20px;
+    margin-top: 40px;
+    text-align: center;
+}
+
+    #progress-container > p {
+        margin: 0;
+    }
+
+#tile-content {
+    font-size: 12px;
+    margin-bottom : 1rem;
+}
+
+#tile-createdon {
+    margin: 0; 
+    font-size: 12px; 
+    font-weight: bold;
+}
+
+/* Mobile */
+@media only screen and (max-width: 600px) {
+    #parent {
+        margin: auto 20px;
+    }
+
+    .child {
+        margin-top: 0;
+        margin-bottom: 10px;
+        padding: .75rem;
+    }
+
+    #progress-container {
+        margin-left: 0;
+        margin-right: 0;
+        margin-bottom: 30px;
+    }
+
+    .card {
+        transition: none;
+    }
+    
+    .card:hover {
+        transform: none;
+    }
+}
+
+/* Between mobile and desktop */
+@media only screen and (min-width: 600px) and (max-width: 769px) {
+    .child {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 16rem;
+    }
+}
