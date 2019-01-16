@@ -49,6 +49,7 @@
     .review-header > img {
         margin-left: 0;
         margin-right: 0;
+        width: 100%;
     }
     
     .review-content > p {
