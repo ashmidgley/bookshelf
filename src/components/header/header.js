@@ -12,8 +12,8 @@ class Header extends Component {
         <section className="hero is-info">
           <div className="hero-body">
             <div className="container">
-              <h1 className="title"><Link to={'/'}>{this.title}</Link></h1>
-              <h2 className="subtitle">{this.subtitle}</h2>
+              <h1 className="title is-1"><Link to={'/'}>{this.title}</Link></h1>
+              <h1 className="subtitle is-4">{this.subtitle}</h1>
             </div>
           </div>
         </section>

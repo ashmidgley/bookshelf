@@ -9,7 +9,7 @@ class Home extends Component {
     constructor(props){
         super(props);
         this.state = {
-            columnSize: null
+            columnClass: 'column child'
         }
     }
 
@@ -25,17 +25,15 @@ class Home extends Component {
 
     /* = () => binds 'this' automatically to checkDimensions */
     checkDimensions = () => {
-        var newVal = null;
-        if(window.innerWidth < 769) {
-            newVal = null;
-        }else if(window.innerWidth > 769 && window.innerWidth < 1000) {
-            newVal = 'one-third';
+        var newVal = 'column child';
+        if(window.innerWidth > 769 && window.innerWidth < 1000) {
+            newVal = 'column is-one-third child';
         } else if(window.innerWidth > 1000 && window.innerWidth < 1200) {
-            newVal = 'one-quarter';
+            newVal = 'column is-one-quarter child';
         } else if(window.innerWidth > 1200) {
-            newVal = 'one-fifth';
+            newVal = 'column is-one-fifth child';
         }
-        this.setState({columnSize: newVal}); 
+        this.setState({columnClass: newVal}); 
     }
 
     render(){
@@ -47,7 +45,7 @@ class Home extends Component {
                 </div>
                 <div className="columns">
                     {this.props.reviews.map(review =>
-                        <div className="column child" key={review.id}>
+                        <div className={this.state.columnClass} key={review.id}>
                             <Link to={`/review/${review.id}`}>
                                 <div className="card">
                                     <div className="card-image">
@@ -56,12 +54,8 @@ class Home extends Component {
                                         </figure>
                                     </div>
                                     <div className="card-content">
-                                        <div className="media">
-                                            <div className="media-content">
-                                                <p className="title is-6">{review.title}</p>
-                                                <p className="subtitle is-6">By {review.author}</p>
-                                            </div>
-                                        </div>
+                                        <p className="title is-6">{review.title}</p>
+                                        <p className="subtitle is-6" style={{ 'marginBottom': '15px'}}>By {review.author}</p>
                                         <div className="content" >
                                             <p id="tile-content">{review.content.replace(/<[^>]+>/g, '').substr(0, 50)}...</p>
                                             <p id="tile-createdon">{review.createdOn}</p>
@@ -72,28 +66,6 @@ class Home extends Component {
                         </div>
                     )}
                 </div>
-
-                {/* <Columns>
-                    {this.props.reviews.map(review =>
-                        <Columns.Column key={review.id} size={this.state.columnSize} className="child">
-                            <Link to={`/review/${review.id}`}>
-                                <Card>
-                                <Card.Image src={window.location.origin + '/images/' + review.image} />
-                                <Card.Content>
-                                    <Med>
-                                    <Med.Item>
-                                        <Heading size={6}>{review.title}</Heading>
-                                        <Heading subtitle size={6}>By {review.author}</Heading>
-                                    </Med.Item>
-                                    </Med>
-                                    <Content id="tile-content">{review.content.replace(/<[^>]+>/g, '').substr(0, 50)}...</Content>
-                                    <p id="tile-createdon">{review.createdOn}</p>
-                                </Card.Content>
-                                </Card>
-                            </Link>
-                        </Columns.Column>
-                    )}
-                </Columns> */}
             </div>
         )
     }
