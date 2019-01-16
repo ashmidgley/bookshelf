@@ -20,6 +20,10 @@
     padding: 1.25rem;
 }
 
+.card-content > .subtitle {
+    margin-bottom: 15px;
+}
+
 #progress-container {
     margin: auto 20px;
     margin-top: 40px;

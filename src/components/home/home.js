@@ -55,7 +55,7 @@ class Home extends Component {
                                     </div>
                                     <div className="card-content">
                                         <p className="title is-6">{review.title}</p>
-                                        <p className="subtitle is-6" style={{ 'marginBottom': '15px'}}>By {review.author}</p>
+                                        <p className="subtitle is-6">By {review.author}</p>
                                         <div className="content" >
                                             <p id="tile-content">{review.content.replace(/<[^>]+>/g, '').substr(0, 50)}...</p>
                                             <p id="tile-createdon">{review.createdOn}</p>
