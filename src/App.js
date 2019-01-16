@@ -5,7 +5,6 @@ import Home from './components/home/home';
 import Review from './components/review/review';
 import Footer from './components/footer/footer';
 import reviewsData from './reviewData.json';
-import 'react-bulma-components/dist/react-bulma-components.min.css';
 import './App.css';
 
 class App extends Component {

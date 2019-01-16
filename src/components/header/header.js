@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { Heading, Section, Hero, Container } from 'react-bulma-components';
 import { Link } from 'react-router-dom';
-import 'react-bulma-components/dist/react-bulma-components.min.css';
 import './header.css';
 
 class Header extends Component {
@@ -11,16 +9,17 @@ class Header extends Component {
 
   render() {
     return (
-        <Section id="header-body">
-            <Hero color="info">
-            <Hero.Body id="header-hero">
-                <Container id="header-container">
-                    <Heading size={1}><Link to={'/'}>{this.title}</Link></Heading>
-                    <Heading subtitle>{this.subtitle}</Heading>
-                </Container>
-            </Hero.Body>
-            </Hero>
-        </Section>
+        // <Section id="header-body">
+        //     <Hero color="info">
+        //     <Hero.Body id="header-hero">
+        //         <Container id="header-container">
+        //             <Heading size={1}><Link to={'/'}>Midgley's 2019 Reads</Link></Heading>
+        //             <Heading subtitle>Ticking off the New Year's resolution one cover at a time.</Heading>
+        //         </Container>
+        //     </Hero.Body>
+        //     </Hero>
+        // </Section>
+        <p>Header</p>
     )
   }
 }

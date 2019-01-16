@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { Heading, Card, Media as Med, Content, Columns, Progress } from 'react-bulma-components';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalculator } from '@fortawesome/free-solid-svg-icons';
-import 'react-bulma-components/dist/react-bulma-components.min.css';
 import './home.css'
 
 class Home extends Component {
@@ -44,10 +42,38 @@ class Home extends Component {
         return (
             <div id="parent">
                 <div id="progress-container">
-                    <Progress max={this.props.totalReviews} value={this.props.reviews.length} color="success" />
+                    <progress className="progress is-primary" value={this.props.reviews.length} max={this.props.totalReviews}></progress>
                     <p><FontAwesomeIcon icon={faCalculator}/> {this.props.reviews.length} of {this.props.totalReviews} complete</p>
                 </div>
-                <Columns>
+                <div className="columns">
+                    {this.props.reviews.map(review =>
+                        <div className="column child" key={review.id}>
+                            <Link to={`/review/${review.id}`}>
+                                <div class="card">
+                                    <div class="card-image">
+                                        <figure className="image">
+                                            <img src={window.location.origin + '/images/' + review.image} alt="Review tile image" />
+                                        </figure>
+                                    </div>
+                                    <div className="card-content">
+                                        <div className="media">
+                                            <div className="media-content">
+                                                <p className="title is-6">{review.title}</p>
+                                                <p className="subtitle is-6">By {review.author}</p>
+                                            </div>
+                                        </div>
+                                        <div className="content" >
+                                            <p id="tile-content">{review.content.replace(/<[^>]+>/g, '').substr(0, 50)}...</p>
+                                            <p id="tile-createdon">{review.createdOn}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Link>
+                        </div>
+                    )}
+                </div>
+
+                {/* <Columns>
                     {this.props.reviews.map(review =>
                         <Columns.Column key={review.id} size={this.state.columnSize} className="child">
                             <Link to={`/review/${review.id}`}>
@@ -67,7 +93,7 @@ class Home extends Component {
                             </Link>
                         </Columns.Column>
                     )}
-                </Columns>
+                </Columns> */}
             </div>
         )
     }
