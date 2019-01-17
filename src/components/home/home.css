@@ -1,14 +1,16 @@
 
-.card {
-    transition: all 0.25s;
-    -o-transition: 0.25s linear; /* opera */
-    -ms-transition: 0.25s linear; /* IE 10 */
-    -moz-transition: 0.25s linear; /* Firefox */
-    -webkit-transition: 0.25s linear; /*safari and chrome */
-}
+.review-tile {
+    box-shadow: rgba(0, 0, 0, .1) 0 1px 0;
+    transition: all 0.2s ease-in-out;
+    -o-transition: 0.2s ease-in-out; /* opera */
+    -ms-transition: 0.2s ease-in-out; /* IE 10 */
+    -moz-transition: 0.2s ease-in-out; /* Firefox */
+    -webkit-transition: 0.2s ease-in-out; /*safari and chrome */
+} 
 
-.card:hover {
+.review-tile:hover {
     transform:scale(1.1);
+    box-shadow: 0 10px 16px rgba(0, 0, 0, .13), 0 6px 6px rgba(0, 0, 0, .19);
 }
 
 #parent {
@@ -61,14 +63,6 @@
         margin-left: 0;
         margin-right: 0;
         margin-bottom: 30px;
-    }
-
-    .card {
-        transition: none;
-    }
-    
-    .card:hover {
-        transform: none;
     }
 }
 

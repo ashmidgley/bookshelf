@@ -2,10 +2,6 @@
     padding-left: 0;
 }
 
-.container {
-    margin-left: 80px;
-}
-
 /* Mobile */
 @media only screen and (max-width: 600px) {
     .container {

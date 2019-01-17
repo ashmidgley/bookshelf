@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalculator } from '@fortawesome/free-solid-svg-icons';
+import * as moment from 'moment';
 import './home.css'
 
 class Home extends Component {
@@ -47,10 +48,10 @@ class Home extends Component {
                     {this.props.reviews.map(review =>
                         <div className={this.state.columnClass} key={review.id}>
                             <Link to={`/review/${review.id}`}>
-                                <div className="card">
+                                <div className="card review-tile">
                                     <div className="card-image">
                                         <figure className="image">
-                                            <img src={window.location.origin + '/images/' + review.image} alt="Review tile" />
+                                            <img src={'/images/' + review.image} alt="Review tile" />
                                         </figure>
                                     </div>
                                     <div className="card-content">
@@ -58,7 +59,7 @@ class Home extends Component {
                                         <p className="subtitle is-6">By {review.author}</p>
                                         <div className="content" >
                                             <p id="tile-content">{review.content.replace(/<[^>]+>/g, '').substr(0, 50)}...</p>
-                                            <p id="tile-createdon">{review.createdOn}</p>
+                                            <p id="tile-createdon">{moment(review.createdOn).format('Do MMMM YYYY')}</p>
                                         </div>
                                     </div>
                                 </div>

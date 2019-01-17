@@ -9,7 +9,7 @@ class Header extends Component {
 
   render() {
     return (
-        <section className="hero is-info">
+        <section className="hero is-info has-text-centered">
           <div className="hero-body">
             <div className="container">
               <h1 className="title is-1"><Link to={'/'}>{this.title}</Link></h1>
