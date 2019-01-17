@@ -1,17 +1,14 @@
-.hero-body {
-    padding-left: 0;
-}
-
 .header-hero {
     text-align: center;
 }
 
+.header-hero > .hero-body {
+    padding-left: 0;
+    padding: 2.85rem 1.5rem;
+}
+
 /* Mobile */
 @media only screen and (max-width: 600px) {
-    .container {
-        margin-left: 20px;
-    }
-
     .header-hero {
         text-align: left;
     }

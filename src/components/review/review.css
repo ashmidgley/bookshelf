@@ -6,6 +6,23 @@
     margin-top: 25px;
 }
 
+.author-image {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    margin-left: -30px;
+    border: 3px solid #ccc;
+    border-radius: 50%;
+}
+
+.review-column { 
+    margin-bottom: -25px;
+}
+
+/* Passed in content overrides */
+
 .review-content > p {
     text-align: left;
     margin-bottom: 20px;
@@ -18,22 +35,11 @@
     margin-bottom: 25px;
 }
 
-.author-image {
-    position: absolute;
-    top: -30px;
-    left: 50%;
-    width: 60px;
-    height: 60px;
-    margin-left: -30px;
-    border: 3px solid #ccc;
-    border-radius: 50%;
-}
-
-pre {
+.review-content pre {
     margin-bottom: 20px;
 }
 
-.notification:not(:last-child) {
+.review-content .notification:not(:last-child) {
     margin-bottom: 1rem;
 }
 
@@ -42,23 +48,20 @@ pre {
     padding-right: 35px;
 }
 
-.review-column { 
-    margin-bottom: -25px;
-}
-
 /* Mobile */
 @media only screen and (max-width: 600px) {
-    .review-content > p {
-        font-size: 16px;
-        margin-left: 20px;
-        margin-right: 20px;
-    }
-
     .review-column {
         padding-left: 0;
         padding-right: 0;
     }
 
+    /* Passed in content overrides */
+    .review-content > p {
+        font-size: 16px;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    
     .review-tiles {
         padding-left: 20px;
         padding-right: 20px;

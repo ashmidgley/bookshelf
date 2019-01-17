@@ -14,10 +14,8 @@ class Review extends Component {
                 <div className="card review-card">
                     <div className="card-content">
                         <div className="media">
-                            <div className="media-center">
-                                <img src="/images/krabs.jpeg" className="author-image" alt="Author" />
-                            </div>
-                            <div className="media-content has-text-centered review-media-content">
+                            <img src="/images/krabs.jpeg" className="author-image" alt="Author" />
+                            <div className="container has-text-centered review-media-content">
                                 <p className="title">{this.props.review.title}</p>
                                 <p className="subtitle is-6">By {this.props.review.author}</p>
                                 <div className="tags has-addons level-item">

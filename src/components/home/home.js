@@ -48,16 +48,16 @@ class Home extends Component {
                     {this.props.reviews.map(review =>
                         <div className={this.state.columnClass} key={review.id}>
                             <Link to={`/review/${review.id}`}>
-                                <div className="card review-tile">
+                                <div className="card home-tile">
                                     <div className="card-image">
                                         <figure className="image">
-                                            <img src={'/images/' + review.image} alt="Review tile" />
+                                            <img src={'/images/' + review.image} alt="Home tile" />
                                         </figure>
                                     </div>
-                                    <div className="card-content">
+                                    <div className="card-content home-card-content">
                                         <p className="title is-6">{review.title}</p>
                                         <p className="subtitle is-6">By {review.author}</p>
-                                        <div className="content" >
+                                        <div className="content home-content">
                                             <p id="tile-content">{review.content.replace(/<[^>]+>/g, '').substr(0, 50)}...</p>
                                             <div className="tags has-addons level-item">
                                                 <span className="tag is-rounded">{moment(review.createdOn).format('Do MMMM ')}</span>
