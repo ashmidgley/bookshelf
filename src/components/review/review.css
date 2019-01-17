@@ -49,7 +49,7 @@ pre {
 /* Mobile */
 @media only screen and (max-width: 600px) {
     .review-content > p {
-        font-size: 14px;
+        font-size: 16px;
         margin-left: 20px;
         margin-right: 20px;
     }
