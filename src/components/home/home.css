@@ -1,15 +1,22 @@
 
-.card {
-    transition: all 0.25s;
-    -o-transition: 0.25s linear; /* opera */
-    -ms-transition: 0.25s linear; /* IE 10 */
-    -moz-transition: 0.25s linear; /* Firefox */
-    -webkit-transition: 0.25s linear; /*safari and chrome */
+.home-tile {
+    box-shadow: rgba(0, 0, 0, .1) 0 1px 0;
+    transition: all 0.2s ease-in-out;
+    -o-transition: 0.2s ease-in-out; /* opera */
+    -ms-transition: 0.2s ease-in-out; /* IE 10 */
+    -moz-transition: 0.2s ease-in-out; /* Firefox */
+    -webkit-transition: 0.2s ease-in-out; /*safari and chrome */
+    border-radius: 5px;
+} 
+
+.home-tile:hover {
+    transform:scale(1.1);
+    box-shadow: 0 10px 16px rgba(0, 0, 0, .13), 0 6px 6px rgba(0, 0, 0, .19);
 }
 
-.card:hover {
-    transform:scale(1.1);
-}
+    .home-tile img {
+        border-radius: 5px 5px 0 0;
+    }
 
 #parent {
     margin: auto 80px;
@@ -18,6 +25,15 @@
 .child {
     margin-top : 30px;
     padding: 1.25rem;
+}
+
+.home-card-content > .title {
+    text-align: center;
+}
+
+.home-card-content > .subtitle {
+    margin-bottom: 15px;
+    text-align: center;
 }
 
 #progress-container {
@@ -35,10 +51,8 @@
     margin-bottom : 1rem;
 }
 
-#tile-createdon {
-    margin: 0; 
-    font-size: 12px; 
-    font-weight: bold;
+.home-content > .tags > .tag {
+    margin-bottom: 0;
 }
 
 /* Mobile */
@@ -58,14 +72,31 @@
         margin-right: 0;
         margin-bottom: 30px;
     }
-
-    .card {
-        transition: none;
-    }
     
-    .card:hover {
-        transform: none;
+    .home-tile {
+        box-shadow: none;
+        max-width: 13rem;
+        margin-left: auto;
+        margin-right: auto;
     }
+
+    .home-tile:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+    #tile-content {
+        display: none;
+    }
+
+    .home-card-content {
+        padding: 1rem;
+        padding-bottom: 1.5rem;
+    }
+
+        .home-card-content > .subtitle {
+            font-size: 13px;
+        }
 }
 
 /* Between mobile and desktop */

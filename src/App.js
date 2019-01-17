@@ -5,7 +5,6 @@ import Home from './components/home/home';
 import Review from './components/review/review';
 import Footer from './components/footer/footer';
 import reviewsData from './reviewData.json';
-import 'react-bulma-components/dist/react-bulma-components.min.css';
 import './App.css';
 
 class App extends Component {
@@ -47,16 +46,17 @@ class App extends Component {
       return (
         <Router>
           <div className="App">
-            <Header />
+            <div className="screen-content">
+              <Header />
 
-            <Route exact={true} path="/" render={() => (
-              <Home reviews={this.reviews} totalReviews={25} />
-            )} />
+              <Route exact={true} path="/" render={() => (
+                <Home reviews={this.reviews} totalReviews={25} />
+              )} />
 
-            <Route path="/review/:reviewId" render={({match}) => (
-              <Review review={ this.reviews.find(r => r.id === match.params.reviewId )} />
-            )} />
-
+              <Route path="/review/:reviewId" render={({match}) => (
+                <Review review={ this.reviews.find(r => r.id === match.params.reviewId )} />
+              )} />
+          </div>
             <Footer />
           </div>
         </Router>

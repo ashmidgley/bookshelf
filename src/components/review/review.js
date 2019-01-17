@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import { Heading } from 'react-bulma-components';
-import 'react-bulma-components/dist/react-bulma-components.min.css';
 import './review.css';
+import * as moment from 'moment';
 
 class Review extends Component {
 
@@ -12,15 +10,23 @@ class Review extends Component {
 
     render() {
         return (
-            <div className="review-body">
-                <div className="review-header">
-                    <Heading size={2}>{this.props.review.title}</Heading>
-                    <Heading subtitle>By {this.props.review.author}</Heading>
-                    <img src={'/images/' + this.props.review.image} alt='Review Book' />
+            <div className="column is-8 is-offset-2 review-column">
+                <div className="card review-card">
+                    <div className="card-content">
+                        <div className="media">
+                            <img src="/images/krabs.jpeg" className="author-image" alt="Author" />
+                            <div className="container has-text-centered review-media-content">
+                                <p className="title">{this.props.review.title}</p>
+                                <p className="subtitle is-6">By {this.props.review.author}</p>
+                                <div className="tags has-addons level-item">
+                                    <span className="tag is-rounded is-success">{moment(this.props.review.createdOn).format('Do MMMM')}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div className="review-content has-text-centered" dangerouslySetInnerHTML={{ __html: this.props.review.content }}></div>
                 </div>
-                <div className="review-content" dangerouslySetInnerHTML={{ __html: this.props.review.content }}></div>
-                <Heading size={6} id="createdon">{this.props.review.createdOn}</Heading>
-                <Link to={'/'}>Back to Home</Link>
             </div>
         );
     }

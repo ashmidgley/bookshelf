@@ -1,26 +1,22 @@
 import React, { Component } from 'react';
-import { Heading, Section, Hero, Container } from 'react-bulma-components';
 import { Link } from 'react-router-dom';
-import 'react-bulma-components/dist/react-bulma-components.min.css';
 import './header.css';
 
 class Header extends Component {
 
   title = "2019 Reads";
-  subtitle = "Man vs. New Year's resolution.";
+  subtitle = "Man vs. New Year's resolution";
 
   render() {
     return (
-        <Section id="header-body">
-            <Hero color="info">
-            <Hero.Body id="header-hero">
-                <Container id="header-container">
-                    <Heading size={1}><Link to={'/'}>{this.title}</Link></Heading>
-                    <Heading subtitle>{this.subtitle}</Heading>
-                </Container>
-            </Hero.Body>
-            </Hero>
-        </Section>
+        <section className="hero is-info header-hero">
+          <div className="hero-body">
+            <div className="container">
+              <h1 className="title is-1"><Link to={'/'}>{this.title}</Link></h1>
+              <h1 className="subtitle is-4">{this.subtitle}</h1>
+            </div>
+          </div>
+        </section>
     )
   }
 }
