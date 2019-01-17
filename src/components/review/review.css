@@ -43,6 +43,10 @@
     margin-bottom: 1rem;
 }
 
+    .review-content > table {
+        margin: 20px auto;
+    }
+
 .review-tiles {
     padding-left: 35px;
     padding-right: 35px;
