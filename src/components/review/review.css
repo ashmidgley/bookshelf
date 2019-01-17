@@ -42,6 +42,10 @@ pre {
     padding-right: 35px;
 }
 
+.review-column { 
+    margin-bottom: -25px;
+}
+
 /* Mobile */
 @media only screen and (max-width: 600px) {
     .review-content > p {

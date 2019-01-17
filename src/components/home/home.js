@@ -59,7 +59,9 @@ class Home extends Component {
                                         <p className="subtitle is-6">By {review.author}</p>
                                         <div className="content" >
                                             <p id="tile-content">{review.content.replace(/<[^>]+>/g, '').substr(0, 50)}...</p>
-                                            <p id="tile-createdon">{moment(review.createdOn).format('Do MMMM YYYY')}</p>
+                                            <div className="tags has-addons level-item">
+                                                <span className="tag is-rounded">{moment(review.createdOn).format('Do MMMM ')}</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

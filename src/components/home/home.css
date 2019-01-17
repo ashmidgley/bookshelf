@@ -41,11 +41,17 @@
     margin-bottom : 1rem;
 }
 
-#tile-createdon {
-    margin: 0; 
-    font-size: 12px; 
-    font-weight: bold;
+.tags .tag {
+    margin-bottom: 0;
 }
+
+.review-tile{
+    border-radius: 5px;
+}
+
+    .review-tile img {
+        border-radius: 5px 5px 0 0;
+    }
 
 /* Mobile */
 @media only screen and (max-width: 600px) {
@@ -65,8 +71,20 @@
         margin-bottom: 30px;
     }
     
+    .review-tile {
+        box-shadow: none;
+        max-width: 10rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
     .review-tile:hover {
         transform: none;
+        box-shadow: none;
+    }
+
+    #tile-content {
+        display: none;
     }
 }
 
