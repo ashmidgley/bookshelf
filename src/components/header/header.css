@@ -2,9 +2,17 @@
     padding-left: 0;
 }
 
+.header-hero {
+    text-align: center;
+}
+
 /* Mobile */
 @media only screen and (max-width: 600px) {
     .container {
         margin-left: 20px;
+    }
+
+    .header-hero {
+        text-align: left;
     }
 }

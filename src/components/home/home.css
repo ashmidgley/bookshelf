@@ -64,6 +64,10 @@
         margin-right: 0;
         margin-bottom: 30px;
     }
+    
+    .review-tile:hover {
+        transform: none;
+    }
 }
 
 /* Between mobile and desktop */

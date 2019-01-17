@@ -29,6 +29,19 @@
     border-radius: 50%;
 }
 
+pre {
+    margin-bottom: 20px;
+}
+
+.notification:not(:last-child) {
+    margin-bottom: 1rem;
+}
+
+.review-tiles {
+    padding-left: 35px;
+    padding-right: 35px;
+}
+
 /* Mobile */
 @media only screen and (max-width: 600px) {
     .review-content > p {
@@ -40,5 +53,10 @@
     .review-column {
         padding-left: 0;
         padding-right: 0;
+    }
+
+    .review-tiles {
+        padding-left: 20px;
+        padding-right: 20px;
     }
 }
