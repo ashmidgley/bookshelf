@@ -22,8 +22,13 @@
     padding: 1.25rem;
 }
 
+.card-content > .title {
+    text-align: center;
+}
+
 .card-content > .subtitle {
     margin-bottom: 15px;
+    text-align: center;
 }
 
 #progress-container {
@@ -52,6 +57,10 @@
     .review-tile img {
         border-radius: 5px 5px 0 0;
     }
+
+.hero-body {
+    padding: 2.85rem 1.5rem;
+}
 
 /* Mobile */
 @media only screen and (max-width: 600px) {
@@ -86,6 +95,15 @@
     #tile-content {
         display: none;
     }
+
+    .card-content {
+        padding: 1rem;
+        padding-bottom: 1.5rem;
+    }
+
+        .card-content > .subtitle {
+            font-size: 13px;
+        }
 }
 
 /* Between mobile and desktop */

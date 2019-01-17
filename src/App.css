@@ -1,3 +1,8 @@
+
+.screen-content {
+    min-height: 100vh;
+}
+
 .spinner {
     margin: 36vh auto;
     width: 50px;
