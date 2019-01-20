@@ -21,13 +21,16 @@
     margin-bottom: -25px;
 }
 
+.review-content {
+    margin-left: 35px;
+    margin-right: 35px;
+}
+
 /* Passed in content overrides */
 
 .review-content > p {
     text-align: left;
     margin-bottom: 20px;
-    margin-left: 35px;
-    margin-right: 35px;
 }
 
 .review-content > img {
@@ -43,13 +46,13 @@
     margin-bottom: 1rem;
 }
 
-    .review-content > table {
-        margin: 20px auto;
-    }
+.review-content > table {
+    margin: 20px auto;
+}
 
-.review-tiles {
-    padding-left: 35px;
-    padding-right: 35px;
+.review-content > h1 {
+    text-align: left;
+    text-decoration: underline;
 }
 
 /* Mobile */
@@ -59,11 +62,14 @@
         padding-right: 0;
     }
 
+    .review-content {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+
     /* Passed in content overrides */
     .review-content > p {
         font-size: 16px;
-        margin-left: 20px;
-        margin-right: 20px;
     }
     
     .review-tiles {
