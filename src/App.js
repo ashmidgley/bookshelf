@@ -5,6 +5,7 @@ import Home from './components/home/home';
 import Review from './components/review/review';
 import Footer from './components/footer/footer';
 import reviewsData from './reviewData.json';
+import * as moment from 'moment';
 import './App.css';
 
 class App extends Component {
@@ -13,10 +14,10 @@ class App extends Component {
 
   constructor(props){
     super(props);
-    this.reviews = reviewsData.reviews;
     this.state = {
       loading: true
     }
+    this.reviews = reviewsData.reviews.sort((a, b) => moment(b.createdOn).valueOf() - moment(a.createdOn).valueOf());
   }
 
   componentDidMount(){
