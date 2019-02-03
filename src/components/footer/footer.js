@@ -9,7 +9,7 @@ class Footer extends Component {
                 <div className="content has-text-centered">
                     <p>
                         <a href="https://github.com/ash-midgley/reviews">
-                            <img src={window.location.origin + '/images/github.png'} alt='GitHub icon'/>
+                            <img src="/images/github.png" alt='GitHub icon'/>
                         </a> 
                     </p>
                 </div>
