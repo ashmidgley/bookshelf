@@ -44,7 +44,7 @@ class Home extends Component {
                     <progress className="progress is-success" value={this.props.reviews.length} max={this.props.totalReviews}></progress>
                     <p><FontAwesomeIcon icon={faCalculator}/> {this.props.reviews.length} of {this.props.totalReviews} complete</p>
                 </div>
-                <div className="columns">
+                <div className="columns is-multiline">
                     {this.props.reviews.map(review =>
                         <div className={this.state.columnClass} key={review.id}>
                             <Link to={`/review/${review.id}`}>
@@ -55,12 +55,12 @@ class Home extends Component {
                                         </figure>
                                     </div>
                                     <div className="card-content home-card-content">
-                                        <p className="title is-6">{review.title}</p>
+                                        <p className="title is-6">{review.title.length > 25 ? review.title.substring(0, 23)+'...' : review.title}</p>
                                         <p className="subtitle is-6">By {review.author}</p>
                                         <div className="content home-content">
                                             <p id="tile-content">{review.content.replace(/<[^>]+>/g, '').substr(0, 50)}...</p>
                                             <div className="tags has-addons level-item">
-                                                <span className="tag is-rounded">{moment(review.createdOn).format('Do MMMM ')}</span>
+                                                <span className="tag is-rounded">{moment(review.finishedOn).format('Do MMMM ')}</span>
                                             </div>
                                         </div>
                                     </div>

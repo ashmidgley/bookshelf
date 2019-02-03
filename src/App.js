@@ -17,7 +17,7 @@ class App extends Component {
     this.state = {
       loading: true
     }
-    this.reviews = reviewsData.reviews.sort((a, b) => moment(b.createdOn).valueOf() - moment(a.createdOn).valueOf());
+    this.reviews = reviewsData.reviews.sort((a, b) => moment(b.finishedOn).valueOf() - moment(a.finishedOn).valueOf());
   }
 
   componentDidMount(){
@@ -51,7 +51,7 @@ class App extends Component {
               <Header />
 
               <Route exact={true} path="/" render={() => (
-                <Home reviews={this.reviews} totalReviews={25} />
+                <Home reviews={this.reviews} totalReviews={50} />
               )} />
 
               <Route path="/review/:reviewId" render={({match}) => (
