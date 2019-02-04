@@ -7,6 +7,7 @@ import Footer from './components/footer/footer';
 import reviewsData from './reviewData.json';
 import * as moment from 'moment';
 import './App.css';
+import AddNew from './components/add-new-form/add-new-form';
 
 class App extends Component {
 
@@ -53,10 +54,13 @@ class App extends Component {
               <Route exact={true} path="/" render={() => (
                 <Home reviews={this.reviews} totalReviews={50} />
               )} />
-
               <Route path="/review/:reviewId" render={({match}) => (
                 <Review review={ this.reviews.find(r => r.id === match.params.reviewId )} />
               )} />
+              <Route path="/add-new" render={() => (
+                <AddNew />
+              )} />
+
           </div>
             <Footer />
           </div>
