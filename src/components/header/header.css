@@ -1,15 +1,8 @@
-.header-hero {
-    text-align: center;
-}
-
-.header-hero > .hero-body {
-    padding-left: 0;
-    padding: 2.85rem 1.5rem;
-}
-
-/* Mobile */
-@media only screen and (max-width: 600px) {
-    .header-hero {
-        text-align: left;
-    }
+.header-content > div > canvas {
+    max-height: 20vh;
+    background-color:  rgb(37, 45, 63);
+    background-image: url('/images/fa_book.png');
+    background-size: 5%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
 }

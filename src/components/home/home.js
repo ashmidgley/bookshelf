@@ -55,8 +55,8 @@ class Home extends Component {
                                         </figure>
                                     </div>
                                     <div className="card-content home-card-content">
-                                        <p className="title is-6">{review.title.length > 25 ? review.title.substring(0, 23)+'...' : review.title}</p>
-                                        <p className="subtitle is-6">By {review.author}</p>
+                                        <p className="title is-6 handle-wrap">{review.title}</p>
+                                        <p className="subtitle is-6 handle-wrap">{review.author}</p>
                                         <div className="content home-content">
                                             <p id="tile-content">{review.content.replace(/<[^>]+>/g, '').substr(0, 50)}...</p>
                                             <div className="tags has-addons level-item">

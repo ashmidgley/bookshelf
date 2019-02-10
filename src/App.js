@@ -52,7 +52,7 @@ class App extends Component {
               <Header />
 
               <Route exact={true} path="/" render={() => (
-                <Home reviews={this.reviews} totalReviews={50} />
+                <Home reviews={this.reviews} totalReviews={52} />
               )} />
               <Route path="/review/:reviewId" render={({match}) => (
                 <Review review={ this.reviews.find(r => r.id === match.params.reviewId )} />
