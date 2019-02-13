@@ -7,7 +7,7 @@
 
 .home-tile:hover {
     box-shadow: 0 8px 16px 0 rgba(10,16,34,.15), 0 0 0 transparent;
-    transform: translateY(-10px) translateZ(0);
+    transform: translateY(-15px) translateZ(0);
 }
 
     .home-tile img {
@@ -19,7 +19,6 @@
 }
 
 .child {
-    margin-top : 30px;
     padding: 1.25rem;
 }
 
@@ -41,7 +40,7 @@
 
 #progress-container {
     margin: auto 20px;
-    margin-top: 40px;
+    margin-top: 30px;
     text-align: center;
 }
 
@@ -56,6 +55,11 @@
 
 .home-content > .tags > .tag {
     margin-bottom: 0;
+}
+
+.home-menu-items {
+    margin: 20px 0;
+    text-align: center;
 }
 
 /* Mobile */

@@ -7,11 +7,15 @@ import './home.css'
 
 class Home extends Component {
 
+    categories = ['💼', '🤠','🧠', '🔥'];
+    reviews;
+
     constructor(props){
         super(props);
         this.state = {
             columnClass: 'column child'
         }
+        this.reviews = this.props.reviews;
     }
 
     componentDidMount() {
@@ -40,12 +44,19 @@ class Home extends Component {
     render(){
         return (
             <div id="parent">
-                <div id="progress-container">
-                    <progress className="progress is-success" value={this.props.reviews.length} max={this.props.totalReviews}></progress>
-                    <p><FontAwesomeIcon icon={faCalculator}/> {this.props.reviews.length} of {this.props.totalReviews} complete</p>
+                <div className="home-menu-items">
+                    <div className="is-pulled-left">
+                        <Link to={'/add-new'}><button className="button">➕</button></Link>
+                    </div>
+                    {this.categories.map(category =>
+                        <button className="button">{category}</button>
+                    )}
+                    <div className="is-pulled-right">
+                        <a href="#progress-container"><button className="button">📊</button></a>
+                    </div>
                 </div>
                 <div className="columns is-multiline">
-                    {this.props.reviews.map(review =>
+                    {this.reviews.map(review =>
                         <div className={this.state.columnClass} key={review.id}>
                             <Link to={`/review/${review.id}`} style={(review.content) ? {} : { pointerEvents: 'none', cursor: 'default'}}>
                                 <div className="card home-tile">
@@ -68,6 +79,10 @@ class Home extends Component {
                             </Link>
                         </div>
                     )}
+                </div>
+                <div id="progress-container">
+                    <progress className="progress is-success" value={this.props.reviews.length} max={this.props.totalReviews}></progress>
+                    <p><FontAwesomeIcon icon={faCalculator}/> {this.props.reviews.length} of {this.props.totalReviews} complete</p>
                 </div>
             </div>
         )

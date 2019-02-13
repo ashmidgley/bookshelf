@@ -27,7 +27,7 @@ class AddNewForm extends Component {
                             </div>
                             <div class="field">
                                 <label class="label">Image</label>
-                                <div class="file has-name">
+                                <div class="file has-name is-centered">
                                     <label class="file-label">
                                         <input class="file-input" type="file" name="resume" />
                                         <span class="file-cta">
@@ -43,6 +43,9 @@ class AddNewForm extends Component {
                                         </span>
                                     </label>
                                 </div>
+                            </div>
+                            <div className="add-new-image">
+                                <img src="https://bulma.io/images/placeholders/96x96.png" alt="Cover upload" />
                             </div>
                             <div class="field">
                                 <label class="label">Started On</label>
@@ -82,7 +85,12 @@ class AddNewForm extends Component {
                                     <textarea class="textarea" placeholder="Textarea"></textarea>
                                 </div>
                             </div>
-
+                            <div class="field">
+                                <label class="label">Password</label>
+                                <div class="control">
+                                    <input class="input" type="password" placeholder="Password" />
+                                </div>
+                            </div>
                             <div class="field is-grouped">
                                 <div class="control">
                                     <button class="button is-link">Submit</button>

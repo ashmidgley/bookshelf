@@ -8,7 +8,7 @@
             "startedOn": "2019-01-01",
             "finishedOn": "2019-01-11",
             "pageCount": "593",
-            "category": "easy-read,fiction",
+            "category": "easy-read",
             "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         },
         {
@@ -19,7 +19,7 @@
             "startedOn": "2019-01-20",
             "finishedOn": "2019-01-25",
             "pageCount": "330",
-            "category": "easy-read,fiction",
+            "category": "easy-read",
             "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         },
         {
@@ -30,7 +30,7 @@
             "startedOn": "2019-01-11",
             "finishedOn": "2019-01-26",
             "pageCount": "601",
-            "category": "chewy,non-fiction",
+            "category": "lit",
             "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         },
         {
@@ -41,7 +41,7 @@
             "startedOn": "2019-01-25",
             "finishedOn": "2019-01-30",
             "pageCount": "298",
-            "category": "easy-read,fiction",
+            "category": "easy-read",
             "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         },
         {
@@ -52,7 +52,7 @@
             "startedOn": "2019-01-30",
             "finishedOn": "2019-02-03",
             "pageCount": "282",
-            "category": "easy-read,fiction",
+            "category": "easy-read",
             "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         },
         {
@@ -63,7 +63,7 @@
             "startedOn": "2019-01-26",
             "finishedOn": "2019-02-07",
             "pageCount": "223",
-            "category": "chewy,non-fiction",
+            "category": "chewy",
             "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         },
         {
@@ -74,7 +74,18 @@
             "startedOn": "2019-02-03",
             "finishedOn": "2019-02-08",
             "pageCount": "304",
-            "category": "easy-read,fiction",
+            "category": "easy-read",
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        },
+        {
+            "id": "7",
+            "image": "divine-madness.jpg",
+            "title": "Divine Madness",
+            "author": "Robert Muchamore",
+            "startedOn": "2019-02-08",
+            "finishedOn": "2019-02-13",
+            "pageCount": "360",
+            "category": "easy-read",
             "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         }
     ]
