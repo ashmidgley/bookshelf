@@ -3,10 +3,6 @@ import './add-new-form.css';
 
 class AddNewForm extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <div className="column is-8 is-offset-2 review-column"> 
@@ -71,10 +67,9 @@ class AddNewForm extends Component {
                                     <div class="select">
                                         <select>
                                             <option></option>
-                                            <option>Chewy</option>
-                                            <option>Saucy</option>
-                                            <option>Fiction</option>
-                                            <option>Non-fiction</option>
+                                            {this.props.categories.map(category =>
+                                                <option>{category}</option>
+                                            )}
                                         </select>
                                     </div>
                                 </div>

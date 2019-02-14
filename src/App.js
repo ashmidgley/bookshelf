@@ -13,6 +13,9 @@ import './App.css';
 class App extends Component {
 
   reviews = [];
+  categories = ['🧙', '🧠'];
+  categoryNames = ['Fiction', 'Non-fiction'];
+  totalReviews = 52;
 
   constructor(props){
     super(props);
@@ -83,13 +86,13 @@ class App extends Component {
                 </div>
               </Link>
                 <Route exact={true} path="/" render={() => (
-                  <Home reviews={this.reviews} totalReviews={52} />
+                  <Home reviews={this.reviews} totalReviews={this.totalReviews} categories={this.categories} />
                 )} />
                 <Route path="/review/:reviewId" render={({match}) => (
                   <Review review={ this.reviews.find(r => r.id === match.params.reviewId )} />
                 )} />
                 <Route path="/add-new" render={() => (
-                  <AddNewForm />
+                  <AddNewForm categories={this.categoryNames} />
                 )} />
               </div>
             <Footer />

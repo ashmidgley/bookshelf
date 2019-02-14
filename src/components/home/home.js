@@ -6,16 +6,13 @@ import * as moment from 'moment';
 import './home.css'
 
 class Home extends Component {
-
-    categories = ['💼', '🤠','🧠', '🔥'];
-    reviews;
-
+    
     constructor(props){
         super(props);
         this.state = {
-            columnClass: 'column child'
+            columnClass: 'column child',
+            reviews: this.props.reviews
         }
-        this.reviews = this.props.reviews;
     }
 
     componentDidMount() {
@@ -41,22 +38,34 @@ class Home extends Component {
         this.setState({columnClass: newVal}); 
     }
 
+    displayAll() {
+        this.setState({reviews: this.props.reviews});
+     }
+
+     filterReviews(key){
+         var result = this.props.reviews.filter(r => r.category === key);
+         this.setState({reviews: result});
+     }
+
     render(){
         return (
             <div id="parent">
                 <div className="home-menu-items">
                     <div className="is-pulled-left">
-                        <Link to={'/add-new'}><button className="button">➕</button></Link>
+                        <Link to={'/add-new'}><button className="button"><span role="img">➕</span></button></Link>
                     </div>
-                    {this.categories.map(category =>
-                        <button className="button">{category}</button>
-                    )}
+                        <button className="button" onClick={() => this.displayAll()} style={{'padding':'0 23px'}}></button>
+                        {this.props.childrencategories.map(category =>
+                            <button className="button" onClick={() => this.filterReviews(this.props.categories.indexOf(category))}>
+                                <span role="img">{category}</span>
+                            </button>
+                        )}
                     <div className="is-pulled-right">
-                        <a href="#progress-container"><button className="button">📊</button></a>
+                        <a href="#progress-container"><button className="button"><span role="img">📊</span></button></a>
                     </div>
                 </div>
                 <div className="columns is-multiline">
-                    {this.reviews.map(review =>
+                    {this.state.reviews.map(review =>
                         <div className={this.state.columnClass} key={review.id}>
                             <Link to={`/review/${review.id}`} style={(review.content) ? {} : { pointerEvents: 'none', cursor: 'default'}}>
                                 <div className="card home-tile">
