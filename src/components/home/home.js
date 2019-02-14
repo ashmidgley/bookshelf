@@ -54,12 +54,12 @@ class Home extends Component {
                     <div className="is-pulled-left">
                         <Link to={'/add-new'}><button className="button"><span role="img">➕</span></button></Link>
                     </div>
-                        <button className="button" onClick={() => this.displayAll()} style={{'padding':'0 23px'}}></button>
-                        {this.props.childrencategories.map(category =>
-                            <button className="button" onClick={() => this.filterReviews(this.props.categories.indexOf(category))}>
-                                <span role="img">{category}</span>
-                            </button>
-                        )}
+                    <button className="button" onClick={() => this.displayAll()} style={{'padding':'0 23px'}}></button>
+                    {this.props.categories.map(category =>
+                        <button className="button" onClick={() => this.filterReviews(this.props.categories.indexOf(category))}>
+                            <span role="img">{category}</span>
+                        </button>
+                    )}
                     <div className="is-pulled-right">
                         <a href="#progress-container"><button className="button"><span role="img">📊</span></button></a>
                     </div>
