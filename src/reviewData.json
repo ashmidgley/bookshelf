@@ -1,7 +1,7 @@
 {
     "reviews": [
         {
-            "id": 0,
+            "id": "0",
             "image": "the-da-vinci-code.jpg",
             "title": "The Da Vinci Code",
             "author": "Dan Brown",
@@ -12,7 +12,7 @@
             "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         },
         {
-            "id": 1,
+            "id": "1",
             "image": "the-recruit.jpg",
             "title": "The Recruit",
             "author": "Robert Muchamore",
@@ -23,7 +23,7 @@
             "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         },
         {
-            "id": 2,
+            "id": "2",
             "image": "leonardo-da-vinci.jpg",
             "title": "Leonardo Da Vinci",
             "author": "Walter Isaacson",
@@ -34,7 +34,7 @@
             "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         },
         {
-            "id": 3,
+            "id": "3",
             "image": "class-a.jpg",
             "title": "Class A",
             "author": "Robert Muchamore",
@@ -45,7 +45,7 @@
             "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         },
         {
-            "id": 4,
+            "id": "4",
             "image": "maximum-security.jpg",
             "title": "Maximum Security",
             "author": "Robert Muchamore",
@@ -56,7 +56,7 @@
             "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         },
         {
-            "id": 5,
+            "id": "5",
             "image": "astrophysics-for-people-in-a-hurry.jpg",
             "title": "Astrophysics for People in a Hurry",
             "author": "Neil DeGrasse Tyson",
@@ -67,7 +67,7 @@
             "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         },
         {
-            "id": 6,
+            "id": "6",
             "image": "the-killing.jpg",
             "title": "The Killing",
             "author": "Robert Muchamore",
@@ -78,7 +78,7 @@
             "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         },
         {
-            "id": 7,
+            "id": "7",
             "image": "divine-madness.jpg",
             "title": "Divine Madness",
             "author": "Robert Muchamore",

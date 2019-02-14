@@ -89,7 +89,7 @@ class App extends Component {
                   <Home reviews={this.reviews} totalReviews={this.totalReviews} categories={this.categories} />
                 )} />
                 <Route path="/review/:reviewId" render={({match}) => (
-                  <Review review={ this.reviews.find(r => r.id === match.params.reviewId )} />
+                  <Review review={this.reviews.find(r => r.id === match.params.reviewId)} />
                 )} />
                 <Route path="/add-new" render={() => (
                   <AddNewForm categories={this.categoryNames} />
