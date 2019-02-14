@@ -1,16 +1,21 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Header from './components/header/header';
 import Home from './components/home/home';
 import Review from './components/review/review';
 import Footer from './components/footer/footer';
 import reviewsData from './reviewData.json';
+import AddNewForm from './components/add-new-form/add-new-form';
+import Particles from 'react-particles-js';
+import { Link } from 'react-router-dom';
 import * as moment from 'moment';
 import './App.css';
 
 class App extends Component {
 
   reviews = [];
+  categories = ['🧙', '🧠'];
+  categoryNames = ['Fiction', 'Non-fiction'];
+  totalReviews = 52;
 
   constructor(props){
     super(props);
@@ -20,49 +25,80 @@ class App extends Component {
     this.reviews = reviewsData.reviews.sort((a, b) => moment(b.finishedOn).valueOf() - moment(a.finishedOn).valueOf());
   }
 
-  componentDidMount(){
-    setTimeout(() => {
-      this.setState({loading: false});
-    }, 2000);
-  }
-
-  render() {
-    if(this.state.loading) {
-      return (
-        <Router>
-          <div className="App">
-            <Header />
-            <div className="spinner">
-              <div className="rect1"></div>
-              <div className="rect2"></div>
-              <div className="rect3"></div>
-              <div className="rect4"></div>
-              <div className="rect5"></div>
-            </div>
-            <Footer />
-          </div>
-        </Router>
-      )
-    } else {
-      return (
+  render() { return (
         <Router>
           <div className="App">
             <div className="screen-content">
-              <Header />
-
-              <Route exact={true} path="/" render={() => (
-                <Home reviews={this.reviews} totalReviews={50} />
-              )} />
-
-              <Route path="/review/:reviewId" render={({match}) => (
-                <Review review={ this.reviews.find(r => r.id === match.params.reviewId )} />
-              )} />
-          </div>
+              <Link to={'/'}>
+                <div className="header-content">
+                    <Particles
+                        params={{
+                        "particles": {
+                            "number": {
+                                "value": 160,
+                                "density": {
+                                    "enable": false
+                                }
+                            },
+                            "size": {
+                                "value": 3,
+                                "random": true,
+                                "anim": {
+                                    "speed": 4,
+                                    "size_min": 0.3
+                                }
+                            },
+                            "line_linked": {
+                                "enable": false
+                            },
+                            "move": {
+                                "random": true,
+                                "speed": 1,
+                                "direction": "top",
+                                "out_mode": "out"
+                            }
+                        },
+                        "interactivity": {
+                            "events": {
+                                "onhover": {
+                                    "enable": true,
+                                    "mode": "bubble"
+                                },
+                                "onclick": {
+                                    "enable": true,
+                                    "mode": "repulse"
+                                }
+                            },
+                            "modes": {
+                                "bubble": {
+                                    "distance": 250,
+                                    "duration": 2,
+                                    "size": 0,
+                                    "opacity": 0
+                                },
+                                "repulse": {
+                                    "distance": 400,
+                                    "duration": 4
+                                }
+                            }
+                        }
+                    }} />
+                </div>
+              </Link>
+                <Route exact={true} path="/" render={() => (
+                  <Home reviews={this.reviews} totalReviews={this.totalReviews} categories={this.categories} />
+                )} />
+                <Route path="/review/:reviewId" render={({match}) => (
+                  <Review review={this.reviews.find(r => r.id === match.params.reviewId)} />
+                )} />
+                <Route path="/add-new" render={() => (
+                  <AddNewForm categories={this.categoryNames} />
+                )} />
+              </div>
             <Footer />
           </div>
         </Router>
       )
-    }
   }
 }
 

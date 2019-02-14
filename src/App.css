@@ -1,6 +1,14 @@
-
 .screen-content {
     min-height: 100vh;
+}
+
+.header-content > div > canvas {
+    max-height: 30vh;
+    background-color:  rgb(37, 45, 63);
+    background-image: url('/images/fa_book.png');
+    background-size: 8%;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
 }
 
 .spinner {

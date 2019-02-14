@@ -1,17 +1,13 @@
 
 .home-tile {
-    box-shadow: rgba(0, 0, 0, .1) 0 1px 0;
-    transition: all 0.2s ease-in-out;
-    -o-transition: 0.2s ease-in-out; /* opera */
-    -ms-transition: 0.2s ease-in-out; /* IE 10 */
-    -moz-transition: 0.2s ease-in-out; /* Firefox */
-    -webkit-transition: 0.2s ease-in-out; /*safari and chrome */
-    border-radius: 5px;
+    transition: transform .3s ease-out, box-shadow .3s ease-out, -webkit-transform .3s ease-out, -webkit-box-shadow .3s ease-out;
+    box-shadow: 0 1px 1px 1px rgba(10, 16, 34, .08);
+    border-radius: 6px;
 } 
 
 .home-tile:hover {
-    transform:scale(1.1);
-    box-shadow: 0 10px 16px rgba(0, 0, 0, .13), 0 6px 6px rgba(0, 0, 0, .19);
+    box-shadow: 0 8px 16px 0 rgba(10,16,34,.15), 0 0 0 transparent;
+    transform: translateY(-15px) translateZ(0);
 }
 
     .home-tile img {
@@ -23,12 +19,12 @@
 }
 
 .child {
-    margin-top : 30px;
     padding: 1.25rem;
 }
 
 .home-card-content > .title {
     text-align: center;
+    padding-bottom: 2px;
 }
 
 .home-card-content > .subtitle {
@@ -36,9 +32,15 @@
     text-align: center;
 }
 
+.home-card-content > .handle-wrap {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
 #progress-container {
     margin: auto 20px;
-    margin-top: 40px;
+    margin-top: 30px;
     text-align: center;
 }
 
@@ -53,6 +55,15 @@
 
 .home-content > .tags > .tag {
     margin-bottom: 0;
+}
+
+.home-menu-items {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.home-menu-items button {
+    box-shadow: 0 1px 1px 1px rgba(10, 16, 34, .08);
 }
 
 /* Mobile */

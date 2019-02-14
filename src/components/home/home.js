@@ -6,11 +6,12 @@ import * as moment from 'moment';
 import './home.css'
 
 class Home extends Component {
-
+    
     constructor(props){
         super(props);
         this.state = {
-            columnClass: 'column child'
+            columnClass: 'column child',
+            reviews: this.props.reviews
         }
     }
 
@@ -37,17 +38,36 @@ class Home extends Component {
         this.setState({columnClass: newVal}); 
     }
 
+    displayAll() {
+        this.setState({reviews: this.props.reviews});
+     }
+
+     filterReviews(key){
+         var result = this.props.reviews.filter(r => r.category === key);
+         this.setState({reviews: result});
+     }
+
     render(){
         return (
             <div id="parent">
-                <div id="progress-container">
-                    <progress className="progress is-success" value={this.props.reviews.length} max={this.props.totalReviews}></progress>
-                    <p><FontAwesomeIcon icon={faCalculator}/> {this.props.reviews.length} of {this.props.totalReviews} complete</p>
+                <div className="home-menu-items">
+                    <div className="is-pulled-left">
+                        <Link to={'/add-new'}><button className="button"><span role="img">➕</span></button></Link>
+                    </div>
+                    <button className="button" onClick={() => this.displayAll()} style={{'padding':'0 23px'}}></button>
+                    {this.props.categories.map(category =>
+                        <button className="button" onClick={() => this.filterReviews(this.props.categories.indexOf(category))}>
+                            <span role="img">{category}</span>
+                        </button>
+                    )}
+                    <div className="is-pulled-right">
+                        <a href="#progress-container"><button className="button"><span role="img">📊</span></button></a>
+                    </div>
                 </div>
                 <div className="columns is-multiline">
-                    {this.props.reviews.map(review =>
+                    {this.state.reviews.map(review =>
                         <div className={this.state.columnClass} key={review.id}>
-                            <Link to={`/review/${review.id}`}>
+                            <Link to={`/review/${review.id}`} style={(review.content) ? {} : { pointerEvents: 'none', cursor: 'default'}}>
                                 <div className="card home-tile">
                                     <div className="card-image">
                                         <figure className="image">
@@ -55,8 +75,8 @@ class Home extends Component {
                                         </figure>
                                     </div>
                                     <div className="card-content home-card-content">
-                                        <p className="title is-6">{review.title.length > 25 ? review.title.substring(0, 23)+'...' : review.title}</p>
-                                        <p className="subtitle is-6">By {review.author}</p>
+                                        <p className="title is-6 handle-wrap">{review.title}</p>
+                                        <p className="subtitle is-6 handle-wrap">{review.author}</p>
                                         <div className="content home-content">
                                             <p id="tile-content">{review.content.replace(/<[^>]+>/g, '').substr(0, 50)}...</p>
                                             <div className="tags has-addons level-item">
@@ -68,6 +88,10 @@ class Home extends Component {
                             </Link>
                         </div>
                     )}
+                </div>
+                <div id="progress-container">
+                    <progress className="progress is-success" value={this.props.reviews.length} max={this.props.totalReviews}></progress>
+                    <p><FontAwesomeIcon icon={faCalculator}/> {this.props.reviews.length} of {this.props.totalReviews} complete</p>
                 </div>
             </div>
         )
