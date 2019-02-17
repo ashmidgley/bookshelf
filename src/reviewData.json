@@ -87,6 +87,17 @@
             "pageCount": 360,
             "category": 0,
             "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        },
+        {
+            "id": "8",
+            "image": "we-are-the-weather-makers.jpg",
+            "title": "We Are The Weather Makers",
+            "author": "Tim Flannery",
+            "startedOn": "2019-02-08",
+            "finishedOn": "2019-02-18",
+            "pageCount": 275,
+            "category": 1,
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         }
     ]
 }

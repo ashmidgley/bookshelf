@@ -38,30 +38,41 @@ class Home extends Component {
         this.setState({columnClass: newVal}); 
     }
 
-    displayAll() {
+    displayAll = () => {
         this.setState({reviews: this.props.reviews});
      }
 
-     filterReviews(key){
+     filterReviews(key) {
          var result = this.props.reviews.filter(r => r.category === key);
          this.setState({reviews: result});
      }
 
-    render(){
+    render() {
         return (
             <div id="parent">
                 <div className="home-menu-items">
                     <div className="is-pulled-left">
-                        <Link to={'/add-new'}><button className="button"><span role="img">➕</span></button></Link>
+                        <Link to={'/add-new'}>
+                            <button className="button">
+                                <span role="img" aria-label="Plus emoji">➕</span>
+                            </button>
+                        </Link>
                     </div>
-                    <button className="button" onClick={() => this.displayAll()} style={{'padding':'0 23px'}}></button>
+                    <button className="button" onClick={this.displayAll} style={{'padding':'0 23px'}}></button>
                     {this.props.categories.map(category =>
-                        <button className="button" onClick={() => this.filterReviews(this.props.categories.indexOf(category))}>
-                            <span role="img">{category}</span>
+                        <button 
+                            className="button"
+                            key={this.props.categories.indexOf(category)}
+                            onClick={() => this.filterReviews(this.props.categories.indexOf(category))}>
+                            <span role="img" aria-label="Category emoji">{category}</span>
                         </button>
                     )}
                     <div className="is-pulled-right">
-                        <a href="#progress-container"><button className="button"><span role="img">📊</span></button></a>
+                        <a href="#progress-container">
+                            <button className="button">
+                                <span role="img" aria-label="Progress emoji">📊</span>
+                            </button>
+                        </a>
                     </div>
                 </div>
                 <div className="columns is-multiline">

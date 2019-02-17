@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import './add-new-form.css';
 
 class AddNewForm extends Component {
+
+    submit = () => {
+        alert("Nice try dweeb");
+    }
 
     render() {
         return (
@@ -9,32 +14,32 @@ class AddNewForm extends Component {
                 <div className="card review-card">
                     <div className="card-content">
                         <form className="form">
-                            <div class="field">
-                                <label class="label">Title</label>
-                                <div class="control">
-                                    <input class="input" type="text" placeholder="Text input" />
+                            <div className="field">
+                                <label className="label">Title</label>
+                                <div className="control">
+                                    <input className="input" type="text" placeholder="Text input" />
                                 </div>
                             </div>
-                            <div class="field">
-                                <label class="label">Author</label>
-                                <div class="control">
-                                    <input class="input" type="text" placeholder="Text input" />
+                            <div className="field">
+                                <label className="label">Author</label>
+                                <div className="control">
+                                    <input className="input" type="text" placeholder="Text input" />
                                 </div>
                             </div>
-                            <div class="field">
-                                <label class="label">Image</label>
-                                <div class="file has-name is-centered">
-                                    <label class="file-label">
-                                        <input class="file-input" type="file" name="resume" />
-                                        <span class="file-cta">
-                                        <span class="file-icon">
-                                            <i class="fas fa-upload"></i>
+                            <div className="field">
+                                <label className="label">Image</label>
+                                <div className="file has-name is-centered">
+                                    <label className="file-label">
+                                        <input className="file-input" type="file" name="resume" />
+                                        <span className="file-cta">
+                                        <span className="file-icon">
+                                            <i className="fas fa-upload"></i>
                                         </span>
-                                        <span class="file-label">
+                                        <span className="file-label">
                                             Choose a file…
                                         </span>
                                         </span>
-                                        <span class="file-name">
+                                        <span className="file-name">
                                         Screen Shot 2017-07-29 at 15.54.25.png
                                         </span>
                                     </label>
@@ -43,55 +48,57 @@ class AddNewForm extends Component {
                             <div className="add-new-image">
                                 <img src="https://bulma.io/images/placeholders/96x96.png" alt="Cover upload" />
                             </div>
-                            <div class="field">
-                                <label class="label">Started On</label>
-                                <div class="control">
-                                    <input class="input" type="date" placeholder="Text input" />
+                            <div className="field">
+                                <label className="label">Started On</label>
+                                <div className="control">
+                                    <input className="input" type="date" placeholder="Text input" />
                                 </div>
                             </div>
-                            <div class="field">
-                                <label class="label">Finished On</label>
-                                <div class="control">
-                                    <input class="input" type="date" placeholder="Text input" />
+                            <div className="field">
+                                <label className="label">Finished On</label>
+                                <div className="control">
+                                    <input className="input" type="date" placeholder="Text input" />
                                 </div>
                             </div>
-                            <div class="field">
-                                <label class="label">Page Count</label>
-                                <div class="control">
-                                    <input class="input" type="text" placeholder="Text input" />
+                            <div className="field">
+                                <label className="label">Page Count</label>
+                                <div className="control">
+                                    <input className="input" type="text" placeholder="Text input" />
                                 </div>
                             </div>
-                            <div class="field">
-                                <label class="label">Category</label>
-                                <div class="control">
-                                    <div class="select">
+                            <div className="field">
+                                <label className="label">Category</label>
+                                <div className="control">
+                                    <div className="select">
                                         <select>
                                             <option></option>
                                             {this.props.categories.map(category =>
-                                                <option>{category}</option>
+                                                <option key={this.props.categories.indexOf(category)}>{category}</option>
                                             )}
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                            <div class="field">
-                                <label class="label">Content</label>
-                                <div class="control">
-                                    <textarea class="textarea" placeholder="Textarea"></textarea>
+                            <div className="field">
+                                <label className="label">Content</label>
+                                <div className="control">
+                                    <textarea className="textarea" placeholder="Textarea"></textarea>
                                 </div>
                             </div>
-                            <div class="field">
-                                <label class="label">Password</label>
-                                <div class="control">
-                                    <input class="input" type="password" placeholder="Password" />
+                            <div className="field">
+                                <label className="label">Password</label>
+                                <div className="control">
+                                    <input className="input" type="password" placeholder="Password" />
                                 </div>
                             </div>
-                            <div class="field is-grouped">
-                                <div class="control">
-                                    <button class="button is-link">Submit</button>
+                            <div className="field is-grouped">
+                                <div className="control">
+                                    <button className="button is-link" onClick={this.submit}>Submit</button>
                                 </div>
-                                <div class="control">
-                                    <button class="button is-text">Cancel</button>
+                                <div className="control">
+                                    <Link to="/">
+                                        <button className="button is-text">Cancel</button>
+                                    </Link>
                                 </div>
                             </div>
                         </form> 
