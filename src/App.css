@@ -63,3 +63,11 @@
         -webkit-transform: scaleY(1.0);
         }
     }
+
+/* Mobile */
+@media only screen and (max-width: 600px) {
+    .header-content > div > canvas {
+        max-height: 25vh;
+        background-size: 20%;
+    }
+}
