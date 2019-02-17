@@ -71,14 +71,14 @@ class App extends Component {
                             },
                             "modes": {
                                 "bubble": {
-                                    "distance": 250,
-                                    "duration": 2,
+                                    "distance": 100,
+                                    "duration": 1,
                                     "size": 0,
                                     "opacity": 0
                                 },
                                 "repulse": {
-                                    "distance": 400,
-                                    "duration": 4
+                                    "distance": 200,
+                                    "duration": 2
                                 }
                             }
                         }

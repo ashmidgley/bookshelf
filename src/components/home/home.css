@@ -74,7 +74,7 @@
 
     .child {
         margin-top: 0;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
         padding: .75rem;
     }
 
@@ -108,6 +108,10 @@
         .home-card-content > .subtitle {
             font-size: 13px;
         }
+
+    .home-menu-items {
+        margin-bottom: 25px;
+    }
 }
 
 /* Between mobile and desktop */
