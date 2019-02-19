@@ -11,7 +11,8 @@ class Home extends Component {
         super(props);
         this.state = {
             columnClass: 'column child',
-            reviews: this.props.reviews
+            reviews: this.props.reviews,
+            menuSelected: [true, false, false]
         }
     }
 
@@ -39,12 +40,20 @@ class Home extends Component {
     }
 
     displayAll = () => {
-        this.setState({reviews: this.props.reviews});
+        this.setState({
+            reviews: this.props.reviews,
+            menuSelected: [true, false, false]
+        });
      }
 
      filterReviews(key) {
-         var result = this.props.reviews.filter(r => r.category === key);
-         this.setState({reviews: result});
+        var temp = new Array(this.state.menuSelected.length).fill(false);
+        temp[key + 1] = true;
+        var result = this.props.reviews.filter(r => r.category === key);
+        this.setState({
+            reviews: result,
+            menuSelected: temp
+        });
      }
 
     render() {
@@ -58,10 +67,14 @@ class Home extends Component {
                             </button>
                         </Link>
                     </div>
-                    <button className="button" onClick={this.displayAll} style={{'padding':'0 23px'}}></button>
+                    <button 
+                        className={this.state.menuSelected[0] ? "button selected" : "button"} 
+                        onClick={this.displayAll} 
+                        style={{'padding':'0 23px'}}>
+                    </button>
                     {this.props.categories.map(category =>
                         <button 
-                            className="button"
+                            className={this.state.menuSelected[this.props.categories.indexOf(category) + 1] ? "button selected" : "button"}
                             key={this.props.categories.indexOf(category)}
                             onClick={() => this.filterReviews(this.props.categories.indexOf(category))}>
                             <span role="img" aria-label="Category emoji">{category}</span>
