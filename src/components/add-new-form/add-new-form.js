@@ -1,11 +1,34 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { Formik } from 'formik';
+import { Icon } from 'react-fa';
 import './add-new-form.css';
 
 class AddNewForm extends Component {
+    tempImage = 'https://bulma.io/images/placeholders/96x96.png';
+    imageBase64Prefix = 'data:image/jpg;base64,';
 
-    submit = () => {
-        alert("Nice try dweeb");
+    constructor(props) {
+        super(props);
+        this.state = {
+            image: ''
+        };
+    }
+
+    handleImage(event) {
+        event.preventDefault();
+        let reader = new FileReader();
+        let file = event.target.files[0];
+		reader.onloadend = () => {
+            this.setState({image: reader.result.substr(reader.result.indexOf(',') + 1)});
+		}
+		reader.readAsDataURL(file)
+    }
+
+    submitForm(values) {
+        if(this.state.image)
+            values.image = this.imageBase64Prefix + this.state.image;
+        console.log(JSON.stringify(values, null, 2));
     }
 
     render() {
@@ -13,95 +36,117 @@ class AddNewForm extends Component {
             <div className="column is-8 is-offset-2 review-column"> 
                 <div className="card review-card">
                     <div className="card-content">
-                        <form className="form">
-                            <div className="field">
-                                <label className="label">Title</label>
-                                <div className="control">
-                                    <input className="input" type="text" placeholder="Text input" />
-                                </div>
-                            </div>
-                            <div className="field">
-                                <label className="label">Author</label>
-                                <div className="control">
-                                    <input className="input" type="text" placeholder="Text input" />
-                                </div>
-                            </div>
-                            <div className="field">
-                                <label className="label">Image</label>
-                                <div className="file has-name is-centered">
-                                    <label className="file-label">
-                                        <input className="file-input" type="file" name="resume" />
-                                        <span className="file-cta">
-                                        <span className="file-icon">
-                                            <i className="fas fa-upload"></i>
-                                        </span>
-                                        <span className="file-label">
-                                            Choose a file…
-                                        </span>
-                                        </span>
-                                        <span className="file-name">
-                                        Screen Shot 2017-07-29 at 15.54.25.png
-                                        </span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div className="add-new-image">
-                                <img src="https://bulma.io/images/placeholders/96x96.png" alt="Cover upload" />
-                            </div>
-                            <div className="field">
-                                <label className="label">Started On</label>
-                                <div className="control">
-                                    <input className="input" type="date" placeholder="Text input" />
-                                </div>
-                            </div>
-                            <div className="field">
-                                <label className="label">Finished On</label>
-                                <div className="control">
-                                    <input className="input" type="date" placeholder="Text input" />
-                                </div>
-                            </div>
-                            <div className="field">
-                                <label className="label">Page Count</label>
-                                <div className="control">
-                                    <input className="input" type="text" placeholder="Text input" />
-                                </div>
-                            </div>
-                            <div className="field">
-                                <label className="label">Category</label>
-                                <div className="control">
-                                    <div className="select">
-                                        <select>
-                                            <option></option>
-                                            {this.props.categories.map(category =>
-                                                <option key={this.props.categories.indexOf(category)}>{category}</option>
-                                            )}
-                                        </select>
+                    <Formik
+                        initialValues={{ title: '', image: '', author: '', startedOn: '', finishedOn: '', pageCount: 0, category: 'Fiction', summary: '', password: '' }}
+                        validate={values => {
+                            let errors = {};
+                            if (!values.title)
+                                errors.title = 'Required';
+                            if(!values.author)
+                                errors.author = 'Required';
+                            if(!values.startedOn)
+                                errors.startedOn = 'Required';
+                            if(!values.finishedOn) 
+                                errors.finishedOn = 'Required';
+                            if(!values.pageCount)
+                                errors.pageCount = 'Required';
+                            if(!values.summary)
+                                errors.summary = 'Required';
+                            if(!values.password)
+                                errors.password = 'Required';
+                            return errors;
+                        }}
+                        onSubmit={(values, { setSubmitting }) => {
+                            setTimeout(() => {
+                                this.submitForm(values);
+                                setSubmitting(false);
+                            }, 400);
+                        }}>{({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, setFieldValue }) => (
+                            <form className="form" onSubmit={handleSubmit}>
+                                <div className="field">
+                                    <label className="label">Title</label>
+                                    <div className="control">
+                                        <input className={errors.title && touched.title ? 'input is-danger' : 'input'} type="text" name="title" placeholder="Enter title" onChange={handleChange} onBlur={handleBlur} value={values.title} />
                                     </div>
                                 </div>
-                            </div>
-                            <div className="field">
-                                <label className="label">Content</label>
-                                <div className="control">
-                                    <textarea className="textarea" placeholder="Textarea"></textarea>
+                                <div className="field">
+                                    <label className="label">Image</label>
+                                    <div className="file has-name is-centered">
+                                        <label className="file-label">
+                                            <input className="file-input" id="image" type="file" name="image" 
+                                                onChange={(event) => {
+                                                    this.handleImage(event)
+                                                    setFieldValue("image", event.currentTarget.files[0].name);
+                                                }} 
+                                            />
+                                            <span className="file-cta">
+                                                <span className="file-icon"><Icon name="upload" /></span>
+                                                <span className="file-label"> Choose a file…</span>
+                                            </span>
+                                            {values.image ? <span className="file-name">{values.image}</span> : null}
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="field">
-                                <label className="label">Password</label>
-                                <div className="control">
-                                    <input className="input" type="password" placeholder="Password" />
+                                <div className="add-new-image">
+                                    {this.state.image ? <img src={this.imageBase64Prefix + this.state.image} width="96" height="96" /> 
+                                    : <img src={this.tempImage} alt="Placeholder image" />}
                                 </div>
-                            </div>
-                            <div className="field is-grouped">
-                                <div className="control">
-                                    <button className="button is-link" onClick={this.submit}>Submit</button>
+                                <div className="field">
+                                    <label className="label">Author</label>
+                                    <div className="control">
+                                        <input className={errors.author && touched.author ? 'input is-danger' : 'input'} type="text" name="author" placeholder="Enter author" onChange={handleChange} onBlur={handleBlur} value={values.author} />
+                                    </div>
                                 </div>
-                                <div className="control">
-                                    <Link to="/">
-                                        <button className="button is-text">Cancel</button>
-                                    </Link>
+                                <div className="field">
+                                    <label className="label">Started On</label>
+                                    <div className="control">
+                                        <input className={errors.startedOn && touched.startedOn ? 'input is-danger' : 'input'} name="startedOn" type="date" onChange={handleChange} onBlur={handleBlur} value={values.startedOn} />
+                                    </div>
                                 </div>
-                            </div>
-                        </form> 
+                                <div className="field">
+                                    <label className="label">Finished On</label>
+                                    <div className="control">
+                                        <input className={errors.finishedOn && touched.finishedOn ? 'input is-danger' : 'input'} type="date" name="finishedOn" onChange={handleChange} onBlur={handleBlur} value={values.finishedOn} />
+                                    </div>
+                                </div>
+                                <div className="field">
+                                    <label className="label">Page Count</label>
+                                    <div className="control">
+                                        <input className={errors.pageCount && touched.pageCount ? 'input is-danger' : 'input'} type="number" name="pageCount" placeholder="Enter page count" onChange={handleChange} onBlur={handleBlur} value={values.pageCount}/>
+                                    </div>
+                                </div>
+                                <div className="field">
+                                    <label className="label">Category</label>
+                                    <div className="control">
+                                        <label className="radio">
+                                            <input type="radio" name="category" value={values.category} onBlur={handleBlur} id="Fiction"  checked={values.category === 'Fiction'} onChange={() => {setFieldValue('category', 'Fiction')}} />
+                                            Fiction
+                                        </label>
+                                        <label className="radio">
+                                            <input type="radio" name="category" value={values.category} onBlur={handleBlur} id="Non-Fiction" checked={values.category === 'Non-Fiction'} onChange={() => {setFieldValue('category', 'Non-Fiction')}}/>
+                                            Non-Fiction
+                                        </label>
+                                    </div>
+                                </div>   
+                                <div className="field">
+                                    <label className="label">Summary</label>
+                                    <div className="control">
+                                        <textarea className={errors.summary && touched.summary ? 'textarea is-danger' : 'textarea'} name="summary" placeholder="Enter summary" onChange={handleChange} onBlur={handleBlur} value={values.summary}></textarea>
+                                    </div>
+                                </div>
+                                <div className="field">
+                                    <label className="label">Password</label>
+                                    <div className="control">
+                                        <input className={errors.password && touched.password ? 'input is-danger' : 'input'} type="password" name="password" placeholder="Enter password" onChange={handleChange} onBlur={handleBlur} value={values.password} />
+                                    </div>
+                                </div>
+                                <button className="button is-link" type="submit" disabled={isSubmitting}>Submit</button>
+                                <Link to="/">
+                                    <button className="button is-text">Cancel</button>
+                                </Link>
+                            </form>
+                        )}
+                        </Formik>
                     </div>
                 </div>
             </div>
