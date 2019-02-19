@@ -1,3 +1,11 @@
 .add-new-image {
     text-align: center;
 }
+
+.radio-container .radio {
+    margin-left: 3px;
+}
+
+.radio-container > input:not(:first-child) {
+    margin-left: 10px;
+}

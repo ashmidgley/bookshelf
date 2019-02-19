@@ -7,6 +7,7 @@ import './add-new-form.css';
 class AddNewForm extends Component {
     tempImage = 'https://bulma.io/images/placeholders/96x96.png';
     imageBase64Prefix = 'data:image/jpg;base64,';
+    allowedTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/svg'];
 
     constructor(props) {
         super(props);
@@ -26,8 +27,13 @@ class AddNewForm extends Component {
     }
 
     submitForm(values) {
-        if(this.state.image)
+        if(values.password !== 'Password1!') {
+            alert('Nice try scrub');
+            return;
+        }
+        if(this.state.image){
             values.image = this.imageBase64Prefix + this.state.image;
+        }
         console.log(JSON.stringify(values, null, 2));
     }
 
@@ -37,7 +43,7 @@ class AddNewForm extends Component {
                 <div className="card review-card">
                     <div className="card-content">
                     <Formik
-                        initialValues={{ title: '', image: '', author: '', startedOn: '', finishedOn: '', pageCount: 0, category: 'Fiction', summary: '', password: '' }}
+                        initialValues={{ title: '', image: '', imageName: '', imageFileType: '', author: '', startedOn: '', finishedOn: '', pageCount: 0, category: 'Fiction', summary: '', password: '' }}
                         validate={values => {
                             let errors = {};
                             if (!values.title)
@@ -54,6 +60,10 @@ class AddNewForm extends Component {
                                 errors.summary = 'Required';
                             if(!values.password)
                                 errors.password = 'Required';
+                            if(values.imageFileType && this.allowedTypes.indexOf(values.imageFileType) === -1)
+                                errors.image = 'File does not match allowed types';
+                            if(!values.imageName)
+                                errors.image = 'Required';
                             return errors;
                         }}
                         onSubmit={(values, { setSubmitting }) => {
@@ -73,23 +83,24 @@ class AddNewForm extends Component {
                                     <label className="label">Image</label>
                                     <div className="file has-name is-centered">
                                         <label className="file-label">
-                                            <input className="file-input" id="image" type="file" name="image" 
+                                            <input className="file-input" id="image" type="file" name="image"
                                                 onChange={(event) => {
                                                     this.handleImage(event)
-                                                    setFieldValue("image", event.currentTarget.files[0].name);
+                                                    const file = event.currentTarget.files[0];
+                                                    setFieldValue("imageName", file.name);
+                                                    setFieldValue("imageFileType", file.type);
                                                 }} 
                                             />
                                             <span className="file-cta">
-                                                <span className="file-icon"><Icon name="upload" /></span>
-                                                <span className="file-label"> Choose a file…</span>
+                                                <span className="file-icon"><Icon name="upload" /></span><span className="file-label"> Choose a file…</span>
                                             </span>
-                                            {values.image ? <span className="file-name">{values.image}</span> : null}
+                                            {values.imageName ? <span className="file-name">{values.imageName}</span> : null}
                                         </label>
                                     </div>
+                                    {errors.image && touched.image ? <p className="help is-danger" style={{'textAlign': 'center'}}>{errors.image}</p> : null}
                                 </div>
                                 <div className="add-new-image">
-                                    {this.state.image ? <img src={this.imageBase64Prefix + this.state.image} width="96" height="96" /> 
-                                    : <img src={this.tempImage} alt="Placeholder image" />}
+                                    {!errors.image && this.state.image && values.imageName ? <img src={this.imageBase64Prefix + this.state.image} alt={values.imageName} width="96" height="96" /> : <img src={this.tempImage} alt="Placeholder" />}
                                 </div>
                                 <div className="field">
                                     <label className="label">Author</label>
@@ -117,15 +128,11 @@ class AddNewForm extends Component {
                                 </div>
                                 <div className="field">
                                     <label className="label">Category</label>
-                                    <div className="control">
-                                        <label className="radio">
-                                            <input type="radio" name="category" value={values.category} onBlur={handleBlur} id="Fiction"  checked={values.category === 'Fiction'} onChange={() => {setFieldValue('category', 'Fiction')}} />
-                                            Fiction
-                                        </label>
-                                        <label className="radio">
-                                            <input type="radio" name="category" value={values.category} onBlur={handleBlur} id="Non-Fiction" checked={values.category === 'Non-Fiction'} onChange={() => {setFieldValue('category', 'Non-Fiction')}}/>
-                                            Non-Fiction
-                                        </label>
+                                    <div className="control radio-container">
+                                        <input type="radio" name="category" value={values.category} onBlur={handleBlur} id="Fiction" checked={values.category === 'Fiction'} onChange={() => {setFieldValue('category', 'Fiction')}} />
+                                        <label className="radio">Fiction</label>
+                                        <input type="radio" name="category" value={values.category} onBlur={handleBlur} id="Non-Fiction" checked={values.category === 'Non-Fiction'} onChange={() => {setFieldValue('category', 'Non-Fiction')}}/>
+                                        <label className="radio">Non-Fiction</label>
                                     </div>
                                 </div>   
                                 <div className="field">
