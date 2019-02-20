@@ -42,6 +42,11 @@ class AddNewForm extends Component {
             <div className="column is-8 is-offset-2 review-column"> 
                 <div className="card review-card">
                     <div className="card-content">
+                    <div className="media">
+                        <div className="image-header-container">
+                            <img src="/images/plus.png" className="image-header" alt="Image header" />
+                        </div>
+                    </div>
                     <Formik
                         initialValues={{ title: '', image: '', imageName: '', imageFileType: '', author: '', startedOn: '', finishedOn: '', pageCount: 0, category: 'Fiction', summary: '', password: '' }}
                         validate={values => {
