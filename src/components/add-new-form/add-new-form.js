@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import { Icon } from 'react-fa';
+import Entry from '../../models/entry';
 import './add-new-form.css';
 
 class AddNewForm extends Component {
@@ -31,10 +32,9 @@ class AddNewForm extends Component {
             alert('Nice try scrub');
             return;
         }
-        if(this.state.image){
-            values.image = this.imageBase64Prefix + this.state.image;
-        }
-        console.log(JSON.stringify(values, null, 2));
+        var result = new Entry(this.imageBase64Prefix + this.state.image, values.title, values.author, values.startedOn, 
+            values.finishedOn, values.pageCount, values.category, values.content);
+        console.log(result);
     }
 
     render() {
@@ -44,11 +44,11 @@ class AddNewForm extends Component {
                     <div className="card-content">
                     <div className="media">
                         <div className="image-header-container">
-                            <img src="/images/plus.png" className="image-header" alt="Image header" />
+                            <img src="/images/plus.png" className="image-header" alt="Plus emoji" />
                         </div>
                     </div>
                     <Formik
-                        initialValues={{ title: '', image: '', imageName: '', imageFileType: '', author: '', startedOn: '', finishedOn: '', pageCount: 0, category: 'Fiction', summary: '', password: '' }}
+                        initialValues={{ title: '', image: '', imageName: '', imageFileType: '', author: '', startedOn: '', finishedOn: '', pageCount: 0, category: 'Fiction', content: '', password: '' }}
                         validate={values => {
                             let errors = {};
                             if (!values.title)
@@ -61,14 +61,14 @@ class AddNewForm extends Component {
                                 errors.finishedOn = 'Required';
                             if(!values.pageCount)
                                 errors.pageCount = 'Required';
-                            if(!values.summary)
-                                errors.summary = 'Required';
-                            if(!values.password)
-                                errors.password = 'Required';
+                            if(!values.content)
+                                errors.content = 'Required';
                             if(values.imageFileType && this.allowedTypes.indexOf(values.imageFileType) === -1)
                                 errors.image = 'File does not match allowed types';
                             if(!values.imageName)
                                 errors.image = 'Required';
+                            if(!values.password)
+                                errors.password = 'Required';
                             return errors;
                         }}
                         onSubmit={(values, { setSubmitting }) => {
@@ -143,7 +143,7 @@ class AddNewForm extends Component {
                                 <div className="field">
                                     <label className="label">Summary</label>
                                     <div className="control">
-                                        <textarea className={errors.summary && touched.summary ? 'textarea is-danger' : 'textarea'} name="summary" placeholder="Enter summary" onChange={handleChange} onBlur={handleBlur} value={values.summary}></textarea>
+                                        <textarea className={errors.content && touched.content ? 'textarea is-danger' : 'textarea'} name="content" placeholder="Enter summary" onChange={handleChange} onBlur={handleBlur} value={values.content}></textarea>
                                     </div>
                                 </div>
                                 <div className="field">
