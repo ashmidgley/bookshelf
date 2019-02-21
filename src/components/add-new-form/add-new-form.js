@@ -17,6 +17,18 @@ class AddNewForm extends Component {
         };
     }
 
+    componentDidMount() {
+        const url = 'http://localhost:5000/api/values/2';
+
+        fetch(url)
+            .then(function(data) {
+                console.log(data);
+            })
+            .catch(function(error) {
+                console.log(error)
+            });
+    }
+
     handleImage(event) {
         event.preventDefault();
         let reader = new FileReader();
@@ -34,7 +46,12 @@ class AddNewForm extends Component {
         }
         var result = new Entry(this.imageBase64Prefix + this.state.image, values.title, values.author, values.startedOn, 
             values.finishedOn, values.pageCount, values.category, values.content);
-        console.log(result);
+
+        let fetchData = {
+            method: 'POST',
+            body: result,
+            headers: new Headers()
+        }
     }
 
     render() {
