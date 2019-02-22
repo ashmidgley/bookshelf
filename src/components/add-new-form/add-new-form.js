@@ -18,7 +18,7 @@ class AddNewForm extends Component {
     }
 
     componentDidMount() {
-        const url = 'http://localhost:5000/api/values/2';
+        const url = 'https://reads-backend.azurewebsites.net/api/values/1';
 
         fetch(url)
             .then(function(data) {
