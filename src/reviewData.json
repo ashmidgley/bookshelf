@@ -98,6 +98,17 @@
             "pageCount": 275,
             "category": 1,
             "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+        },
+        {
+            "id": "9",
+            "image": "man-vs-beast.jpg",
+            "title": "Man vs. Beast",
+            "author": "Robert Muchamore",
+            "startedOn": "2019-02-20",
+            "finishedOn": "2019-02-23",
+            "pageCount": 314,
+            "category": 0,
+            "content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
         }
     ]
 }
