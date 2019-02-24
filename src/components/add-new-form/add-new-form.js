@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import { Icon } from 'react-fa';
-import Entry from '../../models/entry';
+import Book from '../../models/book';
 import './add-new-form.css';
 
 class AddNewForm extends Component {
@@ -17,18 +17,6 @@ class AddNewForm extends Component {
         };
     }
 
-    componentDidMount() {
-        const url = 'https://reads-backend.azurewebsites.net/api/values/1';
-
-        fetch(url)
-            .then(function(data) {
-                console.log(data);
-            })
-            .catch(function(error) {
-                console.log(error)
-            });
-    }
-
     handleImage(event) {
         event.preventDefault();
         let reader = new FileReader();
@@ -40,18 +28,28 @@ class AddNewForm extends Component {
     }
 
     submitForm(values) {
+        const url = 'https://reads-backend.azurewebsites.net/api/values/1';
         if(values.password !== 'Password1!') {
             alert('Nice try scrub');
             return;
         }
-        var result = new Entry(this.imageBase64Prefix + this.state.image, values.title, values.author, values.startedOn, 
-            values.finishedOn, values.pageCount, values.category, values.content);
+        var result = new Book(this.imageBase64Prefix + this.state.image, values.title, values.author, values.startedOn, 
+            values.finishedOn, values.pageCount, values.category, values.summary);
+        console.log(result);
 
         let fetchData = {
             method: 'POST',
             body: result,
             headers: new Headers()
         }
+
+        fetch(url)
+            .then(function(data) {
+                console.log(data);
+            })
+            .catch(function(error) {
+                console.log(error)
+            });
     }
 
     render() {
@@ -65,7 +63,7 @@ class AddNewForm extends Component {
                         </div>
                     </div>
                     <Formik
-                        initialValues={{ title: '', image: '', imageName: '', imageFileType: '', author: '', startedOn: '', finishedOn: '', pageCount: 0, category: 'Fiction', content: '', password: '' }}
+                        initialValues={{ title: '', image: '', imageName: '', imageFileType: '', author: '', startedOn: '', finishedOn: '', pageCount: 0, category: 'Fiction', summary: '', password: '' }}
                         validate={values => {
                             let errors = {};
                             if (!values.title)
@@ -78,8 +76,8 @@ class AddNewForm extends Component {
                                 errors.finishedOn = 'Required';
                             if(!values.pageCount)
                                 errors.pageCount = 'Required';
-                            if(!values.content)
-                                errors.content = 'Required';
+                            if(!values.summary)
+                                errors.summary = 'Required';
                             if(values.imageFileType && this.allowedTypes.indexOf(values.imageFileType) === -1)
                                 errors.image = 'File does not match allowed types';
                             if(!values.imageName)
@@ -160,7 +158,7 @@ class AddNewForm extends Component {
                                 <div className="field">
                                     <label className="label">Summary</label>
                                     <div className="control">
-                                        <textarea className={errors.content && touched.content ? 'textarea is-danger' : 'textarea'} name="content" placeholder="Enter summary" onChange={handleChange} onBlur={handleBlur} value={values.content}></textarea>
+                                        <textarea className={errors.summary && touched.summary ? 'textarea is-danger' : 'textarea'} name="summary" placeholder="Enter summary" onChange={handleChange} onBlur={handleBlur} value={values.summary}></textarea>
                                     </div>
                                 </div>
                                 <div className="field">

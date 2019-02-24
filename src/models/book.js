@@ -1,5 +1,5 @@
-class Entry {
-    constructor(image, title, author, startedOn, finshedOn, pageCount, category, content){
+class Book {
+    constructor(image, title, author, startedOn, finshedOn, pageCount, category, summary){
         this.image = image;
         this.title = title;
         this.author = author;
@@ -7,7 +7,7 @@ class Entry {
         this.finshedOn = finshedOn;
         this.pageCount = pageCount;
         this.category = category;
-        this.content = content;
+        this.summary = summary;
     }
 
     id;
@@ -18,7 +18,7 @@ class Entry {
     finishedOn;
     pageCount;
     category;
-    content;
+    summary;
 }
 
-export default Entry;
+export default Book;

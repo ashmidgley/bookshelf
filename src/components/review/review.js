@@ -25,7 +25,7 @@ class Review extends Component {
                         </div>
                         
                     </div>
-                    <div className="review-content has-text-centered" dangerouslySetInnerHTML={{ __html: this.props.review.content }}></div>
+                    <div className="review-content has-text-centered" dangerouslySetInnerHTML={{ __html: this.props.review.summary }}></div>
                 </div>
             </div>
         );

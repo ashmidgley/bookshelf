@@ -91,7 +91,7 @@ class Home extends Component {
                 <div className="columns is-multiline">
                     {this.state.reviews.map(review =>
                         <div className={this.state.columnClass} key={review.id}>
-                            <Link to={`/review/${review.id}`} style={(review.content) ? {} : { pointerEvents: 'none', cursor: 'default'}}>
+                            <Link to={`/review/${review.id}`} style={(review.summary) ? {} : { pointerEvents: 'none', cursor: 'default'}}>
                                 <div className="card home-tile">
                                     <div className="card-image">
                                         <figure className="image">
@@ -102,7 +102,7 @@ class Home extends Component {
                                         <p className="title is-6 handle-wrap">{review.title}</p>
                                         <p className="subtitle is-6 handle-wrap">{review.author}</p>
                                         <div className="content home-content">
-                                            <p id="tile-content">{review.content.replace(/<[^>]+>/g, '').substr(0, 50)}...</p>
+                                            <p id="tile-content">{review.summary.replace(/<[^>]+>/g, '').substr(0, 50)}...</p>
                                             <div className="tags has-addons level-item">
                                                 <span className="tag is-rounded">{moment(review.finishedOn).format('Do MMMM ')}</span>
                                             </div>
