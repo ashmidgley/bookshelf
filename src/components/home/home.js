@@ -74,10 +74,10 @@ class Home extends Component {
                     </button>
                     {this.props.categories.map(category =>
                         <button 
-                            className={this.state.menuSelected[this.props.categories.indexOf(category) + 1] ? "button selected" : "button"}
-                            key={this.props.categories.indexOf(category)}
-                            onClick={() => this.filterReviews(this.props.categories.indexOf(category))}>
-                            <span role="img" aria-label="Category emoji">{category}</span>
+                            className={this.state.menuSelected[category.id + 1] ? "button selected" : "button"}
+                            key={category.id}
+                            onClick={() => this.filterReviews(category.id)}>
+                            <span role="img" aria-label="Category emoji">{category.emoji}</span>
                         </button>
                     )}
                     <div className="is-pulled-right">

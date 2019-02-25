@@ -37,11 +37,11 @@ class AddNewForm extends Component {
             values.finishedOn, values.pageCount, values.category, values.summary);
         console.log(result);
 
-        let fetchData = {
-            method: 'POST',
-            body: result,
-            headers: new Headers()
-        }
+        // let fetchData = {
+        //     method: 'POST',
+        //     body: result,
+        //     headers: new Headers()
+        // }
 
         fetch(url)
             .then(function(data) {
@@ -149,10 +149,12 @@ class AddNewForm extends Component {
                                 <div className="field">
                                     <label className="label">Category</label>
                                     <div className="control radio-container">
-                                        <input type="radio" name="category" value={values.category} onBlur={handleBlur} id="Fiction" checked={values.category === 'Fiction'} onChange={() => {setFieldValue('category', 'Fiction')}} />
-                                        <label className="radio">Fiction</label>
-                                        <input type="radio" name="category" value={values.category} onBlur={handleBlur} id="Non-Fiction" checked={values.category === 'Non-Fiction'} onChange={() => {setFieldValue('category', 'Non-Fiction')}}/>
-                                        <label className="radio">Non-Fiction</label>
+                                        {this.props.categories.map(category =>
+                                            <div key={category.id}> 
+                                                <input type="radio" name="category" id={category.description} value={values.category} checked={values.category === category.description} onChange={() => {setFieldValue('category', category.description)}} onBlur={handleBlur} />
+                                                <label className="radio">{category.description}</label>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>   
                                 <div className="field">

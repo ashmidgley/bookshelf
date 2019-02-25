@@ -6,16 +6,15 @@ import Footer from './components/footer/footer';
 import reviewsData from './reviewData.json';
 import AddNewForm from './components/add-new-form/add-new-form';
 import Particles from 'react-particles-js';
+import Category from './models/category';
 import { Link } from 'react-router-dom';
 import * as moment from 'moment';
 import './App.css';
 
 class App extends Component {
-
-  reviews = [];
-  categories = ['🧙', '🧠'];
-  categoryNames = ['Fiction', 'Non-fiction'];
-  totalReviews = 52;
+  reviews;
+  categories;
+  totalReviews;
 
   constructor(props){
     super(props);
@@ -23,6 +22,8 @@ class App extends Component {
       loading: true
     }
     this.reviews = reviewsData.reviews.sort((a, b) => moment(b.finishedOn).valueOf() - moment(a.finishedOn).valueOf());
+    this.categories = [new Category(0, 'Fiction', '🧙'), new Category(1, 'Non-fiction', '🧠')];
+    this.totalReviews = 52;
   }
 
   render() { return (
@@ -92,7 +93,7 @@ class App extends Component {
                   <Review review={this.reviews.find(r => r.id === match.params.reviewId)} />
                 )} />
                 <Route path="/add-new" render={() => (
-                  <AddNewForm categories={this.categoryNames} />
+                  <AddNewForm categories={this.categories} />
                 )} />
               </div>
             <Footer />
