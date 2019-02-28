@@ -22,7 +22,9 @@ class App extends Component {
       loading: true
     }
     this.reviews = reviewsData.reviews.sort((a, b) => moment(b.finishedOn).valueOf() - moment(a.finishedOn).valueOf());
-    this.categories = [new Category(0, 'Fiction', '🧙'), new Category(1, 'Non-fiction', '🧠')];
+    this.categories = [new Category(0, 'Fiction', '0x1F9DD'), new Category(1, 'Non-fiction', '0x1F9E0')];
+    this.plusCode = '0x2795';
+    this.barCode = '0x1F4C8';
     this.totalReviews = 52;
   }
 
@@ -87,7 +89,7 @@ class App extends Component {
                 </div>
               </Link>
                 <Route exact={true} path="/" render={() => (
-                  <Home reviews={this.reviews} totalReviews={this.totalReviews} categories={this.categories} />
+                  <Home reviews={this.reviews} totalReviews={this.totalReviews} categories={this.categories} plusCode={this.plusCode} barCode={this.barCode} />
                 )} />
                 <Route path="/review/:reviewId" render={({match}) => (
                   <Review review={this.reviews.find(r => r.id === match.params.reviewId)} />

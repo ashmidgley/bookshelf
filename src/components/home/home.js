@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalculator } from '@fortawesome/free-solid-svg-icons';
 import * as moment from 'moment';
+import * as punycode from 'punycode';
 import './home.css'
 
 class Home extends Component {
@@ -63,7 +64,7 @@ class Home extends Component {
                     <div className="is-pulled-left">
                         <Link to={'/add-new'}>
                             <button className="button">
-                                <span role="img" aria-label="Plus emoji">➕</span>
+                                <span role="img" aria-label="Plus emoji">{punycode.ucs2.encode([this.props.plusCode])}</span>
                             </button>
                         </Link>
                     </div>
@@ -77,13 +78,13 @@ class Home extends Component {
                             className={this.state.menuSelected[category.id + 1] ? "button selected" : "button"}
                             key={category.id}
                             onClick={() => this.filterReviews(category.id)}>
-                            <span role="img" aria-label="Category emoji">{category.emoji}</span>
+                            <span role="img" aria-label="Category emoji">{punycode.ucs2.encode([category.emoji])}</span>
                         </button>
                     )}
                     <div className="is-pulled-right">
                         <a href="#progress-container">
                             <button className="button">
-                                <span role="img" aria-label="Progress emoji">📊</span>
+                                <span role="img" aria-label="Progress emoji">{punycode.ucs2.encode([this.props.barCode])}</span>
                             </button>
                         </a>
                     </div>
