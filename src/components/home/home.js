@@ -50,7 +50,7 @@ class Home extends Component {
      filterReviews(key) {
         var temp = new Array(this.state.menuSelected.length).fill(false);
         temp[key + 1] = true;
-        var result = this.props.reviews.filter(r => r.category === key);
+        var result = this.props.reviews.filter(r => r.categoryId === key);
         this.setState({
             reviews: result,
             menuSelected: temp
@@ -78,7 +78,7 @@ class Home extends Component {
                             className={this.state.menuSelected[category.id + 1] ? "button selected" : "button"}
                             key={category.id}
                             onClick={() => this.filterReviews(category.id)}>
-                            <span role="img" aria-label="Category emoji">{punycode.ucs2.encode([category.emoji])}</span>
+                            <span role="img" aria-label="Category emoji">{punycode.ucs2.encode([category.code])}</span>
                         </button>
                     )}
                     <div className="is-pulled-right">
@@ -92,25 +92,25 @@ class Home extends Component {
                 <div className="columns is-multiline">
                     {this.state.reviews.map(review =>
                         <div className={this.state.columnClass} key={review.id}>
-                            <Link to={`/review/${review.id}`} style={(review.summary) ? {} : { pointerEvents: 'none', cursor: 'default'}}>
+                            {/* <Link to={`/review/${review.id}`} style={(review.summary) ? {} : { pointerEvents: 'none', cursor: 'default'}}> */}
                                 <div className="card home-tile">
                                     <div className="card-image">
                                         <figure className="image">
-                                            <img src={'/images/' + review.image} alt="Home tile" />
+                                            <img src={review.image} alt="Home tile" />
                                         </figure>
                                     </div>
                                     <div className="card-content home-card-content">
                                         <p className="title is-6 handle-wrap">{review.title}</p>
                                         <p className="subtitle is-6 handle-wrap">{review.author}</p>
                                         <div className="content home-content">
-                                            <p id="tile-content">{review.summary.replace(/<[^>]+>/g, '').substr(0, 50)}...</p>
+                                            {/* <p id="tile-content">{review.summary.replace(/<[^>]+>/g, '').substr(0, 50)}...</p> */}
                                             <div className="tags has-addons level-item">
                                                 <span className="tag is-rounded">{moment(review.finishedOn).format('Do MMMM ')}</span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </Link>
+                            {/* </Link> */}
                         </div>
                     )}
                 </div>

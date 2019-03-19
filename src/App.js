@@ -3,32 +3,59 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Home from './components/home/home';
 import Review from './components/review/review';
 import Footer from './components/footer/footer';
-import reviewsData from './reviewData.json';
 import AddNewForm from './components/add-new-form/add-new-form';
 import Particles from 'react-particles-js';
-import Category from './models/category';
 import { Link } from 'react-router-dom';
 import * as moment from 'moment';
+import axios from 'axios';
 import './App.css';
 
 class App extends Component {
-  reviews;
-  categories;
-  totalReviews;
+  apiEndpoint = "http://128.199.129.60:5000/api/";
+  plusCode ='0x2795';
+  barCode = '0x1F4C8';
+  totalReviews = 52;
 
   constructor(props){
     super(props);
     this.state = {
-      loading: true
+      books: [],
+      categories: []
     }
-    this.reviews = reviewsData.reviews.sort((a, b) => moment(b.finishedOn).valueOf() - moment(a.finishedOn).valueOf());
-    this.categories = [new Category(0, 'Fiction', '0x1F9DD'), new Category(1, 'Non-fiction', '0x1F9E0')];
-    this.plusCode = '0x2795';
-    this.barCode = '0x1F4C8';
-    this.totalReviews = 52;
   }
 
-  render() { return (
+  componentDidMount() {
+    this.getBooks();
+    this.getCategories();
+  }
+
+  getBooks() {
+    axios.get(this.apiEndpoint + 'books')
+    .then(response => {
+      const books = response.data.sort((a, b) => moment(b.finishedOn).valueOf() - moment(a.finishedOn).valueOf());
+      this.setState({books});
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  }
+
+  getCategories() {
+    axios.get(this.apiEndpoint + 'categories')
+    .then(response => {
+      this.setState({categories: response.data});
+    })
+    .catch(error => {
+      console.log(error);
+    })
+  }
+
+  render() {
+    var loading = true;
+    if (this.state.books !== undefined && this.state.books.length > 0) {
+      loading = false;
+    }
+    return (
         <Router>
           <div className="App">
             <div className="screen-content">
@@ -88,15 +115,26 @@ class App extends Component {
                     }} />
                 </div>
               </Link>
-                <Route exact={true} path="/" render={() => (
-                  <Home reviews={this.reviews} totalReviews={this.totalReviews} categories={this.categories} plusCode={this.plusCode} barCode={this.barCode} />
-                )} />
-                <Route path="/review/:reviewId" render={({match}) => (
-                  <Review review={this.reviews.find(r => r.id === match.params.reviewId)} />
-                )} />
-                <Route path="/add-new" render={() => (
-                  <AddNewForm categories={this.categories} />
-                )} />
+                  {loading ?
+                    <div className="spinner">
+                      <div className="rect1"></div>
+                      <div className="rect2"></div>
+                      <div className="rect3"></div>
+                      <div className="rect4"></div>
+                      <div className="rect5"></div>
+                    </div>
+                    :
+                    <div>
+                    <Route exact={true} path="/" render={() => (
+                      <Home reviews={this.state.books} totalReviews={this.totalReviews} categories={this.state.categories} plusCode={this.plusCode} barCode={this.barCode} />
+                    )} />
+                    {/* <Route path="/review/:reviewId" render={({match}) => (
+                      <Review review={this.state.books.find(r => r.id === match.params.reviewId)} />
+                    )} /> */}
+                    <Route path="/add-new" render={() => (
+                      <AddNewForm categories={this.state.categories} apiEndpoint={this.apiEndpoint} />
+                    )} />
+                  </div>}
               </div>
             <Footer />
           </div>

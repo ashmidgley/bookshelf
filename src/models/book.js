@@ -1,23 +1,22 @@
 class Book {
-    constructor(image, title, author, startedOn, finshedOn, pageCount, category, summary){
+    constructor(categoryId, image, title, author, startedOn, finishedOn, pageCount){
+        this.categoryId = categoryId;
         this.image = image;
         this.title = title;
         this.author = author;
         this.startedOn = startedOn;
-        this.finshedOn = finshedOn;
+        this.finishedOn = finishedOn;
         this.pageCount = pageCount;
-        this.category = category;
-        this.summary = summary;
     }
 
     id;
+    categoryId;
     image;
     title;
     author;
     startedOn;
     finishedOn;
     pageCount;
-    category;
     summary;
 }
 

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import { Icon } from 'react-fa';
 import Book from '../../models/book';
+import * as axios from 'axios';
 import './add-new-form.css';
 
 class AddNewForm extends Component {
@@ -13,7 +14,9 @@ class AddNewForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            image: ''
+            image: '',
+            submitSuccess: false,
+            submitError: false
         };
     }
 
@@ -27,29 +30,22 @@ class AddNewForm extends Component {
 		reader.readAsDataURL(file)
     }
 
-    submitForm(values) {
-        const url = 'https://reads-backend.azurewebsites.net/api/values/1';
-        if(values.password !== 'Password1!') {
+    postEntry(values) {
+        if(values.password !== 'yW%-Ya9%weuuQcZMRved') {
             alert('Nice try scrub');
             return;
-        }
-        var result = new Book(this.imageBase64Prefix + this.state.image, values.title, values.author, values.startedOn, 
-            values.finishedOn, values.pageCount, values.category, values.summary);
-        console.log(result);
+        }   
+        var book = new Book(values.category, this.imageBase64Prefix + this.state.image, values.title, values.author, values.startedOn, values.finishedOn, values.pageCount);
 
-        // let fetchData = {
-        //     method: 'POST',
-        //     body: result,
-        //     headers: new Headers()
-        // }
-
-        fetch(url)
-            .then(function(data) {
-                console.log(data);
-            })
-            .catch(function(error) {
-                console.log(error)
-            });
+        axios.post(this.props.apiEndpoint + 'books', book)
+          .then(function (response) {
+            console.log(response);
+            alert("Successfully submitted new entry.");
+          })
+          .catch(function (error) {
+            console.log(error);
+            alert("Error submitting entry. Check console.");
+          })
     }
 
     render() {
@@ -63,7 +59,7 @@ class AddNewForm extends Component {
                         </div>
                     </div>
                     <Formik
-                        initialValues={{ title: '', image: '', imageName: '', imageFileType: '', author: '', startedOn: '', finishedOn: '', pageCount: 0, category: 'Fiction', summary: '', password: '' }}
+                        initialValues={{ title: '', image: '', imageName: '', imageFileType: '', author: '', startedOn: '', finishedOn: '', pageCount: 0, category: 1, password: '' }}
                         validate={values => {
                             let errors = {};
                             if (!values.title)
@@ -76,8 +72,8 @@ class AddNewForm extends Component {
                                 errors.finishedOn = 'Required';
                             if(!values.pageCount)
                                 errors.pageCount = 'Required';
-                            if(!values.summary)
-                                errors.summary = 'Required';
+                            // if(!values.summary)
+                            //     errors.summary = 'Required';
                             if(values.imageFileType && this.allowedTypes.indexOf(values.imageFileType) === -1)
                                 errors.image = 'File does not match allowed types';
                             if(!values.imageName)
@@ -88,7 +84,7 @@ class AddNewForm extends Component {
                         }}
                         onSubmit={(values, { setSubmitting }) => {
                             setTimeout(() => {
-                                this.submitForm(values);
+                                this.postEntry(values);
                                 setSubmitting(false);
                             }, 400);
                         }}>{({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, setFieldValue }) => (
@@ -151,18 +147,18 @@ class AddNewForm extends Component {
                                     <div className="control radio-container">
                                         {this.props.categories.map(category =>
                                             <div key={category.id}> 
-                                                <input type="radio" name="category" id={category.description} value={values.category} checked={values.category === category.description} onChange={() => {setFieldValue('category', category.description)}} onBlur={handleBlur} />
+                                                <input type="radio" name="category" id={category.id} value={values.category} checked={values.category === category.id} onChange={() => {setFieldValue('category', category.id)}} onBlur={handleBlur} />
                                                 <label className="radio">{category.description}</label>
                                             </div>
                                         )}
                                     </div>
                                 </div>   
-                                <div className="field">
+                                {/* <div className="field">
                                     <label className="label">Summary</label>
                                     <div className="control">
                                         <textarea className={errors.summary && touched.summary ? 'textarea is-danger' : 'textarea'} name="summary" placeholder="Enter summary" onChange={handleChange} onBlur={handleBlur} value={values.summary}></textarea>
                                     </div>
-                                </div>
+                                </div> */}
                                 <div className="field">
                                     <label className="label">Password</label>
                                     <div className="control">
