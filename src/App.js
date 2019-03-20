@@ -11,7 +11,7 @@ import axios from 'axios';
 import './App.css';
 
 class App extends Component {
-  apiEndpoint = "http://localhost:5000/api/";
+  apiEndpoint = "http://128.199.129.60:5000/api/";
   plusCode ='0x2795';
   barCode = '0x1F4C8';
   totalReviews = 52;
