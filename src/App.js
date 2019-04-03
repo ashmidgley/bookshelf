@@ -6,53 +6,25 @@ import Footer from './components/footer/footer';
 import AddNewForm from './components/add-new-form/add-new-form';
 import Particles from 'react-particles-js';
 import { Link } from 'react-router-dom';
-import * as moment from 'moment';
-import axios from 'axios';
 import './App.css';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { fetchBooks } from './actions/bookActions';
+import { fetchCategories } from './actions/categoryActions';
 
 class App extends Component {
-  apiEndpoint = "http://128.199.129.60:5000/api/";
   plusCode ='0x2795';
   barCode = '0x1F4C8';
   totalReviews = 52;
 
-  constructor(props){
-    super(props);
-    this.state = {
-      books: [],
-      categories: []
-    }
-  }
-
   componentDidMount() {
-    this.getBooks();
-    this.getCategories();
-  }
-
-  getBooks() {
-    axios.get(this.apiEndpoint + 'books')
-    .then(response => {
-      const books = response.data.sort((a, b) => moment(b.finishedOn).valueOf() - moment(a.finishedOn).valueOf());
-      this.setState({books});
-    })
-    .catch(error => {
-      console.log(error);
-    })
-  }
-
-  getCategories() {
-    axios.get(this.apiEndpoint + 'categories')
-    .then(response => {
-      this.setState({categories: response.data});
-    })
-    .catch(error => {
-      console.log(error);
-    })
+    this.props.fetchBooks();
+    this.props.fetchCategories();
   }
 
   render() {
     var loading = true;
-    if (this.state.books !== undefined && this.state.books.length > 0) {
+    if (this.props.books !== undefined && this.props.books.length > 0) {
       loading = false;
     }
     return (
@@ -61,7 +33,7 @@ class App extends Component {
             <div className="screen-content">
               <Link to={'/'}>
                 <div className="header-content">
-                    <Particles
+                  <Particles
                         params={{
                         "particles": {
                             "number": {
@@ -115,27 +87,28 @@ class App extends Component {
                     }} />
                 </div>
               </Link>
-                  {loading ?
-                    <div className="spinner">
-                      <div className="rect1"></div>
-                      <div className="rect2"></div>
-                      <div className="rect3"></div>
-                      <div className="rect4"></div>
-                      <div className="rect5"></div>
-                    </div>
-                    :
-                    <div>
-                    <Route exact={true} path="/" render={() => (
-                      <Home reviews={this.state.books} totalReviews={this.totalReviews} categories={this.state.categories} plusCode={this.plusCode} barCode={this.barCode} />
-                    )} />
-                    {/* <Route path="/review/:reviewId" render={({match}) => (
-                      <Review review={this.state.books.find(r => r.id === match.params.reviewId)} />
-                    )} /> */}
-                    <Route path="/add-new" render={() => (
-                      <AddNewForm categories={this.state.categories} apiEndpoint={this.apiEndpoint} />
-                    )} />
-                  </div>}
-              </div>
+              {loading ?
+                <div className="spinner">
+                  <div className="rect1"></div>
+                  <div className="rect2"></div>
+                  <div className="rect3"></div>
+                  <div className="rect4"></div>
+                  <div className="rect5"></div>
+                </div>
+              :
+                <div>
+                  <Route exact={true} path="/" render={() => (
+                    <Home reviews={this.props.books} categories={this.props.categories} totalReviews={this.totalReviews} plusCode={this.plusCode} barCode={this.barCode} />
+                  )} />
+                  <Route path="/review/:reviewId" render={({match}) => (
+                    <Review review={this.props.books.find(r => r.id === match.params.reviewId)} />
+                  )} />
+                  <Route path="/add-new" render={() => (
+                    <AddNewForm categories={this.props.categories} />
+                  )} />
+                </div>
+              }
+            </div>
             <Footer />
           </div>
         </Router>
@@ -143,4 +116,16 @@ class App extends Component {
   }
 }
 
-export default App;
+App.propTypes = {
+  fetchBooks: PropTypes.func.isRequired,
+  fetchCategories: PropTypes.func.isRequired,
+  books: PropTypes.array.isRequired,
+  categories: PropTypes.array.isRequired
+};
+
+const mapStateToProps = state => ({
+  books: state.books.items,
+  categories: state.categories.items
+});
+
+export default connect(mapStateToProps, {fetchBooks, fetchCategories})(App);
