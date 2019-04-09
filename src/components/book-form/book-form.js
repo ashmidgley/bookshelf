@@ -3,20 +3,26 @@ import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import { Icon } from 'react-fa';
 import Book from '../../models/book';
-import * as axios from 'axios';
-import './add-new-form.css';
+import './book-form.css';
+import { connect } from 'react-redux';
+import { createBook, updateBook } from '../../actions/bookActions';
+import PropTypes from 'prop-types';
 
-class AddNewForm extends Component {
+class BookForm extends Component {
     tempImage = 'https://bulma.io/images/placeholders/96x96.png';
     imageBase64Prefix = 'data:image/jpg;base64,';
     allowedTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/svg'];
 
     constructor(props) {
         super(props);
+        if(props.match.params.id) {
+            var book = this.props.books.find(b => b.id === props.match.params.id);
+        }
+        console.log(book);
         this.state = {
             image: '',
-            submitSuccess: false,
-            submitError: false
+            action: props.match.params.id ? 'Update' : 'Create',
+            book: props.match.params.id ? book : null
         };
     }
 
@@ -30,22 +36,19 @@ class AddNewForm extends Component {
 		reader.readAsDataURL(file)
     }
 
-    postEntry(values) {
+    submitEntry(values) {
         if(values.password !== 'yW%-Ya9%weuuQcZMRved') {
             alert('Nice try scrub');
             return;
         }   
-        var book = new Book(values.category, this.imageBase64Prefix + this.state.image, values.title, values.author, values.startedOn, values.finishedOn, values.pageCount);
-
-        axios.post(this.props.apiEndpoint + 'books', book)
-          .then(function (response) {
-            console.log(response);
-            alert("Successfully submitted new entry.");
-          })
-          .catch(function (error) {
-            console.log(error);
-            alert("Error submitting entry. Check console.");
-          })
+        var book = new Book(values.categoryId, this.imageBase64Prefix + this.state.image, values.title, values.author, values.startedOn, values.finishedOn, values.pageCount, values.summary);
+        console.log(book);
+        if(!this.props.id) {
+            this.props.createBook(book);
+            this.props.books.unshift(book);
+        }else{
+            this.props.updateBook(book);
+        }
     }
 
     render() {
@@ -59,7 +62,22 @@ class AddNewForm extends Component {
                         </div>
                     </div>
                     <Formik
-                        initialValues={{ title: '', image: '', imageName: '', imageFileType: '', author: '', startedOn: '', finishedOn: '', pageCount: 0, category: 1, password: '' }}
+                        initialValues=
+                        {
+                            {
+                                title: this.state.book ? this.state.book.title : '',
+                                image: this.state.book ? this.state.book.image : '',
+                                imageName: '',
+                                imageFileType: '',
+                                author: this.state.book ? this.state.book.author : '',
+                                startedOn: this.state.book? this.state.book.startedOn : '',
+                                finishedOn: this.state.book ? this.state.book.finishedOn : '',
+                                pageCount: this.state.book ? this.state.book.pageCount : '',
+                                categoryId: this.state.book ? this.state.book.categoryId : 1,
+                                summary: this.state.book ? this.state.book.summary: '',
+                                password: ''
+                            }
+                        }
                         validate={values => {
                             let errors = {};
                             if (!values.title)
@@ -72,8 +90,8 @@ class AddNewForm extends Component {
                                 errors.finishedOn = 'Required';
                             if(!values.pageCount)
                                 errors.pageCount = 'Required';
-                            // if(!values.summary)
-                            //     errors.summary = 'Required';
+                            if(!values.summary)
+                                errors.summary = 'Required';
                             if(values.imageFileType && this.allowedTypes.indexOf(values.imageFileType) === -1)
                                 errors.image = 'File does not match allowed types';
                             if(!values.imageName)
@@ -84,7 +102,7 @@ class AddNewForm extends Component {
                         }}
                         onSubmit={(values, { setSubmitting }) => {
                             setTimeout(() => {
-                                this.postEntry(values);
+                                this.submitEntry(values);
                                 setSubmitting(false);
                             }, 400);
                         }}>{({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, setFieldValue }) => (
@@ -147,25 +165,25 @@ class AddNewForm extends Component {
                                     <div className="control radio-container">
                                         {this.props.categories.map(category =>
                                             <div key={category.id}> 
-                                                <input type="radio" name="category" id={category.id} value={values.category} checked={values.category === category.id} onChange={() => {setFieldValue('category', category.id)}} onBlur={handleBlur} />
+                                                <input type="radio" name="categoryId" id={category.id} value={values.categoryId} checked={values.categoryId === category.id} onChange={() => {setFieldValue('categoryId', category.id)}} onBlur={handleBlur} />
                                                 <label className="radio">{category.description}</label>
                                             </div>
                                         )}
                                     </div>
                                 </div>   
-                                {/* <div className="field">
+                                <div className="field">
                                     <label className="label">Summary</label>
                                     <div className="control">
                                         <textarea className={errors.summary && touched.summary ? 'textarea is-danger' : 'textarea'} name="summary" placeholder="Enter summary" onChange={handleChange} onBlur={handleBlur} value={values.summary}></textarea>
                                     </div>
-                                </div> */}
+                                </div>
                                 <div className="field">
                                     <label className="label">Password</label>
                                     <div className="control">
                                         <input className={errors.password && touched.password ? 'input is-danger' : 'input'} type="password" name="password" placeholder="Enter password" onChange={handleChange} onBlur={handleBlur} value={values.password} />
                                     </div>
                                 </div>
-                                <button className="button is-link" type="submit" disabled={isSubmitting}>Submit</button>
+                                <button className="button is-link" type="submit" disabled={isSubmitting}>{this.state.action}</button>
                                 <Link to="/">
                                     <button className="button is-text">Cancel</button>
                                 </Link>
@@ -179,4 +197,17 @@ class AddNewForm extends Component {
     }
 }
 
-export default AddNewForm;
+BookForm.propTypes = {
+    createBook: PropTypes.func.isRequired,
+    updateBook: PropTypes.func.isRequired,
+    books: PropTypes.array.isRequired,
+    categories: PropTypes.array.isRequired
+    
+  };
+
+  const mapStateToProps = state => ({
+    books: state.books.items,
+    categories: state.categories.items
+  });
+
+export default connect(mapStateToProps, {createBook, updateBook})(BookForm);

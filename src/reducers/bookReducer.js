@@ -1,4 +1,4 @@
-import { FETCH_BOOKS, NEW_BOOK } from '../actions/types';
+import { FETCH_BOOKS, NEW_BOOK, REMOVE_BOOK, UPDATE_BOOK } from '../actions/types';
 
 const initialState = {
   items: [],
@@ -17,6 +17,16 @@ export default function(state = initialState, action) {
         ...state,
         item: action.payload
       };
+    case REMOVE_BOOK:
+      return {
+        ...state,
+        item: action.payload
+      }
+    case UPDATE_BOOK:
+      return {
+        ...state,
+        item: action.payload
+      }
     default:
       return state;
   }

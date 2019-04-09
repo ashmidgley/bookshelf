@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Home from './components/home/home';
 import Review from './components/review/review';
 import Footer from './components/footer/footer';
-import AddNewForm from './components/add-new-form/add-new-form';
 import Particles from 'react-particles-js';
 import { Link } from 'react-router-dom';
 import './App.css';
@@ -11,11 +10,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchBooks } from './actions/bookActions';
 import { fetchCategories } from './actions/categoryActions';
+import Admin from './components/admin/admin';
+import BookForm from './components/book-form/book-form';
 
 class App extends Component {
-  plusCode ='0x2795';
-  barCode = '0x1F4C8';
-  totalReviews = 52;
 
   componentDidMount() {
     this.props.fetchBooks();
@@ -97,15 +95,11 @@ class App extends Component {
                 </div>
               :
                 <div>
-                  <Route exact={true} path="/" render={() => (
-                    <Home reviews={this.props.books} categories={this.props.categories} totalReviews={this.totalReviews} plusCode={this.plusCode} barCode={this.barCode} />
-                  )} />
-                  <Route path="/review/:reviewId" render={({match}) => (
-                    <Review review={this.props.books.find(r => r.id === match.params.reviewId)} />
-                  )} />
-                  <Route path="/add-new" render={() => (
-                    <AddNewForm categories={this.props.categories} />
-                  )} />
+                  <Route exact path="/" component={Home} />
+                  <Route exact path="/admin" component={Admin} />
+                  <Route exact path="/admin/book-form" component={BookForm} />
+                  <Route exact path="/admin/book-form/:id" component={BookForm} />
+                  <Route path="/review/:id" component={Review} />
                 </div>
               }
             </div>

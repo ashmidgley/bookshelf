@@ -1,5 +1,5 @@
 class Book {
-    constructor(categoryId, image, title, author, startedOn, finishedOn, pageCount){
+    constructor(categoryId, image, title, author, startedOn, finishedOn, pageCount, summary){
         this.categoryId = categoryId;
         this.image = image;
         this.title = title;
@@ -7,6 +7,7 @@ class Book {
         this.startedOn = startedOn;
         this.finishedOn = finishedOn;
         this.pageCount = pageCount;
+        this.summary = summary;
     }
 
     id;
