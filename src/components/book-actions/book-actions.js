@@ -16,29 +16,40 @@ class BookActions extends Component {
 
     render() {
         return (
-            <div>
-                <h1>Books</h1>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Title</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.props.books.map(book =>
-                            <tr key={book.id}>
-                                <td>{book.id}</td>
-                                <td>{book.title}</td>
-                                <td><Link to={'/admin/book-form/' + book.id}><button className="button is-info">Update</button></Link></td>
-                                <td><button className="button is-danger" onClick={() => this.removeBook(book)}>Delete</button></td>
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
-                <Link to={'/admin/book-form'}><button className="button is-success">Add</button></Link>
+            <div className="column is-8 is-offset-2"> 
+                <div className="card">
+                    <div className="card-content book-action-content">
+                        <div className="media">
+                            <div className="image-header-container">
+                                <img src="/images/plus.png" className="image-header" alt="Plus emoji" />
+                            </div>
+                        </div>
+                        <h1 className="title">Books</h1>
+                        <table className="table is-fullwidth is-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Title</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.props.books.map(book =>
+                                    <tr key={book.id}>
+                                        <td>{book.id}</td>
+                                        <td>{book.title}</td>
+                                        <td className="has-text-centered"><Link to={'/admin/book-form/' + book.id} className="button is-info is-outlined">Edit</Link></td>
+                                        <td className="has-text-centered"><a onClick={() => this.removeBook(book)} className="button is-danger is-outlined">Delete</a></td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </table>
+                        <div>
+                            <Link to={'/admin/book-form'}><button className="button is-success is-outlined">Add</button></Link>
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }

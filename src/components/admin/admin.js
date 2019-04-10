@@ -8,10 +8,8 @@ class Admin extends Component {
 
     render() {
         return (
-            <div className="admin-parent">
-                <div className="admin-child">
-                    <BookActions books={this.props.books} />
-                </div>
+            <div>
+                <BookActions books={this.props.books} />
             </div>
         );
     }

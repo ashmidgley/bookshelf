@@ -41,10 +41,11 @@ class BookForm extends Component {
         }   
         var book = new Book(values.categoryId, this.state.image, values.title, values.author, values.startedOn, values.finishedOn, values.pageCount, values.summary);
         console.log(book);
-        if(!this.props.id) {
+        if(!this.props.match.params.id) {
             this.props.createBook(book);
             this.props.books.unshift(book);
-        }else{
+        } else {
+            book.id = this.state.book.id;
             this.props.updateBook(book);
         }
     }
