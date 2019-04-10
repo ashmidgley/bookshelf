@@ -2,13 +2,11 @@
     min-height: 100vh;
 }
 
-.header-content > div > canvas {
-    max-height: 30vh;
-    background-color:  rgb(37, 45, 63);
-    background-image: url('/images/fa_book.png');
-    background-size: 8%;
-    background-position: 50% 50%;
-    background-repeat: no-repeat;
+.header-content {
+  height: 30vh;
+  background-color:  rgb(37, 45, 63);
+  background-image: url('/images/fa_book.png');
+  background-size: 2%;
 }
 
 .spinner {
@@ -66,8 +64,8 @@
 
 /* Mobile */
 @media only screen and (max-width: 600px) {
-    .header-content > div > canvas {
+    .header-content {
         max-height: 25vh;
-        background-size: 20%;
+        background-size: 5%;
     }
 }
