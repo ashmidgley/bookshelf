@@ -17,9 +17,11 @@ class BookActions extends Component {
     render() {
         return (
             <div>
+                <h1>Books</h1>
                 <table className="table">
                     <thead>
                         <tr>
+                            <th>Id</th>
                             <th>Title</th>
                             <th></th>
                             <th></th>
@@ -28,6 +30,7 @@ class BookActions extends Component {
                     <tbody>
                         {this.props.books.map(book =>
                             <tr key={book.id}>
+                                <td>{book.id}</td>
                                 <td>{book.title}</td>
                                 <td><Link to={'/admin/book-form/' + book.id}><button className="button is-info">Update</button></Link></td>
                                 <td><button className="button is-danger" onClick={() => this.removeBook(book)}>Delete</button></td>

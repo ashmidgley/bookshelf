@@ -7,22 +7,20 @@ import './book-form.css';
 import { connect } from 'react-redux';
 import { createBook, updateBook } from '../../actions/bookActions';
 import PropTypes from 'prop-types';
+import * as moment from 'moment';
 
 class BookForm extends Component {
     tempImage = 'https://bulma.io/images/placeholders/96x96.png';
     imageBase64Prefix = 'data:image/jpg;base64,';
-    allowedTypes = ['image/png', 'image/jpg', 'image/jpeg', 'image/svg'];
+    allowedTypes = ['image/png', 'image/jpg', 'image/jpeg'];
 
     constructor(props) {
         super(props);
-        if(props.match.params.id) {
-            var book = this.props.books.find(b => b.id === props.match.params.id);
-        }
-        console.log(book);
+        var book = props.match.params.id ? this.props.books.find(b => b.id == props.match.params.id) : null;
         this.state = {
-            image: '',
             action: props.match.params.id ? 'Update' : 'Create',
-            book: props.match.params.id ? book : null
+            book: book,
+            image: props.match.params.id ? book.image : '',
         };
     }
 
@@ -41,7 +39,7 @@ class BookForm extends Component {
             alert('Nice try scrub');
             return;
         }   
-        var book = new Book(values.categoryId, this.imageBase64Prefix + this.state.image, values.title, values.author, values.startedOn, values.finishedOn, values.pageCount, values.summary);
+        var book = new Book(values.categoryId, this.state.image, values.title, values.author, values.startedOn, values.finishedOn, values.pageCount, values.summary);
         console.log(book);
         if(!this.props.id) {
             this.props.createBook(book);
@@ -67,14 +65,14 @@ class BookForm extends Component {
                             {
                                 title: this.state.book ? this.state.book.title : '',
                                 image: this.state.book ? this.state.book.image : '',
-                                imageName: '',
+                                imageName: this.state.book ? 'To be added...': '',
                                 imageFileType: '',
                                 author: this.state.book ? this.state.book.author : '',
-                                startedOn: this.state.book? this.state.book.startedOn : '',
-                                finishedOn: this.state.book ? this.state.book.finishedOn : '',
+                                startedOn: this.state.book ? moment(this.state.book.startedOn).format('YYYY-MM-DD') : '',
+                                finishedOn: this.state.book ? moment(this.state.book.finishedOn).format('YYYY-MM-DD') : '',
                                 pageCount: this.state.book ? this.state.book.pageCount : '',
                                 categoryId: this.state.book ? this.state.book.categoryId : 1,
-                                summary: this.state.book ? this.state.book.summary: '',
+                                summary: this.state.book ? this.state.book.summary : '',
                                 password: ''
                             }
                         }

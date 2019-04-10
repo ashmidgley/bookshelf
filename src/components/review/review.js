@@ -16,14 +16,13 @@ class Review extends Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         this.setState({
-            book: this.props.books.find(b => b.id === this.props.match.params.id)
+            book: this.props.books.find(b => b.id == this.props.match.params.id)
         });
     }
 
     render() {
         return (
             <div className="column is-8 is-offset-2 review-column">
-                {this.state.book ?
                 <div className="card review-card">
                     <div className="card-content">
                         <div className="media">
@@ -40,9 +39,6 @@ class Review extends Component {
                     </div>
                     <div className="review-content has-text-centered" dangerouslySetInnerHTML={{ __html: this.state.book.summary }}></div>
                 </div>
-                :
-                <div> </div>
-                }
             </div>
         );
     }

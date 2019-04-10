@@ -1,0 +1,7 @@
+.admin-parent {
+    text-align: center;
+}
+
+.admin-child {
+    display: inline-block;
+}
