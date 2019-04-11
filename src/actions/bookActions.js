@@ -44,7 +44,7 @@ export const updateBook = postData => dispatch => {
 };
 
 export const removeBook = id => dispatch => {
-  axios.put(url + '/' + id)
+  axios.delete(url + '/' + id)
     .then(response => {
       dispatch({
         type: REMOVE_BOOK,

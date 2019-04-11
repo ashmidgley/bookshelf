@@ -7,11 +7,13 @@ import PropTypes from 'prop-types';
 
 class BookActions extends Component {
 
-    removeBook = (book) => {
-        this.props.removeBook(book.id);
-        var i = this.props.books.indexOf(book);
-        this.props.books.splice(i, 1);
-        this.forceUpdate()
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.removedBook) {
+            var oldBook = this.props.books.find(b => b.id == nextProps.removedBook.id);
+            var i = this.props.books.indexOf(oldBook);
+            this.props.books.splice(i, 1);
+            this.forceUpdate();
+        }
     }
 
     render() {
@@ -40,7 +42,7 @@ class BookActions extends Component {
                                         <td>{book.id}</td>
                                         <td>{book.title}</td>
                                         <td className="has-text-centered"><Link to={'/admin/book-form/' + book.id} className="button is-info is-outlined">Edit</Link></td>
-                                        <td className="has-text-centered"><button onClick={() => this.removeBook(book)} className="button is-danger is-outlined">Delete</button></td>
+                                        <td className="has-text-centered"><button onClick={() => this.props.removeBook(book.id)} className="button is-danger is-outlined">Delete</button></td>
                                     </tr>
                                 )}
                             </tbody>
@@ -61,7 +63,8 @@ BookActions.propTypes = {
   };
 
   const mapStateToProps = state => ({
-    books: state.books.items
+    books: state.books.items,
+    removedBook: state.books.item
   });
 
 export default connect(mapStateToProps, {removeBook})(BookActions);
