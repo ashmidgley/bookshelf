@@ -21,7 +21,26 @@ class BookForm extends Component {
             action: props.match.params.id ? 'Update' : 'Create',
             book: book,
             image: props.match.params.id ? book.image : '',
+            submitting: false,
+            success: false
         };
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.book) {
+            if(this.props.match.params.id){
+                var oldBook = this.props.books.find(b => b.id == nextProps.book.id);
+                var i = this.props.books.indexOf(oldBook);
+                this.props.books[i] = nextProps.book;
+            } else {
+                this.props.books.push(nextProps.book);
+            }
+            this.setState({
+                submitting: false,
+                success: true
+            });
+            window.scrollTo(0, 0);
+        }
     }
 
     handleImage(event) {
@@ -35,15 +54,17 @@ class BookForm extends Component {
     }
 
     submitEntry(values) {
+        this.setState({
+            submitting: true,
+            success: false
+        });
         if(values.password !== 'yW%-Ya9%weuuQcZMRved') {
             alert('Nice try scrub');
             return;
         }   
         var book = new Book(values.categoryId, this.state.image, values.title, values.author, values.startedOn, values.finishedOn, values.pageCount, values.summary);
-        console.log(book);
         if(!this.props.match.params.id) {
             this.props.createBook(book);
-            this.props.books.unshift(book);
         } else {
             book.id = this.state.book.id;
             this.props.updateBook(book);
@@ -60,6 +81,11 @@ class BookForm extends Component {
                             <img src="/images/plus.png" className="image-header" alt="Plus emoji" />
                         </div>
                     </div>
+                    {this.state.success ? 
+                        <div class="notification is-primary">Successfully {this.state.action.toLowerCase()}d entry.</div>
+                        : 
+                        null
+                    }
                     <Formik
                         initialValues=
                         {
@@ -100,10 +126,8 @@ class BookForm extends Component {
                             return errors;
                         }}
                         onSubmit={(values, { setSubmitting }) => {
-                            setTimeout(() => {
-                                this.submitEntry(values);
-                                setSubmitting(false);
-                            }, 400);
+                            this.submitEntry(values);
+                            setSubmitting(false);
                         }}>{({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, setFieldValue }) => (
                             <form className="form" onSubmit={handleSubmit}>
                                 <div className="field">
@@ -182,7 +206,7 @@ class BookForm extends Component {
                                         <input className={errors.password && touched.password ? 'input is-danger' : 'input'} type="password" name="password" placeholder="Enter password" onChange={handleChange} onBlur={handleBlur} value={values.password} />
                                     </div>
                                 </div>
-                                <button className="button is-link" type="submit" disabled={isSubmitting}>{this.state.action}</button>
+                                <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit" disabled={isSubmitting}>{this.state.action}</button>
                                 <Link to="/">
                                     <button className="button is-text">Cancel</button>
                                 </Link>
@@ -206,6 +230,7 @@ BookForm.propTypes = {
 
   const mapStateToProps = state => ({
     books: state.books.items,
+    book: state.books.item,
     categories: state.categories.items
   });
 
