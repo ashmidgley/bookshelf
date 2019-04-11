@@ -7,13 +7,32 @@ import PropTypes from 'prop-types';
 
 class BookActions extends Component {
 
+    constructor(props){
+        super(props);
+        this.state = {
+            submitting: false,
+            success: false
+        }
+    }
+
     componentWillReceiveProps(nextProps) {
         if(nextProps.removedBook) {
             var oldBook = this.props.books.find(b => b.id == nextProps.removedBook.id);
             var i = this.props.books.indexOf(oldBook);
             this.props.books.splice(i, 1);
-            this.forceUpdate();
+            this.setState({
+                submitting: false,
+                success: true
+            })
         }
+    }
+
+    removeBook(id) {
+        this.setState({
+            submitting: true,
+            success: false
+        });
+        this.props.removeBook(id);
     }
 
     render() {
@@ -27,6 +46,11 @@ class BookActions extends Component {
                             </div>
                         </div>
                         <h1 className="title">Books</h1>
+                        {this.state.success ? 
+                            <div class="notification is-primary">Successfully removed entry.</div>
+                            :
+                            null
+                        }
                         <table className="table is-fullwidth is-bordered">
                             <thead>
                                 <tr>
@@ -41,8 +65,12 @@ class BookActions extends Component {
                                     <tr key={book.id}>
                                         <td>{book.id}</td>
                                         <td>{book.title}</td>
-                                        <td className="has-text-centered"><Link to={'/admin/book-form/' + book.id} className="button is-info is-outlined">Edit</Link></td>
-                                        <td className="has-text-centered"><button onClick={() => this.props.removeBook(book.id)} className="button is-danger is-outlined">Delete</button></td>
+                                        <td className="has-text-centered">
+                                            <Link to={'/admin/book-form/' + book.id}><button className="button is-info is-outlined" disabled={this.state.submitting}>Edit</button></Link>
+                                        </td>
+                                        <td className="has-text-centered">
+                                            <button onClick={() => this.removeBook(book.id)} className="button is-danger is-outlined" disabled={this.state.submitting}>Delete</button>
+                                        </td>
                                     </tr>
                                 )}
                             </tbody>
