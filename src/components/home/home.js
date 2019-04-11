@@ -98,7 +98,7 @@ class Home extends Component {
                 </div>
                 <div className="columns is-multiline">
                     {this.state.books.map(book =>
-                        <div className={this.state.columnClass} key={book.id}>
+                        <div key={book.id} className={this.state.columnClass}>
                             <Link to={`/review/${book.id}`} style={(book.summary) ? {} : { pointerEvents: 'none', cursor: 'default'}}>
                                 <div className="card home-tile">
                                     <div className="card-image">

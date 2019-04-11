@@ -1,65 +1,57 @@
 import { FETCH_BOOKS, NEW_BOOK, UPDATE_BOOK, REMOVE_BOOK } from './types';
 import * as moment from 'moment';
+import axios from 'axios';
 
 const url = 'http://128.199.129.60:5000/api/books';
 
 export const fetchBooks = () => dispatch => {
-  fetch(url)
-    .then(res => res.json())
-    .then(books =>
+  axios.get(url)
+    .then(response => {
       dispatch({
         type: FETCH_BOOKS,
-        payload: books.sort((a, b) => moment(b.finishedOn).valueOf() - moment(a.finishedOn).valueOf())
+        payload: response.data.sort((a, b) => moment(b.finishedOn).valueOf() - moment(a.finishedOn).valueOf())
       })
-    );
+    })
+    .catch(error => {
+      console.log(error);
+    })
 };
 
 export const createBook = postData => dispatch => {
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify(postData)
-  })
-    .then(res => res.json())
-    .then(book =>
+  axios.post(url, postData)
+    .then(response => {
       dispatch({
         type: NEW_BOOK,
-        payload: book
+        payload: response.data
       })
-    );
+    })
+    .catch(error => {
+      console.log(error);
+    })
 };
 
 export const updateBook = postData => dispatch => {
-  fetch(url, {
-    method: 'PUT',
-    headers: {
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify(postData)
-  })
-    .then(res => res.json())
-    .then(book =>
+  axios.put(url, postData)
+    .then(response => {
       dispatch({
         type: UPDATE_BOOK,
-        payload: book
+        payload: response.data
       })
-    );
+    })
+    .catch(error => {
+      console.log(error);
+    })
 };
 
 export const removeBook = id => dispatch => {
-  fetch(url + '/' + id, {
-    method: 'DELETE',
-    headers: {
-      'content-type': 'application/json'
-    }
-  })
-    .then(res => res.json())
-    .then(book =>
+  axios.put(url + '/' + id)
+    .then(response => {
       dispatch({
         type: REMOVE_BOOK,
-        payload: book
+        payload: response.data
       })
-    );
+    })
+    .catch(error => {
+      console.log(error);
+    })
 };

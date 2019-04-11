@@ -40,7 +40,7 @@ class BookActions extends Component {
                                         <td>{book.id}</td>
                                         <td>{book.title}</td>
                                         <td className="has-text-centered"><Link to={'/admin/book-form/' + book.id} className="button is-info is-outlined">Edit</Link></td>
-                                        <td className="has-text-centered"><a onClick={() => this.removeBook(book)} className="button is-danger is-outlined">Delete</a></td>
+                                        <td className="has-text-centered"><button onClick={() => this.removeBook(book)} className="button is-danger is-outlined">Delete</button></td>
                                     </tr>
                                 )}
                             </tbody>
