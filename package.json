@@ -23,7 +23,6 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "postbuild": "node iis/copy.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
