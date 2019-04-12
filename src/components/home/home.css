@@ -62,9 +62,21 @@
     text-align: center;
 }
 
-.home-menu-items button {
-    box-shadow: 0 1px 1px 1px rgba(10, 16, 34, .08);
-}
+    .home-menu-items button {
+        box-shadow: 0 1px 1px 1px rgba(10, 16, 34, .08);
+    }
+
+    .home-menu-items .button:focus:not(:active) {
+        box-shadow: 0 1px 1px 1px rgba(10, 16, 34, .08);
+    }
+
+    .home-menu-items .button:focus {
+        border-color: #dbdbdb;
+    }
+
+    .home-menu-items .selected {
+        background: #F0F2F4;
+    }
 
 /* Mobile */
 @media only screen and (max-width: 600px) {

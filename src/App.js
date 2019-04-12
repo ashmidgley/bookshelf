@@ -3,98 +3,55 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Home from './components/home/home';
 import Review from './components/review/review';
 import Footer from './components/footer/footer';
-import reviewsData from './reviewData.json';
-import AddNewForm from './components/add-new-form/add-new-form';
-import Particles from 'react-particles-js';
 import { Link } from 'react-router-dom';
-import * as moment from 'moment';
 import './App.css';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { fetchBooks } from './actions/bookActions';
+import { fetchCategories } from './actions/categoryActions';
+import Admin from './components/admin/admin';
+import BookForm from './components/book-form/book-form';
+import CategoryForm from './components/category-form/category-form';
 
 class App extends Component {
 
-  reviews = [];
-  categories = ['🧙', '🧠'];
-  categoryNames = ['Fiction', 'Non-fiction'];
-  totalReviews = 52;
-
-  constructor(props){
-    super(props);
-    this.state = {
-      loading: true
-    }
-    this.reviews = reviewsData.reviews.sort((a, b) => moment(b.finishedOn).valueOf() - moment(a.finishedOn).valueOf());
+  componentDidMount() {
+    this.props.fetchBooks();
+    this.props.fetchCategories();
   }
 
-  render() { return (
+  render() {
+    var loading = true;
+    if (this.props.books !== undefined && this.props.books.length > 0) {
+      loading = false;
+    }
+    return (
         <Router>
           <div className="App">
             <div className="screen-content">
               <Link to={'/'}>
-                <div className="header-content">
-                    <Particles
-                        params={{
-                        "particles": {
-                            "number": {
-                                "value": 160,
-                                "density": {
-                                    "enable": false
-                                }
-                            },
-                            "size": {
-                                "value": 3,
-                                "random": true,
-                                "anim": {
-                                    "speed": 4,
-                                    "size_min": 0.3
-                                }
-                            },
-                            "line_linked": {
-                                "enable": false
-                            },
-                            "move": {
-                                "random": true,
-                                "speed": 1,
-                                "direction": "top",
-                                "out_mode": "out"
-                            }
-                        },
-                        "interactivity": {
-                            "events": {
-                                "onhover": {
-                                    "enable": true,
-                                    "mode": "bubble"
-                                },
-                                "onclick": {
-                                    "enable": true,
-                                    "mode": "repulse"
-                                }
-                            },
-                            "modes": {
-                                "bubble": {
-                                    "distance": 100,
-                                    "duration": 1,
-                                    "size": 0,
-                                    "opacity": 0
-                                },
-                                "repulse": {
-                                    "distance": 200,
-                                    "duration": 2
-                                }
-                            }
-                        }
-                    }} />
-                </div>
+                <div className="header-content"></div>
               </Link>
-                <Route exact={true} path="/" render={() => (
-                  <Home reviews={this.reviews} totalReviews={this.totalReviews} categories={this.categories} />
-                )} />
-                <Route path="/review/:reviewId" render={({match}) => (
-                  <Review review={this.reviews.find(r => r.id === match.params.reviewId)} />
-                )} />
-                <Route path="/add-new" render={() => (
-                  <AddNewForm categories={this.categoryNames} />
-                )} />
-              </div>
+              {loading ?
+                <div className="spinner">
+                  <div className="rect1"></div>
+                  <div className="rect2"></div>
+                  <div className="rect3"></div>
+                  <div className="rect4"></div>
+                  <div className="rect5"></div>
+                </div>
+              :
+                <div>
+                  <Route exact path="/" component={Home} />
+                  <Route exact path="/admin" component={Admin} />
+                  <Route exact path="/admin/book-form" component={BookForm} />
+                  <Route exact path="/admin/book-form/:id" component={BookForm} />
+                  <Route exact path="/admin/category-form" component={CategoryForm} />
+                  <Route exact path="/admin/category-form/:id" component={CategoryForm} />
+                  <Route path="/review/:id" component={Review} />
+                </div>
+              }
+            </div>
             <Footer />
           </div>
         </Router>
@@ -102,4 +59,16 @@ class App extends Component {
   }
 }
 
-export default App;
+App.propTypes = {
+  fetchBooks: PropTypes.func.isRequired,
+  fetchCategories: PropTypes.func.isRequired,
+  books: PropTypes.array.isRequired,
+  categories: PropTypes.array.isRequired
+};
+
+const mapStateToProps = state => ({
+  books: state.books.items,
+  categories: state.categories.items
+});
+
+export default connect(mapStateToProps, {fetchBooks, fetchCategories})(App);

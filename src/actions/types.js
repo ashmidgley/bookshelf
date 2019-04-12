@@ -1,0 +1,8 @@
+export const FETCH_BOOKS = 'FETCH_BOOKS';
+export const NEW_BOOK = 'NEW_BOOK';
+export const REMOVE_BOOK = 'REMOVE_BOOK';
+export const UPDATE_BOOK = 'UPDATE_BOOK';
+export const FETCH_CATEGORIES = 'FETCH_CATEGORIES';
+export const NEW_CATEGORY = 'NEW_CATEGORY';
+export const REMOVE_CATEGORY = 'REMOVE_CATEGORY';
+export const UPDATE_CATEGORY = 'UPDATE_CATEGORY';
