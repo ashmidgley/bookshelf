@@ -1,13 +1,12 @@
 class Category {
-    constructor(id, description, emoji){
-        this.id = id;
+    constructor(description, code){
         this.description = description;
-        this.emoji = emoji;
+        this.code = code;
     }
 
     id;
     description;
-    emoji;
+    code;
 }
 
 export default Category;

@@ -82,7 +82,7 @@ class BookForm extends Component {
                         </div>
                     </div>
                     {this.state.success ? 
-                        <div class="notification is-primary">Successfully {this.state.action.toLowerCase()}d entry.</div>
+                        <div className="notification is-primary">Successfully {this.state.action.toLowerCase()}d entry.</div>
                         : 
                         null
                     }

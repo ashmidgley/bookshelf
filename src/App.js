@@ -11,6 +11,7 @@ import { fetchBooks } from './actions/bookActions';
 import { fetchCategories } from './actions/categoryActions';
 import Admin from './components/admin/admin';
 import BookForm from './components/book-form/book-form';
+import CategoryForm from './components/category-form/category-form';
 
 class App extends Component {
 
@@ -45,6 +46,8 @@ class App extends Component {
                   <Route exact path="/admin" component={Admin} />
                   <Route exact path="/admin/book-form" component={BookForm} />
                   <Route exact path="/admin/book-form/:id" component={BookForm} />
+                  <Route exact path="/admin/category-form" component={CategoryForm} />
+                  <Route exact path="/admin/category-form/:id" component={CategoryForm} />
                   <Route path="/review/:id" component={Review} />
                 </div>
               }
