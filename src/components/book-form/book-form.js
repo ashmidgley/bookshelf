@@ -207,7 +207,7 @@ class BookForm extends Component {
                                     </div>
                                 </div>
                                 <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit" disabled={isSubmitting}>{this.state.action}</button>
-                                <Link to="/">
+                                <Link to="/admin">
                                     <button className="button is-text">Cancel</button>
                                 </Link>
                             </form>
