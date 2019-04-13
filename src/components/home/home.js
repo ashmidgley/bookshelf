@@ -7,6 +7,7 @@ import * as punycode from 'punycode';
 import './home.css'
 import { connect } from 'react-redux'; 
 import PropTypes from 'prop-types';
+import { Helmet } from "react-helmet";
 
 class Home extends Component {
     
@@ -67,6 +68,9 @@ class Home extends Component {
     render() {
         return (
             <div id="parent">
+                <Helmet>
+                    <title>Bookshelf 163C | Reads from Jan 2019 onwards</title>
+                </Helmet>
                 <div className="home-menu-items">
                     <div className="is-pulled-left">
                         <Link to={'/admin'}>

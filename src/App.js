@@ -15,16 +15,33 @@ import CategoryForm from './components/category-form/category-form';
 
 class App extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      initialPropsLoaded: false,
+      loading: true
+    };
+  }
+
   componentDidMount() {
     this.props.fetchBooks();
     this.props.fetchCategories();
   }
 
-  render() {
-    var loading = true;
-    if (this.props.books !== undefined && this.props.books.length > 0) {
-      loading = false;
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.books) {
+      this.setState({
+        initialPropsLoaded: true
+      })
     }
+    if(nextProps.books && this.state.initialPropsLoaded) {
+      this.setState({
+        loading: false
+      })
+    }
+  }
+
+  render() {
     return (
         <Router>
           <div className="App">
@@ -32,7 +49,7 @@ class App extends Component {
               <Link to={'/'}>
                 <div className="header-content"></div>
               </Link>
-              {loading ?
+              {this.state.loading ?
                 <div className="spinner">
                   <div className="rect1"></div>
                   <div className="rect2"></div>
