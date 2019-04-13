@@ -69,7 +69,7 @@ class Home extends Component {
         return (
             <div id="parent">
                 <Helmet>
-                    <title>Bookshelf 163 | Reads from Jan 19 onwards</title>
+                    <title>Bookshelf 163C | Reads from Jan 2019 onwards</title>
                 </Helmet>
                 <div className="home-menu-items">
                     <div className="is-pulled-left">
