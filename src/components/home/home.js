@@ -18,10 +18,12 @@ class Home extends Component {
 
     constructor(props){
         super(props);
+        var menuSelected = new Array(this.props.categories.length).fill(false);
+        menuSelected[0] = true;
         this.state = {
             columnClass: 'column child',
             books: this.props.books,
-            menuSelected: [true, false, false]
+            menuSelected: menuSelected
         }
     }
 
