@@ -18,12 +18,13 @@ class Home extends Component {
 
     constructor(props){
         super(props);
-        var menuSelected = new Array(this.props.categories.length).fill(false);
-        menuSelected[0] = true;
+        var menu = new Array(this.props.categories.length+1).fill(false);
+        menu[0] = true;
         this.state = {
             columnClass: 'column child',
             books: this.props.books,
-            menuSelected: menuSelected
+            categorySelected: 0,
+            menu: menu
         }
     }
 
@@ -51,21 +52,36 @@ class Home extends Component {
     }
 
     displayAll = () => {
+        var menu = this.state.menu.fill(false);
+        menu[0] = true;
         this.setState({
             books: this.props.books,
-            menuSelected: [true, false, false]
+            menu: menu,
+            categorySelected: 0
         });
      }
 
-     filterBooks(key) {
-        var temp = new Array(this.state.menuSelected.length).fill(false);
-        temp[key + 1] = true;
-        var result = this.props.books.filter(r => r.categoryId === key);
+    filterBooks(category) {
+        var menu = this.state.menu.fill(false);
+        menu[this.props.categories.indexOf(category)+1] = true;
+        const result = this.props.books.filter(r => r.categoryId === category.id);
         this.setState({
             books: result,
-            menuSelected: temp
+            menu: menu,
+            categorySelected: category.id
         });
-     }
+    }
+
+    searchSubmit = (e) => {
+        const query = e.target.value;
+        var books = this.props.books.filter(b => b.title.includes(query) || b.author.includes(query));
+        if(this.state.categorySelected != 0) {
+            books = books.filter(b => b.categoryId == this.state.categorySelected);
+        }
+        this.setState({
+            books: books
+        });
+    }
 
     render() {
         return (
@@ -82,15 +98,15 @@ class Home extends Component {
                         </Link>
                     </div>
                     <button 
-                        className={this.state.menuSelected[0] ? "button selected" : "button"} 
+                        className={this.state.menu[0] ? "button selected" : "button"} 
                         onClick={this.displayAll} 
                         style={{'padding':'0 23px'}}>
                     </button>
                     {this.props.categories.map(category =>
                         <button 
-                            className={this.state.menuSelected[category.id + 1] ? "button selected" : "button"}
+                            className={this.state.menu[this.props.categories.indexOf(category)+1] ? "button selected" : "button"}
                             key={category.id}
-                            onClick={() => this.filterBooks(category.id)}>
+                            onClick={() => this.filterBooks(category)}>
                             <span role="img" aria-label="Category emoji">{punycode.ucs2.encode([category.code])}</span>
                         </button>
                     )}
@@ -101,6 +117,9 @@ class Home extends Component {
                             </button>
                         </a>
                     </div>
+                </div>
+                <div className="home-search">
+                    <input className="input" type="text" placeholder="Search by title or author" onChange={this.searchSubmit} />
                 </div>
                 <div className="columns is-multiline">
                     {this.state.books.map(book =>

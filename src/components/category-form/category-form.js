@@ -96,7 +96,7 @@ class CategoryForm extends Component {
                         onSubmit={(values, { setSubmitting }) => {
                             this.submitEntry(values);
                             setSubmitting(false);
-                        }}>{({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, setFieldValue }) => (
+                        }}>{({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
                             <form className="form" onSubmit={handleSubmit}>
                                 <div className="field">
                                     <label className="label">Description</label>
