@@ -50,6 +50,7 @@ class BookActions extends Component {
                             <th>Id</th>
                             <th>Title</th>
                             <th>Author</th>
+                            <th>Category Id</th>
                             <th>Edit</th>
                             <th>Delete</th>
                         </tr>
@@ -60,6 +61,7 @@ class BookActions extends Component {
                                 <td>{book.id}</td>
                                 <td>{book.title}</td>
                                 <td>{book.author}</td>
+                                <td>{book.categoryId}</td>
                                 <td className="has-text-centered">
                                     <Link to={'/admin/book-form/' + book.id}><button className="button is-info is-outlined" disabled={this.state.submitting}>Edit</button></Link>
                                 </td>

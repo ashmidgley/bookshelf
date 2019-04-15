@@ -1,12 +1,37 @@
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+
 .screen-content {
     min-height: 100vh;
 }
 
 .header-content {
+  position: relative;
   height: 30vh;
-  background-color:  rgb(37, 45, 63);
+  background-color: rgb(37, 45, 63);
   background-image: url('/images/fa_book.png');
   background-size: 2%;
+}
+
+.header-title {
+  height: 40%;
+  overflow: auto;
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background-color: rgb(37, 45, 63);
+  border-top: 2px solid rgb(41, 128, 185);
+  border-bottom: 2px solid rgb(41, 128, 185);
+  color: white;
+  font-size: 30px;
+  font-family: 'Press Start 2P', cursive;
+  text-align: center;
+}
+
+.header-title h1 {
+  height: 50%;
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
 }
 
 .spinner {
@@ -67,5 +92,9 @@
     .header-content {
         max-height: 25vh;
         background-size: 5%;
+    }
+
+    .header-title {
+      font-size: 20px;
     }
 }

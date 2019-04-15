@@ -47,7 +47,11 @@ class App extends Component {
           <div className="App">
             <div className="screen-content">
               <Link to={'/'}>
-                <div className="header-content"></div>
+                <div className="header-content">
+                  <div className="header-title">
+                    <h1>Bookshelf 163C</h1>
+                  </div>
+                </div>
               </Link>
               {this.state.loading ?
                 <div className="spinner">
