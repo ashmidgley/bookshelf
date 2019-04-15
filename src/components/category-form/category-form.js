@@ -41,11 +41,16 @@ class CategoryForm extends Component {
             submitting: true,
             success: false
         });
-        if(values.password !== 'yW%-Ya9%weuuQcZMRved') {
+        if(values.password !== process.env.REACT_APP_FORM_PASSWORD) {
             alert('Nice try scrub');
+            this.setState({
+                submitting: false,
+                success: false
+            });
             return;
-        }   
-        var category = new Category(values.description, values.code);
+        }
+        const code = '0x' + values.code.substring(2);
+        var category = new Category(values.description, code);
         if(!this.props.match.params.id) {
             this.props.createCategory(category);
         } else {
@@ -100,9 +105,9 @@ class CategoryForm extends Component {
                                     </div>
                                 </div>
                                 <div className="field">
-                                    <label className="label">Code</label>
+                                    <label className="label">Codepoints</label>
                                     <div className="control">
-                                        <input className={errors.code && touched.code ? 'input is-danger' : 'input'} type="text" name="code" placeholder="Enter code" onChange={handleChange} onBlur={handleBlur} value={values.code} />
+                                        <input className={errors.code && touched.code ? 'input is-danger' : 'input'} type="text" name="code" placeholder="Enter codepoints" onChange={handleChange} onBlur={handleBlur} value={values.code} />
                                     </div>
                                 </div>
                                 <div className="field">

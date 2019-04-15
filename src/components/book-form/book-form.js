@@ -58,8 +58,12 @@ class BookForm extends Component {
             submitting: true,
             success: false
         });
-        if(values.password !== 'yW%-Ya9%weuuQcZMRved') {
+        if(values.password !== process.env.REACT_APP_FORM_PASSWORD) {
             alert('Nice try scrub');
+            this.setState({
+                submitting: false,
+                success: false
+            });
             return;
         }   
         var book = new Book(values.categoryId, this.state.image, values.title, values.author, values.startedOn, values.finishedOn, values.pageCount, values.summary);
