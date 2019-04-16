@@ -13,7 +13,7 @@ class Home extends Component {
     
     plusCode ='0x2795';
     barCode = '0x1F4C8';
-    totalReviews = 52;
+    totalBooks = 52;
 
     constructor(props){
         super(props);
@@ -146,8 +146,8 @@ class Home extends Component {
                     )}
                 </div>
                 <div id="progress-container">
-                    <progress className="progress is-success" value={this.props.books.length} max={this.totalReviews}></progress>
-                    <p><FontAwesomeIcon icon={faCalculator}/> {this.props.books.length} of {this.totalReviews} complete</p>
+                    <progress className="progress is-success" value={this.props.books.length} max={this.totalBooks}></progress>
+                    <p><FontAwesomeIcon icon={faCalculator}/> {this.props.books.length} of {this.totalBooks} complete</p>
                 </div>
             </div>
         )

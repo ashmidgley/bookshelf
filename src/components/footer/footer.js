@@ -8,7 +8,7 @@ class Footer extends Component {
             <footer className="footer">
                 <div className="content has-text-centered">
                     <p>
-                        <a href="https://github.com/ash-midgley/reviews">
+                        <a href="https://github.com/ash-midgley/bookshelf-ui">
                             <img src="/images/github.png" alt='GitHub icon'/>
                         </a> 
                     </p>
