@@ -14,7 +14,6 @@ class Home extends Component {
     plusCode ='0x2795';
     barCode = '0x1F4C8';
     totalReviews = 52;
-    imageBase64Prefix = 'data:image/jpg;base64,';
 
     constructor(props){
         super(props);
@@ -128,7 +127,7 @@ class Home extends Component {
                                 <div className="card home-tile">
                                     <div className="card-image">
                                         <figure className="image">
-                                            <img src={this.imageBase64Prefix + book.image} alt="Home tile" />
+                                            <img src={process.env.REACT_APP_STORAGE_URL + '/' + book.image} alt="Home tile" />
                                         </figure>
                                     </div>
                                     <div className="card-content home-card-content">
