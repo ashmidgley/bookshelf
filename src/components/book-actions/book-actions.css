@@ -5,3 +5,14 @@
 .book-action-content .title {
     margin-top: 1.5rem;
 }
+
+.admin-table {
+    margin-bottom: 20px;
+}
+
+/* Mobile */
+@media only screen and (max-width: 600px) {
+    .admin-table {
+        overflow: auto;
+    }
+}

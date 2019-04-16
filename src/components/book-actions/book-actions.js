@@ -44,34 +44,36 @@ class BookActions extends Component {
                     :
                     null
                 }
-                <table className="table is-fullwidth is-bordered">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Title</th>
-                            <th>Author</th>
-                            <th>Category Id</th>
-                            <th>Edit</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.props.books.map(book =>
-                            <tr key={book.id}>
-                                <td>{book.id}</td>
-                                <td>{book.title}</td>
-                                <td>{book.author}</td>
-                                <td>{book.categoryId}</td>
-                                <td className="has-text-centered">
-                                    <Link to={'/admin/book-form/' + book.id}><button className="button is-info is-outlined" disabled={this.state.submitting}>Edit</button></Link>
-                                </td>
-                                <td className="has-text-centered">
-                                    <button onClick={() => this.removeBook(book.id)} className="button is-danger is-outlined" disabled={this.state.submitting}>Delete</button>
-                                </td>
+                <div className="admin-table">
+                    <table className="table is-fullwidth is-bordered">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Category</th>
+                                <th>Edit</th>
+                                <th>Delete</th>
                             </tr>
-                        )}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {this.props.books.map(book =>
+                                <tr key={book.id}>
+                                    <td>{book.id}</td>
+                                    <td>{book.title}</td>
+                                    <td>{book.author}</td>
+                                    <td>{book.categoryId}</td>
+                                    <td className="has-text-centered">
+                                        <Link to={'/admin/book-form/' + book.id}><button className="button is-info is-outlined" disabled={this.state.submitting}>Edit</button></Link>
+                                    </td>
+                                    <td className="has-text-centered">
+                                        <button onClick={() => this.removeBook(book.id)} className="button is-danger is-outlined" disabled={this.state.submitting}>Delete</button>
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
+                </div>
                 <div>
                     <Link to={'/admin/book-form'}><button className="button is-success is-outlined">Add</button></Link>
                 </div>

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
-import { Icon } from 'react-fa';
 import Book from '../../models/book';
 import './book-form.css';
 import { connect } from 'react-redux';
@@ -11,8 +10,7 @@ import * as moment from 'moment';
 
 class BookForm extends Component {
     tempImage = 'https://bulma.io/images/placeholders/96x96.png';
-    imageBase64Prefix = 'data:image/jpg;base64,';
-    allowedTypes = ['image/png', 'image/jpg', 'image/jpeg'];
+    allowedTypes = ['jpg', 'jpeg', 'png'];
 
     constructor(props) {
         super(props);
@@ -20,7 +18,6 @@ class BookForm extends Component {
         this.state = {
             action: props.match.params.id ? 'Update' : 'Create',
             book: book,
-            image: props.match.params.id ? book.image : '',
             submitting: false,
             success: false
         };
@@ -43,16 +40,6 @@ class BookForm extends Component {
         }
     }
 
-    handleImage(event) {
-        event.preventDefault();
-        let reader = new FileReader();
-        let file = event.target.files[0];
-		reader.onloadend = () => {
-            this.setState({image: reader.result.substr(reader.result.indexOf(',') + 1)});
-		}
-		reader.readAsDataURL(file)
-    }
-
     submitEntry(values) {
         this.setState({
             submitting: true,
@@ -66,7 +53,7 @@ class BookForm extends Component {
             });
             return;
         }   
-        var book = new Book(values.categoryId, this.state.image, values.title, values.author, values.startedOn, values.finishedOn, values.pageCount, values.summary);
+        var book = new Book(values.categoryId, values.image, values.title, values.author, values.startedOn, values.finishedOn, values.pageCount, values.summary);
         if(!this.props.match.params.id) {
             this.props.createBook(book);
         } else {
@@ -96,8 +83,6 @@ class BookForm extends Component {
                             {
                                 title: this.state.book ? this.state.book.title : '',
                                 image: this.state.book ? this.state.book.image : '',
-                                imageName: this.state.book ? 'To be added...': '',
-                                imageFileType: '',
                                 author: this.state.book ? this.state.book.author : '',
                                 startedOn: this.state.book ? moment(this.state.book.startedOn).format('YYYY-MM-DD') : '',
                                 finishedOn: this.state.book ? moment(this.state.book.finishedOn).format('YYYY-MM-DD') : '',
@@ -111,6 +96,11 @@ class BookForm extends Component {
                             let errors = {};
                             if (!values.title)
                                 errors.title = 'Required';
+                            if(!values.image)
+                                errors.image = 'Required';
+                            var type = values.image.split('.')[1];
+                            if(!type || !this.allowedTypes.includes(type))
+                                errors.image = "Image doesn't match allowed file types"
                             if(!values.author)
                                 errors.author = 'Required';
                             if(!values.startedOn)
@@ -121,10 +111,6 @@ class BookForm extends Component {
                                 errors.pageCount = 'Required';
                             if(!values.summary)
                                 errors.summary = 'Required';
-                            if(values.imageFileType && this.allowedTypes.indexOf(values.imageFileType) === -1)
-                                errors.image = 'File does not match allowed types';
-                            if(!values.imageName)
-                                errors.image = 'Required';
                             if(!values.password)
                                 errors.password = 'Required';
                             return errors;
@@ -142,26 +128,16 @@ class BookForm extends Component {
                                 </div>
                                 <div className="field">
                                     <label className="label">Image</label>
-                                    <div className="file has-name is-centered">
-                                        <label className="file-label">
-                                            <input className="file-input" id="image" type="file" name="image"
-                                                onChange={(event) => {
-                                                    this.handleImage(event)
-                                                    const file = event.currentTarget.files[0];
-                                                    setFieldValue("imageName", file.name);
-                                                    setFieldValue("imageFileType", file.type);
-                                                }} 
-                                            />
-                                            <span className="file-cta">
-                                                <span className="file-icon"><Icon name="upload" /></span><span className="file-label"> Choose a file…</span>
-                                            </span>
-                                            {values.imageName ? <span className="file-name">{values.imageName}</span> : null}
-                                        </label>
+                                    <div className="control">
+                                        <input className={errors.image && touched.image ? 'input is-danger' : 'input'} type="text" name="image" placeholder="Enter image name" onChange={handleChange} onBlur={handleBlur} value={values.image} />
                                     </div>
-                                    {errors.image && touched.image ? <p className="help is-danger" style={{'textAlign': 'center'}}>{errors.image}</p> : null}
                                 </div>
                                 <div className="add-new-image">
-                                    {!errors.image && this.state.image && values.imageName ? <img src={this.imageBase64Prefix + this.state.image} alt={values.imageName} width="96" height="96" /> : <img src={this.tempImage} alt="Placeholder" />}
+                                    {!errors.image && values.image ? 
+                                        <img src={process.env.REACT_APP_STORAGE_URL + '/' + values.image} alt={values.image} width="96" height="96" /> 
+                                        : 
+                                        <img src={this.tempImage} alt="Placeholder" />
+                                    }
                                 </div>
                                 <div className="field">
                                     <label className="label">Author</label>
