@@ -1,0 +1,10 @@
+.admin-table {
+    margin-bottom: 20px;
+}
+
+/* Mobile */
+@media only screen and (max-width: 600px) {
+    .admin-table {
+        overflow: auto;
+    }
+}
