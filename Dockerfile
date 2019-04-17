@@ -1,7 +1,7 @@
 FROM node
-WORKDIR /usr/src/app
-COPY package*.json ./
-RUN npm ci --only=production
 COPY . .
-EXPOSE 80
-CMD [ "npm", "start" ]
+RUN npm install
+RUN npm run build --production
+EXPOSE 5000
+RUN npm install -g serve
+CMD serve -s build
