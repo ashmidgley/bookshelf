@@ -87,7 +87,7 @@ class BookForm extends Component {
                                 startedOn: this.state.book ? moment(this.state.book.startedOn).format('YYYY-MM-DD') : '',
                                 finishedOn: this.state.book ? moment(this.state.book.finishedOn).format('YYYY-MM-DD') : '',
                                 pageCount: this.state.book ? this.state.book.pageCount : '',
-                                categoryId: this.state.book ? this.state.book.categoryId : 1,
+                                categoryId: this.state.book ? this.state.book.categoryId : this.props.categories[0].id,
                                 summary: this.state.book ? this.state.book.summary : '',
                                 password: ''
                             }
@@ -168,7 +168,7 @@ class BookForm extends Component {
                                     <div className="control radio-container">
                                         {this.props.categories.map(category =>
                                             <div key={category.id}> 
-                                                <input type="radio" name="categoryId" id={category.id} value={values.categoryId} checked={values.categoryId === category.id} onChange={() => {setFieldValue('categoryId', category.id)}} onBlur={handleBlur} />
+                                                <input type="radio" name="categoryId" id={category.id} value={values.categoryId} checked={values.categoryId == category.id} onChange={() => {setFieldValue('categoryId', category.id)}} onBlur={handleBlur} />
                                                 <label className="radio">{category.description}</label>
                                             </div>
                                         )}
