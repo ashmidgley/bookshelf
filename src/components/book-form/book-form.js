@@ -30,7 +30,7 @@ class BookForm extends Component {
                 var i = this.props.books.indexOf(oldBook);
                 this.props.books[i] = nextProps.book;
             } else {
-                this.props.books.push(nextProps.book);
+                this.props.books.unshift(nextProps.book);
             }
             this.setState({
                 submitting: false,
@@ -87,7 +87,7 @@ class BookForm extends Component {
                                 startedOn: this.state.book ? moment(this.state.book.startedOn).format('YYYY-MM-DD') : '',
                                 finishedOn: this.state.book ? moment(this.state.book.finishedOn).format('YYYY-MM-DD') : '',
                                 pageCount: this.state.book ? this.state.book.pageCount : '',
-                                categoryId: this.state.book ? this.state.book.categoryId : 1,
+                                categoryId: this.state.book ? this.state.book.categoryId : this.props.categories[0].id,
                                 summary: this.state.book ? this.state.book.summary : '',
                                 password: ''
                             }
