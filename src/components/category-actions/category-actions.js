@@ -4,14 +4,30 @@ import { Link }from 'react-router-dom';
 import { connect } from 'react-redux';
 import { removeCategory } from '../../actions/categoryActions';
 import PropTypes from 'prop-types';
+import Modal from 'react-modal';
+
+const customStyles = {
+    content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)'
+    }
+};
 
 class CategoryActions extends Component {
 
     constructor(props){
         super(props);
         this.state = {
+            modalIsOpen: false,
             submitting: false,
-            success: false
+            success: false,
+            selectedCategory: null,
+            password: '',
+            passwordError: false
         }
     }
 
@@ -21,23 +37,58 @@ class CategoryActions extends Component {
             var i = this.props.categories.indexOf(oldCategory);
             this.props.categories.splice(i, 1);
             this.setState({
+                modalIsOpen: false,
                 submitting: false,
-                success: true
+                success: true,
+                selectedCategory: null
             })
         }
     }
 
-    removeCategory(id) {
+    openModal = (id) => {
         this.setState({
-            submitting: true,
-            success: false
+            selectedCategory: id,
+            modalIsOpen: true,
+            success: false,
+            password: '',
+            passwordError: false
         });
-        this.props.removeCategory(id);
+    }
+    
+    closeModal = () => {
+        this.setState({modalIsOpen: false});
+    }
+
+    handlePasswordChange = (event) => {
+        this.setState({password: event.target.value});
+    }
+
+    handleSubmit = (event) => {
+        event.preventDefault();
+        this.setState({submitting: true});
+        if (this.state.password.localeCompare(process.env.REACT_APP_FORM_PASSWORD) == 0) {
+            this.props.removeCategory(this.state.selectedCategory);
+        } else {
+            this.setState({
+                passwordError: true,
+                submitting: false
+            });
+        }
     }
 
     render() {
         return (
            <div>
+               <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={customStyles}>
+                    <form onSubmit={this.handleSubmit}>
+                        <label className="label">Password</label>
+                        <input className={this.state.passwordError ? "input is-danger" : "input"} type="password" value={this.state.password} onChange={this.handlePasswordChange} placeholder="Enter password" />
+                        <div className="password-modal-actions">
+                            <button className={this.state.submitting ? "button is-success is-loading" : "button is-success"} type="submit">Submit</button>
+                            <button id="cancel" className="button" onClick={this.closeModal}>Cancel</button>
+                        </div>
+                    </form>
+                </Modal>
                 <h1 className="title">Categories</h1>
                 {this.state.success ? 
                     <div className="notification is-primary">Successfully removed entry.</div>
@@ -65,7 +116,7 @@ class CategoryActions extends Component {
                                         <Link to={'/admin/category-form/' + category.id}><button className="button is-info is-outlined" disabled={this.state.submitting}>Edit</button></Link>
                                     </td>
                                     <td className="has-text-centered">
-                                        <button onClick={() => this.removeCategory(category.id)} className="button is-danger is-outlined" disabled={this.state.submitting}>Delete</button>
+                                        <button onClick={() => this.openModal(category.id)} className="button is-danger is-outlined" disabled={this.state.submitting}>Delete</button>
                                     </td>
                                 </tr>
                             )}
