@@ -99,7 +99,6 @@ class BookActions extends Component {
                     <table className="table is-fullwidth is-bordered">
                         <thead>
                             <tr>
-                                <th>Id</th>
                                 <th>Title</th>
                                 <th>Author</th>
                                 <th>Category</th>
@@ -110,7 +109,6 @@ class BookActions extends Component {
                         <tbody>
                             {this.props.books.map(book =>
                                 <tr key={book.id}>
-                                    <td>{book.id}</td>
                                     <td>{book.title}</td>
                                     <td>{book.author}</td>
                                     <td>{book.categoryId}</td>

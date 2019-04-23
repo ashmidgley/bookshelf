@@ -28,7 +28,7 @@ class Review extends Component {
                         <div className="media">
                             <img src="/images/krabs.jpeg" className="author-image" alt="Author" />
                             <div className="container has-text-centered review-media-content">
-                                <p className="title"></p>
+                                <p className="title">{this.state.book.title}</p>
                                 <p className="subtitle is-6">By {this.state.book.author}</p>
                                 <div className="tags has-addons level-item">
                                     <span className="tag is-rounded is-success">{moment(this.state.book.createdOn).format('Do MMMM')}</span>

@@ -30,7 +30,7 @@ class BookForm extends Component {
                 var i = this.props.books.indexOf(oldBook);
                 this.props.books[i] = nextProps.book;
             } else {
-                this.props.books.push(nextProps.book);
+                this.props.books.unshift(nextProps.book);
             }
             this.setState({
                 submitting: false,
