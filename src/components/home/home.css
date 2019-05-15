@@ -78,15 +78,6 @@
         background: #F0F2F4;
     }
 
-.home-search {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-    .home-search input { 
-        max-width: 50%;
-    }
-
 /* Mobile */
 @media only screen and (max-width: 600px) {
     #parent {
@@ -131,10 +122,6 @@
 
     .home-menu-items {
         margin-bottom: 25px;
-    }
-
-    .home-search input {
-        max-width: 100%;
     }
 }
 
