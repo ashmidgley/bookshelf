@@ -88,37 +88,43 @@ class Home extends Component {
                 <Helmet>
                     <title>Bookshelf 163C | Reads from Jan 2019 onwards</title>
                 </Helmet>
-                <div className="home-menu-items">
-                    <div className="is-pulled-left">
+                <div className="home-menu-items columns is-mobile">
+                    <div className="column is-one-fifth">
                         <Link to={'/admin'}>
-                            <button className="button">
+                            <button className="button is-pulled-left">
                                 <span role="img" aria-label="Plus emoji">{punycode.ucs2.encode([this.plusCode])}</span>
                             </button>
                         </Link>
                     </div>
-                    <button 
-                        className={this.state.menu[0] ? "button selected" : "button"} 
-                        onClick={this.displayAll} 
-                        style={{'padding':'0 23px'}}>
-                    </button>
-                    {this.props.categories.map(category =>
-                        <button 
-                            className={this.state.menu[this.props.categories.indexOf(category)+1] ? "button selected" : "button"}
-                            key={category.id}
-                            onClick={() => this.filterBooks(category)}>
-                            <span role="img" aria-label="Category emoji">{punycode.ucs2.encode([category.code])}</span>
-                        </button>
-                    )}
-                    <div className="is-pulled-right">
+                    <div className="column">
+                        <div className="columns">
+                        <div className="column is-two-thirds">
+                            <input className="input" type="text" placeholder="Search by title or author" onChange={this.searchSubmit} />
+                        </div>
+                        <div className="column">
+                            <button 
+                                className={this.state.menu[0] ? "button selected" : "button"} 
+                                onClick={this.displayAll} 
+                                style={{'padding':'0 23px'}}>
+                            </button>
+                            {this.props.categories.map(category =>
+                                <button 
+                                    className={this.state.menu[this.props.categories.indexOf(category)+1] ? "button selected" : "button"}
+                                    key={category.id}
+                                    onClick={() => this.filterBooks(category)}>
+                                    <span role="img" aria-label="Category emoji">{punycode.ucs2.encode([category.code])}</span>
+                                </button>
+                            )}
+                        </div>
+                        </div>
+                    </div>
+                    <div className="column is-one-fifth">
                         <a href="#progress-container">
-                            <button className="button">
+                            <button className="button is-pulled-right">
                                 <span role="img" aria-label="Progress emoji">{punycode.ucs2.encode([this.barCode])}</span>
                             </button>
                         </a>
                     </div>
-                </div>
-                <div className="home-search">
-                    <input className="input" type="text" placeholder="Search by title or author" onChange={this.searchSubmit} />
                 </div>
                 <div className="columns is-multiline">
                     {this.state.books.map(book =>
@@ -136,7 +142,7 @@ class Home extends Component {
                                         <div className="content home-content">
                                             {book.summary ? <p id="tile-content">{book.summary.replace(/<[^>]+>/g, '').substr(0, 50)}...</p> : <p></p>}
                                             <div className="tags has-addons level-item">
-                                                <span className="tag is-rounded">{moment(book.finishedOn).format('Do MMMM ')}</span>
+                                                <span className="tag is-rounded is-success">{moment(book.finishedOn).format('Do MMMM ')}</span>
                                             </div>
                                         </div>
                                     </div>

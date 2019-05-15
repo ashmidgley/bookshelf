@@ -23,6 +23,10 @@ class BookForm extends Component {
         };
     }
 
+    componentDidMount() {
+        window.scrollTo(0, 0);
+    }
+
     componentWillReceiveProps(nextProps) {
         if(nextProps.book) {
             if(this.props.match.params.id){
