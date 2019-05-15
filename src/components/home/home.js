@@ -72,8 +72,8 @@ class Home extends Component {
     }
 
     searchSubmit = (e) => {
-        const query = e.target.value;
-        var books = this.props.books.filter(b => b.title.includes(query) || b.author.includes(query));
+        const query = e.target.value.toLowerCase();
+        var books = this.props.books.filter(b => b.title.toLowerCase().includes(query) || b.author.toLowerCase().includes(query));
         if(this.state.categorySelected != 0) {
             books = books.filter(b => b.categoryId == this.state.categorySelected);
         }
