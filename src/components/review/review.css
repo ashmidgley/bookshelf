@@ -28,6 +28,10 @@
 
 /* Passed in content overrides */
 
+hr:first-child {
+    margin-top: 0;
+}
+
 .review-content > p {
     text-align: left;
     margin-bottom: 15px;
@@ -61,6 +65,10 @@
 
 .tile.is-ancestor:last-child {
     margin-bottom: 0;
+}
+
+.review-content > .level {
+    margin-bottom: 20px;
 }
 
 /* Mobile */
