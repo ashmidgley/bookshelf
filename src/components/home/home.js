@@ -152,7 +152,7 @@ class Home extends Component {
                     )}
                 </div>
                 <div id="progress-container">
-                    <progress className="progress is-success" value={this.props.books.length} max={this.totalBooks}></progress>
+                    <progress className="progress is-warning" value={this.props.books.length} max={this.totalBooks}></progress>
                     <p><FontAwesomeIcon icon={faCalculator}/> {this.props.books.length} of {this.totalBooks} complete</p>
                 </div>
             </div>
