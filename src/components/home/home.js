@@ -86,7 +86,7 @@ class Home extends Component {
         return (
             <div id="parent">
                 <Helmet>
-                    <title>Bookshelf 163C | Reads from Jan 2019 onwards</title>
+                    <title>Bookshelf | Reads from Jan 2019 onwards</title>
                 </Helmet>
                 <div className="home-menu-items columns is-mobile">
                     <div className="column is-one-fifth">
@@ -142,7 +142,7 @@ class Home extends Component {
                                         <div className="content home-content">
                                             {book.summary ? <p id="tile-content">{book.summary.replace(/<[^>]+>/g, '').substr(0, 50)}...</p> : <p></p>}
                                             <div className="tags has-addons level-item">
-                                                <span className="tag is-rounded is-success">{moment(book.finishedOn).format('Do MMMM ')}</span>
+                                                <span className="tag is-rounded">{moment(book.finishedOn).format('Do MMMM ')}</span>
                                             </div>
                                         </div>
                                     </div>

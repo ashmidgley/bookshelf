@@ -49,7 +49,7 @@ class App extends Component {
               <Link to={'/'}>
                 <div className="header-content">
                   <div className="header-title">
-                    <h1>Bookshelf 163C</h1>
+                    <h1>Bookshelf</h1>
                   </div>
                 </div>
               </Link>
