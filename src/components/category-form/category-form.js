@@ -20,6 +20,10 @@ class CategoryForm extends Component {
         };
     }
 
+    componentDidMount() {
+        window.scrollTo(0, 0);
+    }
+
     componentWillReceiveProps(nextProps) {
         if(nextProps.category) {
             if(this.props.match.params.id){

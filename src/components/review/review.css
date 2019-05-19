@@ -30,7 +30,7 @@
 
 .review-content > p {
     text-align: left;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .review-content > img {
@@ -53,6 +53,14 @@
 .review-content > h1 {
     text-align: left;
     text-decoration: underline;
+}
+
+.review-content > .tile {
+    margin-top: 15px;
+}
+
+.tile.is-ancestor:last-child {
+    margin-bottom: 0;
 }
 
 /* Mobile */
