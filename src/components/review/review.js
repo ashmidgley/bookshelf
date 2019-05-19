@@ -31,7 +31,8 @@ class Review extends Component {
                                 <p className="title">{this.state.book.title}</p>
                                 <p className="subtitle is-6">By {this.state.book.author}</p>
                                 <div className="tags has-addons level-item">
-                                    <span className="tag is-rounded is-warning">{moment(this.state.book.finishedOn).format('Do MMMM')}</span>
+                                    <span id="tag-primary" className="tag is-rounded">J. Bloggs</span>
+                                    <span id="tag-secondary" className="tag is-rounded">{moment(this.state.book.finishedOn).format('Do MMMM')}</span>
                                 </div>
                             </div>
                         </div>
