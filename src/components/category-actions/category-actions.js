@@ -99,7 +99,6 @@ class CategoryActions extends Component {
                     <table className="table is-fullwidth is-bordered">
                         <thead>
                             <tr>
-                                <th>Id</th>
                                 <th>Description</th>
                                 <th>Code</th>
                                 <th>Edit</th>
@@ -109,7 +108,6 @@ class CategoryActions extends Component {
                         <tbody>
                             {this.props.categories.map(category =>
                                 <tr key={category.id}>
-                                    <td>{category.id}</td>
                                     <td>{category.description}</td>
                                     <td>{category.code}</td>
                                     <td className="has-text-centered">
