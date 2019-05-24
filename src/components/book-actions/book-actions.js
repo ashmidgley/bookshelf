@@ -111,7 +111,7 @@ class BookActions extends Component {
                                 <tr key={book.id}>
                                     <td>{book.title}</td>
                                     <td>{book.author}</td>
-                                    <td>{book.categoryId}</td>
+                                    <td>{this.props.categories.find(c => c.id === book.categoryId).description}</td>
                                     <td className="has-text-centered">
                                         <Link to={'/admin/book-form/' + book.id}><button className="button is-info is-outlined" disabled={this.state.submitting}>Edit</button></Link>
                                     </td>
@@ -137,6 +137,7 @@ BookActions.propTypes = {
 
   const mapStateToProps = state => ({
     books: state.books.items,
+    categories: state.categories.items,
     removedBook: state.books.item
   });
 

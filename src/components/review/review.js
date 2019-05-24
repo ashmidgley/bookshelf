@@ -26,7 +26,7 @@ class Review extends Component {
                 <div className="card review-card">
                     <div className="card-content">
                         <div className="media">
-                            <img src="/images/krabs.jpeg" className="author-image" alt="Author" />
+                            <img src="/images/book.jpeg" className="author-image" alt="Author" />
                             <div className="container has-text-centered review-media-content">
                                 <p className="title">{this.state.book.title}</p>
                                 <p className="subtitle is-6">By {this.state.book.author}</p>
