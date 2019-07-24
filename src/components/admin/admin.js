@@ -3,6 +3,7 @@ import './admin.css';
 import { connect } from 'react-redux';
 import BookActions from '../book-actions/book-actions';
 import CategoryActions from '../category-actions/category-actions';
+import RatingActions from '../rating-actions/rating-actions';
 import PropTypes from 'prop-types';
 import { Helmet } from "react-helmet";
 
@@ -24,6 +25,8 @@ class Admin extends Component {
                         <BookActions />
                         <hr />
                         <CategoryActions />
+                        <hr />
+                        <RatingActions />
                     </div>
                 </div>
             </div>

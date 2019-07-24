@@ -1,20 +1,20 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
-import Category from '../../models/category';
-import './category-form.css';
+import Rating from '../../models/rating';
+import './rating-form.css';
 import { connect } from 'react-redux';
-import { createCategory, updateCategory } from '../../actions/categoryActions';
+import { createRating, updateRating } from '../../actions/ratingActions';
 import PropTypes from 'prop-types';
 
-class CategoryForm extends Component {
+class ratingForm extends Component {
 
     constructor(props) {
         super(props);
-        var category = props.match.params.id ? this.props.categories.find(b => b.id == props.match.params.id) : null;
+        var rating = props.match.params.id ? this.props.ratings.find(b => b.id == props.match.params.id) : null;
         this.state = {
             action: props.match.params.id ? 'Update' : 'Create',
-            category: category,
+            rating: rating,
             submitting: false,
             success: false
         };
@@ -25,13 +25,13 @@ class CategoryForm extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.category) {
+        if(nextProps.rating) {
             if(this.props.match.params.id){
-                var oldCategory = this.props.categories.find(b => b.id == nextProps.category.id);
-                var i = this.props.categories.indexOf(oldCategory);
-                this.props.categories[i] = nextProps.category;
+                var oldRating = this.props.ratings.find(b => b.id == nextProps.rating.id);
+                var i = this.props.ratings.indexOf(oldRating);
+                this.props.ratings[i] = nextProps.rating;
             } else {
-                this.props.categories.push(nextProps.category);
+                this.props.ratings.push(nextProps.rating);
             }
             this.setState({
                 submitting: false,
@@ -53,13 +53,12 @@ class CategoryForm extends Component {
             });
             return;
         }
-        const code = '0x' + values.code.substring(2);
-        var category = new Category(values.description, code);
+        var rating = new Rating(values.description, values.code);
         if(!this.props.match.params.id) {
-            this.props.createCategory(category);
+            this.props.createrating(rating);
         } else {
-            category.id = this.state.category.id;
-            this.props.updateCategory(category);
+            rating.id = this.state.rating.id;
+            this.props.updaterating(rating);
         }
     }
 
@@ -82,8 +81,8 @@ class CategoryForm extends Component {
                         initialValues=
                         {
                             {
-                                description: this.state.category ? this.state.category.description : '',
-                                code: this.state.category ? this.state.category.code : '',
+                                description: this.state.rating ? this.state.rating.description : '',
+                                code: this.state.rating ? this.state.rating.code : '',
                                 password: ''
                             }
                         }
@@ -109,7 +108,7 @@ class CategoryForm extends Component {
                                     </div>
                                 </div>
                                 <div className="field">
-                                    <label className="label">Codepoints</label>
+                                    <label className="label">Code</label>
                                     <div className="control">
                                         <input className={errors.code && touched.code ? 'input is-danger' : 'input'} type="text" name="code" placeholder="Enter codepoints" onChange={handleChange} onBlur={handleBlur} value={values.code} />
                                     </div>
@@ -134,16 +133,16 @@ class CategoryForm extends Component {
     }
 }
 
-CategoryForm.propTypes = {
-    createCategory: PropTypes.func.isRequired,
-    updateCategory: PropTypes.func.isRequired,
-    categories: PropTypes.array.isRequired
+ratingForm.propTypes = {
+    createRating: PropTypes.func.isRequired,
+    updateRating: PropTypes.func.isRequired,
+    ratings: PropTypes.array.isRequired
     
   };
 
   const mapStateToProps = state => ({
-    categories: state.categories.items,
-    category: state.categories.item
+    ratings: state.ratings.items,
+    rating: state.ratings.item
   });
 
-export default connect(mapStateToProps, {createCategory, updateCategory})(CategoryForm);
+export default connect(mapStateToProps, {createRating, updateRating})(ratingForm);

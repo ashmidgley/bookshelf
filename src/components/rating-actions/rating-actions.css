@@ -1,0 +1,18 @@
+.admin-table {
+    margin-bottom: 20px;
+}
+
+.password-modal-actions {
+    margin-top: 20px;
+}
+
+.password-modal-actions > #cancel {
+    margin-left: 10px;
+}
+
+/* Mobile */
+@media only screen and (max-width: 600px) {
+    .admin-table {
+        overflow: auto;
+    }
+}
