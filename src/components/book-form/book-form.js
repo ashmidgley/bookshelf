@@ -57,7 +57,7 @@ class BookForm extends Component {
             });
             return;
         }   
-        var book = new Book(values.categoryId, values.image, values.title, values.author, values.startedOn, values.finishedOn, values.pageCount, values.summary);
+        var book = new Book(values.categoryId, values.ratingId, values.image, values.title, values.author, values.startedOn, values.finishedOn, values.pageCount, values.summary);
         if(!this.props.match.params.id) {
             this.props.createBook(book);
         } else {
@@ -92,6 +92,7 @@ class BookForm extends Component {
                                 finishedOn: this.state.book ? moment(this.state.book.finishedOn).format('YYYY-MM-DD') : '',
                                 pageCount: this.state.book ? this.state.book.pageCount : '',
                                 categoryId: this.state.book ? this.state.book.categoryId : this.props.categories[0].id,
+                                ratingId: this.state.book ? this.state.book.ratingId : this.props.ratings[0].id,
                                 summary: this.state.book ? this.state.book.summary : '',
                                 password: ''
                             }
@@ -177,7 +178,18 @@ class BookForm extends Component {
                                             </div>
                                         )}
                                     </div>
-                                </div>   
+                                </div>
+                                <div className="field">
+                                    <label className="label">Rating</label>
+                                    <div className="control radio-container">
+                                        {this.props.ratings.map(rating =>
+                                            <div key={rating.id}> 
+                                                <input type="radio" name="ratingId" id={rating.id} value={values.ratingId} checked={values.ratingId === rating.id} onChange={() => {setFieldValue('ratingId', rating.id)}} onBlur={handleBlur} />
+                                                <label className="radio">{rating.description}</label>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>    
                                 <div className="field">
                                     <label className="label">Summary</label>
                                     <div className="control">
@@ -208,14 +220,15 @@ BookForm.propTypes = {
     createBook: PropTypes.func.isRequired,
     updateBook: PropTypes.func.isRequired,
     books: PropTypes.array.isRequired,
-    categories: PropTypes.array.isRequired
-    
+    categories: PropTypes.array.isRequired,
+    ratings: PropTypes.array.isRequired
   };
 
   const mapStateToProps = state => ({
     books: state.books.items,
     book: state.books.item,
-    categories: state.categories.items
+    categories: state.categories.items,
+    ratings: state.ratings.items
   });
 
 export default connect(mapStateToProps, {createBook, updateBook})(BookForm);

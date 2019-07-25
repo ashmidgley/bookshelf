@@ -53,8 +53,7 @@ class CategoryForm extends Component {
             });
             return;
         }
-        const code = '0x' + values.code.substring(2);
-        var category = new Category(values.description, code);
+        var category = new Category(values.description, values.code);
         if(!this.props.match.params.id) {
             this.props.createCategory(category);
         } else {
@@ -109,9 +108,9 @@ class CategoryForm extends Component {
                                     </div>
                                 </div>
                                 <div className="field">
-                                    <label className="label">Codepoints</label>
+                                    <label className="label">Code</label>
                                     <div className="control">
-                                        <input className={errors.code && touched.code ? 'input is-danger' : 'input'} type="text" name="code" placeholder="Enter codepoints" onChange={handleChange} onBlur={handleBlur} value={values.code} />
+                                        <input className={errors.code && touched.code ? 'input is-danger' : 'input'} type="text" name="code" placeholder="Enter code" onChange={handleChange} onBlur={handleBlur} value={values.code} />
                                     </div>
                                 </div>
                                 <div className="field">

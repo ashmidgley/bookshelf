@@ -31,14 +31,38 @@ class Review extends Component {
                                 <p className="title">{this.state.book.title}</p>
                                 <p className="subtitle is-6">By {this.state.book.author}</p>
                                 <div className="tags has-addons level-item">
-                                    <span id="tag-primary" className="tag is-rounded">J. Bloggs</span>
+                                    <span id="tag-primary" className="tag is-rounded">{moment(this.state.book.startedOn).format('Do MMMM')}</span>
                                     <span id="tag-secondary" className="tag is-rounded">{moment(this.state.book.finishedOn).format('Do MMMM')}</span>
                                 </div>
                             </div>
                         </div>
                         
                     </div>
-                    <div className="review-content has-text-centered" dangerouslySetInnerHTML={{ __html: this.state.book.summary }}></div>
+                    <div className="review-content has-text-centered">
+                        <hr />
+                        <p>{this.state.book.summary}</p>
+                        <hr />
+                        <nav className="level is-mobile">
+                            <div className="level-item has-text-centered">
+                                <div>
+                                    <p className="heading">Category</p>
+                                    <p className="title">Code</p>
+                                </div>
+                            </div>
+                            <div className="level-item has-text-centered">
+                                <div>
+                                    <p className="heading">Pages</p>
+                                    <p className="title">{this.state.book.pageCount}</p>
+                                </div>
+                            </div>
+                            <div className="level-item has-text-centered">
+                                <div> 
+                                    <p className="heading">Rating description</p>
+                                    <p className="title">Rating code</p>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
                 </div>
             </div>
         );
@@ -47,10 +71,14 @@ class Review extends Component {
 
   Review.propTypes = {
     books: PropTypes.array.isRequired,
+    categories: PropTypes.array.isRequired,
+    ratings: PropTypes.array.isRequired,
   };
   
   const mapStateToProps = state => ({
-    books: state.books.items
+    books: state.books.items,
+    categories: state.categories.items,
+    ratings: state.ratings.items
   });
 
 export default connect(mapStateToProps)(Review);

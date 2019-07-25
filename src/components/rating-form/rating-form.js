@@ -110,7 +110,7 @@ class ratingForm extends Component {
                                 <div className="field">
                                     <label className="label">Code</label>
                                     <div className="control">
-                                        <input className={errors.code && touched.code ? 'input is-danger' : 'input'} type="text" name="code" placeholder="Enter codepoints" onChange={handleChange} onBlur={handleBlur} value={values.code} />
+                                        <input className={errors.code && touched.code ? 'input is-danger' : 'input'} type="text" name="code" placeholder="Enter code" onChange={handleChange} onBlur={handleBlur} value={values.code} />
                                     </div>
                                 </div>
                                 <div className="field">
