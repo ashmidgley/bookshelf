@@ -52,13 +52,13 @@ class ratingForm extends Component {
                 success: false
             });
             return;
-        }
+        }   
         var rating = new Rating(values.description, values.code);
         if(!this.props.match.params.id) {
-            this.props.createrating(rating);
+            this.props.createRating(rating);
         } else {
             rating.id = this.state.rating.id;
-            this.props.updaterating(rating);
+            this.props.updateRating(rating);
         }
     }
 

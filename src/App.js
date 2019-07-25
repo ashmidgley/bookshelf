@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchBooks } from './actions/bookActions';
 import { fetchCategories } from './actions/categoryActions';
+import { fetchRatings } from './actions/ratingActions';
 import Admin from './components/admin/admin';
 import BookForm from './components/book-form/book-form';
 import CategoryForm from './components/category-form/category-form';
@@ -27,6 +28,7 @@ class App extends Component {
   componentDidMount() {
     this.props.fetchBooks();
     this.props.fetchCategories();
+    this.props.fetchRatings();
   }
 
   componentWillReceiveProps(nextProps) {
@@ -86,13 +88,16 @@ class App extends Component {
 App.propTypes = {
   fetchBooks: PropTypes.func.isRequired,
   fetchCategories: PropTypes.func.isRequired,
+  fetchRatings: PropTypes.func.isRequired,
   books: PropTypes.array.isRequired,
-  categories: PropTypes.array.isRequired
+  categories: PropTypes.array.isRequired,
+  ratings: PropTypes.array.isRequired
 };
 
 const mapStateToProps = state => ({
   books: state.books.items,
-  categories: state.categories.items
+  categories: state.categories.items,
+  ratings: state.ratings.items
 });
 
-export default connect(mapStateToProps, {fetchBooks, fetchCategories})(App);
+export default connect(mapStateToProps, {fetchBooks, fetchCategories, fetchRatings})(App);
