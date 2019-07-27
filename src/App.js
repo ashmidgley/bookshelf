@@ -49,7 +49,7 @@ class App extends Component {
         ratingsLoaded: true
       })
     }
-    if(this.state.booksLoaded && this.state.categoriesLoaded && this.state.ratingsLoaded) {
+    if(nextProps.books && this.state.booksLoaded && this.state.categoriesLoaded && this.state.ratingsLoaded) {
       this.setState({
         loading: false
       })
