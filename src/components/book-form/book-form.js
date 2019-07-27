@@ -91,8 +91,8 @@ class BookForm extends Component {
                                 startedOn: this.state.book ? moment(this.state.book.startedOn).format('YYYY-MM-DD') : '',
                                 finishedOn: this.state.book ? moment(this.state.book.finishedOn).format('YYYY-MM-DD') : '',
                                 pageCount: this.state.book ? this.state.book.pageCount : '',
-                                categoryId: this.state.book ? this.state.book.categoryId : this.props.categories[0].id,
-                                ratingId: this.state.book ? this.state.book.ratingId : this.props.ratings[0].id,
+                                categoryId: this.state.book ? this.state.book.categoryId : 1,
+                                ratingId: this.state.book ? this.state.book.ratingId : 1,
                                 summary: this.state.book ? this.state.book.summary : '',
                                 password: ''
                             }

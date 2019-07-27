@@ -46,7 +46,13 @@ class Review extends Component {
                             <div className="level-item has-text-centered">
                                 <div>
                                     <p className="heading">Category</p>
-                                    <p className="title">Code</p>
+                                    <p className="title">
+                                        {this.props.categories.find(c => c.id === this.state.book.categoryId)
+                                        ?
+                                        this.props.categories.find(c => c.id === this.state.book.categoryId).code
+                                        :
+                                        '-'}
+                                    </p>
                                 </div>
                             </div>
                             <div className="level-item has-text-centered">
@@ -57,8 +63,16 @@ class Review extends Component {
                             </div>
                             <div className="level-item has-text-centered">
                                 <div> 
-                                    <p className="heading">Rating description</p>
-                                    <p className="title">Rating code</p>
+                                    <p className="heading">
+                                        {this.props.ratings.find(r => r.id === this.state.book.ratingId)
+                                        ? 
+                                        this.props.ratings.find(r => r.id === this.state.book.ratingId).description
+                                        :
+                                        '-'}
+                                    </p>
+                                    <p className="title">
+                                    {this.props.ratings.find(r => r.id === this.state.book.ratingId) ? 
+                                    this.props.ratings.find(r => r.id === this.state.book.ratingId).code : "-"}</p>
                                 </div>
                             </div>
                         </nav>
