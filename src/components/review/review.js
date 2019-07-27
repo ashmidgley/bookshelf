@@ -33,8 +33,7 @@ class Review extends Component {
                             <div className="container has-text-centered review-media-content">
                                 <p className="title">{this.state.book.title}</p>
                                 <p className="subtitle is-6">By {this.state.book.author}</p>
-                                <div className="tags has-addons level-item">
-                                    <span id="tag-primary" className="tag is-rounded">{moment(this.state.book.startedOn).format('Do MMMM')}</span>
+                                <div className="tags has-addons level-item">    
                                     <span id="tag-secondary" className="tag is-rounded">{moment(this.state.book.finishedOn).format('Do MMMM')}</span>
                                 </div>
                             </div>
