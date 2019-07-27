@@ -1,7 +1,8 @@
 import { FETCH_RATINGS, NEW_RATING, REMOVE_RATING, UPDATE_RATING } from '../actions/types';
 
 const initialState = {
-  items: []
+  items: [],
+  item: {}
 };
 
 export default function(state = initialState, action) {
@@ -9,7 +10,8 @@ export default function(state = initialState, action) {
     case FETCH_RATINGS:
       return {
         ...state,
-        items: action.payload
+        items: action.payload,
+        item: {}
       };
     case NEW_RATING:
       return {

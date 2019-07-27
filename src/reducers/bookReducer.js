@@ -10,7 +10,8 @@ export default function(state = initialState, action) {
     case FETCH_BOOKS:
       return {
         ...state,
-        items: action.payload
+        items: action.payload,
+        item: {}
       };
     case NEW_BOOK:
       return {

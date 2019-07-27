@@ -32,7 +32,7 @@ class BookActions extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.removedBook) {
+        if(Object.entries(nextProps.removedBook).length !== 0) {
             var oldBook = this.props.books.find(b => b.id == nextProps.removedBook.id);
             var i = this.props.books.indexOf(oldBook);
             this.props.books.splice(i, 1);
