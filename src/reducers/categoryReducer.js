@@ -1,7 +1,8 @@
 import { FETCH_CATEGORIES, NEW_CATEGORY, REMOVE_CATEGORY, UPDATE_CATEGORY } from '../actions/types';
 
 const initialState = {
-  items: []
+  items: [],
+  item: {}
 };
 
 export default function(state = initialState, action) {
@@ -9,7 +10,8 @@ export default function(state = initialState, action) {
     case FETCH_CATEGORIES:
       return {
         ...state,
-        items: action.payload
+        items: action.payload,
+        item: {}
       };
     case NEW_CATEGORY:
       return {

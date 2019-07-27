@@ -9,14 +9,17 @@ class Review extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            book: []
+            book: [],
+            paragraphs: []
         };
     }
 
     componentDidMount() {
         window.scrollTo(0, 0);
+        var book = this.props.books.find(b => b.id == this.props.match.params.id);
         this.setState({
-            book: this.props.books.find(b => b.id == this.props.match.params.id)
+            book: book,
+            paragraphs: book.summary.split('\n')
         });
     }
 
@@ -30,15 +33,54 @@ class Review extends Component {
                             <div className="container has-text-centered review-media-content">
                                 <p className="title">{this.state.book.title}</p>
                                 <p className="subtitle is-6">By {this.state.book.author}</p>
-                                <div className="tags has-addons level-item">
-                                    <span id="tag-primary" className="tag is-rounded">J. Bloggs</span>
+                                <div className="tags has-addons level-item">    
                                     <span id="tag-secondary" className="tag is-rounded">{moment(this.state.book.finishedOn).format('Do MMMM')}</span>
                                 </div>
                             </div>
                         </div>
                         
                     </div>
-                    <div className="review-content has-text-centered" dangerouslySetInnerHTML={{ __html: this.state.book.summary }}></div>
+                    <div className="review-content has-text-centered">
+                        <hr />
+                        {this.state.paragraphs.map(paragraph =>
+                            <p>{paragraph}</p>
+                        )}
+                        <hr />
+                        <nav className="level is-mobile">
+                            <div className="level-item has-text-centered">
+                                <div>
+                                    <p className="heading">Category</p>
+                                    <p className="title">
+                                        {this.props.categories.find(c => c.id === this.state.book.categoryId)
+                                        ?
+                                        this.props.categories.find(c => c.id === this.state.book.categoryId).code
+                                        :
+                                        '-'}
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="level-item has-text-centered">
+                                <div>
+                                    <p className="heading">Pages</p>
+                                    <p className="title">{this.state.book.pageCount}</p>
+                                </div>
+                            </div>
+                            <div className="level-item has-text-centered">
+                                <div> 
+                                    <p className="heading">
+                                        {this.props.ratings.find(r => r.id === this.state.book.ratingId)
+                                        ? 
+                                        this.props.ratings.find(r => r.id === this.state.book.ratingId).description
+                                        :
+                                        '-'}
+                                    </p>
+                                    <p className="title">
+                                    {this.props.ratings.find(r => r.id === this.state.book.ratingId) ? 
+                                    this.props.ratings.find(r => r.id === this.state.book.ratingId).code : "-"}</p>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
                 </div>
             </div>
         );
@@ -47,10 +89,14 @@ class Review extends Component {
 
   Review.propTypes = {
     books: PropTypes.array.isRequired,
+    categories: PropTypes.array.isRequired,
+    ratings: PropTypes.array.isRequired,
   };
   
   const mapStateToProps = state => ({
-    books: state.books.items
+    books: state.books.items,
+    categories: state.categories.items,
+    ratings: state.ratings.items
   });
 
 export default connect(mapStateToProps)(Review);

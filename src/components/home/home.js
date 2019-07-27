@@ -11,8 +11,8 @@ import { Helmet } from "react-helmet";
 
 class Home extends Component {
     
-    plusCode ='0x2795';
-    barCode = '0x1F4C8';
+    plusCode ='➕';
+    barCode = '📈';
     totalBooks = 52;
 
     constructor(props){
@@ -92,7 +92,7 @@ class Home extends Component {
                     <div className="column is-one-fifth">
                         <Link to={'/admin'}>
                             <button className="button is-pulled-left">
-                                <span role="img" aria-label="Plus emoji">{punycode.ucs2.encode([this.plusCode])}</span>
+                                <span role="img" aria-label="Plus emoji">{this.plusCode}</span>
                             </button>
                         </Link>
                     </div>
@@ -112,7 +112,7 @@ class Home extends Component {
                                     className={this.state.menu[this.props.categories.indexOf(category)+1] ? "button selected" : "button"}
                                     key={category.id}
                                     onClick={() => this.filterBooks(category)}>
-                                    <span role="img" aria-label="Category emoji">{punycode.ucs2.encode([category.code])}</span>
+                                    <span role="img" aria-label="Category emoji">{category.code}</span>
                                 </button>
                             )}
                         </div>
@@ -121,7 +121,7 @@ class Home extends Component {
                     <div className="column is-one-fifth">
                         <a href="#progress-container">
                             <button className="button is-pulled-right">
-                                <span role="img" aria-label="Progress emoji">{punycode.ucs2.encode([this.barCode])}</span>
+                                <span role="img" aria-label="Progress emoji">{this.barCode}</span>
                             </button>
                         </a>
                     </div>

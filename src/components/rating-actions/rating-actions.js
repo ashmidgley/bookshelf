@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './category-actions.css';
+import './rating-actions.css';
 import { Link }from 'react-router-dom';
 import { connect } from 'react-redux';
-import { removeCategory } from '../../actions/categoryActions';
+import { removeRating } from '../../actions/ratingActions';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 
@@ -17,7 +17,7 @@ const customStyles = {
     }
 };
 
-class CategoryActions extends Component {
+class RatingActions extends Component {
 
     constructor(props){
         super(props);
@@ -25,29 +25,29 @@ class CategoryActions extends Component {
             modalIsOpen: false,
             submitting: false,
             success: false,
-            selectedCategory: null,
+            selectedRating: null,
             password: '',
             passwordError: false
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        if(Object.entries(nextProps.removedCategory).length !== 0) {
-            var oldCategory = this.props.categories.find(b => b.id == nextProps.removedCategory.id);
-            var i = this.props.categories.indexOf(oldCategory);
-            this.props.categories.splice(i, 1);
+        if(Object.entries(nextProps.removedRating).length !== 0) {
+            var oldRating = this.props.ratings.find(b => b.id == nextProps.removedRating.id);
+            var i = this.props.ratings.indexOf(oldRating);
+            this.props.ratings.splice(i, 1);
             this.setState({
                 modalIsOpen: false,
                 submitting: false,
                 success: true,
-                selectedCategory: null
+                selectedRating: null
             })
         }
     }
 
     openModal = (id) => {
         this.setState({
-            selectedCategory: id,
+            selectedRating: id,
             modalIsOpen: true,
             success: false,
             password: '',
@@ -67,7 +67,7 @@ class CategoryActions extends Component {
         event.preventDefault();
         this.setState({submitting: true});
         if (this.state.password.localeCompare(process.env.REACT_APP_FORM_PASSWORD) == 0) {
-            this.props.removeCategory(this.state.selectedCategory);
+            this.props.removeRating(this.state.selectedRating);
         } else {
             this.setState({
                 passwordError: true,
@@ -89,7 +89,7 @@ class CategoryActions extends Component {
                         </div>
                     </form>
                 </Modal>
-                <h1 className="title">Categories</h1>
+                <h1 className="title">Ratings</h1>
                 {this.state.success ? 
                     <div className="notification is-primary">Successfully removed entry.</div>
                     :
@@ -106,15 +106,15 @@ class CategoryActions extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.props.categories.map(category =>
-                                <tr key={category.id}>
-                                    <td>{category.description}</td>
-                                    <td>{category.code}</td>
+                            {this.props.ratings.map(rating =>
+                                <tr key={rating.id}>
+                                    <td>{rating.description}</td>
+                                    <td>{rating.code}</td>
                                     <td className="has-text-centered">
-                                        <Link to={'/admin/category-form/' + category.id}><button className="button is-info is-outlined" disabled={this.state.submitting}>Edit</button></Link>
+                                        <Link to={'/admin/rating-form/' + rating.id}><button className="button is-info is-outlined" disabled={this.state.submitting}>Edit</button></Link>
                                     </td>
                                     <td className="has-text-centered">
-                                        <button onClick={() => this.openModal(category.id)} className="button is-danger is-outlined" disabled={this.state.submitting}>Delete</button>
+                                        <button onClick={() => this.openModal(rating.id)} className="button is-danger is-outlined" disabled={this.state.submitting}>Delete</button>
                                     </td>
                                 </tr>
                             )}
@@ -122,21 +122,20 @@ class CategoryActions extends Component {
                     </table>
                 </div>
                 <div>
-                    <Link to={'/admin/category-form'}><button className="button is-success is-outlined">Add</button></Link>
+                    <Link to={'/admin/rating-form'}><button className="button is-success is-outlined">Add</button></Link>
                 </div>
             </div>
         )
     }
 }
 
-
-CategoryActions.propTypes = {
-    categories: PropTypes.array.isRequired
+RatingActions.propTypes = {
+    ratings: PropTypes.array.isRequired
   };
 
   const mapStateToProps = state => ({
-    categories: state.categories.items,
-    removedCategory: state.categories.item
+    ratings: state.ratings.items,
+    removedRating: state.ratings.item
   });
 
-export default connect(mapStateToProps, {removeCategory})(CategoryActions);
+export default connect(mapStateToProps, {removeRating})(RatingActions);

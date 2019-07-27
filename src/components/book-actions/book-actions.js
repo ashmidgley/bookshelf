@@ -32,7 +32,7 @@ class BookActions extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.removedBook) {
+        if(Object.entries(nextProps.removedBook).length !== 0) {
             var oldBook = this.props.books.find(b => b.id == nextProps.removedBook.id);
             var i = this.props.books.indexOf(oldBook);
             this.props.books.splice(i, 1);
@@ -102,6 +102,7 @@ class BookActions extends Component {
                                 <th>Title</th>
                                 <th>Author</th>
                                 <th>Category</th>
+                                <th>Rating</th>
                                 <th>Edit</th>
                                 <th>Delete</th>
                             </tr>
@@ -111,7 +112,20 @@ class BookActions extends Component {
                                 <tr key={book.id}>
                                     <td>{book.title}</td>
                                     <td>{book.author}</td>
-                                    <td>{this.props.categories.find(c => c.id === book.categoryId).description}</td>
+                                    <td>
+                                        {this.props.categories.find(c => c.id === book.categoryId)
+                                        ? 
+                                        this.props.categories.find(c => c.id === book.categoryId).description
+                                        :
+                                        '-'}
+                                    </td>
+                                    <td>
+                                        {this.props.ratings.find(r => r.id === book.ratingId)
+                                        ? 
+                                        this.props.ratings.find(r => r.id === book.ratingId).description
+                                        :
+                                        '-'}
+                                    </td>
                                     <td className="has-text-centered">
                                         <Link to={'/admin/book-form/' + book.id}><button className="button is-info is-outlined" disabled={this.state.submitting}>Edit</button></Link>
                                     </td>
@@ -132,12 +146,15 @@ class BookActions extends Component {
 }
 
 BookActions.propTypes = {
-    books: PropTypes.array.isRequired
+    books: PropTypes.array.isRequired,
+    categories: PropTypes.array.isRequired,
+    ratings: PropTypes.array.isRequired
   };
 
   const mapStateToProps = state => ({
     books: state.books.items,
     categories: state.categories.items,
+    ratings: state.ratings.items,
     removedBook: state.books.item
   });
 
