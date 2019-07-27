@@ -25,7 +25,7 @@ class CategoryForm extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.category) {
+        if(Object.entries(nextProps.category).length !== 0) {
             if(this.props.match.params.id){
                 var oldCategory = this.props.categories.find(b => b.id == nextProps.category.id);
                 var i = this.props.categories.indexOf(oldCategory);
