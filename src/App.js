@@ -20,9 +20,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      booksLoaded: false,
-      categoriesLoaded: false,
-      ratingsLoaded: false,
+      initialPropsLoaded: false,
       loading: true
     };
   }
@@ -34,22 +32,7 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.books) {
-      this.setState({
-        booksLoaded: true
-      })
-    }
-    if(nextProps.categories) {
-      this.setState({
-        categoriesLoaded: true
-      })
-    }
-    if(nextProps.ratings) {
-      this.setState({
-        ratingsLoaded: true
-      })
-    }
-    if(this.state.booksLoaded && this.state.categoriesLoaded && this.state.ratingsLoaded) {
+    if(Array.isArray(nextProps.books) && nextProps.books.length) {
       this.setState({
         loading: false
       })
