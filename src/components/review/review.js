@@ -9,14 +9,17 @@ class Review extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            book: []
+            book: [],
+            paragraphs: []
         };
     }
 
     componentDidMount() {
         window.scrollTo(0, 0);
+        var book = this.props.books.find(b => b.id == this.props.match.params.id);
         this.setState({
-            book: this.props.books.find(b => b.id == this.props.match.params.id)
+            book: book,
+            paragraphs: book.summary.split('\n')
         });
     }
 
@@ -40,7 +43,9 @@ class Review extends Component {
                     </div>
                     <div className="review-content has-text-centered">
                         <hr />
-                        <p>{this.state.book.summary}</p>
+                        {this.state.paragraphs.map(paragraph =>
+                            <p>{paragraph}</p>
+                        )}
                         <hr />
                         <nav className="level is-mobile">
                             <div className="level-item has-text-centered">
