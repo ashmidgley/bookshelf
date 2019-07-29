@@ -1,10 +1,10 @@
 .admin-image-header-container {
     position: absolute;
-    top: -20px;
+    top: -25px;
     left: 50%;
     width: 50px;
     height: 50px;
-    margin-left: -20px;
+    margin-left: -25px;
     border-radius: 50%;
     border: 3px solid #ccc;
     background-color: #F0F2F4;
@@ -14,4 +14,8 @@
     color: #3273dc;
     margin-left: 9.5px;
     margin-top: 11px;
+}
+
+.admin-card {
+    text-align: center;
 }

@@ -17,7 +17,7 @@ class Admin extends Component {
                 <Helmet>
                     <title>Bookshelf | Admin</title>
                 </Helmet>
-                <div className="card">
+                <div className="card admin-card">
                     <div className="card-content">
                         <div className="media">
                             <div className="admin-image-header-container">

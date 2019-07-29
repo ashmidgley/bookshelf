@@ -73,6 +73,8 @@
     
     .home-tile {
         border-radius: 0;
+        transition: none;
+        box-shadow: none;
         min-width: 100px;
         max-width: 200px;
     }
