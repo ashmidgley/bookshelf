@@ -54,7 +54,7 @@ class Review extends Component {
                             <div className="level-item has-text-centered">
                                 <div>
                                     <p className="heading">Category</p>
-                                    <p className="title">
+                                    <p className="review-subtitle">
                                         {this.props.categories.find(c => c.id === this.state.book.categoryId)
                                         ?
                                         this.props.categories.find(c => c.id === this.state.book.categoryId).code
@@ -66,7 +66,7 @@ class Review extends Component {
                             <div className="level-item has-text-centered">
                                 <div>
                                     <p className="heading">Pages</p>
-                                    <p className="title">{this.state.book.pageCount}</p>
+                                    <p className="review-subtitle">{this.state.book.pageCount}</p>
                                 </div>
                             </div>
                             <div className="level-item has-text-centered">
@@ -78,7 +78,7 @@ class Review extends Component {
                                         :
                                         '-'}
                                     </p>
-                                    <p className="title">
+                                    <p className="review-subtitle">
                                     {this.props.ratings.find(r => r.id === this.state.book.ratingId) ? 
                                     this.props.ratings.find(r => r.id === this.state.book.ratingId).code : "-"}</p>
                                 </div>
