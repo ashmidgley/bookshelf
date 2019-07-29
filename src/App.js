@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Home from './components/home/home';
 import Review from './components/review/review';
 import Footer from './components/footer/footer';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import './App.css';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -14,6 +14,8 @@ import Admin from './components/admin/admin';
 import BookForm from './components/book-form/book-form';
 import CategoryForm from './components/category-form/category-form';
 import RatingForm from './components/rating-form/rating-form';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBookDead } from '@fortawesome/free-solid-svg-icons';
 
 class App extends Component {
 
@@ -56,9 +58,9 @@ class App extends Component {
                 <nav class="navbar">
                   <div class="container">
                     <div class="navbar-brand">
-                      <a class="navbar-item" href="/">
-                        <img src='/images/fa_book.png'></img>
-                      </a>
+                      <Link class="navbar-item" to="/">
+                        <FontAwesomeIcon icon={faBookDead} className="nav-icon" size="2x"/>
+                      </Link>
                       <span className={this.state.dropdownOpen ? "navbar-burger burger is-active" : "navbar-burger burger"} 
                         onClick={this.dropdownSelected}
                         data-target="navbarMenu">

@@ -84,7 +84,7 @@ class RatingActions extends Component {
                         <label className="label">Password</label>
                         <input className={this.state.passwordError ? "input is-danger" : "input"} type="password" value={this.state.password} onChange={this.handlePasswordChange} placeholder="Enter password" />
                         <div className="password-modal-actions">
-                            <button className={this.state.submitting ? "button is-success is-loading" : "button is-success"} type="submit">Submit</button>
+                            <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit">Submit</button>
                             <button id="cancel" className="button" onClick={this.closeModal}>Cancel</button>
                         </div>
                     </form>
@@ -111,10 +111,10 @@ class RatingActions extends Component {
                                     <td>{rating.description}</td>
                                     <td>{rating.code}</td>
                                     <td className="has-text-centered">
-                                        <Link to={'/admin/rating-form/' + rating.id}><button className="button is-info is-outlined" disabled={this.state.submitting}>Edit</button></Link>
+                                        <Link to={'/admin/rating-form/' + rating.id}><button className="button is-outlined" disabled={this.state.submitting}>Edit</button></Link>
                                     </td>
                                     <td className="has-text-centered">
-                                        <button onClick={() => this.openModal(rating.id)} className="button is-danger is-outlined" disabled={this.state.submitting}>Delete</button>
+                                        <button onClick={() => this.openModal(rating.id)} className="button is-outlined" disabled={this.state.submitting}>Delete</button>
                                     </td>
                                 </tr>
                             )}
@@ -122,7 +122,7 @@ class RatingActions extends Component {
                     </table>
                 </div>
                 <div>
-                    <Link to={'/admin/rating-form'}><button className="button is-success is-outlined">Add</button></Link>
+                    <Link to={'/admin/rating-form'}><button className="button is-outlined">Add</button></Link>
                 </div>
             </div>
         )

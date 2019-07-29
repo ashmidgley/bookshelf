@@ -1,15 +1,17 @@
 .admin-image-header-container {
     position: absolute;
-    top: -30px;
+    top: -20px;
     left: 50%;
-    width: 60px;
-    height: 60px;
-    margin-left: -30px;
+    width: 50px;
+    height: 50px;
+    margin-left: -20px;
     border-radius: 50%;
     border: 3px solid #ccc;
     background-color: #F0F2F4;
 }
 
-.admin-image-header {
-    border-radius: 50%;
+.admin-icon {
+    color: #3273dc;
+    margin-left: 9.5px;
+    margin-top: 11px;
 }

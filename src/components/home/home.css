@@ -30,6 +30,8 @@
 
     .home-menu-items > .columns {
         width: 100%;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .home-menu-items button {
@@ -45,7 +47,11 @@
     }
 
     .home-menu-items .selected {
-        background: #F0F2F4;
+        border-color: #3273dc;
+    }
+
+    .home-menu-items .button:focus {
+        border-color: #3273dc;
     }
 
     .home-menu-items .input {
@@ -70,7 +76,7 @@
     } 
     
     .home-tile {
-        max-width: 110px;
+        margin-bottom: 20px;
         border-radius: 0;
         box-shadow: none;
         

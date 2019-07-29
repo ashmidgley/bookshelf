@@ -7,6 +7,8 @@ import { connect } from 'react-redux';
 import { createBook, updateBook } from '../../actions/bookActions';
 import PropTypes from 'prop-types';
 import * as moment from 'moment';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 class BookForm extends Component {
     tempImage = 'https://bulma.io/images/placeholders/96x96.png';
@@ -73,7 +75,7 @@ class BookForm extends Component {
                     <div className="card-content">
                     <div className="media">
                         <div className="image-header-container">
-                            <img src="/images/plus.png" className="image-header" alt="Plus emoji" />
+                            <FontAwesomeIcon icon={faPlus} className="plus-icon" size="lg"/>
                         </div>
                     </div>
                     {this.state.success ? 

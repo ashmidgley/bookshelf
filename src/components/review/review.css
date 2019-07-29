@@ -22,13 +22,8 @@
     margin-right: 35px;
 }
 
-#tag-primary {
-    background-color: rgb(41, 128, 185); 
-    color: #fff;
-}
-
 #tag-secondary {
-    background-color: rgb(37, 45, 63);
+    background-color: #3273dc;
     color: #fff;
 }
 
