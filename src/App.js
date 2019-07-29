@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Home from './components/home/home';
 import Review from './components/review/review';
 import Footer from './components/footer/footer';
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import './App.css';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -14,6 +14,8 @@ import Admin from './components/admin/admin';
 import BookForm from './components/book-form/book-form';
 import CategoryForm from './components/category-form/category-form';
 import RatingForm from './components/rating-form/rating-form';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBookDead } from '@fortawesome/free-solid-svg-icons';
 
 class App extends Component {
 
@@ -21,7 +23,8 @@ class App extends Component {
     super(props);
     this.state = {
       initialPropsLoaded: false,
-      loading: true
+      loading: true,
+      dropdownOpen: false
     };
   }
 
@@ -39,18 +42,46 @@ class App extends Component {
     }
   }
 
+  dropdownSelected = () => {
+    var result = !this.state.dropdownOpen;
+    this.setState({
+      dropdownOpen: result
+    });
+  }
+
   render() {
     return (
         <Router>
           <div className="App">
             <div className="screen-content">
-              <Link to={'/'}>
-                <div className="header-content">
-                  <div className="header-title">
-                    <h1>Bookshelf</h1>
+              <div class="hero-head nav-container">
+                <nav class="navbar">
+                  <div class="container">
+                    <div class="navbar-brand">
+                      <Link class="navbar-item" to="/">
+                        <FontAwesomeIcon icon={faBookDead} className="nav-icon" size="2x"/>
+                      </Link>
+                      <span className={this.state.dropdownOpen ? "navbar-burger burger is-active" : "navbar-burger burger"} 
+                        onClick={this.dropdownSelected}
+                        data-target="navbarMenu">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                      </span>
+                    </div>
+                    <div id="navbarMenu" className={this.state.dropdownOpen ? "navbar-menu is-active" : "navbar-menu"} >
+                      <div className="navbar-end">
+                        <div class="tabs is-right">
+                          <ul>
+                              <NavLink exact activeClassName="active-nav" to="/">Home</NavLink>
+                              <NavLink activeClassName="active-nav" to="/admin">Admin</NavLink>
+                          </ul>
+                        </div>
+                      </div>  
+                    </div>
                   </div>
-                </div>
-              </Link>
+                </nav>
+              </div>
               {this.state.loading ?
                 <div className="spinner">
                   <div className="rect1"></div>
@@ -60,7 +91,7 @@ class App extends Component {
                   <div className="rect5"></div>
                 </div>
               :
-                <div>
+                <div className="container">
                   <Route exact path="/" component={Home} />
                   <Route exact path="/admin" component={Admin} />
                   <Route exact path="/admin/book-form" component={BookForm} />

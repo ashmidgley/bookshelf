@@ -1,19 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalculator } from '@fortawesome/free-solid-svg-icons';
-import * as moment from 'moment';
-import * as punycode from 'punycode';
 import './home.css'
 import { connect } from 'react-redux'; 
 import PropTypes from 'prop-types';
 import { Helmet } from "react-helmet";
 
 class Home extends Component {
-    
-    plusCode ='➕';
-    barCode = '📈';
-    totalBooks = 52;
 
     constructor(props){
         super(props);
@@ -37,7 +29,6 @@ class Home extends Component {
         window.removeEventListener("resize", this.checkDimensions);
     }
 
-    /* = () => binds 'this' automatically to checkDimensions */
     checkDimensions = () => {
         var newVal = 'column child';
         if(window.innerWidth > 769 && window.innerWidth < 1000) {
@@ -88,17 +79,9 @@ class Home extends Component {
                 <Helmet>
                     <title>Bookshelf | Reads from Jan 2019 onwards</title>
                 </Helmet>
-                <div className="home-menu-items columns is-mobile">
-                    <div className="column is-one-fifth">
-                        <Link to={'/admin'}>
-                            <button className="button is-pulled-left">
-                                <span role="img" aria-label="Plus emoji">{this.plusCode}</span>
-                            </button>
-                        </Link>
-                    </div>
-                    <div className="column">
+                <div className="home-menu-items columns is-mobile card">
                         <div className="columns">
-                        <div className="column is-two-thirds">
+                        <div className="column is-three-quarters">
                             <input className="input" type="text" placeholder="Search by title or author" onChange={this.searchSubmit} />
                         </div>
                         <div className="column">
@@ -116,44 +99,20 @@ class Home extends Component {
                                 </button>
                             )}
                         </div>
-                        </div>
-                    </div>
-                    <div className="column is-one-fifth">
-                        <a href="#progress-container">
-                            <button className="button is-pulled-right">
-                                <span role="img" aria-label="Progress emoji">{this.barCode}</span>
-                            </button>
-                        </a>
                     </div>
                 </div>
-                <div className="columns is-multiline">
+                <div className="columns is-multiline is-mobile home-tiles">
                     {this.state.books.map(book =>
                         <div key={book.id} className={this.state.columnClass}>
                             <Link to={`/review/${book.id}`} style={(book.summary) ? {} : { pointerEvents: 'none', cursor: 'default'}}>
                                 <div className="card home-tile">
-                                    <div className="card-image">
-                                        <figure className="image">
-                                            <img src={process.env.REACT_APP_STORAGE_URL + '/' + book.image} alt="Home tile" />
-                                        </figure>
-                                    </div>
-                                    <div className="card-content home-card-content">
-                                        <p className="title is-6 handle-wrap">{book.title}</p>
-                                        <p className="subtitle is-6 handle-wrap">{book.author}</p>
-                                        <div className="content home-content">
-                                            {book.summary ? <p id="tile-content">{book.summary.replace(/<[^>]+>/g, '').substr(0, 50)}...</p> : <p></p>}
-                                            <div className="tags has-addons level-item">
-                                                <span className="tag is-rounded">{moment(book.finishedOn).format('Do MMMM ')}</span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <figure className="image">
+                                        <img src={process.env.REACT_APP_STORAGE_URL + '/' + book.image} alt="Home tile" />
+                                    </figure>
                                 </div>
                             </Link>
                         </div>
                     )}
-                </div>
-                <div id="progress-container">
-                    <progress className="progress is-warning" value={this.props.books.length} max={this.totalBooks}></progress>
-                    <p><FontAwesomeIcon icon={faCalculator}/> {this.props.books.length} of {this.totalBooks} complete</p>
                 </div>
             </div>
         )

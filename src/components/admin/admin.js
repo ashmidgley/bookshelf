@@ -6,6 +6,8 @@ import CategoryActions from '../category-actions/category-actions';
 import RatingActions from '../rating-actions/rating-actions';
 import PropTypes from 'prop-types';
 import { Helmet } from "react-helmet";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 class Admin extends Component {
 
@@ -15,11 +17,11 @@ class Admin extends Component {
                 <Helmet>
                     <title>Bookshelf | Admin</title>
                 </Helmet>
-                <div className="card">
-                    <div className="card-content book-action-content">
+                <div className="card admin-card">
+                    <div className="card-content">
                         <div className="media">
                             <div className="admin-image-header-container">
-                                <img src="/images/admin.jpg" className="admin-image-header" alt="Eagle head" />
+                                <FontAwesomeIcon icon={faEye} className="admin-icon" size="lg"/>
                             </div>
                         </div>
                         <BookActions />

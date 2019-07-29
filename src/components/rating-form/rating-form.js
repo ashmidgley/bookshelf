@@ -6,6 +6,8 @@ import './rating-form.css';
 import { connect } from 'react-redux';
 import { createRating, updateRating } from '../../actions/ratingActions';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 class ratingForm extends Component {
 
@@ -64,12 +66,12 @@ class ratingForm extends Component {
 
     render() {
         return (
-            <div className="column is-8 is-offset-2 review-column"> 
+            <div className="column is-8 is-offset-2"> 
                 <div className="card review-card">
                     <div className="card-content">
                     <div className="media">
                         <div className="image-header-container">
-                            <img src="/images/plus.png" className="image-header" alt="Plus emoji" />
+                            <FontAwesomeIcon icon={faPlus} className="plus-icon" size="lg"/>
                         </div>
                     </div>
                     {this.state.success ? 
