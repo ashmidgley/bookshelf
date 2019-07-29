@@ -3,6 +3,8 @@ import './review.css';
 import * as moment from 'moment';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
 
 class Review extends Component {
 
@@ -29,7 +31,9 @@ class Review extends Component {
                 <div className="card review-card">
                     <div className="card-content">
                         <div className="media">
-                            <img src="/images/book.jpeg" className="author-image" alt="Author" />
+                            <div className="review-image-header-container">
+                                <FontAwesomeIcon icon={faBookOpen} className="review-icon" size="lg"/>
+                            </div>
                             <div className="container has-text-centered review-media-content">
                                 <p className="title">{this.state.book.title}</p>
                                 <p className="subtitle is-6">By {this.state.book.author}</p>

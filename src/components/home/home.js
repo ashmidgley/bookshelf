@@ -6,10 +6,6 @@ import PropTypes from 'prop-types';
 import { Helmet } from "react-helmet";
 
 class Home extends Component {
-    
-    plusCode ='➕';
-    barCode = '📈';
-    totalBooks = 52;
 
     constructor(props){
         super(props);
@@ -33,7 +29,6 @@ class Home extends Component {
         window.removeEventListener("resize", this.checkDimensions);
     }
 
-    /* = () => binds 'this' automatically to checkDimensions */
     checkDimensions = () => {
         var newVal = 'column child';
         if(window.innerWidth > 769 && window.innerWidth < 1000) {
@@ -106,16 +101,14 @@ class Home extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="columns is-multiline home-tiles">
+                <div className="columns is-multiline is-mobile home-tiles">
                     {this.state.books.map(book =>
                         <div key={book.id} className={this.state.columnClass}>
                             <Link to={`/review/${book.id}`} style={(book.summary) ? {} : { pointerEvents: 'none', cursor: 'default'}}>
                                 <div className="card home-tile">
-                                    <div className="card-image">
-                                        <figure className="image">
-                                            <img src={process.env.REACT_APP_STORAGE_URL + '/' + book.image} alt="Home tile" />
-                                        </figure>
-                                    </div>
+                                    <figure className="image">
+                                        <img src={process.env.REACT_APP_STORAGE_URL + '/' + book.image} alt="Home tile" />
+                                    </figure>
                                 </div>
                             </Link>
                         </div>

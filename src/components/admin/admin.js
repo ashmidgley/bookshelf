@@ -18,7 +18,7 @@ class Admin extends Component {
                     <title>Bookshelf | Admin</title>
                 </Helmet>
                 <div className="card">
-                    <div className="card-content book-action-content">
+                    <div className="card-content">
                         <div className="media">
                             <div className="admin-image-header-container">
                                 <FontAwesomeIcon icon={faEye} className="admin-icon" size="lg"/>

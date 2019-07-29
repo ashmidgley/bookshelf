@@ -6,15 +6,22 @@
     margin-top: 25px;
 }
 
-.author-image {
+.review-image-header-container {
     position: absolute;
-    top: -30px;
+    top: -20px;
     left: 50%;
-    width: 60px;
-    height: 60px;
-    margin-left: -30px;
+    width: 50px;
+    height: 50px;
+    margin-left: -20px;
     border: 3px solid #ccc;
     border-radius: 50%;
+    background-color: #F0F2F4;
+}
+
+.review-icon  {
+    color: #3273dc;
+    margin-left: 10px;
+    margin-top: 12px;
 }
 
 .review-content {
@@ -27,8 +34,6 @@
     color: #fff;
 }
 
-/* Passed in content overrides */
-
 hr:first-child {
     margin-top: 0;
 }
@@ -37,41 +42,6 @@ hr:first-child {
     text-align: left;
     margin-bottom: 15px;
 }
-
-.review-content > img {
-    margin-top: 10px;
-    margin-bottom: 25px;
-}
-
-.review-content pre {
-    margin-bottom: 20px;
-}
-
-.review-content .notification:not(:last-child) {
-    margin-bottom: 1rem;
-}
-
-.review-content > table {
-    margin: 20px auto;
-}
-
-.review-content > h1 {
-    text-align: left;
-    text-decoration: underline;
-}
-
-.review-content > .tile {
-    margin-top: 15px;
-}
-
-.tile.is-ancestor:last-child {
-    margin-bottom: 0;
-}
-
-.review-content > .level {
-    margin-bottom: 20px;
-}
-
 /* Mobile */
 @media only screen and (max-width: 600px) {
     .review-column {
@@ -84,13 +54,7 @@ hr:first-child {
         margin-right: 20px;
     }
 
-    /* Passed in content overrides */
     .review-content > p {
         font-size: 16px;
-    }
-    
-    .review-tiles {
-        padding-left: 20px;
-        padding-right: 20px;
     }
 }

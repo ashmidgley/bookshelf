@@ -61,25 +61,20 @@
 /* Mobile */
 @media only screen and (max-width: 600px) {
 
-    #parent {
-        margin: auto 0;
-    }
-
     .columns {
         line-height: 0;
     }
 
     .child {
-        display: inline-block;
         padding: 0;
         margin: 0;
-    } 
+        margin-bottom: 20px;
+    }
     
     .home-tile {
-        margin-bottom: 20px;
         border-radius: 0;
-        box-shadow: none;
-        
+        min-width: 100px;
+        max-width: 200px;
     }
 
     .home-menu-items {
