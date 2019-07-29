@@ -1,3 +1,6 @@
+.home-tiles { 
+    margin-top: 20px;
+}
 
 .home-tile {
     transition: transform .3s ease-out, box-shadow .3s ease-out, -webkit-transform .3s ease-out, -webkit-box-shadow .3s ease-out;
@@ -14,53 +17,20 @@
         border-radius: 5px 5px 0 0;
     }
 
-#parent {
-    margin: auto 80px;
-}
-
 .child {
     padding: 1.25rem;
-}
-
-.home-card-content > .title {
-    text-align: center;
-    padding-bottom: 2px;
-}
-
-.home-card-content > .subtitle {
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-.home-card-content > .handle-wrap {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-#progress-container {
-    margin: auto 20px;
-    margin-top: 30px;
-    text-align: center;
-}
-
-    #progress-container > p {
-        margin: 0;
-    }
-
-#tile-content {
-    font-size: 12px;
-    margin-bottom : 1rem;
-}
-
-.home-content > .tags > .tag {
-    margin-bottom: 0;
 }
 
 .home-menu-items {
     margin: 20px 0;
     text-align: center;
+    padding: 25px;
+    border-radius: 5px;
 }
+
+    .home-menu-items > .columns {
+        width: 100%;
+    }
 
     .home-menu-items button {
         box-shadow: 0 1px 1px 1px rgba(10, 16, 34, .08);
@@ -78,55 +48,38 @@
         background: #F0F2F4;
     }
 
+    .home-menu-items .input {
+        box-shadow: 0 1px 1px 1px rgba(10, 16, 34, .08);
+    }
+
 /* Mobile */
 @media only screen and (max-width: 600px) {
+
     #parent {
-        margin: auto 20px;
+        margin: auto 0;
+    }
+
+    .columns {
+        line-height: 0;
     }
 
     .child {
-        margin-top: 0;
-        margin-bottom: 5px;
-        padding: .75rem;
-    }
-
-    #progress-container {
-        margin-left: 0;
-        margin-right: 0;
-        margin-bottom: 30px;
-    }
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+    } 
     
     .home-tile {
-        max-width: 13rem;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .home-tile:hover {
-        transform: none;
+        max-width: 110px;
+        border-radius: 0;
         box-shadow: none;
+        
     }
-
-    #tile-content {
-        display: none;
-    }
-
-    .home-card-content {
-        padding: 1rem;
-        padding-bottom: 1.5rem;
-    }
-
-        .home-card-content > .subtitle {
-            font-size: 13px;
-        }
 
     .home-menu-items {
         margin-bottom: 25px;
+        border-radius: 0;
     }
-
-    .home-tile .tag {
-        background-color: #ffdd57;
-     }
 }
 
 /* Between mobile and desktop */

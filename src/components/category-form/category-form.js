@@ -64,7 +64,7 @@ class CategoryForm extends Component {
 
     render() {
         return (
-            <div className="column is-8 is-offset-2 review-column"> 
+            <div className="column is-8 is-offset-2"> 
                 <div className="card review-card">
                     <div className="card-content">
                     <div className="media">

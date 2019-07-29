@@ -4,6 +4,10 @@
     min-height: 100vh;
 }
 
+.nav-container {
+  margin-bottom: 20px;
+}
+
 .header-content {
   position: relative;
   height: 30vh;
@@ -33,6 +37,11 @@
   position: absolute;
   top: 0; left: 0; bottom: 0; right: 0;
 }
+
+    .tabs .active-nav {
+      border-bottom-color: #3273dc;
+      color: #3273dc;
+    }
 
 .spinner {
     margin: 100px auto;
