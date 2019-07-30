@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import './footer.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCode } from '@fortawesome/free-solid-svg-icons';
 
 class Footer extends Component {
 
@@ -9,7 +11,7 @@ class Footer extends Component {
                 <div className="content has-text-centered">
                     <p>
                         <a href="https://github.com/ash-midgley/bookshelf-ui">
-                            <img src="/images/github.png" alt='GitHub icon'/>
+                            <FontAwesomeIcon icon={faCode} className="footer-icon" size="lg"/>
                         </a> 
                     </p>
                 </div>

@@ -1,5 +1,12 @@
 .footer {
-    background: #E0E0E0;    
-    padding: 2px;
-    padding-top: 12px;
+    background: white;
+    padding-top: 17px;
+    padding-bottom: 15px;
+}
+
+.footer-icon {
+    color: #3273dc;
+}
+.footer-icon:hover {
+    color: #3273dc;
 }

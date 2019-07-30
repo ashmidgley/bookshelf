@@ -54,11 +54,11 @@ class App extends Component {
         <Router>
           <div className="App">
             <div className="screen-content">
-              <div class="hero-head nav-container">
-                <nav class="navbar">
-                  <div class="container">
-                    <div class="navbar-brand">
-                      <Link class="navbar-item" to="/">
+              <div className="hero-head nav-container">
+                <nav className="navbar">
+                  <div className="container">
+                    <div className="navbar-brand">
+                      <Link className="navbar-item" to="/">
                         <FontAwesomeIcon icon={faBookDead} className="nav-icon" size="2x"/>
                       </Link>
                       <span className={this.state.dropdownOpen ? "navbar-burger burger is-active" : "navbar-burger burger"} 
@@ -71,7 +71,7 @@ class App extends Component {
                     </div>
                     <div id="navbarMenu" className={this.state.dropdownOpen ? "navbar-menu is-active" : "navbar-menu"} >
                       <div className="navbar-end">
-                        <div class="tabs is-right">
+                        <div className="tabs is-right">
                           <ul>
                               <NavLink exact activeClassName="active-nav" to="/">Home</NavLink>
                               <NavLink activeClassName="active-nav" to="/admin">Admin</NavLink>
