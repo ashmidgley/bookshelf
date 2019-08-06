@@ -1,7 +1,5 @@
-@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
-
 .screen-content {
-    min-height: 100vh;
+    height: 100vh;
 }
 
 .nav-container {

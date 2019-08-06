@@ -59,6 +59,11 @@
         box-shadow: 0 1px 1px 1px rgba(10, 16, 34, .08);
     }
 
+.home-notification {
+    margin-top: 20px;
+    text-align: center;
+}
+
 /* Mobile */
 @media only screen and (max-width: 600px) {
 
