@@ -101,6 +101,12 @@ class Home extends Component {
                         </div>
                     </div>
                 </div>
+                {this.props.books.length == 0 ?
+                    <div className="notification is-link home-notification">
+                        No books to display.
+                    </div>
+                    : null 
+                }
                 <div className="columns is-multiline is-mobile home-tiles">
                     {this.state.books.map(book =>
                         <div key={book.id} className={this.state.columnClass}>
