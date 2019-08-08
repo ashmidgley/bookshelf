@@ -2,8 +2,15 @@ import { FETCH_BOOKS, NEW_BOOK, UPDATE_BOOK, REMOVE_BOOK } from './types';
 import * as moment from 'moment';
 import axios from 'axios';
 
+let url = process.env.REACT_APP_API_URL + '/books';
+let config = {
+  headers: {
+    'X-Api-Key': process.env.REACT_APP_API_KEY
+  }
+}
+
 export const fetchBooks = () => dispatch => {
-  axios.get(process.env.REACT_APP_BOOKS_API_URL)
+  axios.get(url, config)
     .then(response => {
       dispatch({
         type: FETCH_BOOKS,
@@ -16,7 +23,7 @@ export const fetchBooks = () => dispatch => {
 };
 
 export const createBook = postData => dispatch => {
-  axios.post(process.env.REACT_APP_BOOKS_API_URL, postData)
+  axios.post(url, postData, config)
     .then(response => {
       dispatch({
         type: NEW_BOOK,
@@ -29,7 +36,7 @@ export const createBook = postData => dispatch => {
 };
 
 export const updateBook = postData => dispatch => {
-  axios.put(process.env.REACT_APP_BOOKS_API_URL, postData)
+  axios.put(url, postData, config)
     .then(response => {
       dispatch({
         type: UPDATE_BOOK,
@@ -42,7 +49,7 @@ export const updateBook = postData => dispatch => {
 };
 
 export const removeBook = id => dispatch => {
-  axios.delete(process.env.REACT_APP_BOOKS_API_URL + '/' + id)
+  axios.delete(url + '/' + id, config)
     .then(response => {
       dispatch({
         type: REMOVE_BOOK,

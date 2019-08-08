@@ -1,8 +1,15 @@
 import { FETCH_CATEGORIES, NEW_CATEGORY, UPDATE_CATEGORY, REMOVE_CATEGORY } from './types';
 import axios from 'axios';
 
+let url = process.env.REACT_APP_API_URL + '/categories';
+let config = {
+  headers: {
+    'X-Api-Key': process.env.REACT_APP_API_KEY
+  }
+}
+
 export const fetchCategories = () => dispatch => {
-  axios.get(process.env.REACT_APP_CATEGORY_API_URL)
+  axios.get(url, config)
   .then(response => {
     dispatch({
       type: FETCH_CATEGORIES,
@@ -15,7 +22,7 @@ export const fetchCategories = () => dispatch => {
 };
 
 export const createCategory = postData => dispatch => {
-  axios.post(process.env.REACT_APP_CATEGORY_API_URL, postData)
+  axios.post(url, postData, config)
     .then(response => {
       dispatch({
         type: NEW_CATEGORY,
@@ -28,7 +35,7 @@ export const createCategory = postData => dispatch => {
 };
 
 export const updateCategory = postData => dispatch => {
-  axios.put(process.env.REACT_APP_CATEGORY_API_URL, postData)
+  axios.put(url, postData, config)
     .then(response => {
       dispatch({
         type: UPDATE_CATEGORY,
@@ -41,7 +48,7 @@ export const updateCategory = postData => dispatch => {
 };
 
 export const removeCategory = id => dispatch => {
-  axios.delete(process.env.REACT_APP_CATEGORY_API_URL + '/' + id)
+  axios.delete(url + '/' + id, config)
     .then(response => {
       dispatch({
         type: REMOVE_CATEGORY,

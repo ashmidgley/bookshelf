@@ -1,8 +1,15 @@
 import { FETCH_RATINGS, NEW_RATING, UPDATE_RATING, REMOVE_RATING } from './types';
 import axios from 'axios';
 
+let url = process.env.REACT_APP_API_URL + '/ratings';
+let config = {
+  headers: {
+    'X-Api-Key': process.env.REACT_APP_API_KEY
+  }
+}
+
 export const fetchRatings = () => dispatch => {
-  axios.get(process.env.REACT_APP_RATING_API_URL)
+  axios.get(url, config)
   .then(response => {
     dispatch({
       type: FETCH_RATINGS,
@@ -15,7 +22,7 @@ export const fetchRatings = () => dispatch => {
 };
 
 export const createRating = postData => dispatch => {
-  axios.post(process.env.REACT_APP_RATING_API_URL, postData)
+  axios.post(url, postData, config)
     .then(response => {
       dispatch({
         type: NEW_RATING,
@@ -28,7 +35,7 @@ export const createRating = postData => dispatch => {
 };
 
 export const updateRating = postData => dispatch => {
-  axios.put(process.env.REACT_APP_RATING_API_URL, postData)
+  axios.put(url, postData, config)
     .then(response => {
       dispatch({
         type: UPDATE_RATING,
@@ -41,7 +48,7 @@ export const updateRating = postData => dispatch => {
 };
 
 export const removeRating = id => dispatch => {
-  axios.delete(process.env.REACT_APP_RATING_API_URL + '/' + id)
+  axios.delete(url + '/' + id, config)
     .then(response => {
       dispatch({
         type: REMOVE_RATING,
