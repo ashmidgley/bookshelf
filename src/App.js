@@ -35,7 +35,7 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(Array.isArray(nextProps.books)) {
+    if(Array.isArray(nextProps.books) && nextProps.books.length) {
       this.setState({
         loading: false
       })
