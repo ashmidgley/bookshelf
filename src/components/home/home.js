@@ -75,7 +75,7 @@ class Home extends Component {
 
     render() {
         return (
-            <div id="parent">
+            <div className="home-container">
                 <Helmet>
                     <title>Bookshelf | Reads from Jan 2019 onwards</title>
                 </Helmet>
