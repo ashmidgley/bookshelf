@@ -42,7 +42,7 @@ class App extends Component {
   render() {
     return (
         <Router>
-          <div className="App">
+          <div>
             <div className="screen-content">
               <Navigation />
               {this.state.loading ?
@@ -53,7 +53,7 @@ class App extends Component {
                   <div className="rect4"></div>
                   <div className="rect5"></div>
                 </div>
-              :
+                  :
                 <div className="container app-container">
                   <Route exact path="/" component={Home} />
                   <Route exact path="/admin" component={Admin} />
