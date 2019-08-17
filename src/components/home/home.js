@@ -4,7 +4,6 @@ import './home.css'
 import { connect } from 'react-redux'; 
 import PropTypes from 'prop-types';
 import { Helmet } from "react-helmet";
-import { throwStatement } from '@babel/types';
 
 class Home extends Component {
 
