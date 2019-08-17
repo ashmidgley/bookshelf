@@ -3,7 +3,6 @@ import './navigation.css';
 import { NavLink, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookDead } from '@fortawesome/free-solid-svg-icons';
-import { allSettled } from 'q';
 
 class Navigation extends Component {
 
