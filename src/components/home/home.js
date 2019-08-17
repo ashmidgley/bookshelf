@@ -9,13 +9,17 @@ class Home extends Component {
 
     constructor(props){
         super(props);
-        var menu = new Array(this.props.categories.length+1).fill(false);
-        menu[0] = true;
+        var categoryMenu = new Array(this.props.categories.length+1).fill(false);
+        var ratingMenu = new Array(this.props.ratings.length+1).fill(false);
+        categoryMenu[0] = true;
+        ratingMenu[0] = true;
         this.state = {
             columnClass: 'column child',
             books: this.props.books,
             categorySelected: 0,
-            menu: menu
+            ratingSelected: 0,
+            categoryMenu: categoryMenu,
+            ratingMenu: ratingMenu
         }
     }
 
@@ -41,24 +45,51 @@ class Home extends Component {
         this.setState({columnClass: newVal}); 
     }
 
-    displayAll = () => {
-        var menu = this.state.menu.fill(false);
+    displayAllCategories = () => {
+        var menu = this.state.categoryMenu.fill(false);
+        var ratingId = this.state.ratingSelected;
+        var books = this.state.ratingSelected == 0 ? this.props.books : this.props.books.filter(b => b.ratingId === ratingId);
         menu[0] = true;
         this.setState({
-            books: this.props.books,
-            menu: menu,
+            books: books,
+            categoryMenu: menu,
             categorySelected: 0
         });
      }
 
-    filterBooks(category) {
-        var menu = this.state.menu.fill(false);
+     displayAllRatings = () => {
+        var menu = this.state.ratingMenu.fill(false);
+        var categoryId = this.state.categorySelected;
+        var books = this.state.categorySelected == 0 ? this.props.books : this.props.books.filter(b => b.categoryId === categoryId);
+        menu[0] = true;
+        this.setState({
+            books: books,
+            ratingMenu: menu,
+            ratingSelected: 0
+        });
+     }
+
+    filterBooksOnCategory(category) {
+        var menu = this.state.categoryMenu.fill(false);
         menu[this.props.categories.indexOf(category)+1] = true;
-        const result = this.props.books.filter(r => r.categoryId === category.id);
+        const result = this.state.ratingSelected == 0 ? this.props.books.filter(r => r.categoryId === category.id) : 
+            this.props.books.filter(r => r.categoryId === category.id && r.ratingId === this.state.ratingSelected);
         this.setState({
             books: result,
-            menu: menu,
+            categoryMenu: menu,
             categorySelected: category.id
+        });
+    }
+
+    filterBooksOnRating(rating) {
+        var menu = this.state.ratingMenu.fill(false);
+        menu[this.props.ratings.indexOf(rating)+1] = true;
+        const result = this.state.categorySelected == 0 ? this.props.books.filter(r => r.ratingId === rating.id)
+            : this.props.books.filter(r => r.ratingId === rating.id && r.categoryId === this.state.categorySelected);
+        this.setState({
+            books: result,
+            ratingMenu: menu,
+            ratingSelected: rating.id
         });
     }
 
@@ -80,22 +111,37 @@ class Home extends Component {
                     <title>Bookshelf | Reads from Jan 2019 onwards</title>
                 </Helmet>
                 <div className="home-menu-items columns is-mobile card">
-                        <div className="columns">
-                        <div className="column is-three-quarters">
+                    <div className="columns">
+                        <div className="column is-three-fifths">
                             <input className="input" type="text" placeholder="Search by title or author" onChange={this.searchSubmit} />
                         </div>
-                        <div className="column">
+                        <div className="column is-one-fifth">
                             <button 
-                                className={this.state.menu[0] ? "button selected" : "button"} 
-                                onClick={this.displayAll} 
+                                className={this.state.categoryMenu[0] ? "button selected" : "button"} 
+                                onClick={this.displayAllCategories} 
                                 style={{'padding':'0 23px'}}>
                             </button>
                             {this.props.categories.map(category =>
                                 <button 
-                                    className={this.state.menu[this.props.categories.indexOf(category)+1] ? "button selected" : "button"}
+                                    className={this.state.categoryMenu[this.props.categories.indexOf(category)+1] ? "button selected" : "button"}
                                     key={category.id}
-                                    onClick={() => this.filterBooks(category)}>
+                                    onClick={() => this.filterBooksOnCategory(category)}>
                                     <span role="img" aria-label="Category emoji">{category.code}</span>
+                                </button>
+                            )}
+                        </div>
+                        <div className="column is-one-fifth">
+                            <button 
+                                className={this.state.ratingMenu[0] ? "button selected" : "button"} 
+                                onClick={this.displayAllRatings} 
+                                style={{'padding':'0 23px'}}>
+                            </button>
+                            {this.props.ratings.map(rating =>
+                                <button 
+                                    className={this.state.ratingMenu[this.props.ratings.indexOf(rating)+1] ? "button selected" : "button"}
+                                    key={rating.id}
+                                    onClick={() => this.filterBooksOnRating(rating)}>
+                                    <span role="img" aria-label="Rating emoji">{rating.code}</span>
                                 </button>
                             )}
                         </div>
@@ -127,12 +173,14 @@ class Home extends Component {
 
   Home.propTypes = {
     books: PropTypes.array.isRequired,
-    categories: PropTypes.array.isRequired
+    categories: PropTypes.array.isRequired,
+    ratings: PropTypes.array.isRequired
   };
   
   const mapStateToProps = state => ({
     books: state.books.items,
-    categories: state.categories.items
+    categories: state.categories.items,
+    ratings: state.ratings.items
   });
 
 export default connect(mapStateToProps)(Home);

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import './footer.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCode } from '@fortawesome/free-solid-svg-icons';
 
 class Footer extends Component {
 
@@ -9,11 +7,9 @@ class Footer extends Component {
         return (
             <footer className="footer">
                 <div className="content has-text-centered">
-                    <p>
-                        <a href="https://github.com/ash-midgley/bookshelf-ui">
-                            <FontAwesomeIcon icon={faCode} className="footer-icon" size="lg"/>
-                        </a> 
-                    </p>
+                    <a className="footer-icon" href="https://github.com/ash-midgley/my-bookshelf">
+                        <i className="fa fa-github-square"></i>
+                    </a>
                 </div>
             </footer>   
         )
