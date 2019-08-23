@@ -101,7 +101,7 @@ class Home extends Component {
                 <div className="home-menu-items columns is-mobile card">
                     <div className="columns">
                         <div className="column is-three-fifths">
-                            <input className="input" type="text" placeholder="Search by title or author" onChange={this.searchSubmit} />
+                            <input className="input" type="text" placeholder="Search by title or author..." onChange={this.searchSubmit} />
                         </div>
                         <div className="column is-one-fifth hide-mobile">
                             <button 
