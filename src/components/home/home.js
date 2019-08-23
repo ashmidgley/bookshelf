@@ -103,7 +103,7 @@ class Home extends Component {
                         <div className="column is-three-fifths">
                             <input className="input" type="text" placeholder="Search by title or author" onChange={this.searchSubmit} />
                         </div>
-                        <div className="column is-one-fifth">
+                        <div className="column is-one-fifth hide-mobile">
                             <button 
                                 className={this.state.categoryMenu[0] ? "button selected" : "button"} 
                                 onClick={this.displayAllCategories} 
@@ -118,7 +118,7 @@ class Home extends Component {
                                 </button>
                             )}
                         </div>
-                        <div className="column is-one-fifth">
+                        <div className="column is-one-fifth hide-mobile">
                             <button 
                                 className={this.state.ratingMenu[0] ? "button selected" : "button"} 
                                 onClick={this.displayAllRatings} 

@@ -71,13 +71,7 @@ class Review extends Component {
                             </div>
                             <div className="level-item has-text-centered">
                                 <div> 
-                                    <p className="heading">
-                                        {this.props.ratings.find(r => r.id === this.state.book.ratingId)
-                                        ? 
-                                        this.props.ratings.find(r => r.id === this.state.book.ratingId).description
-                                        :
-                                        '-'}
-                                    </p>
+                                    <p className="heading">Rating</p>
                                     <p className="review-subtitle">
                                     {this.props.ratings.find(r => r.id === this.state.book.ratingId) ? 
                                     this.props.ratings.find(r => r.id === this.state.book.ratingId).code : "-"}</p>
