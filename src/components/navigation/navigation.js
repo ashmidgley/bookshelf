@@ -9,29 +9,8 @@ class Navigation extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        dropdownOpen: false,
-        stickyNav: false
+        dropdownOpen: false
       };
-      this.updateNavProperties = this.updateNavProperties.bind(this);
-    }
-
-    componentDidMount() {
-      this.updateNavProperties();
-      window.addEventListener('scroll', this.updateNavProperties);
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('scroll', this.updateNavProperties);
-    }
-    
-    updateNavProperties() {
-        var result = false;
-        if(window.pageYOffset > 0) {
-          result = true;
-        }
-        this.setState({
-            stickyNav: result
-        });
     }
 
     dropdownSelected = () => {
@@ -43,7 +22,7 @@ class Navigation extends Component {
 
     render() {
         return(
-            <div className={this.state.stickyNav ? "hero-head nav-container sticky" : "hero-head nav-container"}>
+            <div className="hero-head nav-container">
                 <nav className="navbar">
                   <div className="container">
                     <div className="navbar-brand">
