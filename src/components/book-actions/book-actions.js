@@ -3,7 +3,6 @@ import './book-actions.css';
 import { Link }from 'react-router-dom';
 import { connect } from 'react-redux';
 import { removeBook } from '../../actions/bookActions';
-import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 
 const customStyles = {
@@ -32,7 +31,7 @@ class BookActions extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(Object.entries(nextProps.removedBook).length !== 0) {
+        if(nextProps.removedBook) {
             var oldBook = this.props.books.find(b => b.id == nextProps.removedBook.id);
             var i = this.props.books.indexOf(oldBook);
             this.props.books.splice(i, 1);
@@ -144,12 +143,6 @@ class BookActions extends Component {
         )
     }
 }
-
-BookActions.propTypes = {
-    books: PropTypes.array.isRequired,
-    categories: PropTypes.array.isRequired,
-    ratings: PropTypes.array.isRequired
-  };
 
   const mapStateToProps = state => ({
     books: state.books.items,

@@ -17,7 +17,11 @@ export const fetchCategories = () => dispatch => {
     })
   })
   .catch(error => {
-    console.log(error);
+    console.error(error);
+    dispatch({
+      type: FETCH_CATEGORIES,
+      error: error.message
+    })
   })
 };
 
@@ -30,7 +34,11 @@ export const createCategory = postData => dispatch => {
       })
     })
     .catch(error => {
-      console.log(error);
+      console.error(error);
+      dispatch({
+        type: NEW_CATEGORY,
+        error: error.message
+      })
     })
 };
 
@@ -43,7 +51,11 @@ export const updateCategory = postData => dispatch => {
       })
     })
     .catch(error => {
-      console.log(error);
+      console.error(error);
+      dispatch({
+        type: UPDATE_CATEGORY,
+        error: error.message
+      })
     })
 };
 
@@ -56,6 +68,10 @@ export const removeCategory = id => dispatch => {
       })
     })
     .catch(error => {
-      console.log(error);
+      console.error(error);
+      dispatch({
+        type: REMOVE_CATEGORY,
+        error: error.message
+      })
     })
 };

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import './home.css'
-import { connect } from 'react-redux'; 
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Helmet } from "react-helmet";
 
 class Home extends Component {
@@ -156,12 +155,6 @@ class Home extends Component {
         )
     }
 }
-
-  Home.propTypes = {
-    books: PropTypes.array.isRequired,
-    categories: PropTypes.array.isRequired,
-    ratings: PropTypes.array.isRequired
-  };
   
   const mapStateToProps = state => ({
     books: state.books.items,

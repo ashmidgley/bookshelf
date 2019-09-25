@@ -5,7 +5,6 @@ import Category from '../../models/category';
 import './category-form.css';
 import { connect } from 'react-redux';
 import { createCategory, updateCategory } from '../../actions/categoryActions';
-import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
@@ -27,7 +26,7 @@ class CategoryForm extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(Object.entries(nextProps.category).length !== 0) {
+        if(nextProps.category) {
             if(this.props.match.params.id){
                 var oldCategory = this.props.categories.find(b => b.id == nextProps.category.id);
                 var i = this.props.categories.indexOf(oldCategory);
@@ -134,13 +133,6 @@ class CategoryForm extends Component {
         )
     }
 }
-
-CategoryForm.propTypes = {
-    createCategory: PropTypes.func.isRequired,
-    updateCategory: PropTypes.func.isRequired,
-    categories: PropTypes.array.isRequired
-    
-  };
 
   const mapStateToProps = state => ({
     categories: state.categories.items,

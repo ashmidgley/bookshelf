@@ -1,8 +1,9 @@
 import { FETCH_BOOKS, NEW_BOOK, REMOVE_BOOK, UPDATE_BOOK } from '../actions/types';
 
 const initialState = {
-  items: [],
-  item: {}
+  items: null,
+  item: {},
+  error: null
 };
 
 export default function(state = initialState, action) {
@@ -11,22 +12,26 @@ export default function(state = initialState, action) {
       return {
         ...state,
         items: action.payload,
-        item: {}
+        error: action.error,
+        item: null
       };
     case NEW_BOOK:
       return {
         ...state,
-        item: action.payload
+        item: action.payload,
+        error: action.error
       };
     case REMOVE_BOOK:
       return {
         ...state,
-        item: action.payload
+        item: action.payload,
+        error: action.error
       }
     case UPDATE_BOOK:
       return {
         ...state,
-        item: action.payload
+        item: action.payload,
+        error: action.error
       }
     default:
       return state;

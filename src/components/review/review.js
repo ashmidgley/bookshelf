@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './review.css';
 import * as moment from 'moment';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
 
@@ -84,12 +83,6 @@ class Review extends Component {
         );
     }
 }
-
-  Review.propTypes = {
-    books: PropTypes.array.isRequired,
-    categories: PropTypes.array.isRequired,
-    ratings: PropTypes.array.isRequired,
-  };
   
   const mapStateToProps = state => ({
     books: state.books.items,

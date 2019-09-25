@@ -3,7 +3,6 @@ import './category-actions.css';
 import { Link }from 'react-router-dom';
 import { connect } from 'react-redux';
 import { removeCategory } from '../../actions/categoryActions';
-import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 
 const customStyles = {
@@ -32,7 +31,7 @@ class CategoryActions extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(Object.entries(nextProps.removedCategory).length !== 0) {
+        if(nextProps.removedCategory) {
             var oldCategory = this.props.categories.find(b => b.id == nextProps.removedCategory.id);
             var i = this.props.categories.indexOf(oldCategory);
             this.props.categories.splice(i, 1);
@@ -128,11 +127,6 @@ class CategoryActions extends Component {
         )
     }
 }
-
-
-CategoryActions.propTypes = {
-    categories: PropTypes.array.isRequired
-  };
 
   const mapStateToProps = state => ({
     categories: state.categories.items,

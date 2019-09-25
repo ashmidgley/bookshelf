@@ -4,7 +4,6 @@ import Home from './components/home/home';
 import Review from './components/review/review';
 import Footer from './components/footer/footer';
 import './App.css';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchBooks } from './actions/bookActions';
 import { fetchCategories } from './actions/categoryActions';
@@ -21,7 +20,8 @@ class App extends Component {
     super(props);
     this.state = {
       initialPropsLoaded: false,
-      loading: true
+      loading: true,
+      error: null
     };
   }
 
@@ -32,11 +32,26 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(Array.isArray(nextProps.books) && nextProps.books.length) {
-      this.setState({
-        loading: false
-      })
-    }
+    if(nextProps.bookError || nextProps.categoryError || nextProps.ratingError) 
+      this.handleError(nextProps);
+    if(Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings))
+      this.setState({loading: false})
+  }
+
+  handleError(nextProps) {
+    var error = "";
+    if(nextProps.bookError)
+      error += 'Book error: ' + nextProps.bookError + '. ';
+    if(nextProps.categoryError)
+      error += 'Category error: ' + nextProps.categoryError + '. ';
+    if(nextProps.ratingError)
+      error += 'Rating error: ' + nextProps.ratingError + '. ';
+    error += 'Check log for details.';
+    this.setState({
+      error: error,
+      loading: false
+    })
+    window.scrollTo(0, 0);
   }
 
   render() {
@@ -54,6 +69,18 @@ class App extends Component {
                   <div className="rect5"></div>
                 </div>
                   :
+                  null
+                }
+              {this.state.error ?
+                <div className="container error-container">
+                  <div className="notification is-danger">
+                    {this.state.error}
+                  </div>
+                </div>
+                :
+                null
+              }
+              {!this.state.loading && !this.state.error ?
                 <div className="container app-container">
                   <Route exact path="/" component={Home} />
                   <Route exact path="/admin" component={Admin} />
@@ -65,6 +92,8 @@ class App extends Component {
                   <Route exact path="/admin/rating-form/:id" component={RatingForm} />
                   <Route path="/review/:id" component={Review} />
                 </div>
+                :
+                null
               }
             </div>
             <Footer />
@@ -74,19 +103,13 @@ class App extends Component {
   }
 }
 
-App.propTypes = {
-  fetchBooks: PropTypes.func.isRequired,
-  fetchCategories: PropTypes.func.isRequired,
-  fetchRatings: PropTypes.func.isRequired,
-  books: PropTypes.array.isRequired,
-  categories: PropTypes.array.isRequired,
-  ratings: PropTypes.array.isRequired
-};
-
 const mapStateToProps = state => ({
   books: state.books.items,
+  bookError: state.books.error,
   categories: state.categories.items,
-  ratings: state.ratings.items
+  categoryError: state.categories.error,
+  ratings: state.ratings.items,
+  ratingError: state.ratings.error
 });
 
 export default connect(mapStateToProps, {fetchBooks, fetchCategories, fetchRatings})(App);
