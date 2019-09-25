@@ -17,6 +17,7 @@ export const fetchRatings = () => dispatch => {
     })
   })
   .catch(error => {
+    console.error(error);
     dispatch({
       type: FETCH_RATINGS,
       error: error.message
@@ -33,6 +34,7 @@ export const createRating = postData => dispatch => {
       })
     })
     .catch(error => {
+      console.error(error);
       dispatch({
         type: NEW_RATING,
         error: error.message
@@ -49,6 +51,7 @@ export const updateRating = postData => dispatch => {
       })
     })
     .catch(error => {
+      console.error(error);
       dispatch({
         type: UPDATE_RATING,
         error: error.message
@@ -65,6 +68,7 @@ export const removeRating = id => dispatch => {
       })
     })
     .catch(error => {
+      console.error(error);
       dispatch({
         type: REMOVE_RATING,
         error: error.message
