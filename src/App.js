@@ -41,12 +41,12 @@ class App extends Component {
   handleError(nextProps) {
     var error = "";
     if(nextProps.bookError)
-      error += nextProps.bookError + '. ';
+      error += 'Book error: ' + nextProps.bookError + '. ';
     if(nextProps.categoryError)
-      error += nextProps.categoryError + '. ';
+      error += 'Category error: ' + nextProps.categoryError + '. ';
     if(nextProps.ratingError)
-      error += nextProps.ratingError + '. ';
-    error += 'Check log for details. Refresh page to continue.';
+      error += 'Rating error: ' + nextProps.ratingError + '. ';
+    error += 'Check log for details.';
     this.setState({
       error: error,
       loading: false
