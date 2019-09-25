@@ -32,22 +32,26 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.bookError || nextProps.categoryError || nextProps.ratingError) {
-      var error = nextProps.ratingError ? nextProps.ratingError : null;
-      error = nextProps.categoryError ? nextProps.categoryError : error;
-      error = nextProps.bookError ? nextProps.bookError : error;
-      error += '. Check log for details.';
-      this.setState({
-        error: error,
-        loading: false
-      })
-      return;
-    }
-    if(Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings)) {
-      this.setState({
-        loading: false
-      })
-    }
+    if(nextProps.bookError || nextProps.categoryError || nextProps.ratingError) 
+      this.handleError(nextProps);
+    if(Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings))
+      this.setState({loading: false})
+  }
+
+  handleError(nextProps) {
+    var error = "";
+    if(nextProps.bookError)
+      error += nextProps.bookError + '. ';
+    if(nextProps.categoryError)
+      error += nextProps.categoryError + '. ';
+    if(nextProps.ratingError)
+      error += nextProps.ratingError + '. ';
+    error += 'Check log for details. Refresh page to continue.';
+    this.setState({
+      error: error,
+      loading: false
+    })
+    window.scrollTo(0, 0);
   }
 
   render() {

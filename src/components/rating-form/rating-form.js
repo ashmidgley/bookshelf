@@ -26,7 +26,7 @@ class ratingForm extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(Object.entries(nextProps.rating).length !== 0) {
+        if(nextProps.rating) {
             if(this.props.match.params.id){
                 var oldRating = this.props.ratings.find(b => b.id == nextProps.rating.id);
                 var i = this.props.ratings.indexOf(oldRating);

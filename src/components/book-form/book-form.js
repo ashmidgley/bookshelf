@@ -29,7 +29,7 @@ class BookForm extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(Object.entries(nextProps.book).length !== 0) {
+        if(nextProps.book) {
             if(this.props.match.params.id){
                 var oldBook = this.props.books.find(b => b.id == nextProps.book.id);
                 var i = this.props.books.indexOf(oldBook);
