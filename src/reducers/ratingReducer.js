@@ -2,7 +2,7 @@ import { FETCH_RATINGS, NEW_RATING, REMOVE_RATING, UPDATE_RATING } from '../acti
 
 const initialState = {
   items: null,
-  item: {},
+  item: null,
   error: null
 };
 
@@ -12,8 +12,8 @@ export default function(state = initialState, action) {
       return {
         ...state,
         items: action.payload,
-        item: {},
-        error: action.error
+        error: action.error,
+        item: null
       };
     case NEW_RATING:
       return {

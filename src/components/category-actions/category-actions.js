@@ -31,7 +31,7 @@ class CategoryActions extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(Object.entries(nextProps.removedCategory).length !== 0) {
+        if(nextProps.removedCategory) {
             var oldCategory = this.props.categories.find(b => b.id == nextProps.removedCategory.id);
             var i = this.props.categories.indexOf(oldCategory);
             this.props.categories.splice(i, 1);

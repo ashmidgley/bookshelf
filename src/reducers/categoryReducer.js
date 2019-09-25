@@ -2,7 +2,7 @@ import { FETCH_CATEGORIES, NEW_CATEGORY, REMOVE_CATEGORY, UPDATE_CATEGORY } from
 
 const initialState = {
   items: null,
-  item: {},
+  item: null,
   error: null
 };
 
@@ -12,8 +12,8 @@ export default function(state = initialState, action) {
       return {
         ...state,
         items: action.payload,
-        item: {},
-        error: action.error
+        error: action.error,
+        item: null
       };
     case NEW_CATEGORY:
       return {

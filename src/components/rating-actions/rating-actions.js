@@ -31,7 +31,7 @@ class RatingActions extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(Object.entries(nextProps.removedRating).length !== 0) {
+        if(nextProps.removedRating) {
             var oldRating = this.props.ratings.find(b => b.id == nextProps.removedRating.id);
             var i = this.props.ratings.indexOf(oldRating);
             this.props.ratings.splice(i, 1);

@@ -12,8 +12,8 @@ export default function(state = initialState, action) {
       return {
         ...state,
         items: action.payload,
-        item: {},
-        error: action.error
+        error: action.error,
+        item: null
       };
     case NEW_BOOK:
       return {
