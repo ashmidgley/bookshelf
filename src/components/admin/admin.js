@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import BookActions from '../book-actions/book-actions';
 import CategoryActions from '../category-actions/category-actions';
 import RatingActions from '../rating-actions/rating-actions';
-import PropTypes from 'prop-types';
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
@@ -35,10 +34,6 @@ class Admin extends Component {
         );
     }
 }
-
-Admin.propTypes = {
-    books: PropTypes.array.isRequired
-  };
 
   const mapStateToProps = state => ({
     books: state.books.items

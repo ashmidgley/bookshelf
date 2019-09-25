@@ -3,7 +3,6 @@ import './category-actions.css';
 import { Link }from 'react-router-dom';
 import { connect } from 'react-redux';
 import { removeCategory } from '../../actions/categoryActions';
-import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 
 const customStyles = {
@@ -128,11 +127,6 @@ class CategoryActions extends Component {
         )
     }
 }
-
-
-CategoryActions.propTypes = {
-    categories: PropTypes.array.isRequired
-  };
 
   const mapStateToProps = state => ({
     categories: state.categories.items,

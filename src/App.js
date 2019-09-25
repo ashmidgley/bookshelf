@@ -4,7 +4,6 @@ import Home from './components/home/home';
 import Review from './components/review/review';
 import Footer from './components/footer/footer';
 import './App.css';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchBooks } from './actions/bookActions';
 import { fetchCategories } from './actions/categoryActions';
@@ -99,15 +98,6 @@ class App extends Component {
       )
   }
 }
-
-App.propTypes = {
-  fetchBooks: PropTypes.func.isRequired,
-  fetchCategories: PropTypes.func.isRequired,
-  fetchRatings: PropTypes.func.isRequired,
-  books: PropTypes.array.isRequired,
-  categories: PropTypes.array.isRequired,
-  ratings: PropTypes.array.isRequired
-};
 
 const mapStateToProps = state => ({
   books: state.books.items,

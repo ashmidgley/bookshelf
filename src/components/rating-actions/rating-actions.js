@@ -3,7 +3,6 @@ import './rating-actions.css';
 import { Link }from 'react-router-dom';
 import { connect } from 'react-redux';
 import { removeRating } from '../../actions/ratingActions';
-import PropTypes from 'prop-types';
 import Modal from 'react-modal';
 
 const customStyles = {
@@ -128,10 +127,6 @@ class RatingActions extends Component {
         )
     }
 }
-
-RatingActions.propTypes = {
-    ratings: PropTypes.array.isRequired
-  };
 
   const mapStateToProps = state => ({
     ratings: state.ratings.items,

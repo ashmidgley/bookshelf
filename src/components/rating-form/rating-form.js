@@ -5,7 +5,6 @@ import Rating from '../../models/rating';
 import './rating-form.css';
 import { connect } from 'react-redux';
 import { createRating, updateRating } from '../../actions/ratingActions';
-import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
@@ -134,13 +133,6 @@ class ratingForm extends Component {
         )
     }
 }
-
-ratingForm.propTypes = {
-    createRating: PropTypes.func.isRequired,
-    updateRating: PropTypes.func.isRequired,
-    ratings: PropTypes.array.isRequired
-    
-  };
 
   const mapStateToProps = state => ({
     ratings: state.ratings.items,

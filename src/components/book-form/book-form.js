@@ -5,7 +5,6 @@ import Book from '../../models/book';
 import './book-form.css';
 import { connect } from 'react-redux';
 import { createBook, updateBook } from '../../actions/bookActions';
-import PropTypes from 'prop-types';
 import * as moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -217,14 +216,6 @@ class BookForm extends Component {
         )
     }
 }
-
-BookForm.propTypes = {
-    createBook: PropTypes.func.isRequired,
-    updateBook: PropTypes.func.isRequired,
-    books: PropTypes.array.isRequired,
-    categories: PropTypes.array.isRequired,
-    ratings: PropTypes.array.isRequired
-  };
 
   const mapStateToProps = state => ({
     books: state.books.items,

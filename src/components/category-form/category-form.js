@@ -5,7 +5,6 @@ import Category from '../../models/category';
 import './category-form.css';
 import { connect } from 'react-redux';
 import { createCategory, updateCategory } from '../../actions/categoryActions';
-import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
@@ -134,13 +133,6 @@ class CategoryForm extends Component {
         )
     }
 }
-
-CategoryForm.propTypes = {
-    createCategory: PropTypes.func.isRequired,
-    updateCategory: PropTypes.func.isRequired,
-    categories: PropTypes.array.isRequired
-    
-  };
 
   const mapStateToProps = state => ({
     categories: state.categories.items,
