@@ -72,7 +72,7 @@
     .home-container {
         margin-top: -15px;
     }
-
+    
     .columns {
         line-height: 0;
     }
@@ -86,8 +86,6 @@
         border-radius: 0;
         transition: none;
         box-shadow: none;
-        min-width: 120px;
-        max-width: 145px;
     }
 
         .home-tile img {

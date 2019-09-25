@@ -14,7 +14,7 @@ class Home extends Component {
         categoryMenu[0] = true;
         ratingMenu[0] = true;
         this.state = {
-            columnClass: 'column child',
+            columnClass: 'column is-one-third child',
             books: this.props.books,
             categoryMenu: categoryMenu,
             ratingMenu: ratingMenu,
@@ -35,10 +35,8 @@ class Home extends Component {
     }
 
     checkDimensions = () => {
-        var newVal = 'column child';
-        if(window.innerWidth > 769 && window.innerWidth < 1000) {
-            newVal = 'column is-one-third child';
-        } else if(window.innerWidth > 1000 && window.innerWidth < 1200) {
+        var newVal = 'column is-one-third child';
+        if(window.innerWidth > 1000 && window.innerWidth < 1200) {
             newVal = 'column is-one-quarter child';
         } else if(window.innerWidth > 1200) {
             newVal = 'column is-one-fifth child';
