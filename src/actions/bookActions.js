@@ -18,7 +18,10 @@ export const fetchBooks = () => dispatch => {
       })
     })
     .catch(error => {
-      console.log(error);
+      dispatch({
+        type: FETCH_BOOKS,
+        error: error.message
+      })
     })
 };
 
@@ -31,7 +34,10 @@ export const createBook = postData => dispatch => {
       })
     })
     .catch(error => {
-      console.log(error);
+      dispatch({
+        type: NEW_BOOK,
+        error: error.message
+      })
     })
 };
 
@@ -44,7 +50,10 @@ export const updateBook = postData => dispatch => {
       })
     })
     .catch(error => {
-      console.log(error);
+      dispatch({
+        type: UPDATE_BOOK,
+        error: error.message
+      })
     })
 };
 
@@ -57,6 +66,9 @@ export const removeBook = id => dispatch => {
       })
     })
     .catch(error => {
-      console.log(error);
+      dispatch({
+        type: REMOVE_BOOK,
+        error: error.message
+      })
     })
 };

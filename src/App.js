@@ -21,7 +21,8 @@ class App extends Component {
     super(props);
     this.state = {
       initialPropsLoaded: false,
-      loading: true
+      loading: true,
+      error: null
     };
   }
 
@@ -32,7 +33,18 @@ class App extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(Array.isArray(nextProps.books) && nextProps.books.length) {
+    if(nextProps.bookError || nextProps.categoryError || nextProps.ratingError) {
+      var error = nextProps.ratingError ? nextProps.ratingError : null;
+      error = nextProps.categoryError ? nextProps.categoryError : error;
+      error = nextProps.bookError ? nextProps.bookError : error;
+      error += '. Check log for details.';
+      this.setState({
+        error: error,
+        loading: false
+      })
+      return;
+    }
+    if(Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings)) {
       this.setState({
         loading: false
       })
@@ -54,6 +66,18 @@ class App extends Component {
                   <div className="rect5"></div>
                 </div>
                   :
+                  null
+                }
+              {this.state.error ?
+                <div className="container error-container">
+                  <div className="notification is-danger">
+                    {this.state.error}
+                  </div>
+                </div>
+                :
+                null
+              }
+              {!this.state.loading && !this.state.error ?
                 <div className="container app-container">
                   <Route exact path="/" component={Home} />
                   <Route exact path="/admin" component={Admin} />
@@ -65,6 +89,8 @@ class App extends Component {
                   <Route exact path="/admin/rating-form/:id" component={RatingForm} />
                   <Route path="/review/:id" component={Review} />
                 </div>
+                :
+                null
               }
             </div>
             <Footer />
@@ -85,8 +111,11 @@ App.propTypes = {
 
 const mapStateToProps = state => ({
   books: state.books.items,
+  bookError: state.books.error,
   categories: state.categories.items,
-  ratings: state.ratings.items
+  categoryError: state.categories.error,
+  ratings: state.ratings.items,
+  ratingError: state.ratings.error
 });
 
 export default connect(mapStateToProps, {fetchBooks, fetchCategories, fetchRatings})(App);
