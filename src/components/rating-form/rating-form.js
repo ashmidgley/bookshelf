@@ -12,7 +12,8 @@ class ratingForm extends Component {
 
     constructor(props) {
         super(props);
-        var rating = props.match.params.id ? this.props.ratings.find(b => b.id == props.match.params.id) : null;
+        var id = parseInt(props.match.params.id);
+        var rating = props.match.params.id ? this.props.ratings.find(b => b.id === id) : null;
         this.state = {
             action: props.match.params.id ? 'Update' : 'Create',
             rating: rating,
@@ -25,10 +26,10 @@ class ratingForm extends Component {
         window.scrollTo(0, 0);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if(nextProps.rating) {
             if(this.props.match.params.id){
-                var oldRating = this.props.ratings.find(b => b.id == nextProps.rating.id);
+                var oldRating = this.props.ratings.find(b => b.id === nextProps.rating.id);
                 var i = this.props.ratings.indexOf(oldRating);
                 this.props.ratings[i] = nextProps.rating;
             } else {

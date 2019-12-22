@@ -15,7 +15,8 @@ class BookForm extends Component {
 
     constructor(props) {
         super(props);
-        var book = props.match.params.id ? this.props.books.find(b => b.id == props.match.params.id) : null;
+        var id = parseInt(props.match.params.id);
+        var book = props.match.params.id ? this.props.books.find(b => b.id === id) : null;
         this.state = {
             action: props.match.params.id ? 'Update' : 'Create',
             book: book,
@@ -28,10 +29,10 @@ class BookForm extends Component {
         window.scrollTo(0, 0);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if(nextProps.book) {
             if(this.props.match.params.id){
-                var oldBook = this.props.books.find(b => b.id == nextProps.book.id);
+                var oldBook = this.props.books.find(b => b.id === nextProps.book.id);
                 var i = this.props.books.indexOf(oldBook);
                 this.props.books[i] = nextProps.book;
             } else {
