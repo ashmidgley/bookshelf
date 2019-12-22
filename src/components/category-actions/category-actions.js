@@ -30,9 +30,9 @@ class CategoryActions extends Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if(nextProps.removedCategory) {
-            var oldCategory = this.props.categories.find(b => b.id == nextProps.removedCategory.id);
+            var oldCategory = this.props.categories.find(b => b.id === nextProps.removedCategory.id);
             var i = this.props.categories.indexOf(oldCategory);
             this.props.categories.splice(i, 1);
             this.setState({
@@ -65,7 +65,7 @@ class CategoryActions extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         this.setState({submitting: true});
-        if (this.state.password.localeCompare(process.env.REACT_APP_FORM_PASSWORD) == 0) {
+        if (this.state.password === process.env.REACT_APP_FORM_PASSWORD) {
             this.props.removeCategory(this.state.selectedCategory);
         } else {
             this.setState({

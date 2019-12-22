@@ -12,7 +12,8 @@ class CategoryForm extends Component {
 
     constructor(props) {
         super(props);
-        var category = props.match.params.id ? this.props.categories.find(b => b.id == props.match.params.id) : null;
+        var id = parseInt(props.match.params.id);
+        var category = props.match.params.id ? this.props.categories.find(b => b.id === id) : null;
         this.state = {
             action: props.match.params.id ? 'Update' : 'Create',
             category: category,
@@ -25,10 +26,10 @@ class CategoryForm extends Component {
         window.scrollTo(0, 0);
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if(nextProps.category) {
             if(this.props.match.params.id){
-                var oldCategory = this.props.categories.find(b => b.id == nextProps.category.id);
+                var oldCategory = this.props.categories.find(b => b.id === nextProps.category.id);
                 var i = this.props.categories.indexOf(oldCategory);
                 this.props.categories[i] = nextProps.category;
             } else {

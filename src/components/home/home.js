@@ -132,7 +132,7 @@ class Home extends Component {
                         </div>
                     </div>
                 </div>
-                {this.props.books.length == 0 ?
+                {this.props.books.length === 0 ?
                     <div className="notification is-link home-notification">
                         No books to display.
                     </div>

@@ -31,7 +31,7 @@ class App extends Component {
     this.props.fetchRatings();
   }
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if(nextProps.bookError || nextProps.categoryError || nextProps.ratingError) 
       this.handleError(nextProps);
     if(Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings))

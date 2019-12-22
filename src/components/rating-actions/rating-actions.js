@@ -30,9 +30,9 @@ class RatingActions extends Component {
         }
     }
 
-    componentWillReceiveProps(nextProps) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
         if(nextProps.removedRating) {
-            var oldRating = this.props.ratings.find(b => b.id == nextProps.removedRating.id);
+            var oldRating = this.props.ratings.find(b => b.id === nextProps.removedRating.id);
             var i = this.props.ratings.indexOf(oldRating);
             this.props.ratings.splice(i, 1);
             this.setState({
@@ -65,7 +65,7 @@ class RatingActions extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         this.setState({submitting: true});
-        if (this.state.password.localeCompare(process.env.REACT_APP_FORM_PASSWORD) == 0) {
+        if (this.state.password === process.env.REACT_APP_FORM_PASSWORD) {
             this.props.removeRating(this.state.selectedRating);
         } else {
             this.setState({

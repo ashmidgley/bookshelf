@@ -9,19 +9,13 @@ class Review extends Component {
 
     constructor(props) {
         super(props);
+        var id = parseInt(props.match.params.id);
+        var book = this.props.books.find(b => b.id === id);
         this.state = {
-            book: [],
-            paragraphs: []
-        };
-    }
-
-    componentDidMount() {
-        window.scrollTo(0, 0);
-        var book = this.props.books.find(b => b.id == this.props.match.params.id);
-        this.setState({
             book: book,
             paragraphs: book.summary.split('\n')
-        });
+        };
+        window.scrollTo(0, 0);
     }
 
     render() {
