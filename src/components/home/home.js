@@ -8,19 +8,29 @@ class Home extends Component {
 
     constructor(props){
         super(props);
-        var categoryMenu = new Array(this.props.categories.length+1).fill(false);
-        var ratingMenu = new Array(this.props.ratings.length+1).fill(false);
-        categoryMenu[0] = true;
-        ratingMenu[0] = true;
         this.state = {
             columnClass: 'column is-one-third child',
             books: this.props.books,
-            categoryMenu: categoryMenu,
-            ratingMenu: ratingMenu,
+            years: this.getYears(this.props.books),
+            categoryMenu: this.getMenu(this.props.categories.length+1),
+            ratingMenu: this.getMenu(this.props.ratings.length+1),
             searchQuery: null,
             selectedCategory: null,
             selectedRating: null,
         }
+    }
+
+    getYears(books) {
+        var distinctYears = [...new Set(books.map(item => item.year))];
+        var years = [];
+        distinctYears.forEach((year) => years.push({ value: year, show: true }));
+        return years;
+    }
+
+    getMenu(length) {
+        var menu = new Array(length).fill(false);
+        menu[0] = true;
+        return menu;
     }
 
     componentDidMount() {
@@ -85,6 +95,15 @@ class Home extends Component {
         });
     }
 
+    toggleYear(value) {
+        var years = this.state.years;
+        var index = years.map(year => year.value).indexOf(value);
+        years[index].show = !years[index].show;
+        this.setState({ 
+            years: years
+        });
+    }
+
     render() {
         var books = this.props.books;
         if(this.state.searchQuery) books = books.filter(b => b.title.toLowerCase().includes(this.state.searchQuery) || b.author.toLowerCase().includes(this.state.searchQuery));
@@ -138,16 +157,32 @@ class Home extends Component {
                     </div>
                     : null 
                 }
-                <div className="columns is-multiline is-mobile home-tiles">
-                    {books.map(book =>
-                        <div key={book.id} className={this.state.columnClass}>
-                            <Link to={`/review/${book.id}`} style={(book.summary) ? {} : { pointerEvents: 'none', cursor: 'default'}}>
-                                <div className="card home-tile">
-                                    <figure className="image">
-                                        <img src={process.env.REACT_APP_STORAGE_URL + '/' + book.image} alt="Home tile" />
-                                    </figure>
-                                </div>
-                            </Link>
+                <div>
+                    {this.state.years.map(year =>
+                        <div key={year.value}>
+                            <div>
+                                <button className="button is-info" onClick={() => this.toggleYear(year.value)}>
+                                    {year.value}
+                                    {year.show ?
+                                        <i className="fa fa-sort-down home-year-dropdown"></i>
+                                        :
+                                        <i className="fa fa-sort-up home-year-dropdown"></i>
+                                    }
+                                </button>
+                            </div>
+                            <div className="columns is-multiline is-mobile home-tiles">
+                                {books.filter(book => book.year === year.value && year.show).map(book =>
+                                    <div key={book.id} className={this.state.columnClass}>
+                                        <Link to={`/review/${book.id}`} style={(book.summary) ? {} : { pointerEvents: 'none', cursor: 'default'}}>
+                                            <div className="card home-tile">
+                                                <figure className="image">
+                                                    <img src={process.env.REACT_APP_STORAGE_URL + '/' + book.image} alt="Home tile" />
+                                                </figure>
+                                            </div>
+                                        </Link>
+                                    </div>
+                                )}
+                            </div>
                         </div>
                     )}
                 </div>
