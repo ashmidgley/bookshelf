@@ -42,7 +42,7 @@ class Navigation extends Component {
                         <div className="tabs is-right">
                           <ul>
                               <NavLink exact activeClassName="active-nav" to="/">Home</NavLink>
-                              <NavLink activeClassName="active-nav" to="/admin">Admin</NavLink>
+                              <NavLink activeClassName="active-nav" to="/admin">Manage</NavLink>
                           </ul>
                         </div>
                       </div>  
