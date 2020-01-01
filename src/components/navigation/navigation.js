@@ -3,6 +3,7 @@ import './navigation.css';
 import { NavLink, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookDead } from '@fortawesome/free-solid-svg-icons';
+import { connect } from 'react-redux';
 
 class Navigation extends Component {
 
@@ -40,10 +41,17 @@ class Navigation extends Component {
                     <div id="navbarMenu" className={this.state.dropdownOpen ? "navbar-menu is-active" : "navbar-menu"} >
                       <div className="navbar-end">
                         <div className="tabs is-right">
-                          <ul>
+                          {this.props.user ?
+                            <ul>
                               <NavLink exact activeClassName="active-nav" to="/">Home</NavLink>
                               <NavLink activeClassName="active-nav" to="/admin">Manage</NavLink>
-                          </ul>
+                            </ul>
+                            :
+                            <ul>
+                              <NavLink activeClassName="active-nav" to="/login">Login</NavLink>
+                              <NavLink activeClassName="active-nav" to="/register">Register</NavLink>
+                            </ul>
+                          }
                         </div>
                       </div>  
                     </div>
@@ -52,4 +60,11 @@ class Navigation extends Component {
             </div>
         );
     }
-} export default Navigation;
+}
+
+const mapStateToProps = state => ({
+  token: state.user.token,
+  user: state.user.user
+});
+
+export default connect(mapStateToProps)(Navigation);

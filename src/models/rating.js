@@ -1,10 +1,12 @@
 class Rating {
-    constructor(description, code){
+    constructor(userId, description, code){
+        this.userId = userId;
         this.description = description;
         this.code = code;
     }
 
     id;
+    userId;
     description;
     code;
 }

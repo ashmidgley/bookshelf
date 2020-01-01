@@ -65,8 +65,8 @@ class CategoryActions extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         this.setState({submitting: true});
-        if (this.state.password === process.env.REACT_APP_FORM_PASSWORD) {
-            this.props.removeCategory(this.state.selectedCategory);
+        if (this.state.password === this.props.user.password) {
+            this.props.removeCategory(this.state.selectedCategory, this.props.token);
         } else {
             this.setState({
                 passwordError: true,
@@ -130,7 +130,9 @@ class CategoryActions extends Component {
 
   const mapStateToProps = state => ({
     categories: state.categories.items,
-    removedCategory: state.categories.item
+    removedCategory: state.categories.item,
+    token: state.user.token,
+    user: state.user.user
   });
 
 export default connect(mapStateToProps, {removeCategory})(CategoryActions);

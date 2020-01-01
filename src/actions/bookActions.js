@@ -3,14 +3,10 @@ import * as moment from 'moment';
 import axios from 'axios';
 
 let url = process.env.REACT_APP_API_URL + '/books';
-let config = {
-  headers: {
-    'X-Api-Key': process.env.REACT_APP_API_KEY
-  }
-}
 
-export const fetchBooks = () => dispatch => {
-  axios.get(url, config)
+export const fetchBooks = (userId, token) => dispatch => {
+  var config = createConfig(token);
+  axios.get(url + `/user/${userId}`, config)
     .then(response => {
       dispatch({
         type: FETCH_BOOKS,
@@ -26,7 +22,8 @@ export const fetchBooks = () => dispatch => {
     })
 };
 
-export const createBook = postData => dispatch => {
+export const createBook = (postData, token) => dispatch => {
+  var config = createConfig(token);
   axios.post(url, postData, config)
     .then(response => {
       dispatch({
@@ -43,7 +40,8 @@ export const createBook = postData => dispatch => {
     })
 };
 
-export const updateBook = postData => dispatch => {
+export const updateBook = (postData, token) => dispatch => {
+  var config = createConfig(token);
   axios.put(url, postData, config)
     .then(response => {
       dispatch({
@@ -60,7 +58,8 @@ export const updateBook = postData => dispatch => {
     })
 };
 
-export const removeBook = id => dispatch => {
+export const removeBook = (id, token) => dispatch => {
+  var config = createConfig(token);
   axios.delete(url + '/' + id, config)
     .then(response => {
       dispatch({
@@ -76,3 +75,12 @@ export const removeBook = id => dispatch => {
       })
     })
 };
+
+function createConfig(token) {
+  var config = {
+    headers: {
+      'Authorization': 'Bearer ' + token
+    }
+  };
+  return config;
+}

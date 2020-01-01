@@ -5,37 +5,27 @@ import Review from './components/review/review';
 import Footer from './components/footer/footer';
 import './App.css';
 import { connect } from 'react-redux';
-import { fetchBooks } from './actions/bookActions';
-import { fetchCategories } from './actions/categoryActions';
-import { fetchRatings } from './actions/ratingActions';
 import Admin from './components/admin/admin';
 import BookForm from './components/book-form/book-form';
 import CategoryForm from './components/category-form/category-form';
 import RatingForm from './components/rating-form/rating-form';
 import Navigation from './components/navigation/navigation'
+import Login from './components/login/login';
+import Register from './components/register/register';
 
 class App extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      initialPropsLoaded: false,
-      loading: true,
-      error: null
+      error: null,
     };
   }
 
-  componentDidMount() {
-    this.props.fetchBooks();
-    this.props.fetchCategories();
-    this.props.fetchRatings();
-  }
-
   UNSAFE_componentWillReceiveProps(nextProps) {
-    if(nextProps.bookError || nextProps.categoryError || nextProps.ratingError) 
+    if(nextProps.bookError || nextProps.categoryError || nextProps.ratingError || nextProps.loginError) {
       this.handleError(nextProps);
-    if(Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings))
-      this.setState({loading: false})
+    }
   }
 
   handleError(nextProps) {
@@ -46,6 +36,9 @@ class App extends Component {
       error += 'Category error: ' + nextProps.categoryError + '. ';
     if(nextProps.ratingError)
       error += 'Rating error: ' + nextProps.ratingError + '. ';
+    if(nextProps.loginError) {
+      error += 'Login error: ' + nextProps.loginError + '. ';
+    }
     error += 'Check log for details.';
     this.setState({
       error: error,
@@ -60,17 +53,6 @@ class App extends Component {
           <div>
             <div className="screen-content">
               <Navigation />
-              {this.state.loading ?
-                <div className="spinner">
-                  <div className="rect1"></div>
-                  <div className="rect2"></div>
-                  <div className="rect3"></div>
-                  <div className="rect4"></div>
-                  <div className="rect5"></div>
-                </div>
-                  :
-                  null
-                }
               {this.state.error ?
                 <div className="container error-container">
                   <div className="notification is-danger">
@@ -78,22 +60,19 @@ class App extends Component {
                   </div>
                 </div>
                 :
-                null
-              }
-              {!this.state.loading && !this.state.error ?
                 <div className="container app-container">
-                  <Route exact path="/" component={Home} />
-                  <Route exact path="/admin" component={Admin} />
-                  <Route exact path="/admin/book-form" component={BookForm} />
-                  <Route exact path="/admin/book-form/:id" component={BookForm} />
-                  <Route exact path="/admin/category-form" component={CategoryForm} />
-                  <Route exact path="/admin/category-form/:id" component={CategoryForm} />
-                  <Route exact path="/admin/rating-form" component={RatingForm} />
-                  <Route exact path="/admin/rating-form/:id" component={RatingForm} />
-                  <Route path="/review/:id" component={Review} />
-                </div>
-                :
-                null
+                <Route exact path="/" component={Home} />
+                <Route path="/login" component={Login} />
+                <Route path="/register" component={Register} />
+                <Route exact path="/admin" component={Admin} />
+                <Route exact path="/admin/book-form" component={BookForm} />
+                <Route exact path="/admin/book-form/:id" component={BookForm} />
+                <Route exact path="/admin/category-form" component={CategoryForm} />
+                <Route exact path="/admin/category-form/:id" component={CategoryForm} />
+                <Route exact path="/admin/rating-form" component={RatingForm} />
+                <Route exact path="/admin/rating-form/:id" component={RatingForm} />
+                <Route path="/review/:id" component={Review} />
+              </div>
               }
             </div>
             <Footer />
@@ -104,12 +83,10 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  books: state.books.items,
   bookError: state.books.error,
-  categories: state.categories.items,
   categoryError: state.categories.error,
-  ratings: state.ratings.items,
-  ratingError: state.ratings.error
+  ratingError: state.ratings.error,
+  loginError: state.user.error
 });
 
-export default connect(mapStateToProps, {fetchBooks, fetchCategories, fetchRatings})(App);
+export default connect(mapStateToProps)(App);

@@ -2,14 +2,10 @@ import { FETCH_CATEGORIES, NEW_CATEGORY, UPDATE_CATEGORY, REMOVE_CATEGORY } from
 import axios from 'axios';
 
 let url = process.env.REACT_APP_API_URL + '/categories';
-let config = {
-  headers: {
-    'X-Api-Key': process.env.REACT_APP_API_KEY
-  }
-}
 
-export const fetchCategories = () => dispatch => {
-  axios.get(url, config)
+export const fetchCategories = (userId, token) => dispatch => {
+  var config = createConfig(token);
+  axios.get(url + `/user/${userId}`, config)
   .then(response => {
     dispatch({
       type: FETCH_CATEGORIES,
@@ -25,7 +21,8 @@ export const fetchCategories = () => dispatch => {
   })
 };
 
-export const createCategory = postData => dispatch => {
+export const createCategory = (postData, token) => dispatch => {
+  var config = createConfig(token);
   axios.post(url, postData, config)
     .then(response => {
       dispatch({
@@ -42,7 +39,8 @@ export const createCategory = postData => dispatch => {
     })
 };
 
-export const updateCategory = postData => dispatch => {
+export const updateCategory = (postData, token) => dispatch => {
+  var config = createConfig(token);
   axios.put(url, postData, config)
     .then(response => {
       dispatch({
@@ -59,7 +57,8 @@ export const updateCategory = postData => dispatch => {
     })
 };
 
-export const removeCategory = id => dispatch => {
+export const removeCategory = (id, token) => dispatch => {
+  var config = createConfig(token);
   axios.delete(url + '/' + id, config)
     .then(response => {
       dispatch({
@@ -75,3 +74,12 @@ export const removeCategory = id => dispatch => {
       })
     })
 };
+
+function createConfig(token) {
+  var config = {
+    headers: {
+      'Authorization': 'Bearer ' + token
+    }
+  };
+  return config;
+}

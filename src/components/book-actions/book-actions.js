@@ -65,8 +65,8 @@ class BookActions extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         this.setState({submitting: true});
-        if (this.state.password === process.env.REACT_APP_FORM_PASSWORD) {
-            this.props.removeBook(this.state.selectedBook);
+        if (this.state.password === this.props.user.password) {
+            this.props.removeBook(this.state.selectedBook, this.props.token);
         } else {
             this.setState({
                 passwordError: true,
@@ -148,7 +148,9 @@ class BookActions extends Component {
     books: state.books.items,
     categories: state.categories.items,
     ratings: state.ratings.items,
-    removedBook: state.books.item
+    removedBook: state.books.item,
+    token: state.user.token,
+    user: state.user.user
   });
 
 export default connect(mapStateToProps, {removeBook})(BookActions);

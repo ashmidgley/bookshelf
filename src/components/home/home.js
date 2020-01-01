@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import './home.css'
 import { connect } from 'react-redux';
 import { Helmet } from "react-helmet";
+import { fetchBooks } from '../../actions/bookActions';
+import { fetchCategories } from '../../actions/categoryActions';
+import { fetchRatings } from '../../actions/ratingActions';
 
 class Home extends Component {
 
@@ -10,13 +13,14 @@ class Home extends Component {
         super(props);
         this.state = {
             columnClass: 'column is-one-third child',
-            books: this.props.books,
-            years: this.getYears(this.props.books),
-            categoryMenu: this.getMenu(this.props.categories.length+1),
-            ratingMenu: this.getMenu(this.props.ratings.length+1),
+            books: null,
+            years: null,
+            categoryMenu: null,
+            ratingMenu: null,
             searchQuery: null,
             selectedCategory: null,
             selectedRating: null,
+            loading: true
         }
     }
 
@@ -33,7 +37,29 @@ class Home extends Component {
         return menu;
     }
 
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        if(Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings))
+            this.setState({
+                books: nextProps.books,
+                years: this.getYears(nextProps.books),
+                categoryMenu: this.getMenu(nextProps.categories.length+1),
+                ratingMenu: this.getMenu(nextProps.ratings.length+1),
+                loading: false
+            });
+      }
+
     componentDidMount() {
+        if(!this.props.token) {
+            this.props.history.push('/login');
+            return;
+        }
+
+        var userId = this.props.user.id;
+        var token = this.props.token;
+        this.props.fetchBooks(userId, token);
+        this.props.fetchCategories(userId, token);
+        this.props.fetchRatings(userId, token);
+
         window.scrollTo(0, 0);
         this.checkDimensions();
         window.addEventListener("resize", this.checkDimensions);
@@ -105,6 +131,18 @@ class Home extends Component {
     }
 
     render() {
+        if(this.state.loading) {
+            return (
+                <div className="spinner">
+                    <div className="rect1"></div>
+                    <div className="rect2"></div>
+                    <div className="rect3"></div>
+                    <div className="rect4"></div>
+                    <div className="rect5"></div>
+                </div>
+            );
+        }
+
         var books = this.props.books;
         if(this.state.searchQuery) books = books.filter(b => b.title.toLowerCase().includes(this.state.searchQuery) || b.author.toLowerCase().includes(this.state.searchQuery));
         if(this.state.selectedCategory) books =  books.filter(b => b.categoryId === this.state.selectedCategory);
@@ -191,10 +229,12 @@ class Home extends Component {
     }
 }
   
-  const mapStateToProps = state => ({
+const mapStateToProps = state => ({
     books: state.books.items,
     categories: state.categories.items,
-    ratings: state.ratings.items
-  });
+    ratings: state.ratings.items,
+    token: state.user.token,
+    user: state.user.user
+});
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps, {fetchBooks, fetchCategories, fetchRatings})(withRouter(Home));

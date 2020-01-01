@@ -47,7 +47,7 @@ class ratingForm extends Component {
             submitting: true,
             success: false
         });
-        if(values.password !== process.env.REACT_APP_FORM_PASSWORD) {
+        if(values.password !== this.props.user.password) {
             alert('Nice try scrub');
             this.setState({
                 submitting: false,
@@ -55,12 +55,12 @@ class ratingForm extends Component {
             });
             return;
         }   
-        var rating = new Rating(values.description, values.code);
+        var rating = new Rating(this.props.user.id, values.description, values.code);
         if(!this.props.match.params.id) {
-            this.props.createRating(rating);
+            this.props.createRating(rating, this.props.token);
         } else {
             rating.id = this.state.rating.id;
-            this.props.updateRating(rating);
+            this.props.updateRating(rating, this.props.token);
         }
     }
 
@@ -137,7 +137,9 @@ class ratingForm extends Component {
 
   const mapStateToProps = state => ({
     ratings: state.ratings.items,
-    rating: state.ratings.item
+    rating: state.ratings.item,
+    token: state.user.token,
+    user: state.user.user
   });
 
 export default connect(mapStateToProps, {createRating, updateRating})(ratingForm);

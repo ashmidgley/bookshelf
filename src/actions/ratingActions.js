@@ -2,14 +2,10 @@ import { FETCH_RATINGS, NEW_RATING, UPDATE_RATING, REMOVE_RATING } from './types
 import axios from 'axios';
 
 let url = process.env.REACT_APP_API_URL + '/ratings';
-let config = {
-  headers: {
-    'X-Api-Key': process.env.REACT_APP_API_KEY
-  }
-}
 
-export const fetchRatings = () => dispatch => {
-  axios.get(url, config)
+export const fetchRatings = (userId, token) => dispatch => {
+  var config = createConfig(token);
+  axios.get(url + `/user/${userId}`, config)
   .then(response => {
     dispatch({
       type: FETCH_RATINGS,
@@ -25,7 +21,8 @@ export const fetchRatings = () => dispatch => {
   })
 };
 
-export const createRating = postData => dispatch => {
+export const createRating = (postData, token) => dispatch => {
+  var config = createConfig(token);
   axios.post(url, postData, config)
     .then(response => {
       dispatch({
@@ -42,7 +39,8 @@ export const createRating = postData => dispatch => {
     })
 };
 
-export const updateRating = postData => dispatch => {
+export const updateRating = (postData, token) => dispatch => {
+  var config = createConfig(token);
   axios.put(url, postData, config)
     .then(response => {
       dispatch({
@@ -59,7 +57,8 @@ export const updateRating = postData => dispatch => {
     })
 };
 
-export const removeRating = id => dispatch => {
+export const removeRating = (id, token) => dispatch => {
+  var config = createConfig(token);
   axios.delete(url + '/' + id, config)
     .then(response => {
       dispatch({
@@ -75,3 +74,12 @@ export const removeRating = id => dispatch => {
       })
     })
 };
+
+function createConfig(token) {
+  var config = {
+    headers: {
+      'Authorization': 'Bearer ' + token
+    }
+  };
+  return config;
+}
