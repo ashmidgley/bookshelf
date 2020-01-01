@@ -51,7 +51,7 @@ class BookForm extends Component {
             submitting: true,
             success: false
         });
-        if(values.password !== process.env.REACT_APP_FORM_PASSWORD) {
+        if(values.password !== this.props.user.password) {
             alert('Nice try scrub');
             this.setState({
                 submitting: false,
@@ -59,12 +59,12 @@ class BookForm extends Component {
             });
             return;
         }   
-        var book = new Book(values.categoryId, values.ratingId, values.image, values.title, values.author, values.startedOn, values.finishedOn, values.pageCount, values.summary);
+        var book = new Book(this.props.user.id, values.categoryId, values.ratingId, values.image, values.title, values.author, values.startedOn, values.finishedOn, values.pageCount, values.summary);
         if(!this.props.match.params.id) {
-            this.props.createBook(book);
+            this.props.createBook(book, this.props.token);
         } else {
             book.id = this.state.book.id;
-            this.props.updateBook(book);
+            this.props.updateBook(book, this.props.token);
         }
     }
 
@@ -222,7 +222,9 @@ class BookForm extends Component {
     books: state.books.items,
     book: state.books.item,
     categories: state.categories.items,
-    ratings: state.ratings.items
+    ratings: state.ratings.items,
+    token: state.user.token,
+    user: state.user.user
   });
 
 export default connect(mapStateToProps, {createBook, updateBook})(BookForm);

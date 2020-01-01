@@ -65,8 +65,8 @@ class RatingActions extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         this.setState({submitting: true});
-        if (this.state.password === process.env.REACT_APP_FORM_PASSWORD) {
-            this.props.removeRating(this.state.selectedRating);
+        if (this.state.password === this.props.user.password) {
+            this.props.removeRating(this.state.selectedRating, this.props.token);
         } else {
             this.setState({
                 passwordError: true,
@@ -130,7 +130,9 @@ class RatingActions extends Component {
 
   const mapStateToProps = state => ({
     ratings: state.ratings.items,
-    removedRating: state.ratings.item
+    removedRating: state.ratings.item,
+    token: state.user.token,
+    user: state.user.user
   });
 
 export default connect(mapStateToProps, {removeRating})(RatingActions);

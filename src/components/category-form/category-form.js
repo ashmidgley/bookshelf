@@ -47,7 +47,7 @@ class CategoryForm extends Component {
             submitting: true,
             success: false
         });
-        if(values.password !== process.env.REACT_APP_FORM_PASSWORD) {
+        if(values.password !== this.props.user.password) {
             alert('Nice try scrub');
             this.setState({
                 submitting: false,
@@ -55,12 +55,12 @@ class CategoryForm extends Component {
             });
             return;
         }
-        var category = new Category(values.description, values.code);
+        var category = new Category(this.props.user.id, values.description, values.code);
         if(!this.props.match.params.id) {
-            this.props.createCategory(category);
+            this.props.createCategory(category, this.props.token);
         } else {
             category.id = this.state.category.id;
-            this.props.updateCategory(category);
+            this.props.updateCategory(category, this.props.token);
         }
     }
 
@@ -137,7 +137,9 @@ class CategoryForm extends Component {
 
   const mapStateToProps = state => ({
     categories: state.categories.items,
-    category: state.categories.item
+    category: state.categories.item,
+    token: state.user.token,
+    user: state.user.user
   });
 
 export default connect(mapStateToProps, {createCategory, updateCategory})(CategoryForm);
