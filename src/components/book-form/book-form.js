@@ -51,14 +51,6 @@ class BookForm extends Component {
             submitting: true,
             success: false
         });
-        if(values.password !== this.props.user.password) {
-            alert('Nice try scrub');
-            this.setState({
-                submitting: false,
-                success: false
-            });
-            return;
-        }   
         var book = new Book(this.props.user.id, values.categoryId, values.ratingId, values.image, values.title, values.author, values.startedOn, values.finishedOn, values.pageCount, values.summary);
         if(!this.props.match.params.id) {
             this.props.createBook(book, this.props.token);
@@ -95,8 +87,7 @@ class BookForm extends Component {
                                 pageCount: this.state.book ? this.state.book.pageCount : '',
                                 categoryId: this.state.book ? this.state.book.categoryId : 1,
                                 ratingId: this.state.book ? this.state.book.ratingId : 1,
-                                summary: this.state.book ? this.state.book.summary : '',
-                                password: ''
+                                summary: this.state.book ? this.state.book.summary : ''
                             }
                         }
                         validate={values => {
@@ -118,8 +109,6 @@ class BookForm extends Component {
                                 errors.pageCount = 'Required';
                             if(!values.summary)
                                 errors.summary = 'Required';
-                            if(!values.password)
-                                errors.password = 'Required';
                             return errors;
                         }}
                         onSubmit={(values, { setSubmitting }) => {
@@ -196,12 +185,6 @@ class BookForm extends Component {
                                     <label className="label">Summary</label>
                                     <div className="control">
                                         <textarea className={errors.summary && touched.summary ? 'textarea is-danger' : 'textarea'} name="summary" placeholder="Enter summary" onChange={handleChange} onBlur={handleBlur} value={values.summary}></textarea>
-                                    </div>
-                                </div>
-                                <div className="field">
-                                    <label className="label">Password</label>
-                                    <div className="control">
-                                        <input className={errors.password && touched.password ? 'input is-danger' : 'input'} type="password" name="password" placeholder="Enter password" onChange={handleChange} onBlur={handleBlur} value={values.password} />
                                     </div>
                                 </div>
                                 <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit" disabled={isSubmitting}>{this.state.action}</button>

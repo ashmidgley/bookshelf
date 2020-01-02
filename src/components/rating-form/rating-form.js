@@ -47,14 +47,6 @@ class ratingForm extends Component {
             submitting: true,
             success: false
         });
-        if(values.password !== this.props.user.password) {
-            alert('Nice try scrub');
-            this.setState({
-                submitting: false,
-                success: false
-            });
-            return;
-        }   
         var rating = new Rating(this.props.user.id, values.description, values.code);
         if(!this.props.match.params.id) {
             this.props.createRating(rating, this.props.token);
@@ -84,8 +76,7 @@ class ratingForm extends Component {
                         {
                             {
                                 description: this.state.rating ? this.state.rating.description : '',
-                                code: this.state.rating ? this.state.rating.code : '',
-                                password: ''
+                                code: this.state.rating ? this.state.rating.code : ''
                             }
                         }
                         validate={values => {
@@ -94,8 +85,6 @@ class ratingForm extends Component {
                                 errors.description = 'Required';
                             if(!values.code)
                                 errors.code = 'Required';
-                            if(!values.password)
-                                errors.password = 'Required';
                             return errors;
                         }}
                         onSubmit={(values, { setSubmitting }) => {
@@ -113,12 +102,6 @@ class ratingForm extends Component {
                                     <label className="label">Code</label>
                                     <div className="control">
                                         <input className={errors.code && touched.code ? 'input is-danger' : 'input'} type="text" name="code" placeholder="Enter code" onChange={handleChange} onBlur={handleBlur} value={values.code} />
-                                    </div>
-                                </div>
-                                <div className="field">
-                                    <label className="label">Password</label>
-                                    <div className="control">
-                                        <input className={errors.password && touched.password ? 'input is-danger' : 'input'} type="password" name="password" placeholder="Enter password" onChange={handleChange} onBlur={handleBlur} value={values.password} />
                                     </div>
                                 </div>
                                 <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit" disabled={isSubmitting}>{this.state.action}</button>
