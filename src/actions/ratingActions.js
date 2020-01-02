@@ -3,9 +3,8 @@ import axios from 'axios';
 
 let url = process.env.REACT_APP_API_URL + '/ratings';
 
-export const fetchRatings = (userId, token) => dispatch => {
-  var config = createConfig(token);
-  axios.get(url + `/user/${userId}`, config)
+export const fetchRatings = (userId) => dispatch => {
+  axios.get(url + `/user/${userId}`)
   .then(response => {
     dispatch({
       type: FETCH_RATINGS,

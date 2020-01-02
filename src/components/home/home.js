@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './home.css'
 import { connect } from 'react-redux';
 import { Helmet } from "react-helmet";
@@ -12,6 +12,7 @@ class Home extends Component {
     constructor(props){
         super(props);
         this.state = {
+            userId: parseInt(this.props.match.params.id),
             columnClass: 'column is-one-third child',
             books: null,
             years: null,
@@ -49,16 +50,9 @@ class Home extends Component {
       }
 
     componentDidMount() {
-        if(!this.props.token) {
-            this.props.history.push('/login');
-            return;
-        }
-
-        var userId = this.props.user.id;
-        var token = this.props.token;
-        this.props.fetchBooks(userId, token);
-        this.props.fetchCategories(userId, token);
-        this.props.fetchRatings(userId, token);
+        this.props.fetchBooks(this.state.userId);
+        this.props.fetchCategories(this.state.userId);
+        this.props.fetchRatings(this.state.userId);
 
         window.scrollTo(0, 0);
         this.checkDimensions();
@@ -232,9 +226,7 @@ class Home extends Component {
 const mapStateToProps = state => ({
     books: state.books.items,
     categories: state.categories.items,
-    ratings: state.ratings.items,
-    token: state.user.token,
-    user: state.user.user
+    ratings: state.ratings.items
 });
 
-export default connect(mapStateToProps, {fetchBooks, fetchCategories, fetchRatings})(withRouter(Home));
+export default connect(mapStateToProps, {fetchBooks, fetchCategories, fetchRatings})(Home);

@@ -24,9 +24,7 @@ class BookActions extends Component {
             modalIsOpen: false,
             submitting: false,
             success: false,
-            selectedBook: null,
-            password: '',
-            passwordError: false
+            selectedBook: null
         }
     }
 
@@ -49,8 +47,6 @@ class BookActions extends Component {
             selectedBook: id,
             modalIsOpen: true,
             success: false,
-            password: '',
-            passwordError: false
         });
     }
     
@@ -58,21 +54,10 @@ class BookActions extends Component {
         this.setState({modalIsOpen: false});
     }
 
-    handlePasswordChange = (event) => {
-        this.setState({password: event.target.value});
-    }
-
     handleSubmit = (event) => {
         event.preventDefault();
         this.setState({submitting: true});
-        if (this.state.password === this.props.user.password) {
-            this.props.removeBook(this.state.selectedBook, this.props.token);
-        } else {
-            this.setState({
-                passwordError: true,
-                submitting: false
-            });
-        }
+        this.props.removeBook(this.state.selectedBook, this.props.token);
     }
 
     render() {
@@ -80,11 +65,10 @@ class BookActions extends Component {
             <div>
                 <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={customStyles}>
                     <form onSubmit={this.handleSubmit}>
-                        <label className="label">Password</label>
-                        <input className={this.state.passwordError ? "input is-danger" : "input"} type="password" value={this.state.password} onChange={this.handlePasswordChange} placeholder="Enter password" />
-                        <div className="password-modal-actions">
-                            <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit">Submit</button>
-                            <button id="cancel" className="button" onClick={this.closeModal}>Cancel</button>
+                        <p>Are you sure?</p>
+                        <div className="modal-actions">
+                            <button className={this.state.submitting ? "button is-success is-loading" : "button is-success"} type="submit">Yes</button>
+                            <button id="cancel" className="button is-danger" onClick={this.closeModal}>No</button>
                         </div>
                     </form>
                 </Modal>
@@ -150,7 +134,6 @@ class BookActions extends Component {
     ratings: state.ratings.items,
     removedBook: state.books.item,
     token: state.user.token,
-    user: state.user.user
   });
 
 export default connect(mapStateToProps, {removeBook})(BookActions);

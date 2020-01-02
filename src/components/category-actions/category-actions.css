@@ -2,11 +2,11 @@
     margin-bottom: 20px;
 }
 
-.password-modal-actions {
+.modal-actions {
     margin-top: 20px;
 }
 
-.password-modal-actions > #cancel {
+.modal-actions > #cancel {
     margin-left: 10px;
 }
 

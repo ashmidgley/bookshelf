@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import Home from './components/home/home';
 import Review from './components/review/review';
 import Footer from './components/footer/footer';
@@ -61,9 +61,13 @@ class App extends Component {
                 </div>
                 :
                 <div className="container app-container">
-                <Route exact path="/" component={Home} />
+                <Route exact path="/" render={() => (
+                  <Redirect to="/login"/>
+                )}/>
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
+                <Route path="/home/:id" component={Home} />
+                <Route path="/review/:id" component={Review} />
                 <Route exact path="/admin" component={Admin} />
                 <Route exact path="/admin/book-form" component={BookForm} />
                 <Route exact path="/admin/book-form/:id" component={BookForm} />
@@ -71,7 +75,6 @@ class App extends Component {
                 <Route exact path="/admin/category-form/:id" component={CategoryForm} />
                 <Route exact path="/admin/rating-form" component={RatingForm} />
                 <Route exact path="/admin/rating-form/:id" component={RatingForm} />
-                <Route path="/review/:id" component={Review} />
               </div>
               }
             </div>

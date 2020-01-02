@@ -3,9 +3,8 @@ import axios from 'axios';
 
 let url = process.env.REACT_APP_API_URL + '/categories';
 
-export const fetchCategories = (userId, token) => dispatch => {
-  var config = createConfig(token);
-  axios.get(url + `/user/${userId}`, config)
+export const fetchCategories = (userId) => dispatch => {
+  axios.get(url + `/user/${userId}`)
   .then(response => {
     dispatch({
       type: FETCH_CATEGORIES,
