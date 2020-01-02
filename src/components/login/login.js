@@ -17,7 +17,7 @@ class Login extends Component {
     UNSAFE_componentWillReceiveProps(nextProps) {
         if(nextProps.token && nextProps.user) {
             this.setState({ submitting: false });
-            this.props.history.push('/');
+            this.props.history.push(`/home/${nextProps.user.id}`);
         }
     }
 
