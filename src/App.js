@@ -64,9 +64,10 @@ class App extends Component {
                 <Route exact path="/" render={() => (
                   <Redirect to="/login"/>
                 )}/>
-                <Route default exact path="/login" component={Login} />
-                <Route exact path="/register" component={Register} />
-                <Route exact path="/home/:id" component={Home} />
+                <Route path="/login" component={Login} />
+                <Route path="/register" component={Register} />
+                <Route path="/home/:id" component={Home} />
+                <Route path="/review/:id" component={Review} />
                 <Route exact path="/admin" component={Admin} />
                 <Route exact path="/admin/book-form" component={BookForm} />
                 <Route exact path="/admin/book-form/:id" component={BookForm} />
@@ -74,7 +75,6 @@ class App extends Component {
                 <Route exact path="/admin/category-form/:id" component={CategoryForm} />
                 <Route exact path="/admin/rating-form" component={RatingForm} />
                 <Route exact path="/admin/rating-form/:id" component={RatingForm} />
-                <Route path="/review/:id" component={Review} />
               </div>
               }
             </div>
