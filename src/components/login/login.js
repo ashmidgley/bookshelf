@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './login.css';
 import { connect } from 'react-redux';
-import { fetchToken } from '../../actions/userActions';
+import { login } from '../../actions/userActions';
 import { withRouter } from 'react-router-dom';
 import { Formik } from 'formik';
 
@@ -24,7 +24,7 @@ class Login extends Component {
     login(values) {
         this.setState({ submitting: true });
         var login = { Username: values.email, Password: values.password };
-        this.props.fetchToken(login);
+        this.props.login(login);
     }
 
     render() {
@@ -75,12 +75,6 @@ class Login extends Component {
                                                     <input className={errors.password && touched.password ? 'input is-large is-danger' : 'input is-large'} type="password" name="password" placeholder="Enter password..." onChange={handleChange} onBlur={handleBlur} value={values.password} />
                                                 </div>
                                             </div>
-                                            {/* <div className="field">
-                                                <label className="checkbox">
-                                                <input type="checkbox" name="rememberMe" checked={values.rememberMe} value={values.rememberMe} onChange={handleChange} />
-                                                    Remember me
-                                                </label>
-                                            </div> */}
                                             <button className={this.state.submitting ? "button is-block is-info is-large is-fullwidth is-loading" : "button is-block is-info is-large is-fullwidth"} type="submit" disabled={isSubmitting}>
                                                 Login <i className="fa fa-sign-in" aria-hidden="true"></i>
                                             </button>
@@ -88,11 +82,6 @@ class Login extends Component {
                                     )}
                                     </Formik>
                                 </div>
-                                <p className="has-text-grey">
-                                    <a href="/register">Sign Up</a> &nbsp;·&nbsp;
-                                    <a href="../">Forgot Password</a> &nbsp;·&nbsp;
-                                    <a href="../">Need Help?</a>
-                                </p>
                             </div>
                         </div>
                     </div>
@@ -107,4 +96,4 @@ const mapStateToProps = state => ({
     user: state.user.user
 });
 
-export default connect(mapStateToProps, {fetchToken})(withRouter(Login));
+export default connect(mapStateToProps, {login})(withRouter(Login));

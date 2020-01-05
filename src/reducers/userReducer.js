@@ -1,4 +1,4 @@
-import { FETCH_TOKEN } from '../actions/types';
+import { LOGIN, REGISTER } from '../actions/types';
 
 const initialState = {
   token: null,
@@ -8,7 +8,14 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case FETCH_TOKEN:
+    case LOGIN:
+      return {
+        ...state,
+        token: action.payload.token,
+        user: action.payload.user,
+        error: action.error,
+      };
+    case REGISTER:
       return {
         ...state,
         token: action.payload.token,

@@ -1,20 +1,37 @@
-import { FETCH_TOKEN } from './types';
+import { LOGIN, REGISTER } from './types';
 import axios from 'axios';
 
-let tokenUrl = process.env.REACT_APP_API_URL + '/token';
+let usersUrl = process.env.REACT_APP_API_URL + '/users';
 
-export const fetchToken = (login) => dispatch => {
-    axios.post(tokenUrl, login)
+export const login = (login) => dispatch => {
+  axios.post(`${usersUrl}/login`, login)
     .then(response => {
       dispatch({
-        type: FETCH_TOKEN,
+        type: LOGIN,
         payload: response.data
       })
     })
     .catch(error => {
       console.error(error);
       dispatch({
-        type: FETCH_TOKEN,
+        type: LOGIN,
+        error: error.message
+      })
+    })
+};
+
+export const register = (register) => dispatch => {
+  axios.post(`${usersUrl}/register`, register)
+    .then(response => {
+      dispatch({
+        type: REGISTER,
+        payload: response.data
+      })
+    })
+    .catch(error => {
+      console.error(error);
+      dispatch({
+        type: REGISTER,
         error: error.message
       })
     })
