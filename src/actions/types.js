@@ -10,4 +10,5 @@ export const FETCH_RATINGS = 'FETCH_RATINGS';
 export const NEW_RATING = 'NEW_RATING';
 export const REMOVE_RATING = 'REMOVE_RATING';
 export const UPDATE_RATING = 'UPDATE_RATING';
-export const FETCH_TOKEN = 'FETCH_TOKEN';
+export const LOGIN = 'LOGIN';
+export const REGISTER = 'REGISTER';
