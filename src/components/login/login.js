@@ -4,17 +4,26 @@ import { connect } from 'react-redux';
 import { login } from '../../actions/userActions';
 import { withRouter } from 'react-router-dom';
 import { Formik } from 'formik';
+import LoginDto from '../../models/loginDto';
 
 class Login extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            submitting: false
+            submitting: false,
+            incorrectCredentials: false
         };
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
+        if(nextProps.incorrectCredentials) {
+            this.setState({
+                incorrectCredentials: true,
+                submitting: false
+            });
+            return;
+        }
         if(nextProps.token && nextProps.user) {
             this.setState({ submitting: false });
             this.props.history.push(`/home/${nextProps.user.id}`);
@@ -22,8 +31,11 @@ class Login extends Component {
     }
 
     login(values) {
-        this.setState({ submitting: true });
-        var login = { Username: values.email, Password: values.password };
+        this.setState({
+            incorrectCredentials: false,
+            submitting: true
+        });
+        var login = new LoginDto(values.email, values.password);
         this.props.login(login);
     }
 
@@ -46,8 +58,7 @@ class Login extends Component {
                                     {
                                         {
                                             email: '',
-                                            password: '',
-                                            rememberMe: true
+                                            password: ''
                                         }
                                     }
                                     validate={values => {
@@ -75,6 +86,13 @@ class Login extends Component {
                                                     <input className={errors.password && touched.password ? 'input is-large is-danger' : 'input is-large'} type="password" name="password" placeholder="Enter password..." onChange={handleChange} onBlur={handleBlur} value={values.password} />
                                                 </div>
                                             </div>
+                                            {this.state.incorrectCredentials ?
+                                                <div className="notification is-danger">
+                                                    {this.props.incorrectCredentials}
+                                                </div>
+                                                :
+                                                null
+                                            }
                                             <button className={this.state.submitting ? "button is-block is-info is-large is-fullwidth is-loading" : "button is-block is-info is-large is-fullwidth"} type="submit" disabled={isSubmitting}>
                                                 Login <i className="fa fa-sign-in" aria-hidden="true"></i>
                                             </button>
@@ -93,7 +111,8 @@ class Login extends Component {
 
 const mapStateToProps = state => ({
     token: state.user.token,
-    user: state.user.user
+    user: state.user.user,
+    incorrectCredentials: state.user.invalidAction
 });
 
 export default connect(mapStateToProps, {login})(withRouter(Login));

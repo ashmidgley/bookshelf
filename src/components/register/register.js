@@ -4,17 +4,26 @@ import { connect } from 'react-redux';
 import { register } from '../../actions/userActions';
 import { withRouter } from 'react-router-dom';
 import { Formik } from 'formik';
+import LoginDto from '../../models/loginDto';
 
 class Register extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            submitting: false
+            submitting: false,
+            existingEmail: false
         };
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
+        if(nextProps.existingEmail) {
+            this.setState({
+                existingEmail: true,
+                submitting: false
+            });
+            return;
+        }
         if(nextProps.token && nextProps.user) {
             this.setState({ submitting: false });
             this.props.history.push(`/home/${nextProps.user.id}`);
@@ -22,8 +31,11 @@ class Register extends Component {
     }
 
     register(values) {
-        this.setState({ submitting: true });
-        var register = { Username: values.email, Password: values.password };
+        this.setState({
+            existingEmail: false,
+            submitting: true
+        });
+        var register = new LoginDto(values.email, values.password);
         this.props.register(register);
     }
 
@@ -46,8 +58,7 @@ class Register extends Component {
                                     {
                                         {
                                             email: '',
-                                            password: '',
-                                            rememberMe: true
+                                            password: ''
                                         }
                                     }
                                     validate={values => {
@@ -69,6 +80,13 @@ class Register extends Component {
                                                     <input className={errors.email && touched.email ? 'input is-large is-danger' : 'input is-large'} type="text" name="email" placeholder="Enter email..." onChange={handleChange} onBlur={handleBlur} value={values.email} />
                                                 </div>
                                             </div>
+                                            {this.state.existingEmail ?
+                                                <div className="notification is-danger">
+                                                    {this.props.existingEmail}
+                                                </div>
+                                                :
+                                                null
+                                            }
                                             <div className="field">
                                                 <label className="label">Password</label>
                                                 <div className="control">
@@ -93,7 +111,8 @@ class Register extends Component {
 
 const mapStateToProps = state => ({
     token: state.user.token,
-    user: state.user.user
+    user: state.user.user,
+    existingEmail: state.user.invalidAction
 });
 
 export default connect(mapStateToProps, {register})(withRouter(Register));
