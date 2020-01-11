@@ -26,7 +26,7 @@ class Login extends Component {
         }
         if(nextProps.token && nextProps.user) {
             this.setState({ submitting: false });
-            this.props.history.push(`/home/${nextProps.user.id}`);
+            this.props.history.push(`/shelf/${nextProps.user.id}`);
         }
     }
 
