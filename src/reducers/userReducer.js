@@ -1,4 +1,4 @@
-import { LOGIN, REGISTER, LOGOUT } from '../actions/types';
+import { LOGIN, REGISTER, CLEAR_USER } from '../actions/types';
 
 const initialState = {
   token: null,
@@ -25,7 +25,7 @@ export default function(state = initialState, action) {
         invalidAction: action.payload.error,
         error: action.error
       };
-    case LOGOUT:
+    case CLEAR_USER:
       return {
         ...state,
         token: null,

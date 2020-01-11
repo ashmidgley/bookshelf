@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookDead } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { logout } from '../../actions/userActions';
+import { clearUser } from '../../actions/userActions';
 import { clearBooks } from '../../actions/bookActions';
 import { clearCategories } from '../../actions/categoryActions';
 import { clearRatings } from '../../actions/ratingActions';
@@ -27,7 +27,7 @@ class Navigation extends Component {
     }
 
     logout = () => {
-      this.props.logout();
+      this.props.clearUser();
       this.props.clearBooks();
       this.props.clearCategories();
       this.props.clearRatings();
@@ -81,4 +81,4 @@ const mapStateToProps = state => ({
   user: state.user.user
 });
 
-export default withRouter(connect(mapStateToProps, {logout, clearBooks, clearCategories, clearRatings})(Navigation));
+export default withRouter(connect(mapStateToProps, {clearUser, clearBooks, clearCategories, clearRatings})(Navigation));

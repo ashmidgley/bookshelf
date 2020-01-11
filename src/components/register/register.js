@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './register.css';
 import { connect } from 'react-redux';
-import { register } from '../../actions/userActions';
+import { register, clearUser } from '../../actions/userActions';
 import { withRouter } from 'react-router-dom';
 import { Formik } from 'formik';
 import LoginDto from '../../models/loginDto';
@@ -31,6 +31,7 @@ class Register extends Component {
     }
 
     register(values) {
+        this.props.clearUser();
         this.setState({
             existingEmail: false,
             submitting: true
@@ -115,4 +116,4 @@ const mapStateToProps = state => ({
     existingEmail: state.user.invalidAction
 });
 
-export default connect(mapStateToProps, {register})(withRouter(Register));
+export default connect(mapStateToProps, {register, clearUser})(withRouter(Register));
