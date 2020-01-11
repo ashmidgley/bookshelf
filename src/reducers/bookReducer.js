@@ -1,8 +1,8 @@
-import { FETCH_BOOKS, NEW_BOOK, REMOVE_BOOK, UPDATE_BOOK } from '../actions/types';
+import { FETCH_BOOKS, NEW_BOOK, REMOVE_BOOK, UPDATE_BOOK, CLEAR_BOOKS } from '../actions/types';
 
 const initialState = {
   items: null,
-  item: {},
+  item: null,
   error: null
 };
 
@@ -26,13 +26,20 @@ export default function(state = initialState, action) {
         ...state,
         item: action.payload,
         error: action.error
-      }
+      };
     case UPDATE_BOOK:
       return {
         ...state,
         item: action.payload,
         error: action.error
-      }
+      };
+    case CLEAR_BOOKS:
+      return {
+        ...state,
+        items: null,
+        item: null,
+        error: null
+      };
     default:
       return state;
   }

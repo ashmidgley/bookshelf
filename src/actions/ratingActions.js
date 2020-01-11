@@ -1,4 +1,4 @@
-import { FETCH_RATINGS, NEW_RATING, UPDATE_RATING, REMOVE_RATING } from './types';
+import { FETCH_RATINGS, NEW_RATING, UPDATE_RATING, REMOVE_RATING, CLEAR_RATINGS } from './types';
 import axios from 'axios';
 
 let url = process.env.REACT_APP_API_URL + '/ratings';
@@ -73,6 +73,12 @@ export const removeRating = (id, token) => dispatch => {
       })
     })
 };
+
+export const clearRatings = () => dispatch => {
+  dispatch({
+    type: CLEAR_RATINGS
+  })
+}
 
 function createConfig(token) {
   var config = {

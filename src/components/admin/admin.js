@@ -12,7 +12,7 @@ class Admin extends Component {
 
     render() {
         return (
-            <div className="column is-8 is-offset-2">
+            <div className="column is-8 is-offset-2 admin-container">
                 <Helmet>
                     <title>Bookshelf | Admin</title>
                 </Helmet>

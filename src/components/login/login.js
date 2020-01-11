@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './login.css';
 import { connect } from 'react-redux';
-import { login } from '../../actions/userActions';
+import { login, clearUser } from '../../actions/userActions';
 import { withRouter } from 'react-router-dom';
 import { Formik } from 'formik';
 import LoginDto from '../../models/loginDto';
@@ -26,11 +26,12 @@ class Login extends Component {
         }
         if(nextProps.token && nextProps.user) {
             this.setState({ submitting: false });
-            this.props.history.push(`/home/${nextProps.user.id}`);
+            this.props.history.push(`/shelf/${nextProps.user.id}`);
         }
     }
 
     login(values) {
+        this.props.clearUser();
         this.setState({
             incorrectCredentials: false,
             submitting: true
@@ -115,4 +116,4 @@ const mapStateToProps = state => ({
     incorrectCredentials: state.user.invalidAction
 });
 
-export default connect(mapStateToProps, {login})(withRouter(Login));
+export default connect(mapStateToProps, {login, clearUser})(withRouter(Login));

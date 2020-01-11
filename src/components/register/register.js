@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './register.css';
 import { connect } from 'react-redux';
-import { register } from '../../actions/userActions';
+import { register, clearUser } from '../../actions/userActions';
 import { withRouter } from 'react-router-dom';
 import { Formik } from 'formik';
 import LoginDto from '../../models/loginDto';
@@ -26,11 +26,12 @@ class Register extends Component {
         }
         if(nextProps.token && nextProps.user) {
             this.setState({ submitting: false });
-            this.props.history.push(`/home/${nextProps.user.id}`);
+            this.props.history.push(`/shelf/${nextProps.user.id}`);
         }
     }
 
     register(values) {
+        this.props.clearUser();
         this.setState({
             existingEmail: false,
             submitting: true
@@ -115,4 +116,4 @@ const mapStateToProps = state => ({
     existingEmail: state.user.invalidAction
 });
 
-export default connect(mapStateToProps, {register})(withRouter(Register));
+export default connect(mapStateToProps, {register, clearUser})(withRouter(Register));

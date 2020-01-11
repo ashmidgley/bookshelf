@@ -1,4 +1,4 @@
-import { LOGIN, REGISTER } from '../actions/types';
+import { LOGIN, REGISTER, CLEAR_USER } from '../actions/types';
 
 const initialState = {
   token: null,
@@ -24,6 +24,14 @@ export default function(state = initialState, action) {
         user: action.payload.user,
         invalidAction: action.payload.error,
         error: action.error
+      };
+    case CLEAR_USER:
+      return {
+        ...state,
+        token: null,
+        user: null,
+        invalidAction: null,
+        error: null
       };
     default:
       return state;

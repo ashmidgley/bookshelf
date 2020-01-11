@@ -1,4 +1,4 @@
-import { FETCH_BOOKS, NEW_BOOK, UPDATE_BOOK, REMOVE_BOOK } from './types';
+import { FETCH_BOOKS, NEW_BOOK, UPDATE_BOOK, REMOVE_BOOK, CLEAR_BOOKS } from './types';
 import * as moment from 'moment';
 import axios from 'axios';
 
@@ -74,6 +74,12 @@ export const removeBook = (id, token) => dispatch => {
       })
     })
 };
+
+export const clearBooks = () => dispatch => {
+  dispatch({
+    type: CLEAR_BOOKS
+  })
+}
 
 function createConfig(token) {
   var config = {

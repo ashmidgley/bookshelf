@@ -1,4 +1,4 @@
-import { LOGIN, REGISTER } from './types';
+import { LOGIN, REGISTER, CLEAR_USER } from './types';
 import axios from 'axios';
 
 let usersUrl = process.env.REACT_APP_API_URL + '/users';
@@ -36,3 +36,9 @@ export const register = (register) => dispatch => {
       })
     })
 };
+
+export const clearUser = () => dispatch => {
+  dispatch({
+      type: CLEAR_USER
+  })
+}

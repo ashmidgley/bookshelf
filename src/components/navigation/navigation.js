@@ -4,7 +4,11 @@ import { NavLink, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookDead } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';  
+import { withRouter } from 'react-router-dom';
+import { clearUser } from '../../actions/userActions';
+import { clearBooks } from '../../actions/bookActions';
+import { clearCategories } from '../../actions/categoryActions';
+import { clearRatings } from '../../actions/ratingActions';
 
 class Navigation extends Component {
 
@@ -22,13 +26,21 @@ class Navigation extends Component {
       });
     }
 
+    logout = () => {
+      this.props.clearUser();
+      this.props.clearBooks();
+      this.props.clearCategories();
+      this.props.clearRatings();
+      this.props.history.push('/');
+    }
+
     render() {
         return(
             <div className="hero-head nav-container">
                 <nav className="navbar">
                   <div className="container">
                     <div className="navbar-brand">
-                      <Link className="navbar-item" to={this.props.user ? `/home/${this.props.user.id}` : '/login'}>
+                      <Link className="navbar-item" to="/" >
                         <FontAwesomeIcon icon={faBookDead} className="nav-icon" size="2x"/>
                       </Link>
                       <span className={this.state.dropdownOpen ? "navbar-burger burger is-active" : "navbar-burger burger"} 
@@ -44,8 +56,9 @@ class Navigation extends Component {
                         <div className="tabs is-right">
                           {this.props.user ?
                             <ul>
-                              <NavLink activeClassName="active-nav" to={`/home/${this.props.user.id}`}>Home</NavLink>
+                              <NavLink activeClassName="active-nav" to={`/shelf/${this.props.user.id}`}>Shelf</NavLink>
                               <NavLink activeClassName="active-nav" to="/admin">Manage</NavLink>
+                              <NavLink activeClassName="active-nav" onClick={this.logout} to="#">Logout</NavLink>
                             </ul>
                             :
                             <ul>
@@ -68,4 +81,4 @@ const mapStateToProps = state => ({
   user: state.user.user
 });
 
-export default withRouter(connect(mapStateToProps)(Navigation));
+export default withRouter(connect(mapStateToProps, {clearUser, clearBooks, clearCategories, clearRatings})(Navigation));

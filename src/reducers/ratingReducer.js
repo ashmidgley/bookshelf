@@ -1,4 +1,4 @@
-import { FETCH_RATINGS, NEW_RATING, REMOVE_RATING, UPDATE_RATING } from '../actions/types';
+import { FETCH_RATINGS, NEW_RATING, REMOVE_RATING, UPDATE_RATING, CLEAR_RATINGS } from '../actions/types';
 
 const initialState = {
   items: null,
@@ -26,14 +26,20 @@ export default function(state = initialState, action) {
         ...state,
         item: action.payload,
         error: action.error
-      }
+      };
     case UPDATE_RATING:
       return {
         ...state,
         item: action.payload,
         error: action.error
-      }
-
+      };
+    case CLEAR_RATINGS:
+      return {
+        ...state,
+        items: null,
+        item: null,
+        error: null
+      };
     default:
       return state;
   }

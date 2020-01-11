@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Home from './components/home/home';
+import Shelf from './components/shelf/shelf';
 import Review from './components/review/review';
 import Footer from './components/footer/footer';
 import './App.css';
@@ -61,12 +62,10 @@ class App extends Component {
                 </div>
                 :
                 <div className="container app-container">
-                <Route exact path="/" render={() => (
-                  <Redirect to="/login"/>
-                )}/>
+                <Route exact path="/" component={Home} />
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
-                <Route path="/home/:id" component={Home} />
+                <Route path="/shelf/:id" component={Shelf} />
                 <Route path="/review/:id" component={Review} />
                 <Route exact path="/admin" component={Admin} />
                 <Route exact path="/admin/book-form" component={BookForm} />
