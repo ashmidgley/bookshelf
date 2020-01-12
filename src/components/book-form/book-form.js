@@ -51,7 +51,7 @@ class BookForm extends Component {
             submitting: true,
             success: false
         });
-        var book = new Book(this.props.user.id, values.categoryId, values.ratingId, values.image, values.title, values.author, values.startedOn, values.finishedOn, values.pageCount, values.summary);
+        var book = new Book(this.props.user.id, values.categoryId, values.ratingId, values.imageUrl, values.title, values.author, values.finishedOn, values.pageCount, values.summary);
         if(!this.props.match.params.id) {
             this.props.createBook(book, this.props.token);
         } else {
@@ -80,9 +80,8 @@ class BookForm extends Component {
                         {
                             {
                                 title: this.state.book ? this.state.book.title : '',
-                                image: this.state.book ? this.state.book.image : '',
+                                imageUrl: this.state.book ? this.state.book.imageUrl : '',
                                 author: this.state.book ? this.state.book.author : '',
-                                startedOn: this.state.book ? moment(this.state.book.startedOn).format('YYYY-MM-DD') : '',
                                 finishedOn: this.state.book ? moment(this.state.book.finishedOn).format('YYYY-MM-DD') : '',
                                 pageCount: this.state.book ? this.state.book.pageCount : '',
                                 categoryId: this.state.book ? this.state.book.categoryId : 1,
@@ -94,15 +93,13 @@ class BookForm extends Component {
                             let errors = {};
                             if (!values.title)
                                 errors.title = 'Required';
-                            if(!values.image)
-                                errors.image = 'Required';
-                            var type = values.image.split('.')[1];
+                            if(!values.imageUrl)
+                                errors.imageUrl = 'Required';
+                            var type = values.imageUrl.split('.')[1];
                             if(!type || !this.allowedTypes.includes(type))
-                                errors.image = "Image doesn't match allowed file types"
+                                errors.imageUrl = "Image URL doesn't match allowed file types"
                             if(!values.author)
                                 errors.author = 'Required';
-                            if(!values.startedOn)
-                                errors.startedOn = 'Required';
                             if(!values.finishedOn) 
                                 errors.finishedOn = 'Required';
                             if(!values.pageCount)
@@ -123,14 +120,14 @@ class BookForm extends Component {
                                     </div>
                                 </div>
                                 <div className="field">
-                                    <label className="label">Image</label>
+                                    <label className="label">Image URL</label>
                                     <div className="control">
-                                        <input className={errors.image && touched.image ? 'input is-danger' : 'input'} type="text" name="image" placeholder="Enter image name" onChange={handleChange} onBlur={handleBlur} value={values.image} />
+                                        <input className={errors.imageUrl && touched.imageUrl ? 'input is-danger' : 'input'} type="text" name="imageUrl" placeholder="Enter image URL" onChange={handleChange} onBlur={handleBlur} value={values.imageUrl} />
                                     </div>
                                 </div>
                                 <div className="add-new-image">
-                                    {!errors.image && values.image ? 
-                                        <img src={process.env.REACT_APP_STORAGE_URL + '/' + values.image} alt={values.image} width="96" height="96" /> 
+                                    {!errors.imageUrl && values.imageUrl ? 
+                                        <img src={process.env.REACT_APP_STORAGE_URL + '/' + values.imageUrl} alt={values.imageUrl} width="96" height="96" /> 
                                         : 
                                         <img src={this.tempImage} alt="Placeholder" />
                                     }
@@ -139,12 +136,6 @@ class BookForm extends Component {
                                     <label className="label">Author</label>
                                     <div className="control">
                                         <input className={errors.author && touched.author ? 'input is-danger' : 'input'} type="text" name="author" placeholder="Enter author" onChange={handleChange} onBlur={handleBlur} value={values.author} />
-                                    </div>
-                                </div>
-                                <div className="field">
-                                    <label className="label">Started On</label>
-                                    <div className="control">
-                                        <input className={errors.startedOn && touched.startedOn ? 'input is-danger' : 'input'} name="startedOn" type="date" onChange={handleChange} onBlur={handleBlur} value={values.startedOn} />
                                     </div>
                                 </div>
                                 <div className="field">

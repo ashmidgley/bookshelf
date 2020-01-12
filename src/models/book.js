@@ -1,12 +1,11 @@
 class Book {
-    constructor(userId, categoryId, ratingId, image, title, author, startedOn, finishedOn, pageCount, summary){
+    constructor(userId, categoryId, ratingId, imageUrl, title, author, finishedOn, pageCount, summary){
         this.userId = userId;
         this.categoryId = categoryId;
         this.ratingId = ratingId;
-        this.image = image;
+        this.imageUrl = imageUrl;
         this.title = title;
         this.author = author;
-        this.startedOn = startedOn;
         this.finishedOn = finishedOn;
         this.pageCount = pageCount;
         this.summary = summary;
@@ -16,10 +15,9 @@ class Book {
     userId;
     categoryId;
     ratingId;
-    image;
+    imageUrl;
     title;
     author;
-    startedOn;
     finishedOn;
     pageCount;
     summary;
