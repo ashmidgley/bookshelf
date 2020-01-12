@@ -1,5 +1,6 @@
 import { LOGIN, REGISTER, CLEAR_USER } from './types';
 import axios from 'axios';
+import User from '../models/user';
 
 let usersUrl = process.env.REACT_APP_API_URL + '/users';
 
@@ -8,7 +9,7 @@ export const login = (login) => dispatch => {
     .then(response => {
       dispatch({
         type: LOGIN,
-        payload: response.data
+        payload: createPayload(response)
       })
     })
     .catch(error => {
@@ -25,7 +26,7 @@ export const register = (register) => dispatch => {
     .then(response => {
       dispatch({
         type: REGISTER,
-        payload: response.data
+        payload: createPayload(response)
       })
     })
     .catch(error => {
@@ -42,3 +43,18 @@ export const clearUser = () => dispatch => {
       type: CLEAR_USER
   })
 }
+
+function createPayload(response) {
+  var token = response.data.token;
+  var payload = parseJwt(response.data.token);
+  var expiryDate = payload.exp;
+  var user = new User(parseInt(payload.Id), payload.Email, (payload.IsAdmin === 'True'));
+  return { token, expiryDate, user };
+}
+
+function parseJwt (token) {
+  var base64Url = token.split('.')[1];
+  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  var jsonPayload = decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
+  return JSON.parse(jsonPayload);
+};

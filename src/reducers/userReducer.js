@@ -2,6 +2,7 @@ import { LOGIN, REGISTER, CLEAR_USER } from '../actions/types';
 
 const initialState = {
   token: null,
+  expiryDate: null,
   user: null,
   invalidAction: null,
   error: null
@@ -13,6 +14,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         token: action.payload.token,
+        expiryDate: action.payload.expiryDate,
         user: action.payload.user,
         invalidAction: action.payload.error,
         error: action.error,
@@ -21,6 +23,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         token: action.payload.token,
+        expiryDate: action.payload.expiryDate,
         user: action.payload.user,
         invalidAction: action.payload.error,
         error: action.error
@@ -29,6 +32,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         token: null,
+        expiryDate: null,
         user: null,
         invalidAction: null,
         error: null
