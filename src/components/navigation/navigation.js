@@ -65,8 +65,14 @@ class Navigation extends Component {
                                     <NavLink to={`/shelf/${this.props.user.id}`} className="dropdown-item" activeClassName="is-active" >
                                       Bookshelf
                                     </NavLink>
-                                    <NavLink to="/admin" className="dropdown-item" activeClassName="is-active" >
-                                      Manage
+                                    <NavLink to="/admin/manage-books" className="dropdown-item" activeClassName="is-active" >
+                                      Manage Books
+                                    </NavLink>
+                                    <NavLink to="/admin/manage-categories" className="dropdown-item" activeClassName="is-active" >
+                                      Manage Categories
+                                    </NavLink>
+                                    <NavLink to="/admin/manage-ratings" className="dropdown-item" activeClassName="is-active" >
+                                      Manage Ratings
                                     </NavLink>
                                     <hr className="dropdown-divider" />
                                     <a onClick={this.logout} href="#" className="dropdown-item">
