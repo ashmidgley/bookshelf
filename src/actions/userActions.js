@@ -1,4 +1,4 @@
-import { LOGIN, REGISTER, CLEAR_USER } from './types';
+import { LOGIN, REGISTER, SET_USER, CLEAR_USER } from './types';
 import axios from 'axios';
 import User from '../models/user';
 
@@ -7,9 +7,11 @@ let usersUrl = process.env.REACT_APP_API_URL + '/users';
 export const login = (login) => dispatch => {
   axios.post(`${usersUrl}/login`, login)
     .then(response => {
+      var payload = createPayload(response);
+      persistToken(payload.token, payload.expiryDate, payload.user);
       dispatch({
         type: LOGIN,
-        payload: createPayload(response)
+        payload: payload
       })
     })
     .catch(error => {
@@ -24,9 +26,11 @@ export const login = (login) => dispatch => {
 export const register = (register) => dispatch => {
   axios.post(`${usersUrl}/register`, register)
     .then(response => {
+      var payload = createPayload(response);
+      persistToken(payload.token, payload.expiryDate, payload.user);
       dispatch({
         type: REGISTER,
-        payload: createPayload(response)
+        payload: payload
       })
     })
     .catch(error => {
@@ -38,7 +42,19 @@ export const register = (register) => dispatch => {
     })
 };
 
+export const setUser = (data) => dispatch => {
+  dispatch({
+    type: SET_USER,
+    payload: data
+  });
+};
+
 export const clearUser = () => dispatch => {
+  localStorage.removeItem('token');
+  localStorage.removeItem('expiryDate');
+  localStorage.removeItem('userId');
+  localStorage.removeItem('userEmail');
+  localStorage.removeItem('userisAdmin');
   dispatch({
       type: CLEAR_USER
   })
@@ -58,3 +74,11 @@ function parseJwt (token) {
   var jsonPayload = decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
   return JSON.parse(jsonPayload);
 };
+
+function persistToken(token, expiryDate, user) {
+  localStorage.setItem('token', token);
+  localStorage.setItem('expiryDate', expiryDate);
+  localStorage.setItem('userId', user.id);
+  localStorage.setItem('userEmail', user.email);
+  localStorage.setItem('userIsAdmin', user.isAdmin);
+}

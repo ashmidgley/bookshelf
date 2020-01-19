@@ -13,6 +13,8 @@ import RatingForm from './components/rating-form/rating-form';
 import Navigation from './components/navigation/navigation'
 import Login from './components/login/login';
 import Register from './components/register/register';
+import { setUser } from './actions/userActions';
+import User from './models/user';
 
 class App extends Component {
 
@@ -21,6 +23,15 @@ class App extends Component {
     this.state = {
       error: null,
     };
+   
+    var token = localStorage.getItem('token');
+    var currentTime = new Date().getTime();
+    var expiryDate = localStorage.getItem('expiryDate');
+    if(token && expiryDate < currentTime) {
+      var user = new User(localStorage.getItem('userId'), localStorage.getItem('userEmail'), localStorage.getItem('userIsAdmin'));
+      var data = { token, expiryDate, user };
+      this.props.setUser(data);
+    }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -91,4 +102,4 @@ const mapStateToProps = state => ({
   loginError: state.user.error
 });
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, {setUser})(App);
