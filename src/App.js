@@ -6,13 +6,17 @@ import Review from './components/review/review';
 import Footer from './components/footer/footer';
 import './App.css';
 import { connect } from 'react-redux';
-import Admin from './components/admin/admin';
+import ManageBooks from './components/manage-books/manage-books';
+import ManageCategories from './components/manage-categories/manage-categories';
+import ManageRatings from './components/manage-ratings/manage-ratings';
 import BookForm from './components/book-form/book-form';
 import CategoryForm from './components/category-form/category-form';
 import RatingForm from './components/rating-form/rating-form';
 import Navigation from './components/navigation/navigation'
 import Login from './components/login/login';
 import Register from './components/register/register';
+import { setUser } from './actions/userActions';
+import User from './models/user';
 
 class App extends Component {
 
@@ -21,6 +25,15 @@ class App extends Component {
     this.state = {
       error: null,
     };
+   
+    var token = localStorage.getItem('token');
+    var currentTime = new Date().getTime();
+    var expiryDate = localStorage.getItem('expiryDate');
+    if(token && expiryDate < currentTime) {
+      var user = new User(localStorage.getItem('userId'), localStorage.getItem('userEmail'), localStorage.getItem('userIsAdmin'));
+      var data = { token, expiryDate, user };
+      this.props.setUser(data);
+    }
   }
 
   UNSAFE_componentWillReceiveProps(nextProps) {
@@ -67,7 +80,9 @@ class App extends Component {
                 <Route path="/register" component={Register} />
                 <Route path="/shelf/:id" component={Shelf} />
                 <Route path="/review/:id" component={Review} />
-                <Route exact path="/admin" component={Admin} />
+                <Route exact path="/admin/manage-books" component={ManageBooks} />
+                <Route exact path="/admin/manage-categories" component={ManageCategories} />
+                <Route exact path="/admin/manage-ratings" component={ManageRatings} />
                 <Route exact path="/admin/book-form" component={BookForm} />
                 <Route exact path="/admin/book-form/:id" component={BookForm} />
                 <Route exact path="/admin/category-form" component={CategoryForm} />
@@ -91,4 +106,4 @@ const mapStateToProps = state => ({
   loginError: state.user.error
 });
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, {setUser})(App);

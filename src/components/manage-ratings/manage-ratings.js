@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import './rating-actions.css';
+import './manage-ratings.css';
 import { Link }from 'react-router-dom';
 import { connect } from 'react-redux';
-import { removeRating } from '../../actions/ratingActions';
+import { fetchRatings, removeRating } from '../../actions/ratingActions';
 import Modal from 'react-modal';
+import { Helmet } from "react-helmet";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 const customStyles = {
     content : {
@@ -16,7 +19,7 @@ const customStyles = {
     }
 };
 
-class RatingActions extends Component {
+class ManageRatings extends Component {
 
     constructor(props){
         super(props);
@@ -24,11 +27,17 @@ class RatingActions extends Component {
             modalIsOpen: false,
             submitting: false,
             success: false,
-            selectedRating: null
+            selectedRatingId: null,
+            loading: true
         }
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
+        if(Array.isArray(nextProps.ratings))
+            this.setState({
+                loading: false
+        });
+
         if(nextProps.removedRating) {
             var oldRating = this.props.ratings.find(b => b.id === nextProps.removedRating.id);
             var i = this.props.ratings.indexOf(oldRating);
@@ -37,14 +46,25 @@ class RatingActions extends Component {
                 modalIsOpen: false,
                 submitting: false,
                 success: true,
-                selectedRating: null
+                selectedRatingId: null
             })
+        }
+    }
+
+    componentDidMount() {
+        if(!this.props.ratings) {
+            var id = localStorage.getItem('userId');
+            this.props.fetchRatings(id);
+        } else {
+            this.setState({
+                loading: false
+            });
         }
     }
 
     openModal = (id) => {
         this.setState({
-            selectedRating: id,
+            selectedRatingId: id,
             modalIsOpen: true,
             success: false
         });
@@ -57,12 +77,35 @@ class RatingActions extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         this.setState({submitting: true});
-        this.props.removeRating(this.state.selectedRating, this.props.token);
+        this.props.removeRating(this.state.selectedRatingId, this.props.token);
     }
 
     render() {
+        if(this.state.loading) {
+            return (
+                <div className="spinner">
+                    <div className="rect1"></div>
+                    <div className="rect2"></div>
+                    <div className="rect3"></div>
+                    <div className="rect4"></div>
+                    <div className="rect5"></div>
+                </div>
+            );
+        }
+
         return (
-           <div>
+            <div className="column is-8 is-offset-2 admin-container">
+                <Helmet>
+                    <title>Bookshelf | Manage Ratings</title>
+                </Helmet>
+                <div className="card admin-card">
+                    <div className="card-content">
+                        <div className="media">
+                            <div className="admin-image-header-container">
+                                <FontAwesomeIcon icon={faEye} className="admin-icon" size="lg"/>
+                            </div>
+                        </div>
+                        <div>
                <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={customStyles}>
                     <form onSubmit={this.handleSubmit}>
                         <p>Are you sure?</p>
@@ -108,6 +151,9 @@ class RatingActions extends Component {
                     <Link to={'/admin/rating-form'}><button className="button is-outlined">Add</button></Link>
                 </div>
             </div>
+                    </div>
+                </div>
+            </div>
         )
     }
 }
@@ -118,4 +164,4 @@ class RatingActions extends Component {
     token: state.user.token
   });
 
-export default connect(mapStateToProps, {removeRating})(RatingActions);
+export default connect(mapStateToProps, {fetchRatings, removeRating})(ManageRatings);
