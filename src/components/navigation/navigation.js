@@ -53,9 +53,9 @@ class Navigation extends Component {
                                   <span>{this.props.user.email}</span>
                                     <span className="icon is-small">
                                       {this.state.dropdownOpen ? 
-                                        <FontAwesomeIcon icon={faAngleUp} size="md"/>
+                                        <FontAwesomeIcon icon={faAngleUp}/>
                                         :
-                                        <FontAwesomeIcon icon={faAngleDown} size="md"/>
+                                        <FontAwesomeIcon icon={faAngleDown}/>
                                       }
                                     </span>
                                   </button>

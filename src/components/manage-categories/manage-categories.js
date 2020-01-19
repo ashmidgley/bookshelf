@@ -28,7 +28,7 @@ class ManageCategories extends Component {
             modalIsOpen: false,
             submitting: false,
             success: false,
-            selectedCategory: null,
+            selectedCategoryId: null,
             loading: true
         }
     }
@@ -47,7 +47,7 @@ class ManageCategories extends Component {
                 modalIsOpen: false,
                 submitting: false,
                 success: true,
-                selectedCategory: null
+                selectedCategoryId: null
             })
         }
     }
@@ -63,9 +63,9 @@ class ManageCategories extends Component {
         }
     }
 
-    openModal = (category) => {
+    openModal = (id) => {
         this.setState({
-            selectedCategory: category,
+            selectedCategoryId: id,
             modalIsOpen: true,
             success: false,
         });
@@ -78,10 +78,7 @@ class ManageCategories extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         this.setState({submitting: true});
-        var c = this.state.selectedCategory;
-        var category = new Category(c.userId, c.description, c.code);
-        category.id = c.id;
-        this.props.removeCategory(category, this.props.token);
+        this.props.removeCategory(this.state.selectedCategoryId, this.props.token);
     }
 
     render() {
@@ -144,7 +141,7 @@ class ManageCategories extends Component {
                                                         <Link to={'/admin/category-form/' + category.id}><button className="button is-outlined" disabled={this.state.submitting}>Edit</button></Link>
                                                     </td>
                                                     <td className="has-text-centered">
-                                                        <button onClick={() => this.openModal(category)} className="button is-outlined" disabled={this.state.submitting}>Delete</button>
+                                                        <button onClick={() => this.openModal(category.id)} className="button is-outlined" disabled={this.state.submitting}>Delete</button>
                                                     </td>
                                                 </tr>
                                             )}

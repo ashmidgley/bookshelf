@@ -4,7 +4,6 @@ import { Link }from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchRatings, removeRating } from '../../actions/ratingActions';
 import Modal from 'react-modal';
-import Rating from '../../models/rating';
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
@@ -28,7 +27,7 @@ class ManageRatings extends Component {
             modalIsOpen: false,
             submitting: false,
             success: false,
-            selectedRating: null,
+            selectedRatingId: null,
             loading: true
         }
     }
@@ -47,7 +46,7 @@ class ManageRatings extends Component {
                 modalIsOpen: false,
                 submitting: false,
                 success: true,
-                selectedRating: null
+                selectedRatingId: null
             })
         }
     }
@@ -63,9 +62,9 @@ class ManageRatings extends Component {
         }
     }
 
-    openModal = (rating) => {
+    openModal = (id) => {
         this.setState({
-            selectedRating: rating,
+            selectedRatingId: id,
             modalIsOpen: true,
             success: false
         });
@@ -78,10 +77,7 @@ class ManageRatings extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         this.setState({submitting: true});
-        var r = this.state.selectedRating;
-        var rating = new Rating(r.userId, r.description, r.code);
-        rating.id = r.id;
-        this.props.removeRating(rating, this.props.token);
+        this.props.removeRating(this.state.selectedRatingId, this.props.token);
     }
 
     render() {
@@ -144,7 +140,7 @@ class ManageRatings extends Component {
                                         <Link to={'/admin/rating-form/' + rating.id}><button className="button is-outlined" disabled={this.state.submitting}>Edit</button></Link>
                                     </td>
                                     <td className="has-text-centered">
-                                        <button onClick={() => this.openModal(rating)} className="button is-outlined" disabled={this.state.submitting}>Delete</button>
+                                        <button onClick={() => this.openModal(rating.id)} className="button is-outlined" disabled={this.state.submitting}>Delete</button>
                                     </td>
                                 </tr>
                             )}

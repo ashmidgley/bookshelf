@@ -30,7 +30,7 @@ class ManageBooks extends Component {
             modalIsOpen: false,
             submitting: false,
             success: false,
-            selectedBook: null,
+            selectedBookId: null,
             loading: true
         }
     }
@@ -62,14 +62,14 @@ class ManageBooks extends Component {
                 modalIsOpen: false,
                 submitting: false,
                 success: true,
-                selectedBook: null
+                selectedBookId: null
             })
         }
     }
 
-    openModal = (book) => {
+    openModal = (id) => {
         this.setState({
-            selectedBook: book,
+            selectedBookId: id,
             modalIsOpen: true,
             success: false,
         });
@@ -82,10 +82,7 @@ class ManageBooks extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         this.setState({submitting: true});
-        var b = this.state.selectedBook;
-        var book = new Book(b.userId, b.categoryId, b.ratingId, b.imageUrl, b.title, b.author, b.finishedOn, b.pageCount, b.summary);
-        book.id = b.id;
-        this.props.removeBook(book, this.props.token);
+        this.props.removeBook(this.state.selectedBookId, this.props.token);
     }
 
     render() {
@@ -163,7 +160,7 @@ class ManageBooks extends Component {
                                                 <Link to={'/admin/book-form/' + book.id}><button className="button is-outlined" disabled={this.state.submitting}>Edit</button></Link>
                                             </td>
                                             <td className="has-text-centered">
-                                                <button onClick={() => this.openModal(book)} className="button is-outlined" disabled={this.state.submitting}>Delete</button>
+                                                <button onClick={() => this.openModal(book.id)} className="button is-outlined" disabled={this.state.submitting}>Delete</button>
                                             </td>
                                         </tr>
                                     )}
