@@ -9,7 +9,6 @@ import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-modal';
-import Book from '../../models/book';
 
 const customStyles = {
     content : {

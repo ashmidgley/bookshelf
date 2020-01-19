@@ -4,7 +4,6 @@ import { Link }from 'react-router-dom';
 import { connect } from 'react-redux';
 import { fetchCategories, removeCategory } from '../../actions/categoryActions';
 import Modal from 'react-modal';
-import Category from '../../models/category';
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';

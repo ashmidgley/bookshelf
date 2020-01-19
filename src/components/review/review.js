@@ -4,21 +4,63 @@ import * as moment from 'moment';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
+import { fetchBooks } from '../../actions/bookActions';
+import { fetchCategories } from '../../actions/categoryActions';
+import { fetchRatings } from '../../actions/ratingActions';
 
 class Review extends Component {
 
     constructor(props) {
         super(props);
-        var id = parseInt(props.match.params.id);
-        var book = this.props.books.find(b => b.id === id);
         this.state = {
-            book: book,
-            paragraphs: book.summary.split('\n')
+            bookId: parseInt(props.match.params.id),
+            book: null,
+            paragraphs: null,
+            loading: true
         };
         window.scrollTo(0, 0);
     }
 
+    componentDidMount() {
+        if(!this.props.books || !this.props.categories || !this.props.ratings) {
+            var id = localStorage.getItem('userId');
+            this.props.fetchBooks(id);
+            this.props.fetchCategories(id);
+            this.props.fetchRatings(id);
+        } else {
+            var book = this.props.books.find(b => b.id === this.state.bookId);
+            this.setState({
+                book: book,
+                paragraphs: book.summary.split('\n'),
+                loading: false
+            });
+        }
+    }
+
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        if(Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings)) {
+            var book = nextProps.books.find(b => b.id === this.state.bookId);
+            this.setState({
+                book: book,
+                paragraphs: book.summary.split('\n'),
+                loading: false
+            });
+        }
+    }
+
     render() {
+        if(this.state.loading) {
+            return (
+                <div className="spinner">
+                    <div className="rect1"></div>
+                    <div className="rect2"></div>
+                    <div className="rect3"></div>
+                    <div className="rect4"></div>
+                    <div className="rect5"></div>
+                </div>
+            );
+        }
+
         return (
             <div className="column is-8 is-offset-2 review-column">
                 <div className="card review-card">
@@ -40,7 +82,7 @@ class Review extends Component {
                     <div className="review-content has-text-centered">
                         <hr />
                         {this.state.paragraphs.map(paragraph =>
-                            <p>{paragraph}</p>
+                            <p className="summary-text">{paragraph}</p>
                         )}
                         <hr />
                         <nav className="level is-mobile">
@@ -84,4 +126,4 @@ class Review extends Component {
     ratings: state.ratings.items
   });
 
-export default connect(mapStateToProps)(Review);
+export default connect(mapStateToProps, {fetchBooks, fetchCategories, fetchRatings})(Review);
