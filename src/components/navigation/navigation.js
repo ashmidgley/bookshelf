@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './navigation.css';
 import { NavLink, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookDead } from '@fortawesome/free-solid-svg-icons';
+import { faBookDead, faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { clearUser } from '../../actions/userActions';
@@ -19,7 +19,7 @@ class Navigation extends Component {
       };
     }
 
-    dropdownSelected = () => {
+    dropdownSelected() {
       var result = !this.state.dropdownOpen;
       this.setState({
         dropdownOpen: result
@@ -43,33 +43,49 @@ class Navigation extends Component {
                       <Link className="navbar-item" to="/" >
                         <FontAwesomeIcon icon={faBookDead} className="nav-icon" size="2x"/>
                       </Link>
-                      <span className={this.state.dropdownOpen ? "navbar-burger burger is-active" : "navbar-burger burger"} 
-                        onClick={this.dropdownSelected}
-                        data-target="navbarMenu">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                      </span>
                     </div>
-                    <div id="navbarMenu" className={this.state.dropdownOpen ? "navbar-menu is-active" : "navbar-menu"} >
+                    <div id="navbarMenu" className="navbar-menu" >
                       <div className="navbar-end">
-                        <div className="tabs is-right">
                           {this.props.user ?
-                            <ul>
-                              <NavLink activeClassName="active-nav" to={`/shelf/${this.props.user.id}`}>Shelf</NavLink>
-                              <NavLink activeClassName="active-nav" to="/admin">Manage</NavLink>
-                              <NavLink activeClassName="active-nav" onClick={this.logout} to="#">Logout</NavLink>
-                            </ul>
+                              <div className={this.state.dropdownOpen ? "dropdown is-right is-active" : "dropdown is-right"}>
+                                <div className="dropdown-trigger">
+                                  <button onClick={() => this.dropdownSelected()} className="button user-menu-actions" aria-haspopup="true" aria-controls="dropdown-menu">
+                                  <span>{this.props.user.email}</span>
+                                    <span className="icon is-small">
+                                      {this.state.dropdownOpen ? 
+                                        <FontAwesomeIcon icon={faAngleUp} size="md"/>
+                                        :
+                                        <FontAwesomeIcon icon={faAngleDown} size="md"/>
+                                      }
+                                    </span>
+                                  </button>
+                                </div>
+                                <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                                  <div className="dropdown-content">
+                                    <NavLink to={`/shelf/${this.props.user.id}`} className="dropdown-item" activeClassName="is-active" >
+                                      Bookshelf
+                                    </NavLink>
+                                    <NavLink to="/admin" className="dropdown-item" activeClassName="is-active" >
+                                      Manage
+                                    </NavLink>
+                                    <hr className="dropdown-divider" />
+                                    <a onClick={this.logout} href="#" className="dropdown-item">
+                                      Logout
+                                    </a>
+                                  </div>
+                                </div>
+                              </div>  
                             :
-                            <ul>
-                              <NavLink activeClassName="active-nav" to="/login">Login</NavLink>
-                              <NavLink activeClassName="active-nav" to="/register">Register</NavLink>
-                            </ul>
+                            <div className="tabs is-right">
+                              <ul>
+                                <NavLink activeClassName="active-nav" to="/login">Login</NavLink>
+                                <NavLink activeClassName="active-nav" to="/register">Register</NavLink>
+                              </ul>
+                            </div>
                           }
                         </div>
                       </div>  
                     </div>
-                  </div>
                 </nav>
             </div>
         );
