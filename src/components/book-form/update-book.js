@@ -2,24 +2,22 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import Book from '../../models/book';
-import './book-form.css';
+import './update-book.css';
 import { connect } from 'react-redux';
-import { createBook, updateBook } from '../../actions/bookActions';
+import { updateBook } from '../../actions/bookActions';
 import * as moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-class BookForm extends Component {
+class UpdateBook extends Component {
     tempImage = 'https://bulma.io/images/placeholders/96x96.png';
     allowedTypes = ['jpg', 'jpeg', 'png'];
 
     constructor(props) {
         super(props);
         var id = parseInt(props.match.params.id);
-        var book = props.match.params.id ? this.props.books.find(b => b.id === id) : null;
         this.state = {
-            action: props.match.params.id ? 'Update' : 'Create',
-            book: book,
+            book: this.props.books.find(b => b.id === id),
             submitting: false,
             success: false
         };
@@ -31,17 +29,15 @@ class BookForm extends Component {
 
     UNSAFE_componentWillReceiveProps(nextProps) {
         if(nextProps.book) {
-            if(this.props.match.params.id){
-                var oldBook = this.props.books.find(b => b.id === nextProps.book.id);
-                var i = this.props.books.indexOf(oldBook);
-                this.props.books[i] = nextProps.book;
-            } else {
-                this.props.books.unshift(nextProps.book);
-            }
+            var oldBook = this.props.books.find(b => b.id === nextProps.book.id);
+            var i = this.props.books.indexOf(oldBook);
+            this.props.books[i] = nextProps.book;
+
             this.setState({
                 submitting: false,
                 success: true
             });
+            
             window.scrollTo(0, 0);
         }
     }
@@ -52,12 +48,9 @@ class BookForm extends Component {
             success: false
         });
         var book = new Book(this.props.user.id, values.categoryId, values.ratingId, values.imageUrl, values.title, values.author, values.finishedOn, values.pageCount, values.summary);
-        if(!this.props.match.params.id) {
-            this.props.createBook(book, this.props.token);
-        } else {
-            book.id = this.state.book.id;
-            this.props.updateBook(book, this.props.token);
-        }
+        book.id = this.state.book.id;
+        
+        this.props.updateBook(book, this.props.token);
     }
 
     render() {
@@ -71,7 +64,7 @@ class BookForm extends Component {
                         </div>
                     </div>
                     {this.state.success ? 
-                        <div className="notification is-primary">Successfully {this.state.action.toLowerCase()}d entry.</div>
+                        <div className="notification is-primary">Successfully updated entry.</div>
                         : 
                         null
                     }
@@ -84,8 +77,8 @@ class BookForm extends Component {
                                 author: this.state.book ? this.state.book.author : '',
                                 finishedOn: this.state.book ? moment(this.state.book.finishedOn).format('YYYY-MM-DD') : '',
                                 pageCount: this.state.book ? this.state.book.pageCount : '',
-                                categoryId: this.state.book ? this.state.book.categoryId : 1,
-                                ratingId: this.state.book ? this.state.book.ratingId : 1,
+                                categoryId: this.state.book ? this.state.book.categoryId : this.props.categories[0].id,
+                                ratingId: this.state.book ? this.state.book.ratingId : this.props.ratings[0].id,
                                 summary: this.state.book ? this.state.book.summary : ''
                             }
                         }
@@ -95,9 +88,6 @@ class BookForm extends Component {
                                 errors.title = 'Required';
                             if(!values.imageUrl)
                                 errors.imageUrl = 'Required';
-                            var type = values.imageUrl.split('.')[1];
-                            if(!type || !this.allowedTypes.includes(type))
-                                errors.imageUrl = "Image URL doesn't match allowed file types"
                             if(!values.author)
                                 errors.author = 'Required';
                             if(!values.finishedOn) 
@@ -127,7 +117,7 @@ class BookForm extends Component {
                                 </div>
                                 <div className="add-new-image">
                                     {!errors.imageUrl && values.imageUrl ? 
-                                        <img src={process.env.REACT_APP_STORAGE_URL + '/' + values.imageUrl} alt={values.imageUrl} width="96" height="96" /> 
+                                        <img src={values.imageUrl} alt={values.imageUrl} width="96" height="96" /> 
                                         : 
                                         <img src={this.tempImage} alt="Placeholder" />
                                     }
@@ -178,7 +168,7 @@ class BookForm extends Component {
                                         <textarea className={errors.summary && touched.summary ? 'textarea is-danger' : 'textarea'} name="summary" placeholder="Enter summary" onChange={handleChange} onBlur={handleBlur} value={values.summary}></textarea>
                                     </div>
                                 </div>
-                                <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit" disabled={isSubmitting}>{this.state.action}</button>
+                                <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit" disabled={isSubmitting}>Update</button>
                                 <Link to="/admin">
                                     <button className="button cancel-button">Cancel</button>
                                 </Link>
@@ -192,13 +182,13 @@ class BookForm extends Component {
     }
 }
 
-  const mapStateToProps = state => ({
+const mapStateToProps = state => ({
     books: state.books.items,
     book: state.books.item,
     categories: state.categories.items,
     ratings: state.ratings.items,
     token: state.user.token,
     user: state.user.user
-  });
+});
 
-export default connect(mapStateToProps, {createBook, updateBook})(BookForm);
+export default connect(mapStateToProps, {updateBook})(UpdateBook);

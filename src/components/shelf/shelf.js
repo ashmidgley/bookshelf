@@ -208,7 +208,7 @@ class Shelf extends Component {
                                         <Link to={`/review/${book.id}`} style={(book.summary) ? {} : { pointerEvents: 'none', cursor: 'default'}}>
                                             <div className="card shelf-tile">
                                                 <figure className="image">
-                                                    <img src={process.env.REACT_APP_STORAGE_URL + '/' + book.imageUrl} alt="Shelf tile" />
+                                                    <img src={book.imageUrl} alt="Shelf tile" />
                                                 </figure>
                                             </div>
                                         </Link>
