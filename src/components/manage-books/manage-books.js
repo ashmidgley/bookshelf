@@ -124,6 +124,11 @@ class ManageBooks extends Component {
                             :
                             null
                         }
+                        <div style={{ 'marginBottom': '25px' }}>   
+                            <Link to={'/admin/book-form'}>
+                                <button className="button is-outlined">Add</button>
+                            </Link>
+                        </div>
                         <div className="admin-table">
                             <table className="table is-fullwidth is-bordered">
                                 <thead>
@@ -164,10 +169,7 @@ class ManageBooks extends Component {
                                         </tr>
                                     )}
                                 </tbody>
-                                </table>
-                            </div>
-                            <div>   
-                            <Link to={'/admin/book-form'}><button className="button is-outlined">Add</button></Link>
+                            </table>
                         </div>
                     </div>
                 </div>
