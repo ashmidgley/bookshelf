@@ -31,7 +31,7 @@ class Review extends Component {
             var book = this.props.books.find(b => b.id === this.state.bookId);
             this.setState({
                 book: book,
-                paragraphs: book.summary.split('\n'),
+                paragraphs: book.summary ? book.summary.split('\n') : null,
                 loading: false
             });
         }
@@ -42,7 +42,7 @@ class Review extends Component {
             var book = nextProps.books.find(b => b.id === this.state.bookId);
             this.setState({
                 book: book,
-                paragraphs: book.summary.split('\n'),
+                paragraphs: book.summary ? book.summary.split('\n') : null,
                 loading: false
             });
         }
@@ -81,9 +81,14 @@ class Review extends Component {
                     </div>
                     <div className="review-content has-text-centered">
                         <hr />
-                        {this.state.paragraphs.map(paragraph =>
-                            <p className="summary-text">{paragraph}</p>
-                        )}
+                        {this.state.paragraphs ? this.state.paragraphs.map(paragraph =>
+                                <p className="summary-text">{paragraph}</p>
+                            )
+                            :
+                            <div className="notification is-link">
+                                No summary to display.
+                            </div>
+                        }
                         <hr />
                         <nav className="level is-mobile">
                             <div className="level-item has-text-centered">

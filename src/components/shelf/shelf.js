@@ -205,7 +205,7 @@ class Shelf extends Component {
                             <div className="columns is-multiline is-mobile shelf-tiles">
                                 {books.filter(book => book.year === year.value && year.show).map(book =>
                                     <div key={book.id} className={this.state.columnClass}>
-                                        <Link to={`/review/${book.id}`} style={(book.summary) ? {} : { pointerEvents: 'none', cursor: 'default'}}>
+                                        <Link to={`/review/${book.id}`}>
                                             <div className="card shelf-tile">
                                                 <figure className="image">
                                                     <img src={book.imageUrl} alt="Shelf tile" />
