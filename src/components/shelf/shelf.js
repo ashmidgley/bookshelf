@@ -193,7 +193,7 @@ class Shelf extends Component {
                     {this.state.years.map(year =>
                         <div key={year.value}>
                             <div>
-                                <button className="button is-info" onClick={() => this.toggleYear(year.value)}>
+                                <button className="button is-link" onClick={() => this.toggleYear(year.value)}>
                                     {year.value}
                                     {year.show ?
                                         <i className="fa fa-sort-down shelf-year-dropdown"></i>
@@ -205,10 +205,10 @@ class Shelf extends Component {
                             <div className="columns is-multiline is-mobile shelf-tiles">
                                 {books.filter(book => book.year === year.value && year.show).map(book =>
                                     <div key={book.id} className={this.state.columnClass}>
-                                        <Link to={`/review/${book.id}`} style={(book.summary) ? {} : { pointerEvents: 'none', cursor: 'default'}}>
+                                        <Link to={`/review/${book.id}`}>
                                             <div className="card shelf-tile">
                                                 <figure className="image">
-                                                    <img src={process.env.REACT_APP_STORAGE_URL + '/' + book.imageUrl} alt="Shelf tile" />
+                                                    <img src={book.imageUrl} alt="Shelf tile" />
                                                 </figure>
                                             </div>
                                         </Link>

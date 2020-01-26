@@ -94,7 +94,7 @@ class Register extends Component {
                                                     <input className={errors.password && touched.password ? 'input is-large is-danger' : 'input is-large'} type="password" name="password" placeholder="Enter password..." onChange={handleChange} onBlur={handleBlur} value={values.password} />
                                                 </div>
                                             </div>
-                                            <button className={this.state.submitting ? "button is-block is-info is-large is-fullwidth is-loading" : "button is-block is-info is-large is-fullwidth"} type="submit" disabled={isSubmitting}>
+                                            <button className={this.state.submitting ? "button is-block is-link is-large is-fullwidth is-loading" : "button is-block is-link is-large is-fullwidth"} type="submit" disabled={isSubmitting}>
                                                 Register <i className="fa fa-sign-in" aria-hidden="true"></i>
                                             </button>
                                         </form>

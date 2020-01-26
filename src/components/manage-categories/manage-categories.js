@@ -107,50 +107,52 @@ class ManageCategories extends Component {
                         </div>
                         <div>
                             <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={customStyles}>
-                                    <form onSubmit={this.handleSubmit}>
-                                        <p>Are you sure?</p>
-                                        <div className="modal-actions">
-                                            <button className={this.state.submitting ? "button is-success is-loading" : "button is-success"} type="submit">Yes</button>
-                                            <button id="cancel" className="button is-danger" onClick={this.closeModal}>No</button>
-                                        </div>
-                                    </form>
-                                </Modal>
-                                <h1 className="title">Categories</h1>
-                                {this.state.success ? 
-                                    <div className="notification is-primary">Successfully removed entry.</div>
-                                    :
-                                    null
-                                }
-                                <div className="admin-table">
-                                    <table className="table is-fullwidth is-bordered">
-                                        <thead>
-                                            <tr>
-                                                <th>Description</th>
-                                                <th>Code</th>
-                                                <th>Edit</th>
-                                                <th>Delete</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {this.props.categories.map(category =>
-                                                <tr key={category.id}>
-                                                    <td>{category.description}</td>
-                                                    <td>{category.code}</td>
-                                                    <td className="has-text-centered">
-                                                        <Link to={'/admin/category-form/' + category.id}><button className="button is-outlined" disabled={this.state.submitting}>Edit</button></Link>
-                                                    </td>
-                                                    <td className="has-text-centered">
-                                                        <button onClick={() => this.openModal(category.id)} className="button is-outlined" disabled={this.state.submitting}>Delete</button>
-                                                    </td>
-                                                </tr>
-                                            )}
-                                        </tbody>
-                                    </table>
-                                </div>
-                                <div>
-                                    <Link to={'/admin/category-form'}><button className="button is-outlined">Add</button></Link>
-                                </div>
+                                <form onSubmit={this.handleSubmit}>
+                                    <p>Are you sure?</p>
+                                    <div className="modal-actions">
+                                        <button className={this.state.submitting ? "button is-success is-loading" : "button is-success"} type="submit">Yes</button>
+                                        <button id="cancel" className="button is-danger" onClick={this.closeModal}>No</button>
+                                    </div>
+                                </form>
+                            </Modal>
+                            <h1 className="title">Categories</h1>
+                            {this.state.success ? 
+                                <div className="notification is-primary">Successfully removed entry.</div>
+                                :
+                                null
+                            }
+                            <div style={{'marginBottom': '25px'}}>
+                                <Link to={'/admin/category-form'}>
+                                    <button className="button is-outlined">Add</button>
+                                </Link>
                             </div>
+                            <div className="admin-table">
+                                <table className="table is-fullwidth is-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Description</th>
+                                            <th>Code</th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {this.props.categories.map(category =>
+                                            <tr key={category.id}>
+                                                <td>{category.description}</td>
+                                                <td>{category.code}</td>
+                                                <td className="has-text-centered">
+                                                    <Link to={'/admin/category-form/' + category.id}><button className="button is-outlined" disabled={this.state.submitting}>Edit</button></Link>
+                                                </td>
+                                                <td className="has-text-centered">
+                                                    <button onClick={() => this.openModal(category.id)} className="button is-outlined" disabled={this.state.submitting}>Delete</button>
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -15,15 +15,27 @@ class Navigation extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        dropdownOpen: false
+        dropdownVisible: false
       };
     }
 
-    dropdownSelected() {
-      var result = !this.state.dropdownOpen;
-      this.setState({
-        dropdownOpen: result
-      });
+    componentWillUnmount() {
+      window.removeEventListener('click', this.globalClickListener)
+    }
+
+    globalClickListener = () => {
+      this.setState({dropdownVisible: false}, () => {
+        window.removeEventListener('click', this.globalClickListener)
+      })
+    }
+
+    toggleDropdown = (event) => {
+      event.stopPropagation()
+      this.setState(prevState => ({dropdownVisible: !prevState.dropdownVisible}), () => {
+        if (this.state.dropdownVisible) {
+          window.addEventListener('click', this.globalClickListener)
+        }
+      })
     }
 
     logout = () => {
@@ -40,19 +52,19 @@ class Navigation extends Component {
                 <nav className="navbar">
                   <div className="container">
                     <div className="navbar-brand">
-                      <Link className="navbar-item" to="/" >
+                      <Link className="navbar-item" to={this.props.user ? `/shelf/${this.props.user.id}` : '/'}>
                         <FontAwesomeIcon icon={faBookDead} className="nav-icon" size="2x"/>
                       </Link>
                     </div>
                     <div id="navbarMenu" className="navbar-menu" >
                       <div className="navbar-end">
                           {this.props.user ?
-                              <div className={this.state.dropdownOpen ? "dropdown is-right is-active" : "dropdown is-right"}>
+                              <div className={this.state.dropdownVisible ? "dropdown is-right is-active" : "dropdown is-right"}>
                                 <div className="dropdown-trigger">
-                                  <button onClick={() => this.dropdownSelected()} className="button user-menu-actions" aria-haspopup="true" aria-controls="dropdown-menu">
+                                  <button onClick={this.toggleDropdown} className="button user-menu-actions">
                                   <span>{this.props.user.email}</span>
                                     <span className="icon is-small">
-                                      {this.state.dropdownOpen ? 
+                                      {this.state.dropdownVisible ? 
                                         <FontAwesomeIcon icon={faAngleUp}/>
                                         :
                                         <FontAwesomeIcon icon={faAngleDown}/>
@@ -60,7 +72,7 @@ class Navigation extends Component {
                                     </span>
                                   </button>
                                 </div>
-                                <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                                <div className="dropdown-menu">
                                   <div className="dropdown-content">
                                     <NavLink to={`/shelf/${this.props.user.id}`} className="dropdown-item" activeClassName="is-active" >
                                       Bookshelf
