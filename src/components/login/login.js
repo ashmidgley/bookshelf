@@ -94,7 +94,7 @@ class Login extends Component {
                                                 :
                                                 null
                                             }
-                                            <button className={this.state.submitting ? "button is-block is-info is-large is-fullwidth is-loading" : "button is-block is-info is-large is-fullwidth"} type="submit" disabled={isSubmitting}>
+                                            <button className={this.state.submitting ? "button is-block is-link is-large is-fullwidth is-loading" : "button is-block is-link is-large is-fullwidth"} type="submit" disabled={isSubmitting}>
                                                 Login <i className="fa fa-sign-in" aria-hidden="true"></i>
                                             </button>
                                         </form>
