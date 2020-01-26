@@ -103,6 +103,7 @@ class ratingForm extends Component {
                                     <div className="control">
                                         <input className={errors.code && touched.code ? 'input is-danger' : 'input'} type="text" name="code" placeholder="Enter code" onChange={handleChange} onBlur={handleBlur} value={values.code} />
                                     </div>
+                                    <a href="https://emojipedia.org" className="is-size-7">Emojipedia</a>
                                 </div>
                                 <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit" disabled={isSubmitting}>{this.state.action}</button>
                                 <Link to="/admin">
