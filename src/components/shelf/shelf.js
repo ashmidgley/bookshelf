@@ -193,7 +193,7 @@ class Shelf extends Component {
                     {this.state.years.map(year =>
                         <div key={year.value}>
                             <div>
-                                <button className="button is-info" onClick={() => this.toggleYear(year.value)}>
+                                <button className="button is-link" onClick={() => this.toggleYear(year.value)}>
                                     {year.value}
                                     {year.show ?
                                         <i className="fa fa-sort-down shelf-year-dropdown"></i>
