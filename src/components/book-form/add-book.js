@@ -42,7 +42,7 @@ class AddBook extends Component {
             success: false
         });
 
-        var newBook = new NewBook(values.isbn, this.props.user.id, values.categoryId, values.ratingId, values.finishedOn);
+        var newBook = new NewBook(values.title, values.author, this.props.user.id, values.categoryId, values.ratingId, values.finishedOn);
 
         this.props.createBook(newBook, this.props.token);
     }
@@ -66,7 +66,8 @@ class AddBook extends Component {
                         initialValues=
                         {
                             {
-                                isbn: '',
+                                title: '',
+                                author: '',
                                 finishedOn: '',
                                 categoryId: this.props.categories[0].id,
                                 ratingId: this.props.ratings[0].id,
@@ -74,8 +75,10 @@ class AddBook extends Component {
                         }
                         validate={values => {
                             let errors = {};
-                            if (!values.isbn)
-                                errors.isbn = 'Required';
+                            if (!values.title)
+                                errors.title = 'Required';
+                            if (!values.author)
+                                errors.author = 'Required';
                             if(!values.finishedOn) 
                                 errors.finishedOn = 'Required';
                             return errors;
@@ -86,9 +89,15 @@ class AddBook extends Component {
                         }}>{({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, setFieldValue }) => (
                             <form className="form" onSubmit={handleSubmit}>
                                 <div className="field">
-                                    <label className="label">ISBN</label>
+                                    <label className="label">Title</label>
                                     <div className="control">
-                                        <input className={errors.isbn && touched.isbn ? 'input is-danger' : 'input'} type="text" name="isbn" placeholder="Enter isbn" onChange={handleChange} onBlur={handleBlur} value={values.isbn} />
+                                        <input className={errors.title && touched.title ? 'input is-danger' : 'input'} type="text" name="title" placeholder="Enter title" onChange={handleChange} onBlur={handleBlur} value={values.title} />
+                                    </div>
+                                </div>
+                                <div className="field">
+                                    <label className="label">Author</label>
+                                    <div className="control">
+                                        <input className={errors.author && touched.author ? 'input is-danger' : 'input'} type="text" name="author" placeholder="Enter author" onChange={handleChange} onBlur={handleBlur} value={values.author} />
                                     </div>
                                 </div>
                                 <div className="field">
