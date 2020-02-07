@@ -208,7 +208,7 @@ class Shelf extends Component {
                                         <Link to={`/review/${book.id}`}>
                                             <div className="card shelf-tile">
                                                 <figure className="image">
-                                                    <img src={book.imageUrl} alt="Shelf tile" />
+                                                    <img src={book.imageUrl} className="tile-image" alt="Shelf tile" />
                                                 </figure>
                                             </div>
                                         </Link>

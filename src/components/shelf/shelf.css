@@ -74,6 +74,11 @@
     text-align: center;
 }
 
+.tile-image {
+    max-height: 220px;
+    object-fit: cover;
+}
+
 /* Mobile */
 @media only screen and (max-width: 600px) {
 
