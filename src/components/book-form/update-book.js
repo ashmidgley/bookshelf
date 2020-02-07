@@ -12,6 +12,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 class UpdateBook extends Component {
     tempImage = 'https://bulma.io/images/placeholders/96x96.png';
     allowedTypes = ['jpg', 'jpeg', 'png'];
+    validPrecursor = 'http://books.google.com';
 
     constructor(props) {
         super(props);
@@ -53,6 +54,18 @@ class UpdateBook extends Component {
         this.props.updateBook(book, this.props.token);
     }
 
+    validImage(image) {
+        if(image.startsWith(this.validPrecursor))
+            return true;
+
+        for(var format in this.allowedTypes) {
+            if(image.endsWith(format))
+                return true;
+        }
+        
+        return false;
+    }
+
     render() {
         return (
             <div className="column is-8 is-offset-2 book-form-container"> 
@@ -88,6 +101,8 @@ class UpdateBook extends Component {
                                 errors.title = 'Required';
                             if(!values.imageUrl)
                                 errors.imageUrl = 'Required';
+                            if(!this.validImage(values.imageUrl))
+                                errors.imageUrl = 'Invalid format';
                             if(!values.author)
                                 errors.author = 'Required';
                             if(!values.finishedOn) 
@@ -114,6 +129,13 @@ class UpdateBook extends Component {
                                     <div className="control">
                                         <input className={errors.imageUrl && touched.imageUrl ? 'input is-danger' : 'input'} type="text" name="imageUrl" placeholder="Enter image URL" onChange={handleChange} onBlur={handleBlur} value={values.imageUrl} />
                                     </div>
+                                    {errors.imageUrl === 'Invalid format' ? 
+                                        <div className="help is-danger">
+                                            Invalid image format. Please use a png, jpg or jpeg.
+                                        </div>
+                                        :
+                                        null
+                                    }
                                 </div>
                                 <div className="add-new-image">
                                     {!errors.imageUrl && values.imageUrl ? 
