@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import ManageBooks from './components/manage-books/manage-books';
 import ManageCategories from './components/manage-categories/manage-categories';
 import ManageRatings from './components/manage-ratings/manage-ratings';
+import ManageUsers from './components/manage-users/manage-users';
 import AddBook from './components/book-form/add-book';
 import UpdateBook from './components/book-form/update-book';
 import CategoryForm from './components/category-form/category-form';
@@ -84,6 +85,7 @@ class App extends Component {
                 <Route exact path="/admin/manage-books" component={ManageBooks} />
                 <Route exact path="/admin/manage-categories" component={ManageCategories} />
                 <Route exact path="/admin/manage-ratings" component={ManageRatings} />
+                <Route exact path="/admin/manage-users" component={ManageUsers} />
                 <Route exact path="/admin/book-form" component={AddBook} />
                 <Route exact path="/admin/book-form/:id" component={UpdateBook} />
                 <Route exact path="/admin/category-form" component={CategoryForm} />

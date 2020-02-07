@@ -1,4 +1,4 @@
-import { LOGIN, REGISTER, SET_USER, CLEAR_USER } from './types';
+import { LOGIN, REGISTER, SET_USER, CLEAR_USER, GET_USERS } from './types';
 import axios from 'axios';
 import User from '../models/user';
 
@@ -60,6 +60,24 @@ export const clearUser = () => dispatch => {
   })
 }
 
+export const fetchUsers = (token) => dispatch => {
+  var config = createConfig(token);
+  axios.get(usersUrl, config)
+    .then(response => {
+      dispatch({
+        type: GET_USERS,
+        payload: response.data
+      })
+    })
+    .catch(error => {
+      console.error(error);
+      dispatch({
+        type: GET_USERS,
+        error: error.message
+      })
+    })
+}
+
 function createPayload(response) {
   var token = response.data.token;
   var payload = parseJwt(response.data.token);
@@ -81,4 +99,13 @@ function persistToken(token, expiryDate, user) {
   localStorage.setItem('userId', user.id);
   localStorage.setItem('userEmail', user.email);
   localStorage.setItem('userIsAdmin', user.isAdmin);
+}
+
+function createConfig(token) {
+  var config = {
+    headers: {
+      'Authorization': 'Bearer ' + token
+    }
+  };
+  return config;
 }
