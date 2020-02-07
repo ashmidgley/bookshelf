@@ -192,7 +192,7 @@ class Shelf extends Component {
                 <div>
                     {this.state.years.map(year =>
                         <div key={year.value}>
-                            <div>
+                            <div className="year-toggle-container">
                                 <button className="button is-link" onClick={() => this.toggleYear(year.value)}>
                                     {year.value}
                                     {year.show ?

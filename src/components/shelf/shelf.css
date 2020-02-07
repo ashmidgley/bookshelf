@@ -75,7 +75,8 @@
 }
 
 .tile-image {
-    max-height: 220px;
+    max-height: 300px;
+    max-width: 300px;
     object-fit: cover;
 }
 
@@ -113,6 +114,14 @@
 
     .hide-mobile {
         display: none;
+    }
+
+    .tile-image {
+        max-height: 100px;
+    }
+
+    .year-toggle-container {
+        text-align: center;
     }
 }
 
