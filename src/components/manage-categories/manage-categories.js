@@ -108,10 +108,10 @@ class ManageCategories extends Component {
                         <div>
                             <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={customStyles}>
                                 <form onSubmit={this.handleSubmit}>
-                                    <p>Are you sure?</p>
+                                    <div>Are you sure you would like to delete this category?</div>
                                     <div className="modal-actions">
-                                        <button className={this.state.submitting ? "button is-success is-loading" : "button is-success"} type="submit">Yes</button>
-                                        <button id="cancel" className="button is-danger" onClick={this.closeModal}>No</button>
+                                        <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit">Confirm</button>
+                                        <button id="cancel" className="button" onClick={this.closeModal}>Cancel</button>
                                     </div>
                                 </form>
                             </Modal>

@@ -4,6 +4,7 @@
 
 .modal-actions {
     margin-top: 20px;
+    float: right;
 }
 
 .modal-actions > #cancel {
