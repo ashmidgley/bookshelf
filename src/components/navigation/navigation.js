@@ -86,6 +86,13 @@ class Navigation extends Component {
                                     <NavLink to="/admin/manage-ratings" className="dropdown-item" activeClassName="is-active" >
                                       Manage Ratings
                                     </NavLink>
+                                    {this.props.user.isAdmin === "true" ?
+                                      <NavLink to="/admin/manage-users" className="dropdown-item" activeClassName="is-active" >
+                                        Manage Users
+                                      </NavLink>
+                                      :
+                                      null
+                                    }
                                     <hr className="dropdown-divider" />
                                     <a onClick={this.logout} href="#" className="dropdown-item">
                                       Logout

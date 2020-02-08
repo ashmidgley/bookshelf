@@ -4,30 +4,53 @@ import { Formik } from 'formik';
 import Book from '../../models/book';
 import './update-book.css';
 import { connect } from 'react-redux';
-import { updateBook } from '../../actions/bookActions';
+import { updateBook, fetchBooks } from '../../actions/bookActions';
+import { fetchCategories } from '../../actions/categoryActions';
+import { fetchRatings } from '../../actions/ratingActions';
 import * as moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import Loading from '../loading/loading';
 
 class UpdateBook extends Component {
     tempImage = 'https://bulma.io/images/placeholders/96x96.png';
     allowedTypes = ['jpg', 'jpeg', 'png'];
+    validPrecursor = 'http://books.google.com';
 
     constructor(props) {
         super(props);
-        var id = parseInt(props.match.params.id);
         this.state = {
-            book: this.props.books.find(b => b.id === id),
+            bookId: parseInt(props.match.params.id),
+            book: null,
             submitting: false,
-            success: false
+            success: false,
+            loading: true
         };
     }
 
     componentDidMount() {
+        if(!this.props.books || !this.props.categories || !this.props.ratings) {
+            var id = localStorage.getItem('userId');
+            this.props.fetchBooks(id);
+            this.props.fetchCategories(id);
+            this.props.fetchRatings(id);
+        } else {
+            this.setState({
+                book: this.props.books.find(b => b.id === this.state.bookId),
+                loading: false
+            });
+        }
+
         window.scrollTo(0, 0);
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
+        if(Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings))
+            this.setState({
+                book: this.props.books.find(b => b.id === this.state.bookId),
+                loading: false
+        });
+
         if(nextProps.book) {
             var oldBook = this.props.books.find(b => b.id === nextProps.book.id);
             var i = this.props.books.indexOf(oldBook);
@@ -53,7 +76,25 @@ class UpdateBook extends Component {
         this.props.updateBook(book, this.props.token);
     }
 
+    validImage(image) {
+        if(image.startsWith(this.validPrecursor))
+            return true;
+
+        for(var format in this.allowedTypes) {
+            if(image.endsWith(format))
+                return true;
+        }
+        
+        return false;
+    }
+
     render() {
+        if(this.state.loading) {
+            return (
+                <Loading />
+            );
+        }
+
         return (
             <div className="column is-8 is-offset-2 book-form-container"> 
                 <div className="card review-card">
@@ -88,6 +129,8 @@ class UpdateBook extends Component {
                                 errors.title = 'Required';
                             if(!values.imageUrl)
                                 errors.imageUrl = 'Required';
+                            if(!this.validImage(values.imageUrl))
+                                errors.imageUrl = 'Invalid format';
                             if(!values.author)
                                 errors.author = 'Required';
                             if(!values.finishedOn) 
@@ -114,6 +157,13 @@ class UpdateBook extends Component {
                                     <div className="control">
                                         <input className={errors.imageUrl && touched.imageUrl ? 'input is-danger' : 'input'} type="text" name="imageUrl" placeholder="Enter image URL" onChange={handleChange} onBlur={handleBlur} value={values.imageUrl} />
                                     </div>
+                                    {errors.imageUrl === 'Invalid format' ? 
+                                        <div className="help is-danger">
+                                            Invalid image format. Please use a png, jpg or jpeg.
+                                        </div>
+                                        :
+                                        null
+                                    }
                                 </div>
                                 <div className="add-new-image">
                                     {!errors.imageUrl && values.imageUrl ? 
@@ -191,4 +241,4 @@ const mapStateToProps = state => ({
     user: state.user.user
 });
 
-export default connect(mapStateToProps, {updateBook})(UpdateBook);
+export default connect(mapStateToProps, {updateBook, fetchBooks, fetchCategories, fetchRatings})(UpdateBook);

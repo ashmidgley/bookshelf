@@ -4,10 +4,12 @@ import { Formik } from 'formik';
 import NewBook from '../../models/newBook';
 import './update-book.css';
 import { connect } from 'react-redux';
-import { createBook } from '../../actions/bookActions';
+import { createBook, fetchBooks } from '../../actions/bookActions';
+import { fetchCategories } from '../../actions/categoryActions';
+import { fetchRatings } from '../../actions/ratingActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-
+import Loading from '../loading/loading';
 
 class AddBook extends Component {
 
@@ -15,15 +17,32 @@ class AddBook extends Component {
         super(props);
         this.state = {
             submitting: false,
-            success: false
+            success: false,
+            loading: true
         };
     }
 
     componentDidMount() {
+        if(!this.props.books || !this.props.categories || !this.props.ratings) {
+            var id = localStorage.getItem('userId');
+            this.props.fetchBooks(id);
+            this.props.fetchCategories(id);
+            this.props.fetchRatings(id);
+        } else {
+            this.setState({
+                loading: false
+            });
+        }
+
         window.scrollTo(0, 0);
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
+        if(Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings))
+            this.setState({
+                loading: false
+        });
+
         if(nextProps.book) {
             this.props.books.unshift(nextProps.book);
 
@@ -48,6 +67,12 @@ class AddBook extends Component {
     }
 
     render() {
+        if(this.state.loading) {
+            return (
+                <Loading />
+            );
+        }
+        
         return (
             <div className="column is-8 is-offset-2 book-form-container"> 
                 <div className="card review-card">
@@ -151,4 +176,4 @@ const mapStateToProps = state => ({
     user: state.user.user
 });
 
-export default connect(mapStateToProps, {createBook})(AddBook);
+export default connect(mapStateToProps, {createBook, fetchBooks, fetchCategories, fetchRatings})(AddBook);

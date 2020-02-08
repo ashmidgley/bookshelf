@@ -9,6 +9,7 @@ import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import Modal from 'react-modal';
+import Loading from '../loading/loading';
 
 const customStyles = {
     content : {
@@ -87,13 +88,7 @@ class ManageBooks extends Component {
     render() {
         if(this.state.loading) {
             return (
-                <div className="spinner">
-                    <div className="rect1"></div>
-                    <div className="rect2"></div>
-                    <div className="rect3"></div>
-                    <div className="rect4"></div>
-                    <div className="rect5"></div>
-                </div>
+                <Loading />
             );
         }
 
@@ -111,10 +106,10 @@ class ManageBooks extends Component {
                         </div>
                         <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={customStyles}>
                             <form onSubmit={this.handleSubmit}>
-                                <p>Are you sure?</p>
+                                <div>Are you sure you would like to delete this book?</div>
                                 <div className="modal-actions">
-                                    <button className={this.state.submitting ? "button is-success is-loading" : "button is-success"} type="submit">Yes</button>
-                                    <button id="cancel" className="button is-danger" onClick={this.closeModal}>No</button>
+                                    <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit">Confirm</button>
+                                    <button id="cancel" className="button" onClick={this.closeModal}>Cancel</button>
                                 </div>
                             </form>
                         </Modal>
@@ -129,48 +124,54 @@ class ManageBooks extends Component {
                                 <button className="button is-outlined">Add</button>
                             </Link>
                         </div>
-                        <div className="admin-table">
-                            <table className="table is-fullwidth is-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th>Author</th>
-                                        <th>Category</th>
-                                        <th>Rating</th>
-                                        <th>Edit</th>
-                                        <th>Delete</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {this.props.books.map(book =>
-                                        <tr key={book.id}>
-                                            <td>{book.title}</td>
-                                            <td>{book.author}</td>
-                                            <td>
-                                                {this.props.categories.find(c => c.id === book.categoryId)
-                                                ? 
-                                                this.props.categories.find(c => c.id === book.categoryId).description
-                                                :
-                                                '-'}
-                                            </td>
-                                            <td>
-                                                {this.props.ratings.find(r => r.id === book.ratingId)
-                                                ? 
-                                                this.props.ratings.find(r => r.id === book.ratingId).description
-                                                :
-                                                '-'}
-                                            </td>
-                                            <td className="has-text-centered">
-                                                <Link to={'/admin/book-form/' + book.id}><button className="button is-outlined" disabled={this.state.submitting}>Edit</button></Link>
-                                            </td>
-                                            <td className="has-text-centered">
-                                                <button onClick={() => this.openModal(book.id)} className="button is-outlined" disabled={this.state.submitting}>Delete</button>
-                                            </td>
+                        {this.props.books.length === 0 ?
+                            <div className="notification is-link">
+                                No books to display.
+                            </div>
+                            :
+                            <div className="admin-table">
+                                <table className="table is-fullwidth is-bordered scrollable">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Author</th>
+                                            <th>Category</th>
+                                            <th>Rating</th>
+                                            <th>Edit</th>
+                                            <th>Delete</th>
                                         </tr>
-                                    )}
-                                </tbody>
-                            </table>
-                        </div>
+                                    </thead>
+                                    <tbody>
+                                        {this.props.books.map(book =>
+                                            <tr key={book.id}>
+                                                <td>{book.title}</td>
+                                                <td>{book.author}</td>
+                                                <td>
+                                                    {this.props.categories.find(c => c.id === book.categoryId)
+                                                    ? 
+                                                    this.props.categories.find(c => c.id === book.categoryId).description
+                                                    :
+                                                    '-'}
+                                                </td>
+                                                <td>
+                                                    {this.props.ratings.find(r => r.id === book.ratingId)
+                                                    ? 
+                                                    this.props.ratings.find(r => r.id === book.ratingId).description
+                                                    :
+                                                    '-'}
+                                                </td>
+                                                <td className="has-text-centered">
+                                                    <Link to={'/admin/book-form/' + book.id}><button className="button is-outlined" disabled={this.state.submitting}>Edit</button></Link>
+                                                </td>
+                                                <td className="has-text-centered">
+                                                    <button onClick={() => this.openModal(book.id)} className="button is-outlined" disabled={this.state.submitting}>Delete</button>
+                                                </td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>

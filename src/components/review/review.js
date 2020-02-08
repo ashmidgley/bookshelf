@@ -7,6 +7,7 @@ import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
 import { fetchBooks } from '../../actions/bookActions';
 import { fetchCategories } from '../../actions/categoryActions';
 import { fetchRatings } from '../../actions/ratingActions';
+import Loading from '../loading/loading';
 
 class Review extends Component {
 
@@ -51,13 +52,7 @@ class Review extends Component {
     render() {
         if(this.state.loading) {
             return (
-                <div className="spinner">
-                    <div className="rect1"></div>
-                    <div className="rect2"></div>
-                    <div className="rect3"></div>
-                    <div className="rect4"></div>
-                    <div className="rect5"></div>
-                </div>
+                <Loading />
             );
         }
 

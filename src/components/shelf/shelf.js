@@ -6,6 +6,7 @@ import { Helmet } from "react-helmet";
 import { fetchBooks } from '../../actions/bookActions';
 import { fetchCategories } from '../../actions/categoryActions';
 import { fetchRatings } from '../../actions/ratingActions';
+import Loading from '../loading/loading'; 
 
 class Shelf extends Component {
 
@@ -127,13 +128,7 @@ class Shelf extends Component {
     render() {
         if(this.state.loading) {
             return (
-                <div className="spinner">
-                    <div className="rect1"></div>
-                    <div className="rect2"></div>
-                    <div className="rect3"></div>
-                    <div className="rect4"></div>
-                    <div className="rect5"></div>
-                </div>
+                <Loading />
             );
         }
 
@@ -192,7 +187,7 @@ class Shelf extends Component {
                 <div>
                     {this.state.years.map(year =>
                         <div key={year.value}>
-                            <div>
+                            <div className="year-toggle-container">
                                 <button className="button is-link" onClick={() => this.toggleYear(year.value)}>
                                     {year.value}
                                     {year.show ?
@@ -208,7 +203,7 @@ class Shelf extends Component {
                                         <Link to={`/review/${book.id}`}>
                                             <div className="card shelf-tile">
                                                 <figure className="image">
-                                                    <img src={book.imageUrl} alt="Shelf tile" />
+                                                    <img src={book.imageUrl} className="tile-image" alt="Shelf tile" />
                                                 </figure>
                                             </div>
                                         </Link>

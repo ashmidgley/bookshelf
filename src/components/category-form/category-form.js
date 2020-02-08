@@ -4,29 +4,46 @@ import { Formik } from 'formik';
 import Category from '../../models/category';
 import './category-form.css';
 import { connect } from 'react-redux';
-import { createCategory, updateCategory } from '../../actions/categoryActions';
+import { createCategory, updateCategory, fetchCategories } from '../../actions/categoryActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import Loading from '../loading/loading';
 
 class CategoryForm extends Component {
 
     constructor(props) {
         super(props);
-        var id = parseInt(props.match.params.id);
-        var category = props.match.params.id ? this.props.categories.find(b => b.id === id) : null;
         this.state = {
             action: props.match.params.id ? 'Update' : 'Create',
-            category: category,
+            categoryId: parseInt(props.match.params.id),
+            category: null,
             submitting: false,
-            success: false
+            success: false,
+            loading: true
         };
     }
 
     componentDidMount() {
+        if(!this.props.categories) {
+            var id = localStorage.getItem('userId');
+            this.props.fetchCategories(id);
+        } else {
+            this.setState({
+                category: this.state.categoryId ? this.props.categories.find(b => b.id === this.state.categoryId) : null,
+                loading: false
+            })
+        }
+
         window.scrollTo(0, 0);
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
+        if(Array.isArray(nextProps.categories))
+            this.setState({
+                category: this.state.categoryId ? nextProps.categories.find(b => b.id === this.state.categoryId) : null,
+                loading: false
+        });
+
         if(nextProps.category) {
             if(this.props.match.params.id){
                 var oldCategory = this.props.categories.find(b => b.id === nextProps.category.id);
@@ -57,6 +74,12 @@ class CategoryForm extends Component {
     }
 
     render() {
+        if(this.state.loading) {
+            return (
+                <Loading />
+            );
+        }
+
         return (
             <div className="column is-8 is-offset-2 category-form-container"> 
                 <div className="card review-card">
@@ -126,4 +149,4 @@ class CategoryForm extends Component {
     user: state.user.user
   });
 
-export default connect(mapStateToProps, {createCategory, updateCategory})(CategoryForm);
+export default connect(mapStateToProps, {createCategory, updateCategory, fetchCategories})(CategoryForm);

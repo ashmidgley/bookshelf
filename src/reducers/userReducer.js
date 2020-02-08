@@ -1,6 +1,7 @@
-import { LOGIN, REGISTER, SET_USER, CLEAR_USER } from '../actions/types';
+import { LOGIN, REGISTER, SET_USER, CLEAR_USER, GET_USERS } from '../actions/types';
 
 const initialState = {
+  users: null,
   token: null,
   expiryDate: null,
   user: null,
@@ -46,6 +47,12 @@ export default function(state = initialState, action) {
         invalidAction: null,
         error: null
       };
+    case GET_USERS:
+      return {
+        ...state,
+        users: action.payload,
+        error: action.error
+      }
     default:
       return state;
   }

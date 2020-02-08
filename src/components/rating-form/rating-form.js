@@ -4,29 +4,46 @@ import { Formik } from 'formik';
 import Rating from '../../models/rating';
 import './rating-form.css';
 import { connect } from 'react-redux';
-import { createRating, updateRating } from '../../actions/ratingActions';
+import { createRating, updateRating, fetchRatings } from '../../actions/ratingActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import Loading from '../loading/loading';
 
-class ratingForm extends Component {
+class RatingForm extends Component {
 
     constructor(props) {
         super(props);
-        var id = parseInt(props.match.params.id);
-        var rating = props.match.params.id ? this.props.ratings.find(b => b.id === id) : null;
         this.state = {
             action: props.match.params.id ? 'Update' : 'Create',
-            rating: rating,
+            ratingId: parseInt(props.match.params.id),
+            rating: null,
             submitting: false,
-            success: false
+            success: false,
+            loading: true
         };
     }
 
     componentDidMount() {
+        if(!this.props.ratings) {
+            var id = localStorage.getItem('userId');
+            this.props.fetchRatings(id);
+        } else {
+            this.setState({
+                rating: this.state.ratingId ? this.props.ratings.find(b => b.id === this.state.ratingId) : null,
+                loading: false
+            })
+        }
+
         window.scrollTo(0, 0);
     }
 
     UNSAFE_componentWillReceiveProps(nextProps) {
+        if(Array.isArray(nextProps.ratings))
+            this.setState({
+                rating: this.state.ratingId ? nextProps.ratings.find(b => b.id === this.state.ratingId) : null,
+                loading: false
+        });
+
         if(nextProps.rating) {
             if(this.props.match.params.id){
                 var oldRating = this.props.ratings.find(b => b.id === nextProps.rating.id);
@@ -57,6 +74,12 @@ class ratingForm extends Component {
     }
 
     render() {
+        if(this.state.loading) {
+            return (
+                <Loading />
+            );
+        }
+
         return (
             <div className="column is-8 is-offset-2 rating-form-container"> 
                 <div className="card review-card">
@@ -126,4 +149,4 @@ class ratingForm extends Component {
     user: state.user.user
   });
 
-export default connect(mapStateToProps, {createRating, updateRating})(ratingForm);
+export default connect(mapStateToProps, {createRating, updateRating, fetchRatings})(RatingForm);
