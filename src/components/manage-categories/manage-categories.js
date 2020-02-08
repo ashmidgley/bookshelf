@@ -7,6 +7,7 @@ import Modal from 'react-modal';
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
+import Loading from '../loading/loading';
 
 const customStyles = {
     content : {
@@ -83,13 +84,7 @@ class ManageCategories extends Component {
     render() {
         if(this.state.loading) {
             return (
-                <div className="spinner">
-                    <div className="rect1"></div>
-                    <div className="rect2"></div>
-                    <div className="rect3"></div>
-                    <div className="rect4"></div>
-                    <div className="rect5"></div>
-                </div>
+                <Loading />
             );
         }
         
