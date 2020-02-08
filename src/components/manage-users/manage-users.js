@@ -5,6 +5,7 @@ import { fetchUsers } from '../../actions/userActions';
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
+import Loading from '../loading/loading';
 
 class ManageUsers extends Component {
 
@@ -24,19 +25,21 @@ class ManageUsers extends Component {
     }
 
     componentDidMount() {
-        this.props.fetchUsers(this.props.token);
+        if(!this.props.users) {
+            var token = localStorage.getItem('token');
+            this.props.fetchUsers(token);
+        } else {
+            this.setState({
+                loading: false
+            });
+        }
+        
     }
 
     render() {
         if(this.state.loading) {
             return (
-                <div className="spinner">
-                    <div className="rect1"></div>
-                    <div className="rect2"></div>
-                    <div className="rect3"></div>
-                    <div className="rect4"></div>
-                    <div className="rect5"></div>
-                </div>
+                <Loading />
             );
         }
 
@@ -60,6 +63,7 @@ class ManageUsers extends Component {
                                         <tr>
                                             <th>Id</th>
                                             <th>Email</th>
+                                            <th>Admin</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -67,6 +71,7 @@ class ManageUsers extends Component {
                                             <tr key={user.id}>
                                                 <td>{user.id}</td>
                                                 <td>{user.email}</td>
+                                                <td>{user.isAdmin.toString()}</td>
                                             </tr>
                                         )}
                                     </tbody>
