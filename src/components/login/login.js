@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import './login.css';
 import { connect } from 'react-redux';
 import { login, clearUser } from '../../actions/userActions';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import LoginDto from '../../models/loginDto';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLock } from '@fortawesome/free-solid-svg-icons';
 
 class Login extends Component {
 
@@ -42,70 +44,84 @@ class Login extends Component {
 
     render() {
         return (
-            <div className="login-container">
-                <section className="hero is-fullheight">
-                    <div className="hero-body">
-                        <div className="container has-text-centered">
-                            <div className="column is-4 is-offset-4">
-                                <h3 className="title has-text-black">Login</h3>
-                                <hr className="login-hr" />
-                                <p className="subtitle has-text-black">Please login to proceed.</p>
-                                <div className="box">
-                                    <figure className="avatar">
-                                        <img src="https://placehold.it/128x128" alt="Login icon" />
-                                    </figure>
-                                    <Formik
-                                    initialValues=
-                                    {
-                                        {
-                                            email: '',
-                                            password: ''
-                                        }
-                                    }
-                                    validate={values => {
-                                        let errors = {};
-                                        if (!values.email)
-                                            errors.email = 'Required';
-                                        if(!values.password)
-                                            errors.password = 'Required';
-                                        return errors;
-                                    }}
-                                    onSubmit={(values, { setSubmitting }) => {
-                                        this.login(values);
-                                        setSubmitting(false);
-                                    }}>{({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
-                                        <form className="form" onSubmit={handleSubmit}>
-                                            <div className="field">
-                                                <label className="label">Email</label>
-                                                <div className="control">
-                                                    <input className={errors.email && touched.email ? 'input is-large is-danger' : 'input is-large'} type="text" name="email" placeholder="Enter email..." onChange={handleChange} onBlur={handleBlur} value={values.email} />
-                                                </div>
-                                            </div>
-                                            <div className="field">
-                                                <label className="label">Password</label>
-                                                <div className="control">
-                                                    <input className={errors.password && touched.password ? 'input is-large is-danger' : 'input is-large'} type="password" name="password" placeholder="Enter password..." onChange={handleChange} onBlur={handleBlur} value={values.password} />
-                                                </div>
-                                            </div>
-                                            {this.state.incorrectCredentials ?
-                                                <div className="notification is-danger">
-                                                    {this.props.incorrectCredentials}
-                                                </div>
-                                                :
-                                                null
+            <section class="section hero is-fullheight">
+                <div class="hero-body">
+                    <div class="container">
+                        <div class="columns is-centered">
+                            <div class="column is-two-fifths">
+                                <div class="card login-header-background">
+                                    <header class="card-header">
+                                        <p class="card-header-title">
+                                            <span class="icon">
+                                                <FontAwesomeIcon icon={faLock} size="sm" />
+                                            </span>
+                                            <span>Login</span>
+                                        </p>
+                                    </header>
+                                    <div class="card-content">
+                                        <Formik
+                                            initialValues=
+                                            {
+                                                {
+                                                    email: '',
+                                                    password: ''
+                                                }
                                             }
-                                            <button className={this.state.submitting ? "button is-block is-link is-large is-fullwidth is-loading" : "button is-block is-link is-large is-fullwidth"} type="submit" disabled={isSubmitting}>
-                                                Login <i className="fa fa-sign-in" aria-hidden="true"></i>
-                                            </button>
-                                        </form>
-                                    )}
-                                    </Formik>
+                                            validate={values => {
+                                                let errors = {};
+                                                if (!values.email)
+                                                    errors.email = 'Required';
+                                                if(!values.password)
+                                                    errors.password = 'Required';
+                                                return errors;
+                                            }}
+                                            onSubmit={(values, { setSubmitting }) => {
+                                                this.login(values);
+                                                setSubmitting(false);
+                                            }}>{({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
+                                                <form className="form" onSubmit={handleSubmit}>
+                                                    <div className="field">
+                                                        <label className="label">Email</label>
+                                                        <div className="control is-clearfix">
+                                                            <input autofocus="autofocus" className={errors.email && touched.email ? 'input is-danger' : 'input'} type="text" name="email" onChange={handleChange} onBlur={handleBlur} value={values.email} />
+                                                        </div>
+                                                    </div>
+                                                    <div className="field">
+                                                        <label className="label">Password</label>
+                                                        <div className="control is-clearfix">
+                                                            <input className={errors.password && touched.password ? 'input is-danger' : 'input'} type="password" name="password" onChange={handleChange} onBlur={handleBlur} value={values.password} />
+                                                        </div>
+                                                    </div>
+                                                    {this.state.incorrectCredentials ?
+                                                        <div className="notification is-danger">
+                                                            {this.props.incorrectCredentials}
+                                                        </div>
+                                                        :
+                                                        null
+                                                    }
+                                                    <hr />
+                                                    <div class="field is-grouped">
+                                                        <div class="control">
+                                                            <button type="submit" disabled={isSubmitting} className={this.state.submitting ? "button is-dark is-loading" : "button is-dark"}>
+                                                                Login
+                                                            </button>
+                                                        </div>
+                                                        <div class="control">
+                                                            <Link to="/" class="button is-outlined">
+                                                                Cancel
+                                                            </Link>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            )}
+                                        </Formik>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </section>
-            </div>
+                </div>
+            </section>
         )
     }
 }
