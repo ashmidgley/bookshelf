@@ -7,8 +7,11 @@ let usersUrl = process.env.REACT_APP_API_URL + '/users';
 export const login = (login) => dispatch => {
   axios.post(`${usersUrl}/login`, login)
     .then(response => {
-      var payload = createPayload(response);
-      persistToken(payload.token, payload.expiryDate, payload.user);
+      var payload = response.data;
+      if(response.data.token) {
+        payload = createPayload(response);
+        persistToken(payload.token, payload.expiryDate, payload.user);
+      }
       dispatch({
         type: LOGIN,
         payload: payload
@@ -26,8 +29,11 @@ export const login = (login) => dispatch => {
 export const register = (register) => dispatch => {
   axios.post(`${usersUrl}/register`, register)
     .then(response => {
-      var payload = createPayload(response);
-      persistToken(payload.token, payload.expiryDate, payload.user);
+      var payload = response.data;
+      if(response.data.token) {
+        payload = createPayload(response);
+        persistToken(payload.token, payload.expiryDate, payload.user);
+      }
       dispatch({
         type: REGISTER,
         payload: payload
