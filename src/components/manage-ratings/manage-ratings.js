@@ -121,32 +121,38 @@ class ManageRatings extends Component {
                                     <button className="button is-outlined">Add</button>
                                 </Link>
                             </div>
-                            <div className="admin-table">
-                                <table className="table is-fullwidth is-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Description</th>
-                                            <th>Code</th>
-                                            <th>Edit</th>
-                                            <th>Delete</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {this.props.ratings.map(rating =>
-                                            <tr key={rating.id}>
-                                                <td>{rating.description}</td>
-                                                <td>{rating.code}</td>
-                                                <td className="has-text-centered">
-                                                    <Link to={'/admin/rating-form/' + rating.id}><button className="button is-outlined" disabled={this.state.submitting}>Edit</button></Link>
-                                                </td>
-                                                <td className="has-text-centered">
-                                                    <button onClick={() => this.openModal(rating.id)} className="button is-outlined" disabled={this.state.submitting}>Delete</button>
-                                                </td>
+                            {this.props.ratings.length === 0 ?
+                                <div className="notification is-link">
+                                    No ratings to display.
+                                </div>
+                                :
+                                <div className="admin-table">
+                                    <table className="table is-fullwidth is-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Description</th>
+                                                <th>Code</th>
+                                                <th>Edit</th>
+                                                <th>Delete</th>
                                             </tr>
-                                        )}
-                                    </tbody>
-                                </table>
-                            </div>
+                                        </thead>
+                                        <tbody>
+                                            {this.props.ratings.map(rating =>
+                                                <tr key={rating.id}>
+                                                    <td>{rating.description}</td>
+                                                    <td>{rating.code}</td>
+                                                    <td className="has-text-centered">
+                                                        <Link to={'/admin/rating-form/' + rating.id}><button className="button is-outlined" disabled={this.state.submitting}>Edit</button></Link>
+                                                    </td>
+                                                    <td className="has-text-centered">
+                                                        <button onClick={() => this.openModal(rating.id)} className="button is-outlined" disabled={this.state.submitting}>Delete</button>
+                                                    </td>
+                                                </tr>
+                                            )}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            }
                         </div>
                     </div>
                 </div>
