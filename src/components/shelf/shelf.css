@@ -8,22 +8,24 @@
 }
 
 .shelf-tile {
-    transition: transform .3s ease-out, box-shadow .3s ease-out, -webkit-transform .3s ease-out, -webkit-box-shadow .3s ease-out;
+    text-align: center;
+}
+
+.tile-image {
+    border-radius: 7px;
+    height: 280px;
+    object-fit: contain;
     box-shadow: 0 2px 2px 2px rgba(10, 16, 34, .08);
-    border-radius: 6px;
+    transition: transform .3s ease-out, box-shadow .3s ease-out, -webkit-transform .3s ease-out, -webkit-box-shadow .3s ease-out;
 } 
 
-.shelf-tile:hover {
+.tile-image:hover {
     box-shadow: 0 8px 16px 0 rgba(10,16,34,.15), 0 0 0 transparent;
     transform: translateY(-15px) translateZ(0);
 }
 
-    .shelf-tile img {
-        border-radius: 5px;
-    }
-
-.child {
-    padding: 1.25rem;
+.tile-link:focus {
+    outline: 0;
 }
 
 .shelf-year-dropdown {
@@ -74,12 +76,6 @@
     text-align: center;
 }
 
-.tile-image {
-    max-height: 300px;
-    max-width: 300px;
-    object-fit: cover;
-}
-
 /* Mobile */
 @media only screen and (max-width: 600px) {
 
@@ -93,18 +89,16 @@
 
     .child {
         padding: 0;
-        margin: 0;
     }
     
-    .shelf-tile {
+    .tile-image {
         border-radius: 0;
         transition: none;
         box-shadow: none;
+        height: 150px;
+        width: 100%;
+        object-fit: cover;
     }
-
-        .shelf-tile img {
-            border-radius: 0;
-        }
 
     .shelf-menu-items {
         margin-top: 6px;
@@ -116,20 +110,26 @@
         display: none;
     }
 
-    .tile-image {
-        max-height: 100px;
-    }
-
     .year-toggle-container {
         text-align: center;
     }
 }
 
 /* Between mobile and desktop */
+@media only screen and (min-width: 769px) and (max-width: 1005px) {
+    .year-toggle-container {
+        margin-left: 20px;
+    }
+}
+
 @media only screen and (min-width: 600px) and (max-width: 769px) {
     .child {
         margin-left: auto;
         margin-right: auto;
         max-width: 16rem;
     } 
+
+    .year-toggle-container {
+        text-align: center;
+    }
 }
