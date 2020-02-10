@@ -94,8 +94,8 @@ class AddBook extends Component {
                                 title: '',
                                 author: '',
                                 finishedOn: '',
-                                categoryId: this.props.categories[0].id,
-                                ratingId: this.props.ratings[0].id,
+                                categoryId: this.props.categories.length ? this.props.categories[0].id : null,
+                                ratingId: this.props.ratings.length ? this.props.ratings[0].id : null,
                             }
                         }
                         validate={values => {
