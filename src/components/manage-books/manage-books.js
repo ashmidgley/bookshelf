@@ -130,7 +130,7 @@ class ManageBooks extends Component {
                             </div>
                             :
                             <div className="admin-table">
-                                <table className="table is-fullwidth is-bordered scrollable">
+                                <table className="table is-fullwidth is-bordered">
                                     <thead>
                                         <tr>
                                             <th>Title</th>
