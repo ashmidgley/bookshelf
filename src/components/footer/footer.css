@@ -10,3 +10,15 @@
 .footer-icon:hover {
     color: black;
 }
+
+.text {
+    font-size: 12px;
+}
+
+.content p:not(:last-child) {
+    margin-bottom: 0;
+}
+
+.content p:first-child {
+    margin-top: 5px;
+}
