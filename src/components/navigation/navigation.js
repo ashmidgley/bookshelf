@@ -53,7 +53,7 @@ class Navigation extends Component {
                   <div className="container">
                     <div className="navbar-brand">
                       <Link className="navbar-item" to={this.props.user ? `/shelf/${this.props.user.id}` : '/'}>
-                        <FontAwesomeIcon icon={faBookDead} className="nav-icon" size="2x"/>
+                       <img src="/bookshelf.png" />
                       </Link>
                     </div>
                     <div id="navbarMenu" className="navbar-menu" >

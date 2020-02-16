@@ -1,0 +1,43 @@
+.red-pill {
+    position: fixed;
+    width: 5%;
+    bottom: 10%;
+    left: 0;
+    transform: translateX(-100%);
+    animation: popout 10s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes popout {
+    50% {
+        transform: translateX(-100%);
+    }
+    60% {
+        transform: translateX(-30%);
+    }
+    72.5% {
+        transform: translateX(-30%);
+    }
+    74% {
+        transform: translateX(-30%) rotate(15deg);
+    }
+    75.5% {
+        transform: translateX(-30%) rotate(-15deg);
+    }
+    77% {
+        transform: translateX(-30%) rotate(0deg);
+    }
+    90% {
+        transform: translateX(-30%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.bookshelf-icon {
+    width: 40%;
+    padding: 50px;
+    background-color: burlywood;
+    border: 5px #b57a4e solid;
+}
