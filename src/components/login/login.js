@@ -44,21 +44,21 @@ class Login extends Component {
 
     render() {
         return (
-            <section class="section hero is-fullheight">
-                <div class="hero-body">
-                    <div class="container">
-                        <div class="columns is-centered">
-                            <div class="column is-two-fifths">
-                                <div class="card login-header-background">
-                                    <header class="card-header">
-                                        <p class="card-header-title">
-                                            <span class="icon">
+            <section className="section hero is-fullheight">
+                <div className="hero-body">
+                    <div className="container">
+                        <div className="columns is-centered">
+                            <div className="column is-two-fifths">
+                                <div className="card login-header-background">
+                                    <header className="card-header">
+                                        <p className="card-header-title">
+                                            <span className="icon">
                                                 <FontAwesomeIcon icon={faLock} size="sm" />
                                             </span>
                                             <span>Login</span>
                                         </p>
                                     </header>
-                                    <div class="card-content">
+                                    <div className="card-content">
                                         <Formik
                                             initialValues=
                                             {
@@ -100,14 +100,14 @@ class Login extends Component {
                                                         null
                                                     }
                                                     <hr />
-                                                    <div class="field is-grouped">
-                                                        <div class="control">
+                                                    <div className="field is-grouped">
+                                                        <div className="control">
                                                             <button type="submit" disabled={isSubmitting} className={this.state.submitting ? "button is-dark is-loading" : "button is-dark"}>
                                                                 Login
                                                             </button>
                                                         </div>
-                                                        <div class="control">
-                                                            <Link to="/" class="button is-outlined">
+                                                        <div className="control">
+                                                            <Link to="/" className="button is-outlined">
                                                                 Cancel
                                                             </Link>
                                                         </div>
