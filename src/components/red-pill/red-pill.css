@@ -2,7 +2,7 @@
     position: absolute;
     height: 100vh;
     transform: translateY(-100%);
-    animation: dropdown 2s;
+    animation: dropdown 1s;
     animation-timing-function: linear;
     animation-fill-mode: forwards;
   }

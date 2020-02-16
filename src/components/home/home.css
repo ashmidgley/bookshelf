@@ -1,52 +1,43 @@
 .red-pill {
-    width: 15%;
-    position: absolute;
-    top: 50%;
-    left: 20%;
-    animation: fadeInPill 3s, floating 3s linear 4.5s infinite normal;
+    position: fixed;
+    width: 5%;
+    bottom: 10%;
+    left: 0;
+    transform: translateX(-100%);
+    animation: popout 10s;
+    animation-iteration-count: infinite;
 }
 
-.blue-pill {
-    width: 15%;
-    position: absolute;
-    top: 50%;
-    right: 20%;
-    animation: fadeInPill 3s, floating 3s linear 4.5s infinite normal;
-}
-
-.morpheus {
-    animation: fadeInMorpheus 1.5s;
-}
-
-@keyframes fadeInMorpheus {
-    from { 
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes fadeInPill {
-    0% { 
-        opacity: 0;
-    }
+@keyframes popout {
     50% {
-        opacity: 0;
+        transform: translateX(-100%);
+    }
+    60% {
+        transform: translateX(-30%);
+    }
+    72.5% {
+        transform: translateX(-30%);
+    }
+    74% {
+        transform: translateX(-30%) rotate(15deg);
+    }
+    75.5% {
+        transform: translateX(-30%) rotate(-15deg);
+    }
+    77% {
+        transform: translateX(-30%) rotate(0deg);
+    }
+    90% {
+        transform: translateX(-30%);
     }
     100% {
-        opacity: 1;
+        transform: translateX(-100%);
     }
 }
 
-@keyframes floating {
-    33% {
-        transform: translateY(7.5%);
-    }
-	66% {
-		transform: translateY(-7.5%);	
-	}	
-	100% {
-		transform: translateY(0%);
-	}			
+.bookshelf-icon {
+    width: 40%;
+    padding: 50px;
+    background-color: burlywood;
+    border: 5px #b57a4e solid;
 }
