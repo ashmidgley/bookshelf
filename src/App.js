@@ -56,7 +56,7 @@ class App extends Component {
     if(nextProps.loginError) {
       error += 'Login error: ' + nextProps.loginError + '. ';
     }
-    error += 'Check log for details.';
+    error += 'Please refresh page and try again.';
     this.setState({
       error: error,
       loading: false
