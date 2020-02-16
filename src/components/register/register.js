@@ -83,7 +83,7 @@ class Register extends Component {
                                                     <div className="field">
                                                         <label className="label">Email</label>
                                                         <div className="control is-clearfix">
-                                                            <input autofocus="autofocus" className={errors.email && touched.email ? 'input is-danger' : 'input'} type="text" name="email" onChange={handleChange} onBlur={handleBlur} value={values.email} />
+                                                            <input autoFocus="autofocus" className={errors.email && touched.email ? 'input is-danger' : 'input'} type="text" name="email" onChange={handleChange} onBlur={handleBlur} value={values.email} />
                                                         </div>
                                                     </div>
                                                     <div className="field">
