@@ -114,7 +114,7 @@ class ManageBooks extends Component {
                             </form>
                         </Modal>
                         <h1 className="title">Books</h1>
-                        {this.state.success ? 
+                        {this.state.success && this.props.books.length ? 
                             <div className="notification is-primary">Successfully removed entry.</div>
                             :
                             null
@@ -124,13 +124,13 @@ class ManageBooks extends Component {
                                 <button className="button is-outlined">Add</button>
                             </Link>
                         </div>
-                        {this.props.books.length === 0 ?
+                        {!this.props.books.length ?
                             <div className="notification is-link">
                                 No books to display.
                             </div>
                             :
                             <div className="admin-table">
-                                <table className="table is-fullwidth is-bordered scrollable">
+                                <table className="table is-fullwidth is-bordered">
                                     <thead>
                                         <tr>
                                             <th>Title</th>

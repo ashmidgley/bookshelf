@@ -16,6 +16,7 @@ import CategoryForm from './components/category-form/category-form';
 import RatingForm from './components/rating-form/rating-form';
 import Navigation from './components/navigation/navigation'
 import Login from './components/login/login';
+import RedPill from './components/red-pill/red-pill';
 import Register from './components/register/register';
 import { setUser } from './actions/userActions';
 import User from './models/user';
@@ -55,7 +56,7 @@ class App extends Component {
     if(nextProps.loginError) {
       error += 'Login error: ' + nextProps.loginError + '. ';
     }
-    error += 'Check log for details.';
+    error += 'Please refresh page and try again.';
     this.setState({
       error: error,
       loading: false
@@ -78,6 +79,7 @@ class App extends Component {
                 :
                 <div className="container app-container">
                 <Route exact path="/" component={Home} />
+                <Route path="/red-pill" component={RedPill} />
                 <Route path="/login" component={Login} />
                 <Route path="/register" component={Register} />
                 <Route path="/shelf/:id" component={Shelf} />

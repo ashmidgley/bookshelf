@@ -111,7 +111,7 @@ class ManageCategories extends Component {
                                 </form>
                             </Modal>
                             <h1 className="title">Categories</h1>
-                            {this.state.success ? 
+                            {this.state.success && this.props.categories.length ? 
                                 <div className="notification is-primary">Successfully removed entry.</div>
                                 :
                                 null
@@ -121,7 +121,7 @@ class ManageCategories extends Component {
                                     <button className="button is-outlined">Add</button>
                                 </Link>
                             </div>
-                            {this.props.categories.length === 0 ?
+                            {!this.props.categories.length ?
                                 <div className="notification is-link">
                                     No categories to display.
                                 </div>

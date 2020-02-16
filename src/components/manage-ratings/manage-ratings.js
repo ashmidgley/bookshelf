@@ -111,7 +111,7 @@ class ManageRatings extends Component {
                                 </form>
                             </Modal>
                             <h1 className="title">Ratings</h1>
-                            {this.state.success ? 
+                            {this.state.success && this.props.ratings.length ? 
                                 <div className="notification is-primary">Successfully removed entry.</div>
                                 :
                                 null
@@ -121,7 +121,7 @@ class ManageRatings extends Component {
                                     <button className="button is-outlined">Add</button>
                                 </Link>
                             </div>
-                            {this.props.ratings.length === 0 ?
+                            {!this.props.ratings.length ?
                                 <div className="notification is-link">
                                     No ratings to display.
                                 </div>
