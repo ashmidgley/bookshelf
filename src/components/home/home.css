@@ -1,0 +1,52 @@
+.red-pill {
+    width: 15%;
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    animation: fadeInPill 3s, floating 3s linear 4.5s infinite normal;
+}
+
+.blue-pill {
+    width: 15%;
+    position: absolute;
+    top: 50%;
+    right: 20%;
+    animation: fadeInPill 3s, floating 3s linear 4.5s infinite normal;
+}
+
+.morpheus {
+    animation: fadeInMorpheus 1.5s;
+}
+
+@keyframes fadeInMorpheus {
+    from { 
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInPill {
+    0% { 
+        opacity: 0;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes floating {
+    33% {
+        transform: translateY(7.5%);
+    }
+	66% {
+		transform: translateY(-7.5%);	
+	}	
+	100% {
+		transform: translateY(0%);
+	}			
+}
