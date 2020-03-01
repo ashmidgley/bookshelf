@@ -77,12 +77,15 @@ class UpdateBook extends Component {
     }
 
     validImage(image) {
-        if(image.startsWith(this.validPrecursor))
+        if(image.startsWith(this.validPrecursor)) {
             return true;
+        }
 
-        for(var format in this.allowedTypes) {
-            if(image.endsWith(format))
+        for(var i = 0; i < this.allowedTypes.length; i++) {
+            var format = this.allowedTypes[i];
+            if(image.endsWith(format)) {
                 return true;
+            }
         }
         
         return false;
