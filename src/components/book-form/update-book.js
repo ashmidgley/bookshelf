@@ -137,8 +137,6 @@ class UpdateBook extends Component {
                                 errors.finishedOn = 'Required';
                             if(!values.pageCount)
                                 errors.pageCount = 'Required';
-                            if(!values.summary)
-                                errors.summary = 'Required';
                             return errors;
                         }}
                         onSubmit={(values, { setSubmitting }) => {
@@ -215,7 +213,7 @@ class UpdateBook extends Component {
                                 <div className="field">
                                     <label className="label">Summary</label>
                                     <div className="control">
-                                        <textarea className={errors.summary && touched.summary ? 'textarea is-danger' : 'textarea'} name="summary" placeholder="Enter summary" onChange={handleChange} onBlur={handleBlur} value={values.summary}></textarea>
+                                        <textarea className="textarea" name="summary" placeholder="Enter summary" onChange={handleChange} onBlur={handleBlur} value={values.summary}></textarea>
                                     </div>
                                 </div>
                                 <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit" disabled={isSubmitting}>Update</button>
