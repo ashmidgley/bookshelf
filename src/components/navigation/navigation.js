@@ -53,7 +53,7 @@ class Navigation extends Component {
                 <nav className="navbar">
                   <div className="container">
                     <div className="navbar-brand">
-                      <Link className="navbar-item" to={this.props.user ? `/shelf/${this.props.user.id}` : '/'}>
+                      <Link className="navbar-item" to='/'>
                        <img src="/bookshelf.png" />
                       </Link>
                     </div>
