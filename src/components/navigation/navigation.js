@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './navigation.css';
 import { NavLink, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookDead, faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { clearUser } from '../../actions/userActions';
@@ -15,7 +15,8 @@ class Navigation extends Component {
     constructor(props) {
       super(props);
       this.state = {
-        dropdownVisible: false
+        dropdownVisible: false,
+        isAdmin: localStorage.getItem('userIsAdmin') === 'true'
       };
     }
 
@@ -86,7 +87,7 @@ class Navigation extends Component {
                                     <NavLink to="/admin/manage-ratings" className="dropdown-item" activeClassName="is-active" >
                                       Manage Ratings
                                     </NavLink>
-                                    {this.props.user.isAdmin === "true" ?
+                                    {this.state.isAdmin === true ?
                                       <NavLink to="/admin/manage-users" className="dropdown-item" activeClassName="is-active" >
                                         Manage Users
                                       </NavLink>
