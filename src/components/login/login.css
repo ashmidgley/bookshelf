@@ -1,3 +1,14 @@
 .login-header-background .card-header, .card.is-card-widget .card-header {
   background-color: silver;
 }
+
+@media only screen and (max-width: 600px) {
+  .login-label, .login-label:not(:last-child) {
+    margin-top: 25px;
+    margin-bottom: 25px;
+  }
+
+  #email-label {
+    margin-top: 0;
+  }
+}

@@ -1,12 +1,15 @@
-.nav-icon {
-    color: #3273dc;
-}
-
-    .tabs .active-nav {
-        border-bottom-color: #3273dc;
-        color: #3273dc;
-    }
-
 .user-menu-actions {
     margin-top: 6px;
+}
+
+@media only screen and (min-width: 1024px) {
+    #mobile-options {
+        display: none;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    #desktop-options {
+        display: none;
+    }
 }
