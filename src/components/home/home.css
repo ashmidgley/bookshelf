@@ -1,6 +1,6 @@
 .bookshelf-icon {
     width: 60%;
-    animation: fadein 1.5s, floatAndSpin 5s linear 1.5s infinite normal;
+    animation: fadein 1.5s, floatAndSpin 5s linear 0s infinite normal;
 }
 
 @keyframes fadein {
