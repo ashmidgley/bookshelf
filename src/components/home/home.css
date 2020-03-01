@@ -1,9 +1,37 @@
 .bookshelf-icon {
     width: 60%;
-    animation: fadein 1.5s;
+    animation: fadein 1.5s, floatAndSpin 5s linear 1.5s infinite normal;
 }
 
 @keyframes fadein {
-    from { opacity: 0; }
-    to {opacity: 1; }
+    from { 
+        opacity: 0; 
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes floatAndSpin {
+    0% {
+        transform: translateY(0);
+    }
+    20% {
+        transform: translateY(5%);
+    }
+    40% {
+        transform: translateY(0%);
+    }
+    60% {
+        transform: translateY(-5%);
+    }
+    80% {
+        transform: translateY(0);
+    }
+    90% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
