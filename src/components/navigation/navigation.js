@@ -61,8 +61,8 @@ class Navigation extends Component {
                 <nav className="navbar">
                   <div className="container">
                     <div className="navbar-brand">
-                      <Link className="navbar-item" to='/'>
-                       <img src="/bookshelf.png" />
+                      <Link className="navbar-item" to={this.props.user ? `/shelf/${this.props.user.id}` : '/'}>
+                        <img id="nav-icon" src="/bookshelf.png" />
                       </Link>
                       <a role="button" className="navbar-burger burger" onClick={() => this.burgerToggle()}>
                         <span aria-hidden="true"></span>
