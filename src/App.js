@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './components/home/home';
 import Shelf from './components/shelf/shelf';
 import Review from './components/review/review';
@@ -17,6 +17,7 @@ import RatingForm from './components/rating-form/rating-form';
 import Navigation from './components/navigation/navigation'
 import Login from './components/login/login';
 import Register from './components/register/register';
+import NoMatch from './components/no-match/no-match';
 import { setUser } from './actions/userActions';
 import User from './models/user';
 
@@ -77,21 +78,24 @@ class App extends Component {
                 </div>
                 :
                 <div className="container app-container">
-                <Route exact path="/" component={Home} />
-                <Route path="/login" component={Login} />
-                <Route path="/register" component={Register} />
-                <Route path="/shelf/:id" component={Shelf} />
-                <Route path="/review/:id" component={Review} />
-                <Route exact path="/admin/manage-books" component={ManageBooks} />
-                <Route exact path="/admin/manage-categories" component={ManageCategories} />
-                <Route exact path="/admin/manage-ratings" component={ManageRatings} />
-                <Route exact path="/admin/manage-users" component={ManageUsers} />
-                <Route exact path="/admin/book-form" component={AddBook} />
-                <Route exact path="/admin/book-form/:id" component={UpdateBook} />
-                <Route exact path="/admin/category-form" component={CategoryForm} />
-                <Route exact path="/admin/category-form/:id" component={CategoryForm} />
-                <Route exact path="/admin/rating-form" component={RatingForm} />
-                <Route exact path="/admin/rating-form/:id" component={RatingForm} />
+                  <Switch>
+                    <Route exact path="/" component={Home} />
+                    <Route exact path="/login" component={Login} />
+                    <Route exact path="/register" component={Register} />
+                    <Route exact path="/shelf/:id" component={Shelf} />
+                    <Route exact path="/review/:id" component={Review} />
+                    <Route exact path="/admin/manage-books" component={ManageBooks} />
+                    <Route exact path="/admin/manage-categories" component={ManageCategories} />
+                    <Route exact path="/admin/manage-ratings" component={ManageRatings} />
+                    <Route exact path="/admin/manage-users" component={ManageUsers} />
+                    <Route exact path="/admin/book-form" component={AddBook} />
+                    <Route exact path="/admin/book-form/:id" component={UpdateBook} />
+                    <Route exact path="/admin/category-form" component={CategoryForm} />
+                    <Route exact path="/admin/category-form/:id" component={CategoryForm} />
+                    <Route exact path="/admin/rating-form" component={RatingForm} />
+                    <Route exact path="/admin/rating-form/:id" component={RatingForm} />
+                    <Route component={NoMatch} />
+                </Switch>
               </div>
               }
             </div>

@@ -1,0 +1,8 @@
+.not-found-container {
+    text-align: center;
+}
+
+    .not-found-container > img {
+        width: 20%;
+        margin: 30px;
+    }
