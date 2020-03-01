@@ -2,6 +2,10 @@
     margin-top: 6px;
 }
 
+#nav-icon {
+    filter: grayscale(1);
+}
+
 @media only screen and (min-width: 1024px) {
     #mobile-options {
         display: none;
