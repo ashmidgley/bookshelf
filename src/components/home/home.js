@@ -7,7 +7,6 @@ class Home extends Component {
     render() {
         return (
             <div>
-                <Link to="/red-pill"><img src="/red-pill.png" className="red-pill" /></Link>
                 <section className="hero is-fullheight">
                     <div className="hero-body">
                         <div className="container has-text-centered">

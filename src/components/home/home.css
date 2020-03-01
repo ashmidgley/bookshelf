@@ -1,46 +1,37 @@
 .bookshelf-icon {
-    width: 60%;
-    animation: fadein 1.5s;
+    width: 50%;
+    animation: fadein 1.5s, floatAndSpin 5s linear 0s infinite normal;
 }
 
 @keyframes fadein {
-    from { opacity: 0; }
-    to {opacity: 1; }
+    from { 
+        opacity: 0; 
+    }
+    to {
+        opacity: 1;
+    }
 }
 
-.red-pill {
-    position: fixed;
-    width: 5%;
-    bottom: 10%;
-    left: 0;
-    transform: translateX(-100%);
-    animation: popout 10s;
-    animation-iteration-count: infinite;
-}
-
-@keyframes popout {
-    50% {
-        transform: translateX(-100%);
+@keyframes floatAndSpin {
+    0% {
+        transform: translateY(0);
+    }
+    20% {
+        transform: translateY(5%);
+    }
+    40% {
+        transform: translateY(0%);
     }
     60% {
-        transform: translateX(-30%);
+        transform: translateY(-5%);
     }
-    72.5% {
-        transform: translateX(-30%);
-    }
-    74% {
-        transform: translateX(-30%) rotate(15deg);
-    }
-    75.5% {
-        transform: translateX(-30%) rotate(-15deg);
-    }
-    77% {
-        transform: translateX(-30%) rotate(0deg);
+    80% {
+        transform: translateY(0);
     }
     90% {
-        transform: translateX(-30%);
+        transform: rotate(180deg);
     }
     100% {
-        transform: translateX(-100%);
+        transform: rotate(360deg);
     }
 }
