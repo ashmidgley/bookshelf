@@ -13,7 +13,7 @@
 
 .tile-image {
     border-radius: 7px;
-    height: 280px;
+    height: 230px;
     object-fit: contain;
     box-shadow: 0 2px 2px 2px rgba(10, 16, 34, .08);
     transition: transform .3s ease-out, box-shadow .3s ease-out, -webkit-transform .3s ease-out, -webkit-box-shadow .3s ease-out;

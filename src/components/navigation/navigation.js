@@ -19,40 +19,70 @@ class Navigation extends Component {
         mobileOptionsVisible: false,
         isAdmin: localStorage.getItem('userIsAdmin') === 'true'
       };
+
+      this.setBurgerRef = this.setBurgerRef.bind(this);
+      this.setDropdownRef = this.setDropdownRef.bind(this);
+      this.handleClickOutsideBurger = this.handleClickOutsideBurger.bind(this);
+      this.handleClickOutsideDropdown = this.handleClickOutsideDropdown.bind(this);
+    }
+
+    componentDidMount() {
+      document.addEventListener('mousedown', this.handleClickOutsideBurger);
+      document.addEventListener('mousedown', this.handleClickOutsideDropdown);
     }
 
     componentWillUnmount() {
-      window.removeEventListener('click', this.globalClickListener)
+      document.removeEventListener('mousedown', this.handleClickOutsideBurger);
+      document.removeEventListener('mousedown', this.handleClickOutsideDropdown);
     }
 
-    globalClickListener = () => {
-      this.setState({dropdownVisible: false}, () => {
-        window.removeEventListener('click', this.globalClickListener)
-      })
+    setBurgerRef(node) {
+      this.burgerRef = node;
     }
 
-    toggleDropdown = (event) => {
-      event.stopPropagation()
-      this.setState(prevState => ({dropdownVisible: !prevState.dropdownVisible}), () => {
-        if (this.state.dropdownVisible) {
-          window.addEventListener('click', this.globalClickListener)
-        }
-      })
+    setDropdownRef(node) {
+      this.dropdownRef = node;
     }
 
-    burgerToggle() {
-      var visible = !this.state.mobileOptionsVisible;
-      this.setState({
-        mobileOptionsVisible: visible
-      })
+    handleClickOutsideBurger(event) {
+      if (this.burgerRef && !this.burgerRef.contains(event.target) && this.state.mobileOptionsVisible && event.target.id !== 'burger') {
+        this.setState({
+          mobileOptionsVisible: false
+        });
+      }
     }
 
+    handleClickOutsideDropdown(event) {
+      if (this.dropdownRef && !this.dropdownRef.contains(event.target) && this.state.dropdownVisible && event.target.id !== 'dropdown') {
+        this.setState({
+          dropdownVisible: false
+        });
+      }
+    }
+
+    toggleDropdown = () => {
+      this.setState(prevState => ({
+        dropdownVisible: !prevState.dropdownVisible
+      }));
+    }
+
+    toggleBurger = () => {
+      this.setState(prevState => ({
+        mobileOptionsVisible: !prevState.mobileOptionsVisible
+      }));
+    }
+    
     logout = () => {
       this.props.clearUser();
       this.props.clearBooks();
       this.props.clearCategories();
       this.props.clearRatings();
       this.props.history.push('/');
+
+      this.setState({
+        dropdownVisible: false,
+        mobileOptionsVisible: false
+      });
     }
 
     render() {
@@ -62,47 +92,47 @@ class Navigation extends Component {
                   <div className="container">
                     <div className="navbar-brand">
                       <Link className="navbar-item" to={this.props.user ? `/shelf/${this.props.user.id}` : '/'}>
-                        <img id="nav-icon" src="/bookshelf.png" />
+                        <img id="nav-icon" src="/bookshelf.png" alt="Small bookshelf" />
                       </Link>
-                      <a role="button" className="navbar-burger burger" onClick={() => this.burgerToggle()}>
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
-                        <span aria-hidden="true"></span>
+                      <a id="burger" role="button" className="navbar-burger burger" onClick={this.toggleBurger}>
+                        <span id="burger" aria-hidden="true"></span>
+                        <span id="burger" aria-hidden="true"></span>
+                        <span id="burger" aria-hidden="true"></span>
                       </a>
                     </div>
-                    <div className={this.state.mobileOptionsVisible ? "navbar-menu is-active" : "navbar-menu"} >
+                    <div ref={this.setBurgerRef} className={this.state.mobileOptionsVisible ? "navbar-menu is-active" : "navbar-menu"} >
                       <div className="navbar-end">
                           <div id="desktop-options">
                             {this.props.user?
                                 <div className={this.state.dropdownVisible ? "dropdown is-right is-active" : "dropdown is-right"}>
                                   <div className="dropdown-trigger">
-                                    <button onClick={this.toggleDropdown} className="button user-menu-actions">
-                                    <span>{this.props.user.email}</span>
-                                      <span className="icon is-small">
-                                        {this.state.dropdownVisible ? 
-                                          <FontAwesomeIcon icon={faAngleUp}/>
-                                          :
-                                          <FontAwesomeIcon icon={faAngleDown}/>
-                                        }
+                                    <button id="dropdown" onClick={this.toggleDropdown} className="button user-menu-actions">
+                                      <span id="dropdown">{this.props.user.email}</span>
+                                        <span id="dropdown" className="icon is-small">
+                                          {this.state.dropdownVisible ? 
+                                            <FontAwesomeIcon id="dropdown" icon={faAngleUp}/>
+                                            :
+                                            <FontAwesomeIcon id="dropdown" icon={faAngleDown}/>
+                                          }
                                       </span>
                                     </button>
                                   </div>
-                                  <div className="dropdown-menu">
+                                  <div ref={this.setDropdownRef} className="dropdown-menu">
                                     <div className="dropdown-content">
-                                      <NavLink to={`/shelf/${this.props.user.id}`} className="dropdown-item" activeClassName="is-active" >
+                                      <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to={`/shelf/${this.props.user.id}`}>
                                         Bookshelf
                                       </NavLink>
-                                      <NavLink to="/admin/manage-books" className="dropdown-item" activeClassName="is-active" >
+                                      <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/admin/manage-books">
                                         Manage Books
                                       </NavLink>
-                                      <NavLink to="/admin/manage-categories" className="dropdown-item" activeClassName="is-active" >
+                                      <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/admin/manage-categories">
                                         Manage Categories
                                       </NavLink>
-                                      <NavLink to="/admin/manage-ratings" className="dropdown-item" activeClassName="is-active" >
+                                      <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/admin/manage-ratings">
                                         Manage Ratings
                                       </NavLink>
                                       {this.state.isAdmin === true ?
-                                        <NavLink to="/admin/manage-users" className="dropdown-item" activeClassName="is-active" >
+                                        <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/admin/manage-users">
                                           Manage Users
                                         </NavLink>
                                         :
@@ -122,8 +152,12 @@ class Navigation extends Component {
                           {!this.props.user ?
                             <div className="navbar-item">
                               <div className="buttons">
-                                <Link className="button is-link" to="/register"><strong>Sign up</strong></Link>
-                                <Link className="button is-light" to="/login">Log in</Link>
+                                <Link onClick={this.toggleBurger} className="button is-link" to="/register">
+                                  <strong>Sign up</strong>
+                                </Link>
+                                <Link onClick={this.toggleBurger} className="button is-light" to="/login">
+                                  Log in
+                                </Link>
                               </div>
                             </div>
                             :
@@ -132,17 +166,29 @@ class Navigation extends Component {
                           <div id="mobile-options">
                             {this.props.user && this.state.mobileOptionsVisible ?
                                 <div>
-                                  <NavLink className="navbar-item" to={`/shelf/${this.props.user.id}`}>Bookshelf</NavLink>
-                                  <NavLink className="navbar-item" to="/admin/manage-books">Manage Books</NavLink>
-                                  <NavLink className="navbar-item" to="/admin/manage-categories">Manage Categories</NavLink>
-                                  <NavLink className="navbar-item" to="/admin/manage-ratings">Manage Ratings</NavLink>
+                                  <NavLink className="navbar-item" onClick={this.toggleBurger} to={`/shelf/${this.props.user.id}`}>
+                                    Bookshelf
+                                  </NavLink>
+                                  <NavLink className="navbar-item" onClick={this.toggleBurger} to="/admin/manage-books">
+                                    Manage Books
+                                  </NavLink>
+                                  <NavLink className="navbar-item" onClick={this.toggleBurger} to="/admin/manage-categories">
+                                    Manage Categories
+                                  </NavLink>
+                                  <NavLink className="navbar-item" onClick={this.toggleBurger} to="/admin/manage-ratings" >
+                                    Manage Ratings
+                                  </NavLink>
                                   {this.state.isAdmin === true ?
-                                    <NavLink className="navbar-item" to="/admin/manage-users">Manage Users</NavLink>
+                                    <NavLink className="navbar-item" onClick={this.toggleBurger} to="/admin/manage-users">
+                                      Manage Users
+                                    </NavLink>
                                       :
                                     null
                                   }
                                   <hr className="dropdown-divider"/>
-                                  <a onClick={this.logout} className="navbar-item" href="#">Logout</a>
+                                  <a onClick={this.logout} className="navbar-item" href="#">
+                                    Logout
+                                  </a>
                               </div>
                               :
                               null
