@@ -80,7 +80,7 @@ class Review extends Component {
                                 <p className="summary-text">{paragraph}</p>
                             )
                             :
-                            <div className="notification is-link">
+                            <div className="notification">
                                 No summary to display.
                             </div>
                         }
