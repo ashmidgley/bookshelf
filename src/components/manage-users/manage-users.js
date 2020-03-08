@@ -109,10 +109,10 @@ class ManageUsers extends Component {
     }
 }
 
-  const mapStateToProps = state => ({
+const mapStateToProps = state => ({
     users: state.user.users,
     deletedUser: state.user.deletedUser,
     token: state.user.token
-  });
+});
 
 export default connect(mapStateToProps, {fetchUsers, deleteUser})(ManageUsers);
