@@ -1,4 +1,4 @@
-import { LOGIN, REGISTER, SET_USER, CLEAR_USER, GET_USERS } from './types';
+import { LOGIN, REGISTER, SET_USER, CLEAR_USER, GET_USERS, UPDATE_USER, DELETE_USER } from './types';
 import axios from 'axios';
 import User from '../models/user';
 
@@ -81,7 +81,44 @@ export const fetchUsers = (token) => dispatch => {
         type: GET_USERS,
         error: error.message
       })
+    });
+}
+
+export const updateUser = (user, token) => dispatch => {
+  var config = createConfig(token);
+  axios.put(usersUrl, user, config)
+    .then(response => {
+      dispatch({
+        type: UPDATE_USER,
+        payload: response.data
+      })
     })
+    .catch(error => {
+      console.error(error);
+      dispatch({
+        type: UPDATE_USER,
+        error: error.message
+      })
+    });
+}
+
+export const deleteUser = (userId, token) => dispatch => {
+  var config = createConfig(token);
+  var url = `${usersUrl}?id=${userId}`;
+  axios.delete(url, config)
+    .then(response => {
+      dispatch({
+        type: DELETE_USER,
+        payload: response.data
+      })
+    })
+    .catch(error => {
+      console.error(error);
+      dispatch({
+        type: DELETE_USER,
+        error: error.message
+      })
+    });
 }
 
 function createPayload(response) {
