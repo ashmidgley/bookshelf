@@ -16,8 +16,7 @@ class Navigation extends Component {
       super(props);
       this.state = {
         dropdownVisible: false,
-        mobileOptionsVisible: false,
-        isAdmin: localStorage.getItem('userIsAdmin') === 'true'
+        mobileOptionsVisible: false
       };
 
       this.setBurgerRef = this.setBurgerRef.bind(this);
@@ -131,13 +130,6 @@ class Navigation extends Component {
                                       <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/admin/manage-ratings">
                                         Manage Ratings
                                       </NavLink>
-                                      {this.state.isAdmin === true ?
-                                        <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/admin/manage-users">
-                                          Manage Users
-                                        </NavLink>
-                                        :
-                                        null
-                                      }
                                       <hr className="dropdown-divider" />
                                       <a onClick={this.logout} href="#" className="dropdown-item">
                                         Logout
@@ -178,13 +170,6 @@ class Navigation extends Component {
                                   <NavLink className="navbar-item" onClick={this.toggleBurger} to="/admin/manage-ratings" >
                                     Manage Ratings
                                   </NavLink>
-                                  {this.state.isAdmin === true ?
-                                    <NavLink className="navbar-item" onClick={this.toggleBurger} to="/admin/manage-users">
-                                      Manage Users
-                                    </NavLink>
-                                      :
-                                    null
-                                  }
                                   <hr className="dropdown-divider"/>
                                   <a onClick={this.logout} className="navbar-item" href="#">
                                     Logout

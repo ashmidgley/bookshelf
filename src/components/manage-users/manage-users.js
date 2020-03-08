@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import './manage-users.css';
 import { connect } from 'react-redux';
-import { fetchUsers } from '../../actions/userActions';
+import { fetchUsers, deleteUser } from '../../actions/userActions';
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import Loading from '../loading/loading';
+import { Link } from 'react-router-dom';
 
 class ManageUsers extends Component {
 
@@ -22,9 +23,20 @@ class ManageUsers extends Component {
                 loading: false
             });
         }
+
+        if(nextProps.deletedUser) {
+            var deletedUser = this.props.users.find(b => b.id === nextProps.deletedUser.id);
+            var index = this.props.users.indexOf(deletedUser);
+            this.props.users.splice(index, 1);
+        }
     }
 
     componentDidMount() {
+        if(localStorage.getItem('userIsAdmin') !== 'true') {
+            this.props.history.push('/');
+            return;
+        }
+
         if(!this.props.users) {
             var token = localStorage.getItem('token');
             this.props.fetchUsers(token);
@@ -33,7 +45,11 @@ class ManageUsers extends Component {
                 loading: false
             });
         }
-        
+    }
+
+    deleteUser(userId) {
+        var token = localStorage.getItem('token');
+        this.props.deleteUser(userId, token);
     }
 
     render() {
@@ -64,6 +80,8 @@ class ManageUsers extends Component {
                                             <th>Id</th>
                                             <th>Email</th>
                                             <th>Admin</th>
+                                            <th></th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -72,6 +90,12 @@ class ManageUsers extends Component {
                                                 <td>{user.id}</td>
                                                 <td>{user.email}</td>
                                                 <td>{user.isAdmin.toString()}</td>
+                                                <td className="has-text-centered">
+                                                    <Link to={`/admin/manage-users/${user.id}`} className="button">Edit</Link>
+                                                </td>
+                                                <td className="has-text-centered">
+                                                    <button onClick={() => this.deleteUser(user.id)} className="button">Delete</button>
+                                                </td>
                                             </tr>
                                         )}
                                     </tbody>
@@ -85,9 +109,10 @@ class ManageUsers extends Component {
     }
 }
 
-  const mapStateToProps = state => ({
+const mapStateToProps = state => ({
     users: state.user.users,
+    deletedUser: state.user.deletedUser,
     token: state.user.token
-  });
+});
 
-export default connect(mapStateToProps, {fetchUsers})(ManageUsers);
+export default connect(mapStateToProps, {fetchUsers, deleteUser})(ManageUsers);

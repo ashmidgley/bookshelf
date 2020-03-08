@@ -28,10 +28,12 @@
     80% {
         transform: translateY(0);
     }
-    90% {
-        transform: rotate(180deg);
+    81% {
+        -webkit-transform: rotate3d(0, 0, 1, 0deg);
+        transform: rotate3d(0, 0, 1, 0deg);
     }
     100% {
-        transform: rotate(360deg);
+        -webkit-transform: rotate3d(0, 0, 1, 360deg);
+        transform: rotate3d(0, 0, 1, 360deg);
     }
 }

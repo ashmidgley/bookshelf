@@ -69,7 +69,7 @@ class Shelf extends Component {
         if(window.innerWidth > 1000 && window.innerWidth < 1200) {
             newVal = 'column is-one-quarter child';
         } else if(window.innerWidth > 1200) {
-            newVal = 'column';
+            newVal = 'column is-2';
         }
         this.setState({columnClass: newVal}); 
     }
