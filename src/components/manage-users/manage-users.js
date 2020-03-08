@@ -25,6 +25,11 @@ class ManageUsers extends Component {
     }
 
     componentDidMount() {
+        if(localStorage.getItem('userIsAdmin') !== 'true') {
+            this.props.history.push('/');
+            return;
+        }
+
         if(!this.props.users) {
             var token = localStorage.getItem('token');
             this.props.fetchUsers(token);
