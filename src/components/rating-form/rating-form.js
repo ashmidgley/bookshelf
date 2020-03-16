@@ -37,7 +37,7 @@ class RatingForm extends Component {
         window.scrollTo(0, 0);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {
         if(Array.isArray(nextProps.ratings))
             this.setState({
                 rating: this.state.ratingId ? nextProps.ratings.find(b => b.id === this.state.ratingId) : null,

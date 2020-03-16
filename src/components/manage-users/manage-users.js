@@ -7,17 +7,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import Loading from '../loading/loading';
 import { Link } from 'react-router-dom';
+import Modal from 'react-modal';
+
+const customStyles = {
+    content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)'
+    }
+};
 
 class ManageUsers extends Component {
 
     constructor(props){
         super(props);
         this.state = {
-            loading: true
+            loading: true,
+            modalIsOpen: false,
+            selectedUserId: null
         }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {
         if(nextProps.users) {
             this.setState({
                 loading: false
@@ -47,9 +61,22 @@ class ManageUsers extends Component {
         }
     }
 
-    deleteUser(userId) {
+    openModal = (id) => {
+        this.setState({
+            selectedUserId: id,
+            modalIsOpen: true
+        });
+    }
+    
+    closeModal = () => {
+        this.setState({
+            modalIsOpen: false
+        });
+    }
+
+    handleSubmit = () => {
         var token = localStorage.getItem('token');
-        this.props.deleteUser(userId, token);
+        this.props.deleteUser(this.state.selectedUserId, token);
     }
 
     render() {
@@ -71,6 +98,19 @@ class ManageUsers extends Component {
                                 <FontAwesomeIcon icon={faEye} className="admin-icon" size="lg"/>
                             </div>
                         </div>
+                        <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={customStyles}>
+                            <form onSubmit={this.handleSubmit}>
+                                <div>Are you sure you would like to delete this user?</div>
+                                <div className="modal-actions">
+                                    <button className="button is-link" type="submit">
+                                        Confirm
+                                    </button>
+                                    <button id="cancel" className="button" onClick={this.closeModal}>
+                                        Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </Modal>
                         <div>
                             <h1 className="title">Users</h1>
                             <div className="admin-table">
@@ -94,7 +134,9 @@ class ManageUsers extends Component {
                                                     <Link to={`/admin/manage-users/${user.id}`} className="button">Edit</Link>
                                                 </td>
                                                 <td className="has-text-centered">
-                                                    <button onClick={() => this.deleteUser(user.id)} className="button">Delete</button>
+                                                    <button onClick={() => this.openModal(user.id)} className="button">
+                                                        Delete
+                                                    </button>
                                                 </td>
                                             </tr>
                                         )}

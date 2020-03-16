@@ -31,7 +31,7 @@ class UpdateUser extends Component {
         }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {
         if(!this.props.users && nextProps.users) {
             this.setState({
                 user: nextProps.users.find(x => x.id === this.state.userId),

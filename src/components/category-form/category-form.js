@@ -37,7 +37,7 @@ class CategoryForm extends Component {
         window.scrollTo(0, 0);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {
         if(Array.isArray(nextProps.categories))
             this.setState({
                 category: this.state.categoryId ? nextProps.categories.find(b => b.id === this.state.categoryId) : null,

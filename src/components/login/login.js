@@ -18,7 +18,7 @@ class Login extends Component {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {
         if(nextProps.incorrectCredentials) {
             this.setState({
                 incorrectCredentials: true,

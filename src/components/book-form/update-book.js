@@ -44,7 +44,7 @@ class UpdateBook extends Component {
         window.scrollTo(0, 0);
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {
         if(Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings))
             this.setState({
                 book: this.props.books.find(b => b.id === this.state.bookId),
