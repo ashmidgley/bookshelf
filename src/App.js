@@ -43,7 +43,7 @@ class App extends Component {
     }
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if(nextProps.bookError || nextProps.categoryError || nextProps.ratingError || nextProps.loginError) {
       this.handleError(nextProps);
     }

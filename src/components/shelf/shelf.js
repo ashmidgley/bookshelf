@@ -39,7 +39,7 @@ class Shelf extends Component {
         return menu;
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {
         if(Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings))
             this.setState({
                 books: nextProps.books,

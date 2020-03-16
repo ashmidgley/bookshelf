@@ -31,7 +31,7 @@ class ManageUsers extends Component {
         }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {
         if(nextProps.users) {
             this.setState({
                 loading: false

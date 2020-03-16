@@ -48,7 +48,7 @@ class ManageBooks extends Component {
         }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {
         if(Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings))
             this.setState({
                 loading: false

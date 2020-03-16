@@ -33,7 +33,7 @@ class ManageCategories extends Component {
         }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {
         if(Array.isArray(nextProps.categories))
             this.setState({
                 loading: false

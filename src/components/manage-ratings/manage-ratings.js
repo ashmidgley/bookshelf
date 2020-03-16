@@ -33,7 +33,7 @@ class ManageRatings extends Component {
         }
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {
         if(Array.isArray(nextProps.ratings))
             this.setState({
                 loading: false

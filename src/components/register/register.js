@@ -18,7 +18,7 @@ class Register extends Component {
         };
     }
 
-    UNSAFE_componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps) {
         if(nextProps.existingEmail) {
             this.setState({
                 existingEmail: true,
