@@ -139,7 +139,7 @@ class Shelf extends Component {
         return (
             <div className="shelf-container">
                 <Helmet>
-                    <title>Bookshelf | A Free Platform for Bookworms</title>
+                    <title>Bookshelf | A Free Platform to Keep Track of Your Reads</title>
                 </Helmet>
                 <div className="shelf-menu-items columns is-mobile card">
                     <div className="columns">
