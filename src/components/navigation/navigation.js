@@ -131,6 +131,9 @@ class Navigation extends Component {
                                         Manage Ratings
                                       </NavLink>
                                       <hr className="dropdown-divider" />
+                                      <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/admin/my-account">
+                                        My Account
+                                      </NavLink>
                                       <a onClick={this.logout} href="#" className="dropdown-item">
                                         Logout
                                       </a>
@@ -171,6 +174,9 @@ class Navigation extends Component {
                                     Manage Ratings
                                   </NavLink>
                                   <hr className="dropdown-divider"/>
+                                  <NavLink className="navbar-item" onClick={this.toggleDropdown} to="/admin/my-account">
+                                    My Account
+                                  </NavLink>
                                   <a onClick={this.logout} className="navbar-item" href="#">
                                     Logout
                                   </a>

@@ -19,6 +19,7 @@ import Navigation from './components/navigation/navigation'
 import Login from './components/login/login';
 import Register from './components/register/register';
 import NoMatch from './components/no-match/no-match';
+import MyAccount from './components/my-account/my-account';
 import { setUser } from './actions/userActions';
 import User from './models/user';
 
@@ -29,7 +30,9 @@ class App extends Component {
     this.state = {
       error: null,
     };
-   
+  }
+
+  componentDidMount() {
     var token = localStorage.getItem('token');
     var currentTime = new Date().getTime();
     var expiryDate = localStorage.getItem('expiryDate');
@@ -90,6 +93,7 @@ class App extends Component {
                     <Route exact path="/admin/manage-ratings" component={ManageRatings} />
                     <Route exact path="/admin/manage-users" component={ManageUsers} />
                     <Route exact path="/admin/manage-users/:id" component={UpdateUser} />
+                    <Route exact path="/admin/my-account" component={MyAccount} />
                     <Route exact path="/admin/book-form" component={AddBook} />
                     <Route exact path="/admin/book-form/:id" component={UpdateBook} />
                     <Route exact path="/admin/category-form" component={CategoryForm} />
