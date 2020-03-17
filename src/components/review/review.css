@@ -52,7 +52,7 @@ hr:first-child {
 }
 
 .summary-text {
-    font-weight: 400;
+    font-weight: 100;
 }
 
 /* Mobile */
@@ -69,5 +69,9 @@ hr:first-child {
 
     .review-content > p {
         font-size: 16px;
+    }
+
+    .summary-text {
+        font-weight: 400;
     }
 }
