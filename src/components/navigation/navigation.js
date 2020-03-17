@@ -174,7 +174,7 @@ class Navigation extends Component {
                                     Manage Ratings
                                   </NavLink>
                                   <hr className="dropdown-divider"/>
-                                  <NavLink className="navbar-item" onClick={this.toggleDropdown} to="/admin/my-account">
+                                  <NavLink className="navbar-item" onClick={this.toggleBurger} to="/admin/my-account">
                                     My Account
                                   </NavLink>
                                   <a onClick={this.logout} className="navbar-item" href="#">
