@@ -67,7 +67,7 @@ class MyAccount extends React.Component {
                                     </div>
                                 </div>
                                 <div className="column is-2">
-                                    <Link to="/edit-email" className="button">Edit</Link>
+                                    <Link to="/update-email" className="button">Edit</Link>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +80,7 @@ class MyAccount extends React.Component {
                                     </div>
                                 </div>
                                 <div className="column is-2">
-                                    <Link to="/edit-password" className="button">Edit</Link>
+                                    <Link to="/update-password" className="button">Edit</Link>
                                 </div>
                             </div>
                         </div>

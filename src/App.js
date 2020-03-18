@@ -23,6 +23,8 @@ import Login from './components/login/login';
 import Register from './components/register/register';
 import NoMatch from './components/no-match/no-match';
 import MyAccount from './components/my-account/my-account';
+import UpdateEmail from './components/my-account/update-email';
+import UpdatePassword from './components/my-account/update-password';
 
 class App extends Component {
 
@@ -108,6 +110,8 @@ class App extends Component {
                     <Route exact path="/admin/manage-users" component={ManageUsers} />
                     <Route exact path="/admin/manage-users/:id" component={UpdateUser} />
                     <Route exact path="/admin/my-account" component={MyAccount} />
+                    <Route exact path="/update-password" component={UpdatePassword} />
+                    <Route exact path="/update-email" component={UpdateEmail} />
                     <Route exact path="/admin/book-form" component={AddBook} />
                     <Route exact path="/admin/book-form/:id" component={UpdateBook} />
                     <Route exact path="/admin/category-form" component={CategoryForm} />
