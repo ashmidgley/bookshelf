@@ -79,7 +79,7 @@ class UpdatePassword extends Component {
                                     </div>
                                 </div>
                                 <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit" disabled={isSubmitting}>Update</button>
-                                <Link to="/admin/my-account">
+                                <Link to="/my-account">
                                     <button className="button cancel-button">Cancel</button>
                                 </Link>
                             </form>

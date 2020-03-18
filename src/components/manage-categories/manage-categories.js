@@ -117,7 +117,7 @@ class ManageCategories extends Component {
                                 null
                             }
                             <div style={{'marginBottom': '25px'}}>
-                                <Link to={'/admin/category-form'}>
+                                <Link to={'/category-form'}>
                                     <button className="button is-outlined">Add</button>
                                 </Link>
                             </div>
@@ -142,7 +142,7 @@ class ManageCategories extends Component {
                                                     <td>{category.description}</td>
                                                     <td>{category.code}</td>
                                                     <td className="has-text-centered">
-                                                        <Link to={'/admin/category-form/' + category.id}><button className="button is-outlined" disabled={this.state.submitting}>Edit</button></Link>
+                                                        <Link to={'/category-form/' + category.id}><button className="button is-outlined" disabled={this.state.submitting}>Edit</button></Link>
                                                     </td>
                                                     <td className="has-text-centered">
                                                         <button onClick={() => this.openModal(category.id)} className="button is-outlined" disabled={this.state.submitting}>Delete</button>

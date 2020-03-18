@@ -117,7 +117,7 @@ class ManageRatings extends Component {
                                 null
                             }
                             <div style={{'marginBottom': '25px'}}>
-                                <Link to={'/admin/rating-form'}>
+                                <Link to={'/rating-form'}>
                                     <button className="button is-outlined">Add</button>
                                 </Link>
                             </div>
@@ -142,7 +142,7 @@ class ManageRatings extends Component {
                                                     <td>{rating.description}</td>
                                                     <td>{rating.code}</td>
                                                     <td className="has-text-centered">
-                                                        <Link to={'/admin/rating-form/' + rating.id}><button className="button is-outlined" disabled={this.state.submitting}>Edit</button></Link>
+                                                        <Link to={'/rating-form/' + rating.id}><button className="button is-outlined" disabled={this.state.submitting}>Edit</button></Link>
                                                     </td>
                                                     <td className="has-text-centered">
                                                         <button onClick={() => this.openModal(rating.id)} className="button is-outlined" disabled={this.state.submitting}>Delete</button>

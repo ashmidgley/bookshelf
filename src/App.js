@@ -104,20 +104,20 @@ class App extends Component {
                     <Route exact path="/register" component={Register} />
                     <Route exact path="/shelf/:id" component={Shelf} />
                     <Route exact path="/review/:id" component={Review} />
-                    <Route exact path="/admin/manage-books" component={ManageBooks} />
-                    <Route exact path="/admin/manage-categories" component={ManageCategories} />
-                    <Route exact path="/admin/manage-ratings" component={ManageRatings} />
-                    <Route exact path="/admin/manage-users" component={ManageUsers} />
-                    <Route exact path="/admin/manage-users/:id" component={UpdateUser} />
-                    <Route exact path="/admin/my-account" component={MyAccount} />
+                    <Route exact path="/manage-books" component={ManageBooks} />
+                    <Route exact path="/manage-categories" component={ManageCategories} />
+                    <Route exact path="/manage-ratings" component={ManageRatings} />
+                    <Route exact path="/my-account" component={MyAccount} />
                     <Route exact path="/update-password" component={UpdatePassword} />
                     <Route exact path="/update-email" component={UpdateEmail} />
-                    <Route exact path="/admin/book-form" component={AddBook} />
-                    <Route exact path="/admin/book-form/:id" component={UpdateBook} />
-                    <Route exact path="/admin/category-form" component={CategoryForm} />
-                    <Route exact path="/admin/category-form/:id" component={CategoryForm} />
-                    <Route exact path="/admin/rating-form" component={RatingForm} />
-                    <Route exact path="/admin/rating-form/:id" component={RatingForm} />
+                    <Route exact path="/book-form" component={AddBook} />
+                    <Route exact path="/book-form/:id" component={UpdateBook} />
+                    <Route exact path="/category-form" component={CategoryForm} />
+                    <Route exact path="/category-form/:id" component={CategoryForm} />
+                    <Route exact path="/rating-form" component={RatingForm} />
+                    <Route exact path="/rating-form/:id" component={RatingForm} />
+                    <Route exact path="/admin/manage-users" component={ManageUsers} />
+                    <Route exact path="/admin/manage-users/:id" component={UpdateUser} />
                     <Route component={NoMatch} />
                 </Switch>
               </div>
