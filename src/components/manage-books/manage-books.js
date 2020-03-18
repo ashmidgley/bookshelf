@@ -120,7 +120,7 @@ class ManageBooks extends Component {
                             null
                         }
                         <div style={{ 'marginBottom': '25px' }}>   
-                            <Link to={'/admin/book-form'}>
+                            <Link to={'/book-form'}>
                                 <button className="button is-outlined">Add</button>
                             </Link>
                         </div>
@@ -161,7 +161,7 @@ class ManageBooks extends Component {
                                                     '-'}
                                                 </td>
                                                 <td className="has-text-centered">
-                                                    <Link to={'/admin/book-form/' + book.id}><button className="button is-outlined" disabled={this.state.submitting}>Edit</button></Link>
+                                                    <Link to={'/book-form/' + book.id}><button className="button is-outlined" disabled={this.state.submitting}>Edit</button></Link>
                                                 </td>
                                                 <td className="has-text-centered">
                                                     <button onClick={() => this.openModal(book.id)} className="button is-outlined" disabled={this.state.submitting}>Delete</button>

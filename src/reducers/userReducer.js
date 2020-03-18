@@ -1,4 +1,4 @@
-import { LOGIN, REGISTER, SET_USER, CLEAR_USER, GET_USERS, UPDATE_USER, DELETE_USER } from '../actions/types';
+import { LOGIN, REGISTER, SET_USER, CLEAR_USER, GET_USERS, UPDATE_USER, UPDATE_EMAIL, UPDATE_PASSWORD, DELETE_USER } from '../actions/types';
 
 const initialState = {
   users: null,
@@ -56,6 +56,19 @@ export default function(state = initialState, action) {
         error: action.error
       };
     case UPDATE_USER:
+      return {
+        ...state,
+        updatedUser: action.payload,
+        error: action.error
+      };
+    case UPDATE_EMAIL:
+      return {
+        ...state,
+        updatedUser: action.payload.user,
+        invalidAction: action.payload.error,
+        error: action.error
+      };
+    case UPDATE_PASSWORD:
       return {
         ...state,
         updatedUser: action.payload,

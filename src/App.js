@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import './App.css';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { setUser, clearUser } from './actions/userActions';
+import User from './models/user';
+
 import Home from './components/home/home';
 import Shelf from './components/shelf/shelf';
 import Review from './components/review/review';
 import Footer from './components/footer/footer';
-import './App.css';
-import { connect } from 'react-redux';
 import ManageBooks from './components/manage-books/manage-books';
 import ManageCategories from './components/manage-categories/manage-categories';
 import ManageRatings from './components/manage-ratings/manage-ratings';
@@ -20,8 +23,8 @@ import Login from './components/login/login';
 import Register from './components/register/register';
 import NoMatch from './components/no-match/no-match';
 import MyAccount from './components/my-account/my-account';
-import { setUser } from './actions/userActions';
-import User from './models/user';
+import UpdateEmail from './components/my-account/update-email';
+import UpdatePassword from './components/my-account/update-password';
 
 class App extends Component {
 
@@ -29,17 +32,27 @@ class App extends Component {
     super(props);
     this.state = {
       error: null,
+      redirectLogin: false
     };
   }
 
   componentDidMount() {
     var token = localStorage.getItem('token');
-    var currentTime = new Date().getTime();
-    var expiryDate = localStorage.getItem('expiryDate');
-    if(token && expiryDate < currentTime) {
-      var user = new User(localStorage.getItem('userId'), localStorage.getItem('userEmail'), localStorage.getItem('userIsAdmin'));
-      var data = { token, expiryDate, user };
-      this.props.setUser(data);
+    if(token) {
+      var currentTime = new Date().getTime();
+      var expiryDate = localStorage.getItem('expiryDate');
+      if(expiryDate < currentTime) {
+        var user = new User(localStorage.getItem('userId'), localStorage.getItem('userEmail'), localStorage.getItem('userIsAdmin'));
+        var data = { token, expiryDate, user };
+        this.props.setUser(data);
+      }
+    } else {
+      this.props.clearUser();
+      if(window.location.pathname !== '/' && !window.location.pathname.includes('shelf')) {
+        this.setState({
+          redirectLogin: true
+        });
+      }
     }
   }
 
@@ -82,24 +95,29 @@ class App extends Component {
                 </div>
                 :
                 <div className="container app-container">
+                  {
+                    this.state.redirectLogin && <Redirect to="/login"/>
+                  }
                   <Switch>
                     <Route exact path="/" component={Home} />
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/register" component={Register} />
                     <Route exact path="/shelf/:id" component={Shelf} />
                     <Route exact path="/review/:id" component={Review} />
-                    <Route exact path="/admin/manage-books" component={ManageBooks} />
-                    <Route exact path="/admin/manage-categories" component={ManageCategories} />
-                    <Route exact path="/admin/manage-ratings" component={ManageRatings} />
+                    <Route exact path="/manage-books" component={ManageBooks} />
+                    <Route exact path="/manage-categories" component={ManageCategories} />
+                    <Route exact path="/manage-ratings" component={ManageRatings} />
+                    <Route exact path="/my-account" component={MyAccount} />
+                    <Route exact path="/update-password" component={UpdatePassword} />
+                    <Route exact path="/update-email" component={UpdateEmail} />
+                    <Route exact path="/book-form" component={AddBook} />
+                    <Route exact path="/book-form/:id" component={UpdateBook} />
+                    <Route exact path="/category-form" component={CategoryForm} />
+                    <Route exact path="/category-form/:id" component={CategoryForm} />
+                    <Route exact path="/rating-form" component={RatingForm} />
+                    <Route exact path="/rating-form/:id" component={RatingForm} />
                     <Route exact path="/admin/manage-users" component={ManageUsers} />
                     <Route exact path="/admin/manage-users/:id" component={UpdateUser} />
-                    <Route exact path="/admin/my-account" component={MyAccount} />
-                    <Route exact path="/admin/book-form" component={AddBook} />
-                    <Route exact path="/admin/book-form/:id" component={UpdateBook} />
-                    <Route exact path="/admin/category-form" component={CategoryForm} />
-                    <Route exact path="/admin/category-form/:id" component={CategoryForm} />
-                    <Route exact path="/admin/rating-form" component={RatingForm} />
-                    <Route exact path="/admin/rating-form/:id" component={RatingForm} />
                     <Route component={NoMatch} />
                 </Switch>
               </div>
@@ -119,4 +137,4 @@ const mapStateToProps = state => ({
   loginError: state.user.error
 });
 
-export default connect(mapStateToProps, {setUser})(App);
+export default connect(mapStateToProps, {setUser, clearUser})(App);

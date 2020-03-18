@@ -121,17 +121,17 @@ class Navigation extends Component {
                                       <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to={`/shelf/${this.props.user.id}`}>
                                         Bookshelf
                                       </NavLink>
-                                      <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/admin/manage-books">
+                                      <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/manage-books">
                                         Manage Books
                                       </NavLink>
-                                      <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/admin/manage-categories">
+                                      <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/manage-categories">
                                         Manage Categories
                                       </NavLink>
-                                      <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/admin/manage-ratings">
+                                      <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/manage-ratings">
                                         Manage Ratings
                                       </NavLink>
                                       <hr className="dropdown-divider" />
-                                      <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/admin/my-account">
+                                      <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/my-account">
                                         My Account
                                       </NavLink>
                                       <a onClick={this.logout} href="#" className="dropdown-item">
@@ -164,17 +164,17 @@ class Navigation extends Component {
                                   <NavLink className="navbar-item" onClick={this.toggleBurger} to={`/shelf/${this.props.user.id}`}>
                                     Bookshelf
                                   </NavLink>
-                                  <NavLink className="navbar-item" onClick={this.toggleBurger} to="/admin/manage-books">
+                                  <NavLink className="navbar-item" onClick={this.toggleBurger} to="/manage-books">
                                     Manage Books
                                   </NavLink>
-                                  <NavLink className="navbar-item" onClick={this.toggleBurger} to="/admin/manage-categories">
+                                  <NavLink className="navbar-item" onClick={this.toggleBurger} to="/manage-categories">
                                     Manage Categories
                                   </NavLink>
-                                  <NavLink className="navbar-item" onClick={this.toggleBurger} to="/admin/manage-ratings" >
+                                  <NavLink className="navbar-item" onClick={this.toggleBurger} to="/manage-ratings" >
                                     Manage Ratings
                                   </NavLink>
                                   <hr className="dropdown-divider"/>
-                                  <NavLink className="navbar-item" onClick={this.toggleBurger} to="/admin/my-account">
+                                  <NavLink className="navbar-item" onClick={this.toggleBurger} to="/my-account">
                                     My Account
                                   </NavLink>
                                   <a onClick={this.logout} className="navbar-item" href="#">

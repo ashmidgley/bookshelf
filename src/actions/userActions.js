@@ -1,4 +1,4 @@
-import { LOGIN, REGISTER, SET_USER, CLEAR_USER, GET_USERS, UPDATE_USER, DELETE_USER } from './types';
+import { LOGIN, REGISTER, SET_USER, CLEAR_USER, GET_USERS, UPDATE_USER, UPDATE_EMAIL, UPDATE_PASSWORD, DELETE_USER } from './types';
 import axios from 'axios';
 import User from '../models/user';
 
@@ -97,6 +97,42 @@ export const updateUser = (user, token) => dispatch => {
       console.error(error);
       dispatch({
         type: UPDATE_USER,
+        error: error.message
+      })
+    });
+}
+
+export const updateEmail = (data, token) => dispatch => {
+  var config = createConfig(token);
+  axios.put(`${usersUrl}/email`, data, config)
+    .then(response => {
+      dispatch({
+        type: UPDATE_EMAIL,
+        payload: response.data
+      })
+    })
+    .catch(error => {
+      console.error(error);
+      dispatch({
+        type: UPDATE_EMAIL,
+        error: error.message
+      })
+    });
+}
+
+export const updatePassword = (data, token) => dispatch => {
+  var config = createConfig(token);
+  axios.put(`${usersUrl}/password`, data, config)
+    .then(response => {
+      dispatch({
+        type: UPDATE_PASSWORD,
+        payload: response.data
+      })
+    })
+    .catch(error => {
+      console.error(error);
+      dispatch({
+        type: UPDATE_PASSWORD,
         error: error.message
       })
     });

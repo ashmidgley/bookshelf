@@ -220,7 +220,7 @@ class UpdateBook extends Component {
                                     </div>
                                 </div>
                                 <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit" disabled={isSubmitting}>Update</button>
-                                <Link to="/admin/manage-books">
+                                <Link to="/manage-books">
                                     <button className="button cancel-button">Cancel</button>
                                 </Link>
                             </form>
