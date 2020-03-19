@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './manage-books.css';
+import Modal from 'react-modal';
+import Loading from '../loading/loading';
 import { Link }from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchBooks, removeBook } from '../../actions/bookActions';
-import { fetchCategories } from '../../actions/categoryActions';
-import { fetchRatings } from '../../actions/ratingActions';
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { customStyles } from '../../custom-modal';
-import Modal from 'react-modal';
-import Loading from '../loading/loading';
+import { fetchBooks, removeBook } from '../../actions/bookActions';
+import { fetchCategories } from '../../actions/categoryActions';
+import { fetchRatings } from '../../actions/ratingActions';
 
-class ManageBooks extends Component {
+class ManageBooks extends React.Component {
 
     constructor(props){
         super(props);

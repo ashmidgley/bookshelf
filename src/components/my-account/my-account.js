@@ -49,7 +49,7 @@ class MyAccount extends React.Component {
         }
 
         return (
-            <div className="column is-8 is-offset-2 category-form-container"> 
+            <div className="column is-8 is-offset-2 form-container"> 
                 <div className="card review-card">
                     <div className="card-content">
                     <div className="media">
