@@ -1,28 +1,17 @@
-import React, { Component } from 'react';
-import './manage-books.css';
+import React from 'react';
+import Modal from 'react-modal';
+import Loading from '../loading/loading';
 import { Link }from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { customStyles } from '../../custom-modal';
 import { fetchBooks, removeBook } from '../../actions/bookActions';
 import { fetchCategories } from '../../actions/categoryActions';
 import { fetchRatings } from '../../actions/ratingActions';
-import { Helmet } from "react-helmet";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
-import Modal from 'react-modal';
-import Loading from '../loading/loading';
 
-const customStyles = {
-    content : {
-        top                   : '50%',
-        left                  : '50%',
-        right                 : 'auto',
-        bottom                : 'auto',
-        marginRight           : '-50%',
-        transform             : 'translate(-50%, -50%)'
-    }
-};
-
-class ManageBooks extends Component {
+class ManageBooks extends React.Component {
 
     constructor(props){
         super(props);
@@ -93,23 +82,27 @@ class ManageBooks extends Component {
         }
 
         return (
-            <div className="column is-8 is-offset-2 admin-container">
+            <div className="column is-8 is-offset-2 form-container">
                 <Helmet>
                     <title>Bookshelf | Manage Books</title>
                 </Helmet>
-                <div className="card admin-card">
+                <div className="card form-card">
                     <div className="card-content">
                         <div className="media">
-                            <div className="admin-image-header-container">
-                                <FontAwesomeIcon icon={faEye} className="admin-icon" size="lg"/>
+                            <div className="image-header-container">
+                                <FontAwesomeIcon icon={faEye} className="eye-icon" size="lg"/>
                             </div>
                         </div>
                         <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={customStyles}>
                             <form onSubmit={this.handleSubmit}>
                                 <div>Are you sure you would like to delete this book?</div>
                                 <div className="modal-actions">
-                                    <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit">Confirm</button>
-                                    <button id="cancel" className="button" onClick={this.closeModal}>Cancel</button>
+                                    <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit">
+                                        Confirm
+                                    </button>
+                                    <button id="cancel" className="button" onClick={this.closeModal}>
+                                        Cancel
+                                    </button>
                                 </div>
                             </form>
                         </Modal>
@@ -129,7 +122,7 @@ class ManageBooks extends Component {
                                 No books to display.
                             </div>
                             :
-                            <div className="admin-table">
+                            <div className="form-table">
                                 <table className="table is-fullwidth is-bordered">
                                     <thead>
                                         <tr>

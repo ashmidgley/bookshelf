@@ -1,27 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
+import NewBook from '../../models/newBook';
+import Loading from '../loading/loading';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
-import Book from '../../models/book';
-import './update-book.css';
 import { connect } from 'react-redux';
-import { updateBook, fetchBooks } from '../../actions/bookActions';
-import { fetchCategories } from '../../actions/categoryActions';
-import { fetchRatings } from '../../actions/ratingActions';
-import * as moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import Loading from '../loading/loading';
+import { createBook, fetchBooks } from '../../actions/bookActions';
+import { fetchCategories } from '../../actions/categoryActions';
+import { fetchRatings } from '../../actions/ratingActions';
 
-class UpdateBook extends Component {
-    tempImage = 'https://bulma.io/images/placeholders/96x96.png';
-    allowedTypes = ['jpg', 'jpeg', 'png'];
-    validPrecursor = 'http://books.google.com';
+class AddBook extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            bookId: parseInt(props.match.params.id),
-            book: null,
             submitting: false,
             success: false,
             loading: true
@@ -36,7 +29,6 @@ class UpdateBook extends Component {
             this.props.fetchRatings(id);
         } else {
             this.setState({
-                book: this.props.books.find(b => b.id === this.state.bookId),
                 loading: false
             });
         }
@@ -47,14 +39,11 @@ class UpdateBook extends Component {
     componentWillReceiveProps(nextProps) {
         if(Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings))
             this.setState({
-                book: this.props.books.find(b => b.id === this.state.bookId),
                 loading: false
         });
 
         if(nextProps.book) {
-            var oldBook = this.props.books.find(b => b.id === nextProps.book.id);
-            var i = this.props.books.indexOf(oldBook);
-            this.props.books[i] = nextProps.book;
+            this.props.books.unshift(nextProps.book);
 
             this.setState({
                 submitting: false,
@@ -70,25 +59,10 @@ class UpdateBook extends Component {
             submitting: true,
             success: false
         });
-        var book = new Book(this.props.user.id, values.categoryId, values.ratingId, values.imageUrl, values.title, values.author, values.finishedOn, values.pageCount, values.summary);
-        book.id = this.state.book.id;
-        
-        this.props.updateBook(book, this.props.token);
-    }
 
-    validImage(image) {
-        if(image.startsWith(this.validPrecursor)) {
-            return true;
-        }
+        var newBook = new NewBook(values.title, values.author, this.props.user.id, values.categoryId, values.ratingId, values.finishedOn);
 
-        for(var i = 0; i < this.allowedTypes.length; i++) {
-            var format = this.allowedTypes[i];
-            if(image.endsWith(format)) {
-                return true;
-            }
-        }
-        
-        return false;
+        this.props.createBook(newBook, this.props.token);
     }
 
     render() {
@@ -97,10 +71,10 @@ class UpdateBook extends Component {
                 <Loading />
             );
         }
-
+        
         return (
             <div className="column is-8 is-offset-2 book-form-container"> 
-                <div className="card review-card">
+                <div className="card custom-card">
                     <div className="card-content">
                     <div className="media">
                         <div className="image-header-container">
@@ -108,7 +82,7 @@ class UpdateBook extends Component {
                         </div>
                     </div>
                     {this.state.success ? 
-                        <div className="notification is-primary">Successfully updated entry.</div>
+                        <div className="notification is-primary">Successfully created entry.</div>
                         : 
                         null
                     }
@@ -116,30 +90,21 @@ class UpdateBook extends Component {
                         initialValues=
                         {
                             {
-                                title: this.state.book ? this.state.book.title : '',
-                                imageUrl: this.state.book ? this.state.book.imageUrl : '',
-                                author: this.state.book ? this.state.book.author : '',
-                                finishedOn: this.state.book ? moment(this.state.book.finishedOn).format('YYYY-MM-DD') : '',
-                                pageCount: this.state.book ? this.state.book.pageCount : '',
-                                categoryId: this.state.book ? this.state.book.categoryId : this.props.categories.length ? this.props.categories[0].id : null,
-                                ratingId: this.state.book ? this.state.book.ratingId : this.props.ratings.length ? this.props.ratings[0].id : null,
-                                summary: this.state.book ? this.state.book.summary : ''
+                                title: '',
+                                author: '',
+                                finishedOn: '',
+                                categoryId: this.props.categories.length ? this.props.categories[0].id : null,
+                                ratingId: this.props.ratings.length ? this.props.ratings[0].id : null,
                             }
                         }
                         validate={values => {
                             let errors = {};
                             if (!values.title)
                                 errors.title = 'Required';
-                            if(!values.imageUrl)
-                                errors.imageUrl = 'Required';
-                            if(!this.validImage(values.imageUrl))
-                                errors.imageUrl = 'Invalid format';
-                            if(!values.author)
+                            if (!values.author)
                                 errors.author = 'Required';
                             if(!values.finishedOn) 
                                 errors.finishedOn = 'Required';
-                            if(!values.pageCount)
-                                errors.pageCount = 'Required';
                             return errors;
                         }}
                         onSubmit={(values, { setSubmitting }) => {
@@ -154,26 +119,6 @@ class UpdateBook extends Component {
                                     </div>
                                 </div>
                                 <div className="field">
-                                    <label className="label">Image URL</label>
-                                    <div className="control">
-                                        <input className={errors.imageUrl && touched.imageUrl ? 'input is-danger' : 'input'} type="text" name="imageUrl" placeholder="Enter image URL" onChange={handleChange} onBlur={handleBlur} value={values.imageUrl} />
-                                    </div>
-                                    {errors.imageUrl === 'Invalid format' ? 
-                                        <div className="help is-danger">
-                                            Invalid image format. Please use a png, jpg or jpeg.
-                                        </div>
-                                        :
-                                        null
-                                    }
-                                </div>
-                                <div className="add-new-image">
-                                    {!errors.imageUrl && values.imageUrl ? 
-                                        <img src={values.imageUrl} alt={values.imageUrl} width="96" height="96" /> 
-                                        : 
-                                        <img src={this.tempImage} alt="Placeholder" />
-                                    }
-                                </div>
-                                <div className="field">
                                     <label className="label">Author</label>
                                     <div className="control">
                                         <input className={errors.author && touched.author ? 'input is-danger' : 'input'} type="text" name="author" placeholder="Enter author" onChange={handleChange} onBlur={handleBlur} value={values.author} />
@@ -183,12 +128,6 @@ class UpdateBook extends Component {
                                     <label className="label">Finished On</label>
                                     <div className="control">
                                         <input className={errors.finishedOn && touched.finishedOn ? 'input is-danger' : 'input'} type="date" name="finishedOn" onChange={handleChange} onBlur={handleBlur} value={values.finishedOn} />
-                                    </div>
-                                </div>
-                                <div className="field">
-                                    <label className="label">Page Count</label>
-                                    <div className="control">
-                                        <input className={errors.pageCount && touched.pageCount ? 'input is-danger' : 'input'} type="number" name="pageCount" placeholder="Enter page count" onChange={handleChange} onBlur={handleBlur} value={values.pageCount}/>
                                     </div>
                                 </div>
                                 <div className="field">
@@ -212,14 +151,8 @@ class UpdateBook extends Component {
                                             </div>
                                         )}
                                     </div>
-                                </div>    
-                                <div className="field">
-                                    <label className="label">Summary</label>
-                                    <div className="control">
-                                        <textarea className="textarea" name="summary" placeholder="Enter summary" onChange={handleChange} onBlur={handleBlur} value={values.summary}></textarea>
-                                    </div>
                                 </div>
-                                <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit" disabled={isSubmitting}>Update</button>
+                                <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit" disabled={isSubmitting}>Create</button>
                                 <Link to="/manage-books">
                                     <button className="button cancel-button">Cancel</button>
                                 </Link>
@@ -242,4 +175,4 @@ const mapStateToProps = state => ({
     user: state.user.user
 });
 
-export default connect(mapStateToProps, {updateBook, fetchBooks, fetchCategories, fetchRatings})(UpdateBook);
+export default connect(mapStateToProps, {createBook, fetchBooks, fetchCategories, fetchRatings})(AddBook);

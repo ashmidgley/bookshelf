@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
-import './register.css';
+import React from 'react';
+import LoginDto from '../../models/loginDto';
 import { connect } from 'react-redux';
-import { register, clearUser } from '../../actions/userActions';
 import { withRouter, Link } from 'react-router-dom';
 import { Formik } from 'formik';
-import LoginDto from '../../models/loginDto';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { register, clearUser } from '../../actions/userActions';
 
-class Register extends Component {
+class Register extends React.Component {
 
     constructor(props) {
         super(props);
@@ -26,6 +25,7 @@ class Register extends Component {
             });
             return;
         }
+        
         if(nextProps.token && nextProps.user) {
             this.setState({ submitting: false });
             this.props.history.push(`/shelf/${nextProps.user.id}`);
@@ -34,10 +34,12 @@ class Register extends Component {
 
     register(values) {
         this.props.clearUser();
+
         this.setState({
             existingEmail: false,
             submitting: true
         });
+
         var register = new LoginDto(values.email, values.password);
         this.props.register(register);
     }
@@ -49,7 +51,7 @@ class Register extends Component {
                     <div className="container">
                         <div className="columns is-centered">
                             <div className="column is-two-fifths">
-                                <div className="card login-header-background">
+                                <div className="card header-background">
                                     <header className="card-header">
                                         <p className="card-header-title">
                                             <span className="icon">
@@ -81,13 +83,13 @@ class Register extends Component {
                                             }}>{({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
                                                 <form className="form" onSubmit={handleSubmit}>
                                                     <div className="field">
-                                                        <label id="email-label" className="label login-label">Email</label>
+                                                        <label className="label custom-label">Email</label>
                                                         <div className="control is-clearfix">
                                                             <input autoFocus="autofocus" className={errors.email && touched.email ? 'input is-danger' : 'input'} type="text" name="email" onChange={handleChange} onBlur={handleBlur} value={values.email} />
                                                         </div>
                                                     </div>
                                                     <div className="field">
-                                                        <label className="label login-label">Password</label>
+                                                        <label className="label custom-label">Password</label>
                                                         <div className="control is-clearfix">
                                                             <input className={errors.password && touched.password ? 'input is-danger' : 'input'} type="password" name="password" onChange={handleChange} onBlur={handleBlur} value={values.password} />
                                                         </div>

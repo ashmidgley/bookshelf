@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './review.css';
+import Loading from '../loading/loading';
 import * as moment from 'moment';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,9 +8,8 @@ import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
 import { fetchBooks } from '../../actions/bookActions';
 import { fetchCategories } from '../../actions/categoryActions';
 import { fetchRatings } from '../../actions/ratingActions';
-import Loading from '../loading/loading';
 
-class Review extends Component {
+class Review extends React.Component {
 
     constructor(props) {
         super(props);
@@ -19,7 +19,6 @@ class Review extends Component {
             paragraphs: null,
             loading: true
         };
-        window.scrollTo(0, 0);
     }
 
     componentDidMount() {
@@ -36,6 +35,7 @@ class Review extends Component {
                 loading: false
             });
         }
+        window.scrollTo(0, 0);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -57,14 +57,14 @@ class Review extends Component {
         }
 
         return (
-            <div className="column is-8 is-offset-2 review-column">
-                <div className="card review-card">
+            <div className="column is-8 is-offset-2 form-container">
+                <div className="card custom-card">
                     <div className="card-content">
                         <div className="media">
-                            <div className="review-image-header-container">
-                                <FontAwesomeIcon icon={faBookOpen} className="review-icon" size="lg"/>
+                            <div className="image-header-container">
+                                <FontAwesomeIcon icon={faBookOpen} className="book-open-icon" size="lg"/>
                             </div>
-                            <div className="container has-text-centered review-media-content">
+                            <div id="review-media-content" className="container has-text-centered">
                                 <p className="title">{this.state.book.title}</p>
                                 <p className="subtitle is-6">By {this.state.book.author}</p>
                                 <div className="tags has-addons level-item">    
@@ -74,7 +74,7 @@ class Review extends Component {
                         </div>
                         
                     </div>
-                    <div className="review-content has-text-centered">
+                    <div id="review-content" className="has-text-centered">
                         <hr />
                         {this.state.paragraphs ? this.state.paragraphs.map(paragraph =>
                                 <p className="summary-text">{paragraph}</p>
@@ -120,10 +120,10 @@ class Review extends Component {
     }
 }
   
-  const mapStateToProps = state => ({
+const mapStateToProps = state => ({
     books: state.books.items,
     categories: state.categories.items,
     ratings: state.ratings.items
-  });
+});
 
 export default connect(mapStateToProps, {fetchBooks, fetchCategories, fetchRatings})(Review);

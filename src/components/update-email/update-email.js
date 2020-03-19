@@ -1,49 +1,67 @@
-import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMask } from '@fortawesome/free-solid-svg-icons';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
-import { updatePassword } from '../../actions/userActions';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMask } from '@fortawesome/free-solid-svg-icons';
+import { updateEmail, setUser } from '../../actions/userActions';
 
-class UpdatePassword extends Component {
+class UpdateEmail extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             submitting: false,
-            success: false
+            success: false,
+            invalidAction: null
         }
     }
 
     componentWillReceiveProps(nextProps) {
         if(nextProps.updatedUser) {
+            localStorage.setItem('userEmail', nextProps.updatedUser.email);
+            var data = { 
+                token: localStorage.getItem('token'),
+                expiryDate: localStorage.getItem('expiryDate'), 
+                user: nextProps.updatedUser
+            };
+
+            this.props.setUser(data);
+
             this.setState({
                 submitting: false,
                 success: true
             });
+        }
+
+        if(nextProps.invalidAction) {
+            this.setState({
+                submitting: false,
+                invalidAction: nextProps.invalidAction
+            })
         }
     }
 
     submitEntry(values) {
         this.setState({
             submitting: true,
-            success: false
+            success: false,
+            invalidAction: null
         });
 
         var token = localStorage.getItem('token');
-        var data = { 
+        var data = {
             id: parseInt(localStorage.getItem('userId')),
-            password: values.password
+            email: values.email
         };
 
-        this.props.updatePassword(data, token);
+        this.props.updateEmail(data, token);
     }
 
     render() {
         return (
-            <div className="column is-8 is-offset-2 category-form-container"> 
-                <div className="card review-card">
+            <div className="column is-8 is-offset-2 form-container"> 
+                <div className="card custom-card">
                     <div className="card-content">
                     <div className="media">
                         <div className="image-header-container">
@@ -51,20 +69,20 @@ class UpdatePassword extends Component {
                         </div>
                     </div>
                     {
-                        this.state.success && 
-                        <div className="notification is-primary">Successfully updated password.</div>
+                        this.state.success &&
+                        <div className="notification is-primary">Successfully updated email.</div>
                     }
                     <Formik
                         initialValues=
                         {
                             {
-                                password: ''
+                                email: ''
                             }
                         }
                         validate={values => {
                             let errors = {};
-                            if (!values.password)
-                                errors.password = 'Required';
+                            if (!values.email)
+                                errors.email = 'Required';
                             return errors;
                         }}
                         onSubmit={(values, { setSubmitting }) => {
@@ -73,11 +91,15 @@ class UpdatePassword extends Component {
                         }}>{({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
                             <form className="form" onSubmit={handleSubmit}>
                                 <div className="field">
-                                    <label className="label">Password</label>
+                                    <label className="label">Email</label>
                                     <div className="control">
-                                        <input className={errors.password && touched.password ? 'input is-danger' : 'input'} type="password" name="password" placeholder="Enter password" onChange={handleChange} onBlur={handleBlur} value={values.password} />
+                                        <input className={errors.email && touched.email ? 'input is-danger' : 'input'} type="text" name="email" placeholder="Enter email" onChange={handleChange} onBlur={handleBlur} value={values.email} />
                                     </div>
                                 </div>
+                                {
+                                    this.state.invalidAction &&
+                                    <div className="notification is-danger">{this.state.invalidAction}</div>
+                                }
                                 <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit" disabled={isSubmitting}>Update</button>
                                 <Link to="/my-account">
                                     <button className="button cancel-button">Cancel</button>
@@ -93,7 +115,9 @@ class UpdatePassword extends Component {
 }
 
 const mapStateToProps = state => ({
-    updatedUser: state.user.updatedUser
+    user: state.user.user,
+    updatedUser: state.user.updatedUser,
+    invalidAction: state.user.invalidAction
 });
 
-export default connect(mapStateToProps, {updatePassword})(UpdatePassword);
+export default connect(mapStateToProps, {updateEmail, setUser})(UpdateEmail);

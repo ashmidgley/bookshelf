@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './no-match.css';
 import { Link } from 'react-router-dom';
 
-class NoMatch extends Component {
+class NoMatch extends React.Component {
 
     render() {
         return (

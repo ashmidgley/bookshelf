@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
+import Category from '../../models/category';
+import Loading from '../loading/loading';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
-import Category from '../../models/category';
-import './category-form.css';
 import { connect } from 'react-redux';
-import { createCategory, updateCategory, fetchCategories } from '../../actions/categoryActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import Loading from '../loading/loading';
+import { createCategory, updateCategory, fetchCategories } from '../../actions/categoryActions';
 
-class CategoryForm extends Component {
+class CategoryForm extends React.Component {
 
     constructor(props) {
         super(props);
@@ -81,8 +80,8 @@ class CategoryForm extends Component {
         }
 
         return (
-            <div className="column is-8 is-offset-2 category-form-container"> 
-                <div className="card review-card">
+            <div className="column is-8 is-offset-2 form-container"> 
+                <div className="card custom-card">
                     <div className="card-content">
                     <div className="media">
                         <div className="image-header-container">
@@ -142,11 +141,11 @@ class CategoryForm extends Component {
     }
 }
 
-  const mapStateToProps = state => ({
+const mapStateToProps = state => ({
     categories: state.categories.items,
     category: state.categories.item,
     token: state.user.token,
     user: state.user.user
-  });
+});
 
 export default connect(mapStateToProps, {createCategory, updateCategory, fetchCategories})(CategoryForm);

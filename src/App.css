@@ -1,7 +1,104 @@
 .screen-content {
-    min-height: 100vh;
+  min-height: 100vh;
 }
 
 .error-container {
   margin-top: 30px;
+}
+
+.form-container {
+  padding-top: 30px;
+}
+
+.cancel-button {
+  margin-left: 15px;
+}
+
+.header-background .card-header, .card.is-card-widget .card-header {
+  background-color: silver;
+}
+
+.image-header-container {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+  margin-left: -25px;
+  border-radius: 50%;
+  border: 3px solid #ccc;
+  background-color: #F0F2F4;
+}
+
+.plus-icon {
+  color: #3273dc;
+  margin-left: 12.5px;
+  margin-top: 11px;
+}
+
+.eye-icon {
+  color: #3273dc;
+  margin-left: 9.5px;
+  margin-top: 11px;
+}
+
+.mask-icon {
+  color: #3273dc;
+  margin-left: 9px;
+  margin-top: 11px;
+}
+
+.book-open-icon  {
+  color: #3273dc;
+  margin-left: 10px;
+  margin-top: 12px;
+}
+
+.modal-actions {
+  margin-top: 20px;
+}
+
+.modal-actions > #cancel {
+  margin-left: 10px;
+}
+
+.form-table {
+  margin-bottom: 20px;
+}
+
+.form-card {
+  text-align: center;
+}
+
+.custom-card {
+  padding-bottom: 20px;
+}
+
+@keyframes fadeIn {
+  from { 
+      opacity: 0; 
+  }
+  to {
+      opacity: 1;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .custom-label, .custom-label:not(:last-child) {
+    margin-top: 25px;
+    margin-bottom: 25px;
+  }
+
+  .custom-label:first-child {
+    margin-top: 0;
+  }
+
+  .form-container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .form-table {
+    overflow: auto;
+  }
 }

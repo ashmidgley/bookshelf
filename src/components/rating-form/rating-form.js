@@ -1,15 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
+import Rating from '../../models/rating';
+import Loading from '../loading/loading';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
-import Rating from '../../models/rating';
-import './rating-form.css';
 import { connect } from 'react-redux';
-import { createRating, updateRating, fetchRatings } from '../../actions/ratingActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import Loading from '../loading/loading';
+import { createRating, updateRating, fetchRatings } from '../../actions/ratingActions';
 
-class RatingForm extends Component {
+class RatingForm extends React.Component {
 
     constructor(props) {
         super(props);
@@ -81,8 +80,8 @@ class RatingForm extends Component {
         }
 
         return (
-            <div className="column is-8 is-offset-2 rating-form-container"> 
-                <div className="card review-card">
+            <div className="column is-8 is-offset-2 form-container"> 
+                <div className="card custom-card">
                     <div className="card-content">
                     <div className="media">
                         <div className="image-header-container">
@@ -142,11 +141,11 @@ class RatingForm extends Component {
     }
 }
 
-  const mapStateToProps = state => ({
+const mapStateToProps = state => ({
     ratings: state.ratings.items,
     rating: state.ratings.item,
     token: state.user.token,
     user: state.user.user
-  });
+});
 
 export default connect(mapStateToProps, {createRating, updateRating, fetchRatings})(RatingForm);

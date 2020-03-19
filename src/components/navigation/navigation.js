@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './navigation.css';
-import { NavLink, Link } from 'react-router-dom';
+import { withRouter, NavLink, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { clearUser } from '../../actions/userActions';
 import { clearBooks } from '../../actions/bookActions';
 import { clearCategories } from '../../actions/categoryActions';
 import { clearRatings } from '../../actions/ratingActions';
 
-class Navigation extends Component {
+class Navigation extends React.Component {
 
     constructor(props) {
       super(props);
@@ -199,4 +198,4 @@ const mapStateToProps = state => ({
   user: state.user.user
 });
 
-export default withRouter(connect(mapStateToProps, {clearUser, clearBooks, clearCategories, clearRatings})(Navigation));
+export default connect(mapStateToProps, {clearUser, clearBooks, clearCategories, clearRatings})(withRouter(Navigation));

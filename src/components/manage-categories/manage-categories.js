@@ -1,26 +1,15 @@
-import React, { Component } from 'react';
-import './manage-categories.css';
+import React from 'react';
+import Modal from 'react-modal';
+import Loading from '../loading/loading';
 import { Link }from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchCategories, removeCategory } from '../../actions/categoryActions';
-import Modal from 'react-modal';
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
-import Loading from '../loading/loading';
+import { customStyles } from '../../custom-modal';
+import { fetchCategories, removeCategory } from '../../actions/categoryActions';
 
-const customStyles = {
-    content : {
-        top                   : '50%',
-        left                  : '50%',
-        right                 : 'auto',
-        bottom                : 'auto',
-        marginRight           : '-50%',
-        transform             : 'translate(-50%, -50%)'
-    }
-};
-
-class ManageCategories extends Component {
+class ManageCategories extends React.Component {
 
     constructor(props){
         super(props);
@@ -89,27 +78,27 @@ class ManageCategories extends Component {
         }
         
         return (
-            <div className="column is-8 is-offset-2 admin-container">
+            <div className="column is-8 is-offset-2 form-container">
                 <Helmet>
                     <title>Bookshelf | Manage Categories</title>
                 </Helmet>
-                <div className="card admin-card">
+                <div className="card form-card">
                     <div className="card-content">
                         <div className="media">
-                            <div className="admin-image-header-container">
-                                <FontAwesomeIcon icon={faEye} className="admin-icon" size="lg"/>
+                            <div className="image-header-container">
+                                <FontAwesomeIcon icon={faEye} className="eye-icon" size="lg"/>
                             </div>
                         </div>
+                        <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={customStyles}>
+                            <form onSubmit={this.handleSubmit}>
+                                <div>Are you sure you would like to delete this category?</div>
+                                <div className="modal-actions">
+                                    <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit">Confirm</button>
+                                    <button id="cancel" className="button" onClick={this.closeModal}>Cancel</button>
+                                </div>
+                            </form>
+                        </Modal>
                         <div>
-                            <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={customStyles}>
-                                <form onSubmit={this.handleSubmit}>
-                                    <div>Are you sure you would like to delete this category?</div>
-                                    <div className="modal-actions">
-                                        <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit">Confirm</button>
-                                        <button id="cancel" className="button" onClick={this.closeModal}>Cancel</button>
-                                    </div>
-                                </form>
-                            </Modal>
                             <h1 className="title">Categories</h1>
                             {this.state.success && this.props.categories.length ? 
                                 <div className="notification is-primary">Successfully removed entry.</div>
@@ -126,7 +115,7 @@ class ManageCategories extends Component {
                                     No categories to display.
                                 </div>
                                 :
-                                <div className="admin-table">
+                                <div className="form-table">
                                     <table className="table is-fullwidth is-bordered">
                                         <thead>
                                             <tr>
@@ -161,10 +150,10 @@ class ManageCategories extends Component {
     }
 }
 
-  const mapStateToProps = state => ({
+const mapStateToProps = state => ({
     categories: state.categories.items,
     removedCategory: state.categories.item,
     token: state.user.token
-  });
+});
 
 export default connect(mapStateToProps, {fetchCategories, removeCategory})(ManageCategories);

@@ -1,26 +1,15 @@
-import React, { Component } from 'react';
-import './manage-users.css';
+import React from 'react';
+import Modal from 'react-modal';
+import Loading from '../loading/loading';
 import { connect } from 'react-redux';
-import { fetchUsers, deleteUser } from '../../actions/userActions';
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
-import Loading from '../loading/loading';
 import { Link } from 'react-router-dom';
-import Modal from 'react-modal';
+import { customStyles } from '../../custom-modal';
+import { fetchUsers, deleteUser } from '../../actions/userActions';
 
-const customStyles = {
-    content : {
-        top                   : '50%',
-        left                  : '50%',
-        right                 : 'auto',
-        bottom                : 'auto',
-        marginRight           : '-50%',
-        transform             : 'translate(-50%, -50%)'
-    }
-};
-
-class ManageUsers extends Component {
+class ManageUsers extends React.Component {
 
     constructor(props){
         super(props);
@@ -87,15 +76,15 @@ class ManageUsers extends Component {
         }
 
         return (
-            <div className="column is-8 is-offset-2 admin-container">
+            <div className="column is-8 is-offset-2 form-container">
                 <Helmet>
                     <title>Bookshelf | Manage Users</title>
                 </Helmet>
-                <div className="card admin-card">
+                <div className="card form-card">
                     <div className="card-content">
                         <div className="media">
-                            <div className="admin-image-header-container">
-                                <FontAwesomeIcon icon={faEye} className="admin-icon" size="lg"/>
+                            <div className="image-header-container">
+                                <FontAwesomeIcon icon={faEye} className="eye-icon" size="lg"/>
                             </div>
                         </div>
                         <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={customStyles}>
@@ -113,7 +102,7 @@ class ManageUsers extends Component {
                         </Modal>
                         <div>
                             <h1 className="title">Users</h1>
-                            <div className="admin-table">
+                            <div className="form-table">
                                 <table className="table is-fullwidth is-bordered">
                                     <thead>
                                         <tr>

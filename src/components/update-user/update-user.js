@@ -1,14 +1,15 @@
-import React, { Component } from "react";
+import React from 'react';
 import Loading from '../loading/loading';
 import { withRouter } from 'react-router-dom';
-import { fetchUsers, updateUser } from '../../actions/userActions';
-import { Formik } from 'formik';
 import { Link } from 'react-router-dom';
+import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { fetchUsers, updateUser } from '../../actions/userActions';
 
-class UpdateUser extends Component {
+class UpdateUser extends React.Component {
+    
     constructor(props) {
         super(props);
         this.state = {
@@ -64,8 +65,8 @@ class UpdateUser extends Component {
         }
 
         return (
-            <div className="column is-8 is-offset-2 category-form-container"> 
-                <div className="card review-card">
+            <div className="column is-8 is-offset-2 form-container"> 
+                <div className="card custom-card">
                     <div className="card-content">
                     <div className="media">
                         <div className="image-header-container">
@@ -140,4 +141,4 @@ const mapStateToProps = state => ({
     updatedUser: state.user.updatedUser
 });
 
-export default withRouter(connect(mapStateToProps, {fetchUsers, updateUser})(UpdateUser));
+export default connect(mapStateToProps, {fetchUsers, updateUser})(withRouter(UpdateUser));
