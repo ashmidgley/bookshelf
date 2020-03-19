@@ -8,17 +8,7 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
 import Loading from '../loading/loading';
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
-
-const customStyles = {
-    content : {
-        top                   : '50%',
-        left                  : '50%',
-        right                 : 'auto',
-        bottom                : 'auto',
-        marginRight           : '-50%',
-        transform             : 'translate(-50%, -50%)'
-    }
-};
+import { customStyles } from '../../custom-modal';
 
 class ManageUsers extends Component {
 

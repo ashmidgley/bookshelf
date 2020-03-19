@@ -8,19 +8,9 @@ import { fetchRatings } from '../../actions/ratingActions';
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { customStyles } from '../../custom-modal';
 import Modal from 'react-modal';
 import Loading from '../loading/loading';
-
-const customStyles = {
-    content : {
-        top                   : '50%',
-        left                  : '50%',
-        right                 : 'auto',
-        bottom                : 'auto',
-        marginRight           : '-50%',
-        transform             : 'translate(-50%, -50%)'
-    }
-};
 
 class ManageBooks extends Component {
 
