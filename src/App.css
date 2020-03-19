@@ -18,6 +18,40 @@
   background-color: silver;
 }
 
+.image-header-container {
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  width: 50px;
+  height: 50px;
+  margin-left: -25px;
+  border-radius: 50%;
+  border: 3px solid #ccc;
+  background-color: #F0F2F4;
+}
+
+.eye-icon {
+  color: #3273dc;
+  margin-left: 9.5px;
+  margin-top: 11px;
+}
+
+.modal-actions {
+  margin-top: 20px;
+}
+
+.modal-actions > #cancel {
+  margin-left: 10px;
+}
+
+.form-table {
+  margin-bottom: 20px;
+}
+
+.form-card {
+  text-align: center;
+}
+
 @keyframes fadeIn {
   from { 
       opacity: 0; 
@@ -35,5 +69,9 @@
 
   .custom-label:first-child {
     margin-top: 0;
+  }
+
+  .form-table {
+    overflow: auto;
   }
 }

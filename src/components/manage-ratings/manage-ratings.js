@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
-import './manage-ratings.css';
+import React from 'react';
+import Modal from 'react-modal';
+import Loading from '../loading/loading';
 import { Link }from 'react-router-dom';
 import { connect } from 'react-redux';
-import { fetchRatings, removeRating } from '../../actions/ratingActions';
-import Modal from 'react-modal';
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { customStyles } from '../../custom-modal';
-import Loading from '../loading/loading';
+import { fetchRatings, removeRating } from '../../actions/ratingActions';
 
-class ManageRatings extends Component {
+class ManageRatings extends React.Component {
 
     constructor(props){
         super(props);
@@ -79,15 +78,15 @@ class ManageRatings extends Component {
         }
 
         return (
-            <div className="column is-8 is-offset-2 admin-container">
+            <div className="column is-8 is-offset-2 form-container">
                 <Helmet>
                     <title>Bookshelf | Manage Ratings</title>
                 </Helmet>
-                <div className="card admin-card">
+                <div className="card form-card">
                     <div className="card-content">
                         <div className="media">
-                            <div className="admin-image-header-container">
-                                <FontAwesomeIcon icon={faEye} className="admin-icon" size="lg"/>
+                            <div className="image-header-container">
+                                <FontAwesomeIcon icon={faEye} className="eye-icon" size="lg"/>
                             </div>
                         </div>
                         <div>
@@ -116,7 +115,7 @@ class ManageRatings extends Component {
                                     No ratings to display.
                                 </div>
                                 :
-                                <div className="admin-table">
+                                <div className="form-table">
                                     <table className="table is-fullwidth is-bordered">
                                         <thead>
                                             <tr>
@@ -151,10 +150,10 @@ class ManageRatings extends Component {
     }
 }
 
-  const mapStateToProps = state => ({
+const mapStateToProps = state => ({
     ratings: state.ratings.items,
     removedRating: state.ratings.item,
     token: state.user.token
-  });
+});
 
 export default connect(mapStateToProps, {fetchRatings, removeRating})(ManageRatings);
