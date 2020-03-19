@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
+import NewBook from '../../models/newBook';
+import Loading from '../loading/loading';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
-import NewBook from '../../models/newBook';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { createBook, fetchBooks } from '../../actions/bookActions';
 import { fetchCategories } from '../../actions/categoryActions';
 import { fetchRatings } from '../../actions/ratingActions';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import Loading from '../loading/loading';
 
-class AddBook extends Component {
+class AddBook extends React.Component {
 
     constructor(props) {
         super(props);

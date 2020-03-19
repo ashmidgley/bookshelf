@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React from 'react';
 import './home.css';
 
-class Home extends Component {
+class Home extends React.Component {
     
     render() {
         return (
@@ -10,7 +10,7 @@ class Home extends Component {
                     <div className="hero-body">
                         <div className="container has-text-centered">
                             <div className="column is-6 is-offset-3">
-                                <img src="/bookshelf.png" className="bookshelf-icon" alt="Bookshelf"/>
+                                <img id="bookshelf-icon" src="/bookshelf.png" alt="Bookshelf"/>
                             </div>
                         </div>
                     </div>

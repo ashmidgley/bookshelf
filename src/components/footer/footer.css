@@ -11,22 +11,23 @@
         text-decoration: underline;
     }
 
-.footer-icon {
+    .footer p {
+        font-size: 12px;
+    }
+
+    .footer p:not(:last-child) {
+        margin-bottom: 0;
+    }
+
+    .footer p:first-child {
+        margin-top: 5px;
+    }
+
+#footer-icon {
     color: #4a4a4a;
     font-size: 22px;
 }
-.footer-icon:hover {
+
+#footer-icon:hover {
     color: black;
-}
-
-.text {
-    font-size: 12px;
-}
-
-.content p:not(:last-child) {
-    margin-bottom: 0;
-}
-
-.content p:first-child {
-    margin-top: 5px;
 }
