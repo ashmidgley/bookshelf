@@ -1,7 +1,6 @@
 import React from 'react';
 import './navigation.css';
-import { NavLink, Link } from 'react-router-dom';
-import { withRouter } from 'react-router-dom';
+import { withRouter, NavLink, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
@@ -199,4 +198,4 @@ const mapStateToProps = state => ({
   user: state.user.user
 });
 
-export default withRouter(connect(mapStateToProps, {clearUser, clearBooks, clearCategories, clearRatings})(Navigation));
+export default connect(mapStateToProps, {clearUser, clearBooks, clearCategories, clearRatings})(withRouter(Navigation));

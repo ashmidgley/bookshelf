@@ -141,4 +141,4 @@ const mapStateToProps = state => ({
     updatedUser: state.user.updatedUser
 });
 
-export default withRouter(connect(mapStateToProps, {fetchUsers, updateUser})(UpdateUser));
+export default connect(mapStateToProps, {fetchUsers, updateUser})(withRouter(UpdateUser));

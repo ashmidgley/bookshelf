@@ -89,16 +89,16 @@ class ManageRatings extends React.Component {
                                 <FontAwesomeIcon icon={faEye} className="eye-icon" size="lg"/>
                             </div>
                         </div>
-                        <div>
                         <Modal isOpen={this.state.modalIsOpen} onRequestClose={this.closeModal} style={customStyles}>
-                                <form onSubmit={this.handleSubmit}>
-                                    <div>Are you sure you would like to delete this rating?</div>
-                                    <div className="modal-actions">
-                                        <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit">Confirm</button>
-                                        <button id="cancel" className="button" onClick={this.closeModal}>Cancel</button>
-                                    </div>
-                                </form>
-                            </Modal>
+                            <form onSubmit={this.handleSubmit}>
+                                <div>Are you sure you would like to delete this rating?</div>
+                                <div className="modal-actions">
+                                    <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit">Confirm</button>
+                                    <button id="cancel" className="button" onClick={this.closeModal}>Cancel</button>
+                                </div>
+                            </form>
+                        </Modal>
+                        <div>
                             <h1 className="title">Ratings</h1>
                             {this.state.success && this.props.ratings.length ? 
                                 <div className="notification is-primary">Successfully removed entry.</div>
