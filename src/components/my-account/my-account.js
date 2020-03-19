@@ -1,6 +1,7 @@
 import React from 'react';
 import Loading from '../loading/loading';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
 
@@ -49,6 +50,9 @@ class MyAccount extends React.Component {
 
         return (
             <div className="column is-8 is-offset-2 form-container"> 
+                <Helmet>
+                    <title>Bookshelf | My Account</title>
+                </Helmet>
                 <div className="card custom-card">
                     <div className="card-content">
                     <div className="media">

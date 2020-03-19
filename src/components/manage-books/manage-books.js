@@ -3,7 +3,7 @@ import Modal from 'react-modal';
 import Loading from '../loading/loading';
 import { Link }from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Helmet } from "react-helmet";
+import { Helmet } from 'react-helmet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { customStyles } from '../../custom-modal';
