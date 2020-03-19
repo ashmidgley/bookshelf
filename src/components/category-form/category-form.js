@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
+import './category-form.css';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import Category from '../../models/category';
-import './category-form.css';
 import { connect } from 'react-redux';
 import { createCategory, updateCategory, fetchCategories } from '../../actions/categoryActions';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

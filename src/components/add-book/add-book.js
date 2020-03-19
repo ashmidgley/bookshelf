@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import NewBook from '../../models/newBook';
-import './update-book.css';
 import { connect } from 'react-redux';
 import { createBook, fetchBooks } from '../../actions/bookActions';
 import { fetchCategories } from '../../actions/categoryActions';

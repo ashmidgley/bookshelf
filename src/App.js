@@ -13,18 +13,18 @@ import ManageBooks from './components/manage-books/manage-books';
 import ManageCategories from './components/manage-categories/manage-categories';
 import ManageRatings from './components/manage-ratings/manage-ratings';
 import ManageUsers from './components/manage-users/manage-users';
-import UpdateUser from './components/manage-users/update-user';
-import AddBook from './components/book-form/add-book';
-import UpdateBook from './components/book-form/update-book';
+import UpdateUser from './components/update-user/update-user';
+import AddBook from './components/add-book/add-book';
+import UpdateBook from './components/update-book/update-book';
 import CategoryForm from './components/category-form/category-form';
 import RatingForm from './components/rating-form/rating-form';
-import Navigation from './components/navigation/navigation'
+import Navigation from './components/navigation/navigation';
 import Login from './components/login/login';
 import Register from './components/register/register';
 import NoMatch from './components/no-match/no-match';
 import MyAccount from './components/my-account/my-account';
-import UpdateEmail from './components/my-account/update-email';
-import UpdatePassword from './components/my-account/update-password';
+import UpdateEmail from './components/update-email/update-email';
+import UpdatePassword from './components/update-password/update-password';
 
 class App extends Component {
 
