@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMask } from '@fortawesome/free-solid-svg-icons';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
-import { updateEmail, setUser } from '../../actions/userActions';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMask } from '@fortawesome/free-solid-svg-icons';
+import { updateEmail, setUser } from '../../actions/userActions';
 
-class UpdateEmail extends Component {
+class UpdateEmail extends React.Component {
 
     constructor(props) {
         super(props);
@@ -20,7 +20,6 @@ class UpdateEmail extends Component {
     componentWillReceiveProps(nextProps) {
         if(nextProps.updatedUser) {
             localStorage.setItem('userEmail', nextProps.updatedUser.email);
-            
             var data = { 
                 token: localStorage.getItem('token'),
                 expiryDate: localStorage.getItem('expiryDate'), 
@@ -62,7 +61,7 @@ class UpdateEmail extends Component {
     render() {
         return (
             <div className="column is-8 is-offset-2 form-container"> 
-                <div className="card review-card">
+                <div className="card custom-card">
                     <div className="card-content">
                     <div className="media">
                         <div className="image-header-container">

@@ -25,6 +25,7 @@ class Register extends React.Component {
             });
             return;
         }
+        
         if(nextProps.token && nextProps.user) {
             this.setState({ submitting: false });
             this.props.history.push(`/shelf/${nextProps.user.id}`);
@@ -33,10 +34,12 @@ class Register extends React.Component {
 
     register(values) {
         this.props.clearUser();
+
         this.setState({
             existingEmail: false,
             submitting: true
         });
+
         var register = new LoginDto(values.email, values.password);
         this.props.register(register);
     }

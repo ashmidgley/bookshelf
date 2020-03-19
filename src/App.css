@@ -30,10 +30,28 @@
   background-color: #F0F2F4;
 }
 
+.plus-icon {
+  color: #3273dc;
+  margin-left: 12.5px;
+  margin-top: 11px;
+}
+
 .eye-icon {
   color: #3273dc;
   margin-left: 9.5px;
   margin-top: 11px;
+}
+
+.mask-icon {
+  color: #3273dc;
+  margin-left: 9px;
+  margin-top: 11px;
+}
+
+.book-open-icon  {
+  color: #3273dc;
+  margin-left: 10px;
+  margin-top: 12px;
 }
 
 .modal-actions {
@@ -50,6 +68,10 @@
 
 .form-card {
   text-align: center;
+}
+
+.custom-card {
+  padding-bottom: 20px;
 }
 
 @keyframes fadeIn {
@@ -69,6 +91,11 @@
 
   .custom-label:first-child {
     margin-top: 0;
+  }
+
+  .form-container {
+    padding-left: 0;
+    padding-right: 0;
   }
 
   .form-table {

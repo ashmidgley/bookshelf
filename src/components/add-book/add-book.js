@@ -74,7 +74,7 @@ class AddBook extends React.Component {
         
         return (
             <div className="column is-8 is-offset-2 book-form-container"> 
-                <div className="card review-card">
+                <div className="card custom-card">
                     <div className="card-content">
                     <div className="media">
                         <div className="image-header-container">

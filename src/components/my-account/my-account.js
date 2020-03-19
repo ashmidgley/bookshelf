@@ -1,9 +1,8 @@
 import React from 'react';
-import './my-account.css';
+import Loading from '../loading/loading';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
-import Loading from '../loading/loading';
 
 class MyAccount extends React.Component {
 
@@ -50,7 +49,7 @@ class MyAccount extends React.Component {
 
         return (
             <div className="column is-8 is-offset-2 form-container"> 
-                <div className="card review-card">
+                <div className="card custom-card">
                     <div className="card-content">
                     <div className="media">
                         <div className="image-header-container">
@@ -91,7 +90,7 @@ class MyAccount extends React.Component {
                                     <div className="control">
                                         <input 
                                             ref={(input) => this.shelfPath = input} 
-                                            className='input' type="text" name="id" readOnly
+                                            className="input" type="text" name="id" readOnly
                                             value={this.state.shelfPath} 
                                         />
                                     </div>

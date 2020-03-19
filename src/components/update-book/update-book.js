@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
+import './update-book.css';
+import Book from '../../models/book';
+import Loading from '../loading/loading';
+import * as moment from 'moment';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
-import Book from '../../models/book';
-import './update-book.css';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { updateBook, fetchBooks } from '../../actions/bookActions';
 import { fetchCategories } from '../../actions/categoryActions';
 import { fetchRatings } from '../../actions/ratingActions';
-import * as moment from 'moment';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import Loading from '../loading/loading';
 
-class UpdateBook extends Component {
+class UpdateBook extends React.Component {
     tempImage = 'https://bulma.io/images/placeholders/96x96.png';
     allowedTypes = ['jpg', 'jpeg', 'png'];
     validPrecursor = 'http://books.google.com';
@@ -40,16 +40,16 @@ class UpdateBook extends Component {
                 loading: false
             });
         }
-
         window.scrollTo(0, 0);
     }
 
     componentWillReceiveProps(nextProps) {
-        if(Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings))
+        if(Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings)) {
             this.setState({
                 book: this.props.books.find(b => b.id === this.state.bookId),
                 loading: false
-        });
+            });
+        }
 
         if(nextProps.book) {
             var oldBook = this.props.books.find(b => b.id === nextProps.book.id);
@@ -70,9 +70,9 @@ class UpdateBook extends Component {
             submitting: true,
             success: false
         });
+
         var book = new Book(this.props.user.id, values.categoryId, values.ratingId, values.imageUrl, values.title, values.author, values.finishedOn, values.pageCount, values.summary);
         book.id = this.state.book.id;
-        
         this.props.updateBook(book, this.props.token);
     }
 
@@ -87,7 +87,6 @@ class UpdateBook extends Component {
                 return true;
             }
         }
-        
         return false;
     }
 
@@ -99,8 +98,8 @@ class UpdateBook extends Component {
         }
 
         return (
-            <div className="column is-8 is-offset-2 book-form-container"> 
-                <div className="card review-card">
+            <div className="column is-8 is-offset-2 form-container"> 
+                <div className="card custom-card">
                     <div className="card-content">
                     <div className="media">
                         <div className="image-header-container">
@@ -166,7 +165,7 @@ class UpdateBook extends Component {
                                         null
                                     }
                                 </div>
-                                <div className="add-new-image">
+                                <div className="has-text-centered">
                                     {!errors.imageUrl && values.imageUrl ? 
                                         <img src={values.imageUrl} alt={values.imageUrl} width="96" height="96" /> 
                                         : 

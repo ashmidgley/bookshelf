@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 import './shelf.css'
+import Loading from '../loading/loading';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Helmet } from "react-helmet";
 import { fetchBooks } from '../../actions/bookActions';
 import { fetchCategories } from '../../actions/categoryActions';
 import { fetchRatings } from '../../actions/ratingActions';
-import Loading from '../loading/loading'; 
 
-class Shelf extends Component {
+class Shelf extends React.Component {
 
     constructor(props){
         super(props);
@@ -136,6 +136,7 @@ class Shelf extends Component {
         if(this.state.searchQuery) books = books.filter(b => b.title.toLowerCase().includes(this.state.searchQuery) || b.author.toLowerCase().includes(this.state.searchQuery));
         if(this.state.selectedCategory) books =  books.filter(b => b.categoryId === this.state.selectedCategory);
         if(this.state.selectedRating) books = books.filter(b => b.ratingId === this.state.selectedRating);
+        
         return (
             <div className="shelf-container">
                 <Helmet>
