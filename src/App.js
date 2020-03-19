@@ -25,6 +25,7 @@ import NoMatch from './components/no-match/no-match';
 import MyAccount from './components/my-account/my-account';
 import UpdateEmail from './components/update-email/update-email';
 import UpdatePassword from './components/update-password/update-password';
+import DeleteAccount from './components/delete-account/delete-account';
 
 class App extends Component {
 
@@ -110,6 +111,7 @@ class App extends Component {
                     <Route exact path="/my-account" component={MyAccount} />
                     <Route exact path="/update-password" component={UpdatePassword} />
                     <Route exact path="/update-email" component={UpdateEmail} />
+                    <Route exact path="/delete-account" component={DeleteAccount} />
                     <Route exact path="/book-form" component={AddBook} />
                     <Route exact path="/book-form/:id" component={UpdateBook} />
                     <Route exact path="/category-form" component={CategoryForm} />

@@ -1,5 +1,4 @@
 import React from 'react';
-import Loading from '../loading/loading';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -42,12 +41,6 @@ class MyAccount extends React.Component {
     }
 
     render() {
-        if(this.state.loading) {
-            return (
-              <Loading />  
-            );
-        }
-
         return (
             <div className="column is-8 is-offset-2 form-container"> 
                 <Helmet>
@@ -55,60 +48,68 @@ class MyAccount extends React.Component {
                 </Helmet>
                 <div className="card custom-card">
                     <div className="card-content">
-                    <div className="media">
-                        <div className="image-header-container">
-                            <FontAwesomeIcon icon={faMask} className="mask-icon" size="lg"/>
-                        </div>
-                    </div>
-                    <form className="form">
-                        <div className="field">
-                            <label className="label">Email</label>
-                            <div className="columns">
-                                <div className="column">
-                                    <div className="control">
-                                        <input className='input' type="text" value={this.state.email} readOnly />
-                                    </div>
-                                </div>
-                                <div className="column is-2">
-                                    <Link to="/update-email" className="button">Edit</Link>
-                                </div>
+                        <div className="media">
+                            <div className="image-header-container">
+                                <FontAwesomeIcon icon={faMask} className="mask-icon" size="lg"/>
                             </div>
                         </div>
-                        <div className="field">
-                            <label className="label">Password</label>
-                            <div className="columns">
-                                <div className="column">
-                                    <div className="control">
-                                        <input className='input' type="password" value="placeholder" readOnly />
+                        <form className="form">
+                            <div className="field">
+                                <label className="label">Email</label>
+                                <div className="columns">
+                                    <div className="column">
+                                        <div className="control">
+                                            <input className='input' type="text" value={this.state.email} readOnly />
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="column is-2">
-                                    <Link to="/update-password" className="button">Edit</Link>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="field">
-                            <label className="label">Share Shelf</label>
-                            <div className="columns" style={{'marginBottom': '0'}}>
-                                <div className="column">
-                                    <div className="control">
-                                        <input 
-                                            ref={(input) => this.shelfPath = input} 
-                                            className="input" type="text" name="id" readOnly
-                                            value={this.state.shelfPath} 
-                                        />
-                                    </div>
-                                </div>
-                                {
-                                    document.queryCommandSupported('copy') &&
                                     <div className="column is-2">
-                                        <button className="button" onClick={this.copyToClipboard}>Copy</button>
+                                        <Link to="/update-email" className="button">Edit</Link>
                                     </div>
-                                }
+                                </div>
                             </div>
-                            <p className="is-size-7">{this.state.copyText}</p>  
-                        </div>
-                    </form>
+                            <div className="field">
+                                <label className="label">Password</label>
+                                <div className="columns">
+                                    <div className="column">
+                                        <div className="control">
+                                            <input className='input' type="password" value="placeholder" readOnly />
+                                        </div>
+                                    </div>
+                                    <div className="column is-2">
+                                        <Link to="/update-password" className="button">Edit</Link>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="field">
+                                <label className="label">Share Shelf</label>
+                                <div className="columns" style={{'marginBottom': '0'}}>
+                                    <div className="column">
+                                        <div className="control">
+                                            <input 
+                                                ref={(input) => this.shelfPath = input} 
+                                                className="input" type="text" name="id" readOnly
+                                                value={this.state.shelfPath} 
+                                            />
+                                        </div>
+                                    </div>
+                                    {
+                                        document.queryCommandSupported('copy') &&
+                                        <div className="column is-2">
+                                            <button className="button" onClick={this.copyToClipboard}>Copy</button>
+                                        </div>
+                                    }
+                                </div>
+                                <p className="is-size-7">{this.state.copyText}</p>  
+                            </div>
+                            <div className="field">
+                                <label className="label">Delete My Account</label>
+                                <div>
+                                    <Link to="/delete-account" className="button">
+                                        <span role="img" aria-label="Stick of dynamite">🧨</span>
+                                    </Link>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
