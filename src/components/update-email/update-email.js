@@ -81,10 +81,10 @@ class UpdateEmail extends React.Component {
                         }
                         validate={values => {
                             let errors = {};
-                            if (!values.email)
-                                errors.email = 'Required';
                             if(!validateEmail(values.email))
                                 errors.email = 'Incorrect email format';
+                            if (!values.email)
+                                errors.email = 'Required';
                             return errors;
                         }}
                         onSubmit={(values, { setSubmitting }) => {

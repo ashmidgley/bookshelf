@@ -72,14 +72,14 @@ class Register extends React.Component {
                                             }
                                             validate={values => {
                                                 let errors = {};
-                                                if (!values.email)
-                                                    errors.email = 'Required';
                                                 if(!validateEmail(values.email)) 
                                                     errors.email = 'Incorrect email format';
-                                                if(!values.password)
-                                                    errors.password = 'Required';
+                                                if (!values.email)
+                                                    errors.email = 'Required';
                                                 if(!validatePasswordLength(values.password))
                                                     errors.password = 'Password must be at least 5 characters long';
+                                                if(!values.password)
+                                                    errors.password = 'Required';
                                                 return errors;
                                             }}
                                             onSubmit={(values, { setSubmitting }) => {
