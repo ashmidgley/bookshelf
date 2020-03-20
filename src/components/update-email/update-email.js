@@ -4,6 +4,7 @@ import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
+import { validateEmail } from '../../verifier';
 import { updateEmail, setUser } from '../../actions/userActions';
 
 class UpdateEmail extends React.Component {
@@ -82,6 +83,8 @@ class UpdateEmail extends React.Component {
                             let errors = {};
                             if (!values.email)
                                 errors.email = 'Required';
+                            if(!validateEmail(values.email))
+                                errors.email = 'Incorrect email format';
                             return errors;
                         }}
                         onSubmit={(values, { setSubmitting }) => {
@@ -94,6 +97,12 @@ class UpdateEmail extends React.Component {
                                     <div className="control">
                                         <input className={errors.email && touched.email ? 'input is-danger' : 'input'} type="text" name="email" placeholder="Enter email" onChange={handleChange} onBlur={handleBlur} value={values.email} />
                                     </div>
+                                    {
+                                        errors.email && touched.email &&
+                                        <div className="has-text-danger is-size-7">
+                                            {errors.email}
+                                        </div>
+                                    }
                                 </div>
                                 {
                                     this.state.invalidAction &&
