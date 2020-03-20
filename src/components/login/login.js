@@ -96,7 +96,7 @@ class Login extends React.Component {
                                                     </div>
                                                     {
                                                         this.state.incorrectCredentials &&
-                                                        <div className="notification is-danger">
+                                                        <div className="notification is-danger custom-notification">
                                                             {this.props.incorrectCredentials}
                                                         </div>
                                                     }

@@ -101,4 +101,8 @@
   .form-table {
     overflow: auto;
   }
+
+  .custom-notification {
+    line-height: initial;
+  }
 }

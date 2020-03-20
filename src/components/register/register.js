@@ -96,7 +96,7 @@ class Register extends React.Component {
                                                     </div>
                                                     {
                                                         this.state.existingEmail &&
-                                                        <div className="notification is-danger">
+                                                        <div className="notification is-danger custom-notification">
                                                             {this.props.existingEmail}
                                                         </div>
                                                     }
