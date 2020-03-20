@@ -63,12 +63,16 @@ class RatingForm extends React.Component {
             submitting: true,
             success: false
         });
-        var rating = new Rating(this.props.user.id, values.description, values.code);
+
+        var token = localStorage.getItem('token');
+        var userId = parseInt(localStorage.getItem('userId'));
+        var rating = new Rating(userId, values.description, values.code);
+        
         if(!this.props.match.params.id) {
-            this.props.createRating(rating, this.props.token);
+            this.props.createRating(rating, token);
         } else {
             rating.id = this.state.rating.id;
-            this.props.updateRating(rating, this.props.token);
+            this.props.updateRating(rating, token);
         }
     }
 
@@ -142,9 +146,7 @@ class RatingForm extends React.Component {
 
 const mapStateToProps = state => ({
     ratings: state.ratings.items,
-    rating: state.ratings.item,
-    token: state.user.token,
-    user: state.user.user
+    rating: state.ratings.item
 });
 
 export default connect(mapStateToProps, {createRating, updateRating, fetchRatings})(RatingForm);

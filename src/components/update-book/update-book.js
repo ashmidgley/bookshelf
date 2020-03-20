@@ -71,9 +71,11 @@ class UpdateBook extends React.Component {
             success: false
         });
 
-        var book = new Book(this.props.user.id, values.categoryId, values.ratingId, values.imageUrl, values.title, values.author, values.finishedOn, values.pageCount, values.summary);
+        var token = localStorage.getItem('token');
+        var userId = parseInt(localStorage.getItem('userId'))
+        var book = new Book(userId, values.categoryId, values.ratingId, values.imageUrl, values.title, values.author, values.finishedOn, values.pageCount, values.summary);
         book.id = this.state.book.id;
-        this.props.updateBook(book, this.props.token);
+        this.props.updateBook(book, token);
     }
 
     validImage(image) {
@@ -234,9 +236,7 @@ const mapStateToProps = state => ({
     books: state.books.items,
     book: state.books.item,
     categories: state.categories.items,
-    ratings: state.ratings.items,
-    token: state.user.token,
-    user: state.user.user
+    ratings: state.ratings.items
 });
 
 export default connect(mapStateToProps, {updateBook, fetchBooks, fetchCategories, fetchRatings})(UpdateBook);

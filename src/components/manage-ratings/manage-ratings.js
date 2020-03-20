@@ -71,7 +71,9 @@ class ManageRatings extends React.Component {
         this.setState({
             submitting: true
         });
-        this.props.removeRating(this.state.selectedRatingId, this.props.token);
+
+        var token = localStorage.getItem('token');
+        this.props.removeRating(this.state.selectedRatingId, token);
     }
 
     render() {
@@ -161,8 +163,7 @@ class ManageRatings extends React.Component {
 
 const mapStateToProps = state => ({
     ratings: state.ratings.items,
-    removedRating: state.ratings.item,
-    token: state.user.token
+    removedRating: state.ratings.item
 });
 
 export default connect(mapStateToProps, {fetchRatings, removeRating})(ManageRatings);

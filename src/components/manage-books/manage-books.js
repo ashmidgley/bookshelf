@@ -70,8 +70,12 @@ class ManageBooks extends React.Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.setState({submitting: true});
-        this.props.removeBook(this.state.selectedBookId, this.props.token);
+        this.setState({
+            submitting: true
+        });
+
+        var token = localStorage.getItem('token');
+        this.props.removeBook(this.state.selectedBookId, token);
     }
 
     render() {
@@ -175,8 +179,7 @@ const mapStateToProps = state => ({
     books: state.books.items,
     categories: state.categories.items,
     ratings: state.ratings.items,
-    removedBook: state.books.item,
-    token: state.user.token
+    removedBook: state.books.item
 });
 
 export default connect(mapStateToProps, {fetchBooks, fetchCategories, fetchRatings, removeBook})(ManageBooks);

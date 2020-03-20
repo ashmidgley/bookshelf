@@ -32,7 +32,6 @@ class CategoryForm extends React.Component {
                 loading: false
             })
         }
-
         window.scrollTo(0, 0);
     }
 
@@ -63,12 +62,16 @@ class CategoryForm extends React.Component {
             submitting: true,
             success: false
         });
-        var category = new Category(this.props.user.id, values.description, values.code);
+
+        var token = localStorage.getItem('token');
+        var userId = parseInt(localStorage.getItem('userId'));
+        var category = new Category(userId, values.description, values.code);
+        
         if(!this.props.match.params.id) {
-            this.props.createCategory(category, this.props.token);
+            this.props.createCategory(category, token);
         } else {
             category.id = this.state.category.id;
-            this.props.updateCategory(category, this.props.token);
+            this.props.updateCategory(category, token);
         }
     }
 
@@ -142,9 +145,7 @@ class CategoryForm extends React.Component {
 
 const mapStateToProps = state => ({
     categories: state.categories.items,
-    category: state.categories.item,
-    token: state.user.token,
-    user: state.user.user
+    category: state.categories.item
 });
 
 export default connect(mapStateToProps, {createCategory, updateCategory, fetchCategories})(CategoryForm);

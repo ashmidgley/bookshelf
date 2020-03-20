@@ -71,7 +71,9 @@ class ManageCategories extends React.Component {
         this.setState({
             submitting: true
         });
-        this.props.removeCategory(this.state.selectedCategoryId, this.props.token);
+
+        var token = localStorage.getItem('token');
+        this.props.removeCategory(this.state.selectedCategoryId, token);
     }
 
     render() {
@@ -161,8 +163,7 @@ class ManageCategories extends React.Component {
 
 const mapStateToProps = state => ({
     categories: state.categories.items,
-    removedCategory: state.categories.item,
-    token: state.user.token
+    removedCategory: state.categories.item
 });
 
 export default connect(mapStateToProps, {fetchCategories, removeCategory})(ManageCategories);
