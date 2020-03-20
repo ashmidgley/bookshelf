@@ -32,7 +32,6 @@ class AddBook extends React.Component {
                 loading: false
             });
         }
-
         window.scrollTo(0, 0);
     }
 
@@ -60,9 +59,11 @@ class AddBook extends React.Component {
             success: false
         });
 
-        var newBook = new NewBook(values.title, values.author, this.props.user.id, values.categoryId, values.ratingId, values.finishedOn);
+        var userId = parseInt(localStorage.getItem('userId'));
+        var token = localStorage.getItem('token');
+        var newBook = new NewBook(values.title, values.author, userId, values.categoryId, values.ratingId, values.finishedOn);
 
-        this.props.createBook(newBook, this.props.token);
+        this.props.createBook(newBook, token);
     }
 
     render() {
@@ -73,7 +74,7 @@ class AddBook extends React.Component {
         }
         
         return (
-            <div className="column is-8 is-offset-2 book-form-container"> 
+            <div className="column is-8 is-offset-2 form-container"> 
                 <div className="card custom-card">
                     <div className="card-content">
                     <div className="media">
@@ -81,10 +82,9 @@ class AddBook extends React.Component {
                             <FontAwesomeIcon icon={faPlus} className="plus-icon" size="lg"/>
                         </div>
                     </div>
-                    {this.state.success ? 
+                    {
+                        this.state.success && 
                         <div className="notification is-primary">Successfully created entry.</div>
-                        : 
-                        null
                     }
                     <Formik
                         initialValues=
@@ -170,9 +170,7 @@ const mapStateToProps = state => ({
     books: state.books.items,
     book: state.books.item,
     categories: state.categories.items,
-    ratings: state.ratings.items,
-    token: state.user.token,
-    user: state.user.user
+    ratings: state.ratings.items
 });
 
 export default connect(mapStateToProps, {createBook, fetchBooks, fetchCategories, fetchRatings})(AddBook);

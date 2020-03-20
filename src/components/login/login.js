@@ -5,6 +5,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { validateEmail, validatePasswordLength } from '../../verifier'; 
 import { login, clearUser } from '../../actions/userActions';
 
 class Login extends React.Component {
@@ -26,7 +27,9 @@ class Login extends React.Component {
             return;
         }
         if(nextProps.token && nextProps.user) {
-            this.setState({ submitting: false });
+            this.setState({
+                submitting: false
+            });
             this.props.history.push(`/shelf/${nextProps.user.id}`);
         }
     }
@@ -37,6 +40,7 @@ class Login extends React.Component {
             incorrectCredentials: false,
             submitting: true
         });
+
         var login = new LoginDto(values.email, values.password);
         this.props.login(login);
     }
@@ -68,8 +72,12 @@ class Login extends React.Component {
                                             }
                                             validate={values => {
                                                 let errors = {};
+                                                if(!validateEmail(values.email))
+                                                    errors.email = 'Incorrect email format';
                                                 if (!values.email)
                                                     errors.email = 'Required';
+                                                if(!validatePasswordLength(values.password))
+                                                    errors.password = 'Password must be at least 5 characters long';
                                                 if(!values.password)
                                                     errors.password = 'Required';
                                                 return errors;
@@ -91,12 +99,11 @@ class Login extends React.Component {
                                                             <input className={errors.password && touched.password ? 'input is-danger' : 'input'} type="password" name="password" onChange={handleChange} onBlur={handleBlur} value={values.password} />
                                                         </div>
                                                     </div>
-                                                    {this.state.incorrectCredentials ?
-                                                        <div className="notification is-danger">
+                                                    {
+                                                        this.state.incorrectCredentials &&
+                                                        <div className="notification is-danger custom-notification">
                                                             {this.props.incorrectCredentials}
                                                         </div>
-                                                        :
-                                                        null
                                                     }
                                                     <hr />
                                                     <div className="field is-grouped">

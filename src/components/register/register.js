@@ -5,6 +5,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { validateEmail, validatePasswordLength } from '../../verifier';
 import { register, clearUser } from '../../actions/userActions';
 
 class Register extends React.Component {
@@ -71,8 +72,12 @@ class Register extends React.Component {
                                             }
                                             validate={values => {
                                                 let errors = {};
+                                                if(!validateEmail(values.email)) 
+                                                    errors.email = 'Incorrect email format';
                                                 if (!values.email)
                                                     errors.email = 'Required';
+                                                if(!validatePasswordLength(values.password))
+                                                    errors.password = 'Password must be at least 5 characters long';
                                                 if(!values.password)
                                                     errors.password = 'Required';
                                                 return errors;
@@ -87,19 +92,30 @@ class Register extends React.Component {
                                                         <div className="control is-clearfix">
                                                             <input autoFocus="autofocus" className={errors.email && touched.email ? 'input is-danger' : 'input'} type="text" name="email" onChange={handleChange} onBlur={handleBlur} value={values.email} />
                                                         </div>
+                                                        {
+                                                            errors.email && touched.email &&
+                                                            <div className="has-text-danger is-size-7">
+                                                                {errors.email}
+                                                            </div>
+                                                        }
                                                     </div>
                                                     <div className="field">
                                                         <label className="label custom-label">Password</label>
                                                         <div className="control is-clearfix">
                                                             <input className={errors.password && touched.password ? 'input is-danger' : 'input'} type="password" name="password" onChange={handleChange} onBlur={handleBlur} value={values.password} />
                                                         </div>
+                                                        {
+                                                            errors.password && touched.password &&
+                                                            <div className="has-text-danger is-size-7">
+                                                                {errors.password}
+                                                            </div>
+                                                        }
                                                     </div>
-                                                    {this.state.existingEmail ?
-                                                        <div className="notification is-danger">
+                                                    {
+                                                        this.state.existingEmail &&
+                                                        <div className="notification is-danger custom-notification">
                                                             {this.props.existingEmail}
                                                         </div>
-                                                        :
-                                                        null
                                                     }
                                                     <hr />
                                                     <div className="field is-grouped">

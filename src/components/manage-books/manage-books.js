@@ -8,28 +8,24 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { customStyles } from '../../custom-modal';
 import { fetchBooks, removeBook } from '../../actions/bookActions';
-import { fetchCategories } from '../../actions/categoryActions';
-import { fetchRatings } from '../../actions/ratingActions';
 
 class ManageBooks extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
+            selectedBookId: null,
+            loading: true,
             modalIsOpen: false,
             submitting: false,
-            success: false,
-            selectedBookId: null,
-            loading: true
+            success: false
         }
     }
 
     componentDidMount() {
-        if(!this.props.books || !this.props.categories || !this.props.ratings) {
+        if(!this.props.books) {
             var id = localStorage.getItem('userId');
             this.props.fetchBooks(id);
-            this.props.fetchCategories(id);
-            this.props.fetchRatings(id);
         } else {
             this.setState({
                 loading: false
@@ -38,7 +34,7 @@ class ManageBooks extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings))
+        if(Array.isArray(nextProps.books))
             this.setState({
                 loading: false
         });
@@ -65,13 +61,19 @@ class ManageBooks extends React.Component {
     }
     
     closeModal = () => {
-        this.setState({modalIsOpen: false});
+        this.setState({
+            modalIsOpen: false
+        });
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.setState({submitting: true});
-        this.props.removeBook(this.state.selectedBookId, this.props.token);
+        this.setState({
+            submitting: true
+        });
+
+        var token = localStorage.getItem('token');
+        this.props.removeBook(this.state.selectedBookId, token);
     }
 
     render() {
@@ -107,10 +109,9 @@ class ManageBooks extends React.Component {
                             </form>
                         </Modal>
                         <h1 className="title">Books</h1>
-                        {this.state.success && this.props.books.length ? 
+                        {
+                            this.state.success && this.props.books.length &&
                             <div className="notification is-primary">Successfully removed entry.</div>
-                            :
-                            null
                         }
                         <div style={{ 'marginBottom': '25px' }}>   
                             <Link to={'/book-form'}>
@@ -128,8 +129,6 @@ class ManageBooks extends React.Component {
                                         <tr>
                                             <th>Title</th>
                                             <th>Author</th>
-                                            <th>Category</th>
-                                            <th>Rating</th>
                                             <th>Edit</th>
                                             <th>Delete</th>
                                         </tr>
@@ -139,20 +138,6 @@ class ManageBooks extends React.Component {
                                             <tr key={book.id}>
                                                 <td>{book.title}</td>
                                                 <td>{book.author}</td>
-                                                <td>
-                                                    {this.props.categories.find(c => c.id === book.categoryId)
-                                                    ? 
-                                                    this.props.categories.find(c => c.id === book.categoryId).description
-                                                    :
-                                                    '-'}
-                                                </td>
-                                                <td>
-                                                    {this.props.ratings.find(r => r.id === book.ratingId)
-                                                    ? 
-                                                    this.props.ratings.find(r => r.id === book.ratingId).description
-                                                    :
-                                                    '-'}
-                                                </td>
                                                 <td className="has-text-centered">
                                                     <Link to={'/book-form/' + book.id}><button className="button is-outlined" disabled={this.state.submitting}>Edit</button></Link>
                                                 </td>
@@ -174,10 +159,7 @@ class ManageBooks extends React.Component {
 
 const mapStateToProps = state => ({
     books: state.books.items,
-    categories: state.categories.items,
-    ratings: state.ratings.items,
-    removedBook: state.books.item,
-    token: state.user.token
+    removedBook: state.books.item
 });
 
-export default connect(mapStateToProps, {fetchBooks, fetchCategories, fetchRatings, removeBook})(ManageBooks);
+export default connect(mapStateToProps, {fetchBooks, removeBook})(ManageBooks);

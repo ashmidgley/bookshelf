@@ -101,49 +101,49 @@ class Navigation extends React.Component {
                     <div ref={this.setBurgerRef} className={this.state.mobileOptionsVisible ? "navbar-menu is-active" : "navbar-menu"} >
                       <div className="navbar-end">
                           <div id="desktop-options">
-                            {this.props.user?
-                                <div className={this.state.dropdownVisible ? "dropdown is-right is-active" : "dropdown is-right"}>
-                                  <div className="dropdown-trigger">
-                                    <button id="dropdown" onClick={this.toggleDropdown} className="button user-menu-actions">
-                                      <span id="dropdown">{this.props.user.email}</span>
-                                        <span id="dropdown" className="icon is-small">
-                                          {this.state.dropdownVisible ? 
-                                            <FontAwesomeIcon id="dropdown" icon={faAngleUp}/>
-                                            :
-                                            <FontAwesomeIcon id="dropdown" icon={faAngleDown}/>
-                                          }
-                                      </span>
-                                    </button>
-                                  </div>
-                                  <div ref={this.setDropdownRef} className="dropdown-menu">
-                                    <div className="dropdown-content">
-                                      <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to={`/shelf/${this.props.user.id}`}>
-                                        Bookshelf
-                                      </NavLink>
-                                      <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/manage-books">
-                                        Manage Books
-                                      </NavLink>
-                                      <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/manage-categories">
-                                        Manage Categories
-                                      </NavLink>
-                                      <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/manage-ratings">
-                                        Manage Ratings
-                                      </NavLink>
-                                      <hr className="dropdown-divider" />
-                                      <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/my-account">
-                                        My Account
-                                      </NavLink>
-                                      <a onClick={this.logout} href="#" className="dropdown-item">
-                                        Logout
-                                      </a>
-                                    </div>
-                                  </div>  
+                            {
+                              this.props.user &&
+                              <div className={this.state.dropdownVisible ? "dropdown is-right is-active" : "dropdown is-right"}>
+                                <div className="dropdown-trigger">
+                                  <button id="dropdown" onClick={this.toggleDropdown} className="button user-menu-actions">
+                                    <span id="dropdown">{this.props.user.email}</span>
+                                      <span id="dropdown" className="icon is-small">
+                                        {this.state.dropdownVisible ? 
+                                          <FontAwesomeIcon id="dropdown" icon={faAngleUp}/>
+                                          :
+                                          <FontAwesomeIcon id="dropdown" icon={faAngleDown}/>
+                                        }
+                                    </span>
+                                  </button>
                                 </div>
-                              :
-                              null
+                                <div ref={this.setDropdownRef} className="dropdown-menu">
+                                  <div className="dropdown-content">
+                                    <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to={`/shelf/${this.props.user.id}`}>
+                                      Bookshelf
+                                    </NavLink>
+                                    <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/manage-books">
+                                      Manage Books
+                                    </NavLink>
+                                    <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/manage-categories">
+                                      Manage Categories
+                                    </NavLink>
+                                    <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/manage-ratings">
+                                      Manage Ratings
+                                    </NavLink>
+                                    <hr className="dropdown-divider" />
+                                    <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/my-account">
+                                      My Account
+                                    </NavLink>
+                                    <a onClick={this.logout} href="#" className="dropdown-item">
+                                      Logout
+                                    </a>
+                                  </div>
+                                </div>  
+                              </div>
                             }
                           </div>
-                          {!this.props.user ?
+                          {
+                            !this.props.user &&
                             <div className="navbar-item">
                               <div className="buttons">
                                 <Link onClick={this.toggleBurger} className="button is-link" to="/register">
@@ -154,34 +154,31 @@ class Navigation extends React.Component {
                                 </Link>
                               </div>
                             </div>
-                            :
-                            null
                           }
                           <div id="mobile-options">
-                            {this.props.user && this.state.mobileOptionsVisible ?
-                                <div>
-                                  <NavLink className="navbar-item" onClick={this.toggleBurger} to={`/shelf/${this.props.user.id}`}>
-                                    Bookshelf
-                                  </NavLink>
-                                  <NavLink className="navbar-item" onClick={this.toggleBurger} to="/manage-books">
-                                    Manage Books
-                                  </NavLink>
-                                  <NavLink className="navbar-item" onClick={this.toggleBurger} to="/manage-categories">
-                                    Manage Categories
-                                  </NavLink>
-                                  <NavLink className="navbar-item" onClick={this.toggleBurger} to="/manage-ratings" >
-                                    Manage Ratings
-                                  </NavLink>
-                                  <hr className="dropdown-divider"/>
-                                  <NavLink className="navbar-item" onClick={this.toggleBurger} to="/my-account">
-                                    My Account
-                                  </NavLink>
-                                  <a onClick={this.logout} className="navbar-item" href="#">
-                                    Logout
-                                  </a>
-                              </div>
-                              :
-                              null
+                            {
+                              this.props.user && this.state.mobileOptionsVisible &&
+                              <div>
+                                <NavLink className="navbar-item" onClick={this.toggleBurger} to={`/shelf/${this.props.user.id}`}>
+                                  Bookshelf
+                                </NavLink>
+                                <NavLink className="navbar-item" onClick={this.toggleBurger} to="/manage-books">
+                                  Manage Books
+                                </NavLink>
+                                <NavLink className="navbar-item" onClick={this.toggleBurger} to="/manage-categories">
+                                  Manage Categories
+                                </NavLink>
+                                <NavLink className="navbar-item" onClick={this.toggleBurger} to="/manage-ratings" >
+                                  Manage Ratings
+                                </NavLink>
+                                <hr className="dropdown-divider"/>
+                                <NavLink className="navbar-item" onClick={this.toggleBurger} to="/my-account">
+                                  My Account
+                                </NavLink>
+                                <a onClick={this.logout} className="navbar-item" href="#">
+                                  Logout
+                                </a>
+                            </div>
                             }
                           </div>
                         </div>

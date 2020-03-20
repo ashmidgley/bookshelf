@@ -4,6 +4,7 @@ import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
+import { validatePasswordLength } from '../../verifier';
 import { updatePassword } from '../../actions/userActions';
 
 class UpdatePassword extends React.Component {
@@ -63,6 +64,8 @@ class UpdatePassword extends React.Component {
                         }
                         validate={values => {
                             let errors = {};
+                            if(!validatePasswordLength(values.password))
+                                errors.password = 'Password must be at least 5 characters long';
                             if (!values.password)
                                 errors.password = 'Required';
                             return errors;
@@ -77,6 +80,12 @@ class UpdatePassword extends React.Component {
                                     <div className="control">
                                         <input className={errors.password && touched.password ? 'input is-danger' : 'input'} type="password" name="password" placeholder="Enter password" onChange={handleChange} onBlur={handleBlur} value={values.password} />
                                     </div>
+                                    {
+                                        errors.password && touched.password &&
+                                        <div className="has-text-danger is-size-7">
+                                            {errors.password}
+                                        </div>
+                                    }
                                 </div>
                                 <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit" disabled={isSubmitting}>Update</button>
                                 <Link to="/my-account">

@@ -61,13 +61,19 @@ class ManageCategories extends React.Component {
     }
     
     closeModal = () => {
-        this.setState({modalIsOpen: false});
+        this.setState({
+            modalIsOpen: false
+        });
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.setState({submitting: true});
-        this.props.removeCategory(this.state.selectedCategoryId, this.props.token);
+        this.setState({
+            submitting: true
+        });
+
+        var token = localStorage.getItem('token');
+        this.props.removeCategory(this.state.selectedCategoryId, token);
     }
 
     render() {
@@ -100,10 +106,9 @@ class ManageCategories extends React.Component {
                         </Modal>
                         <div>
                             <h1 className="title">Categories</h1>
-                            {this.state.success && this.props.categories.length ? 
+                            {
+                                this.state.success && this.props.categories.length &&
                                 <div className="notification is-primary">Successfully removed entry.</div>
-                                :
-                                null
                             }
                             <div style={{'marginBottom': '25px'}}>
                                 <Link to={'/category-form'}>
@@ -131,10 +136,16 @@ class ManageCategories extends React.Component {
                                                     <td>{category.description}</td>
                                                     <td>{category.code}</td>
                                                     <td className="has-text-centered">
-                                                        <Link to={'/category-form/' + category.id}><button className="button is-outlined" disabled={this.state.submitting}>Edit</button></Link>
+                                                        <Link to={'/category-form/' + category.id}>
+                                                            <button className="button is-outlined" disabled={this.state.submitting}>
+                                                                Edit
+                                                            </button>
+                                                        </Link>
                                                     </td>
                                                     <td className="has-text-centered">
-                                                        <button onClick={() => this.openModal(category.id)} className="button is-outlined" disabled={this.state.submitting}>Delete</button>
+                                                        <button onClick={() => this.openModal(category.id)} className="button is-outlined" disabled={this.state.submitting}>
+                                                            Delete
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             )}
@@ -152,8 +163,7 @@ class ManageCategories extends React.Component {
 
 const mapStateToProps = state => ({
     categories: state.categories.items,
-    removedCategory: state.categories.item,
-    token: state.user.token
+    removedCategory: state.categories.item
 });
 
 export default connect(mapStateToProps, {fetchCategories, removeCategory})(ManageCategories);

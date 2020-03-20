@@ -71,9 +71,11 @@ class UpdateBook extends React.Component {
             success: false
         });
 
-        var book = new Book(this.props.user.id, values.categoryId, values.ratingId, values.imageUrl, values.title, values.author, values.finishedOn, values.pageCount, values.summary);
+        var token = localStorage.getItem('token');
+        var userId = parseInt(localStorage.getItem('userId'))
+        var book = new Book(userId, values.categoryId, values.ratingId, values.imageUrl, values.title, values.author, values.finishedOn, values.pageCount, values.summary);
         book.id = this.state.book.id;
-        this.props.updateBook(book, this.props.token);
+        this.props.updateBook(book, token);
     }
 
     validImage(image) {
@@ -106,10 +108,9 @@ class UpdateBook extends React.Component {
                             <FontAwesomeIcon icon={faPlus} className="plus-icon" size="lg"/>
                         </div>
                     </div>
-                    {this.state.success ? 
+                    {
+                        this.state.success &&
                         <div className="notification is-primary">Successfully updated entry.</div>
-                        : 
-                        null
                     }
                     <Formik
                         initialValues=
@@ -157,12 +158,11 @@ class UpdateBook extends React.Component {
                                     <div className="control">
                                         <input className={errors.imageUrl && touched.imageUrl ? 'input is-danger' : 'input'} type="text" name="imageUrl" placeholder="Enter image URL" onChange={handleChange} onBlur={handleBlur} value={values.imageUrl} />
                                     </div>
-                                    {errors.imageUrl === 'Invalid format' ? 
+                                    {
+                                        errors.imageUrl === 'Invalid format' &&
                                         <div className="help is-danger">
                                             Invalid image format. Please use a png, jpg or jpeg.
                                         </div>
-                                        :
-                                        null
                                     }
                                 </div>
                                 <div className="has-text-centered">
@@ -236,9 +236,7 @@ const mapStateToProps = state => ({
     books: state.books.items,
     book: state.books.item,
     categories: state.categories.items,
-    ratings: state.ratings.items,
-    token: state.user.token,
-    user: state.user.user
+    ratings: state.ratings.items
 });
 
 export default connect(mapStateToProps, {updateBook, fetchBooks, fetchCategories, fetchRatings})(UpdateBook);

@@ -6,6 +6,7 @@ import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { validateEmail } from '../../verifier';
 import { fetchUsers, updateUser } from '../../actions/userActions';
 
 class UpdateUser extends React.Component {
@@ -84,6 +85,8 @@ class UpdateUser extends React.Component {
                         }
                         validate={values => {
                             let errors = {};
+                            if(!validateEmail(values.email))
+                                errors.email = 'Incorrect email format';
                             if (!values.email)
                                 errors.email = 'Required';
                             return errors;
@@ -104,6 +107,12 @@ class UpdateUser extends React.Component {
                                     <div className="control">
                                         <input className={errors.email && touched.email ? 'input is-danger' : 'input'} type="text" name="email" placeholder="Enter email" onChange={handleChange} onBlur={handleBlur} value={values.email} />
                                     </div>
+                                    {
+                                        errors.email && touched.email &&
+                                        <div className="has-text-danger is-size-7">
+                                            {errors.email}
+                                        </div>
+                                    }
                                 </div>
                                 <div className="field">
                                     <label className="label">Admin</label>
