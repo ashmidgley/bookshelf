@@ -5,6 +5,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
+import { validateEmail, validatePasswordLength } from '../../verifier'; 
 import { login, clearUser } from '../../actions/userActions';
 
 class Login extends React.Component {
@@ -73,8 +74,12 @@ class Login extends React.Component {
                                                 let errors = {};
                                                 if (!values.email)
                                                     errors.email = 'Required';
+                                                if(!validateEmail(values.email)) 
+                                                    errors.email = 'Incorrect email format';
                                                 if(!values.password)
                                                     errors.password = 'Required';
+                                                if(!validatePasswordLength(values.password))
+                                                    errors.password = 'Password must be at least 5 characters long';
                                                 return errors;
                                             }}
                                             onSubmit={(values, { setSubmitting }) => {
