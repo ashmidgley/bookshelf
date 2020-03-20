@@ -120,7 +120,9 @@ class ManageUsers extends React.Component {
                                                 <td>{user.email}</td>
                                                 <td>{user.isAdmin.toString()}</td>
                                                 <td className="has-text-centered">
-                                                    <Link to={`/admin/manage-users/${user.id}`} className="button">Edit</Link>
+                                                    <Link to={`/admin/manage-users/${user.id}`} className="button">
+                                                        Edit
+                                                    </Link>
                                                 </td>
                                                 <td className="has-text-centered">
                                                     <button onClick={() => this.openModal(user.id)} className="button">

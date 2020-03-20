@@ -94,12 +94,11 @@ class Register extends React.Component {
                                                             <input className={errors.password && touched.password ? 'input is-danger' : 'input'} type="password" name="password" onChange={handleChange} onBlur={handleBlur} value={values.password} />
                                                         </div>
                                                     </div>
-                                                    {this.state.existingEmail ?
+                                                    {
+                                                        this.state.existingEmail &&
                                                         <div className="notification is-danger">
                                                             {this.props.existingEmail}
                                                         </div>
-                                                        :
-                                                        null
                                                     }
                                                     <hr />
                                                     <div className="field is-grouped">

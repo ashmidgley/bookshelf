@@ -61,12 +61,16 @@ class ManageRatings extends React.Component {
     }
     
     closeModal = () => {
-        this.setState({modalIsOpen: false});
+        this.setState({
+            modalIsOpen: false
+        });
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.setState({submitting: true});
+        this.setState({
+            submitting: true
+        });
         this.props.removeRating(this.state.selectedRatingId, this.props.token);
     }
 
@@ -100,10 +104,9 @@ class ManageRatings extends React.Component {
                         </Modal>
                         <div>
                             <h1 className="title">Ratings</h1>
-                            {this.state.success && this.props.ratings.length ? 
+                            {
+                                this.state.success && this.props.ratings.length &&
                                 <div className="notification is-primary">Successfully removed entry.</div>
-                                :
-                                null
                             }
                             <div style={{'marginBottom': '25px'}}>
                                 <Link to={'/rating-form'}>
@@ -131,10 +134,16 @@ class ManageRatings extends React.Component {
                                                     <td>{rating.description}</td>
                                                     <td>{rating.code}</td>
                                                     <td className="has-text-centered">
-                                                        <Link to={'/rating-form/' + rating.id}><button className="button is-outlined" disabled={this.state.submitting}>Edit</button></Link>
+                                                        <Link to={'/rating-form/' + rating.id}>
+                                                            <button className="button is-outlined" disabled={this.state.submitting}>
+                                                                Edit
+                                                            </button>
+                                                        </Link>
                                                     </td>
                                                     <td className="has-text-centered">
-                                                        <button onClick={() => this.openModal(rating.id)} className="button is-outlined" disabled={this.state.submitting}>Delete</button>
+                                                        <button onClick={() => this.openModal(rating.id)} className="button is-outlined" disabled={this.state.submitting}>
+                                                            Delete
+                                                        </button>
                                                     </td>
                                                 </tr>
                                             )}

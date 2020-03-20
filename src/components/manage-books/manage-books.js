@@ -107,10 +107,9 @@ class ManageBooks extends React.Component {
                             </form>
                         </Modal>
                         <h1 className="title">Books</h1>
-                        {this.state.success && this.props.books.length ? 
+                        {
+                            this.state.success && this.props.books.length &&
                             <div className="notification is-primary">Successfully removed entry.</div>
-                            :
-                            null
                         }
                         <div style={{ 'marginBottom': '25px' }}>   
                             <Link to={'/book-form'}>

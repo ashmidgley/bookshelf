@@ -81,10 +81,9 @@ class AddBook extends React.Component {
                             <FontAwesomeIcon icon={faPlus} className="plus-icon" size="lg"/>
                         </div>
                     </div>
-                    {this.state.success ? 
+                    {
+                        this.state.success && 
                         <div className="notification is-primary">Successfully created entry.</div>
-                        : 
-                        null
                     }
                     <Formik
                         initialValues=

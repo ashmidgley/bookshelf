@@ -105,7 +105,7 @@ class MyAccount extends React.Component {
                                 <label className="label">Delete My Account</label>
                                 <div>
                                     <Link to="/delete-account" className="button">
-                                        <span role="img" aria-label="Stick of dynamite">🧨</span>
+                                        <span role="img" aria-label="Dynamite">🧨</span>
                                     </Link>
                                 </div>
                             </div>

@@ -76,7 +76,8 @@ class Review extends React.Component {
                     </div>
                     <div id="review-content" className="has-text-centered">
                         <hr />
-                        {this.state.paragraphs ? this.state.paragraphs.map(paragraph =>
+                        {this.state.paragraphs ? 
+                            this.state.paragraphs.map(paragraph =>
                                 <p className="summary-text">{paragraph}</p>
                             )
                             :
@@ -90,11 +91,11 @@ class Review extends React.Component {
                                 <div>
                                     <p className="heading">Category</p>
                                     <p className="review-subtitle">
-                                        {this.props.categories.find(c => c.id === this.state.book.categoryId)
-                                        ?
-                                        this.props.categories.find(c => c.id === this.state.book.categoryId).code
-                                        :
-                                        '-'}
+                                        {this.props.categories.find(c => c.id === this.state.book.categoryId) ?
+                                            this.props.categories.find(c => c.id === this.state.book.categoryId).code
+                                            :
+                                            '-'
+                                        }
                                     </p>
                                 </div>
                             </div>
@@ -108,8 +109,12 @@ class Review extends React.Component {
                                 <div> 
                                     <p className="heading">Rating</p>
                                     <p className="review-subtitle">
-                                    {this.props.ratings.find(r => r.id === this.state.book.ratingId) ? 
-                                    this.props.ratings.find(r => r.id === this.state.book.ratingId).code : "-"}</p>
+                                        {this.props.ratings.find(r => r.id === this.state.book.ratingId) ? 
+                                            this.props.ratings.find(r => r.id === this.state.book.ratingId).code 
+                                            : 
+                                            '-'
+                                        }
+                                    </p>
                                 </div>
                             </div>
                         </nav>

@@ -88,10 +88,9 @@ class RatingForm extends React.Component {
                             <FontAwesomeIcon icon={faPlus} className="plus-icon" size="lg"/>
                         </div>
                     </div>
-                    {this.state.success ? 
+                    {
+                        this.state.success &&
                         <div className="notification is-primary">Successfully {this.state.action.toLowerCase()}d entry.</div>
-                        : 
-                        null
                     }
                     <Formik
                         initialValues=

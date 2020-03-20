@@ -26,7 +26,9 @@ class Login extends React.Component {
             return;
         }
         if(nextProps.token && nextProps.user) {
-            this.setState({ submitting: false });
+            this.setState({
+                submitting: false
+            });
             this.props.history.push(`/shelf/${nextProps.user.id}`);
         }
     }
@@ -37,6 +39,7 @@ class Login extends React.Component {
             incorrectCredentials: false,
             submitting: true
         });
+
         var login = new LoginDto(values.email, values.password);
         this.props.login(login);
     }
@@ -91,12 +94,11 @@ class Login extends React.Component {
                                                             <input className={errors.password && touched.password ? 'input is-danger' : 'input'} type="password" name="password" onChange={handleChange} onBlur={handleBlur} value={values.password} />
                                                         </div>
                                                     </div>
-                                                    {this.state.incorrectCredentials ?
+                                                    {
+                                                        this.state.incorrectCredentials &&
                                                         <div className="notification is-danger">
                                                             {this.props.incorrectCredentials}
                                                         </div>
-                                                        :
-                                                        null
                                                     }
                                                     <hr />
                                                     <div className="field is-grouped">

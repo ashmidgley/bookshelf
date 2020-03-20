@@ -106,10 +106,9 @@ class UpdateBook extends React.Component {
                             <FontAwesomeIcon icon={faPlus} className="plus-icon" size="lg"/>
                         </div>
                     </div>
-                    {this.state.success ? 
+                    {
+                        this.state.success &&
                         <div className="notification is-primary">Successfully updated entry.</div>
-                        : 
-                        null
                     }
                     <Formik
                         initialValues=
@@ -157,12 +156,11 @@ class UpdateBook extends React.Component {
                                     <div className="control">
                                         <input className={errors.imageUrl && touched.imageUrl ? 'input is-danger' : 'input'} type="text" name="imageUrl" placeholder="Enter image URL" onChange={handleChange} onBlur={handleBlur} value={values.imageUrl} />
                                     </div>
-                                    {errors.imageUrl === 'Invalid format' ? 
+                                    {
+                                        errors.imageUrl === 'Invalid format' &&
                                         <div className="help is-danger">
                                             Invalid image format. Please use a png, jpg or jpeg.
                                         </div>
-                                        :
-                                        null
                                     }
                                 </div>
                                 <div className="has-text-centered">

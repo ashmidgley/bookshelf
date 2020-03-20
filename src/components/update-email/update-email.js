@@ -27,7 +27,6 @@ class UpdateEmail extends React.Component {
             };
 
             this.props.setUser(data);
-
             this.setState({
                 submitting: false,
                 success: true
