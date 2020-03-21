@@ -157,6 +157,35 @@ export const deleteUser = (userId, token) => dispatch => {
     });
 }
 
+export const resetTokenValid = (userId, token) => {
+  var url = `${usersUrl}/reset-token-valid/${userId}/${token}`;
+  axios.get(url)
+    .then(response => {
+      return response.data;
+    })
+    .catch(error => {
+      console.error(error);
+    });
+    return false;
+}
+
+export const updatePasswordUsingToken = (data) => dispatch => {
+  axios.put(`${usersUrl}/password/token`, data)
+    .then(response => {
+      dispatch({
+        type: UPDATE_PASSWORD,
+        payload: response.data
+      })
+    })
+    .catch(error => {
+      console.error(error);
+      dispatch({
+        type: UPDATE_PASSWORD,
+        error: error.message
+      })
+    });
+}
+
 function createPayload(response) {
   var token = response.data.token;
   var payload = parseJwt(response.data.token);

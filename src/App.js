@@ -27,6 +27,7 @@ import UpdateEmail from './components/update-email/update-email';
 import UpdatePassword from './components/update-password/update-password';
 import DeleteAccount from './components/delete-account/delete-account';
 import ForgotPassword from './components/forgot-password/forgot-password';
+import ResetPassword from './components/reset-password/reset-password';
 
 class App extends React.Component {
 
@@ -104,6 +105,7 @@ class App extends React.Component {
                     <Route exact path="/" component={Home} />
                     <Route exact path="/login" component={Login} />
                     <Route exact path="/forgot-password" component={ForgotPassword} />
+                    <Route exact path="/reset-password/:userId/:resetToken" component={ResetPassword} />
                     <Route exact path="/register" component={Register} />
                     <Route exact path="/shelf/:id" component={Shelf} />
                     <Route exact path="/review/:id" component={Review} />
