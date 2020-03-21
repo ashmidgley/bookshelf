@@ -94,19 +94,19 @@ class Register extends React.Component {
                                                         </div>
                                                         {
                                                             errors.email && touched.email &&
-                                                            <div className="has-text-danger is-size-7">
+                                                            <div className="has-text-danger is-size-7 custom-validation">
                                                                 {errors.email}
                                                             </div>
                                                         }
                                                     </div>
-                                                    <div className="field">
+                                                    <div id="password-field" className="field">
                                                         <label className="label custom-label">Password</label>
                                                         <div className="control is-clearfix">
                                                             <input className={errors.password && touched.password ? 'input is-danger' : 'input'} type="password" name="password" onChange={handleChange} onBlur={handleBlur} value={values.password} />
                                                         </div>
                                                         {
                                                             errors.password && touched.password &&
-                                                            <div className="has-text-danger is-size-7">
+                                                            <div className="has-text-danger is-size-7 custom-validation">
                                                                 {errors.password}
                                                             </div>
                                                         }

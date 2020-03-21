@@ -105,4 +105,12 @@
   .custom-notification {
     line-height: initial;
   }
+
+  .custom-validation {
+    margin-top: 10px;
+  }
+
+  #password-field {
+    margin-top: 30px;
+  }
 }

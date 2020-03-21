@@ -93,7 +93,7 @@ class Login extends React.Component {
                                                             <input autoFocus="autofocus" className={errors.email && touched.email ? 'input is-danger' : 'input'} type="text" name="email" onChange={handleChange} onBlur={handleBlur} value={values.email} />
                                                         </div>
                                                     </div>
-                                                    <div className="field">
+                                                    <div id="password-field" className="field">
                                                         <label className="label custom-label">Password</label>
                                                         <div className="control is-clearfix">
                                                             <input className={errors.password && touched.password ? 'input is-danger' : 'input'} type="password" name="password" onChange={handleChange} onBlur={handleBlur} value={values.password} />
