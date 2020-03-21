@@ -105,6 +105,9 @@ class Login extends React.Component {
                                                             {this.props.incorrectCredentials}
                                                         </div>
                                                     }
+                                                    <div id="forgot-password">
+                                                        <Link to="/forgot-password">Forgotten password?</Link>
+                                                    </div>
                                                     <hr />
                                                     <div className="field is-grouped">
                                                         <div className="control">

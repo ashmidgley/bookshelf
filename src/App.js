@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -26,8 +26,9 @@ import MyAccount from './components/my-account/my-account';
 import UpdateEmail from './components/update-email/update-email';
 import UpdatePassword from './components/update-password/update-password';
 import DeleteAccount from './components/delete-account/delete-account';
+import ForgotPassword from './components/forgot-password/forgot-password';
 
-class App extends Component {
+class App extends React.Component {
 
   constructor(props) {
     super(props);
@@ -102,6 +103,7 @@ class App extends Component {
                   <Switch>
                     <Route exact path="/" component={Home} />
                     <Route exact path="/login" component={Login} />
+                    <Route exact path="/forgot-password" component={ForgotPassword} />
                     <Route exact path="/register" component={Register} />
                     <Route exact path="/shelf/:id" component={Shelf} />
                     <Route exact path="/review/:id" component={Review} />

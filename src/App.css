@@ -74,6 +74,10 @@
   padding-bottom: 20px;
 }
 
+#forgot-password {
+  margin-top: 20px;
+}
+
 @keyframes fadeIn {
   from { 
       opacity: 0; 
