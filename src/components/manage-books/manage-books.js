@@ -129,8 +129,8 @@ class ManageBooks extends React.Component {
                                         <tr>
                                             <th>Title</th>
                                             <th>Author</th>
-                                            <th>Edit</th>
-                                            <th>Delete</th>
+                                            <th></th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
