@@ -56,7 +56,7 @@ class MyAccount extends React.Component {
                         <form className="form">
                             <div className="field">
                                 <label className="label">Email</label>
-                                <div className="columns">
+                                <div className="columns is-mobile">
                                     <div className="column">
                                         <div className="control">
                                             <input className='input' type="text" value={this.state.email} readOnly />
@@ -69,7 +69,7 @@ class MyAccount extends React.Component {
                             </div>
                             <div className="field">
                                 <label className="label">Password</label>
-                                <div className="columns">
+                                <div className="columns is-mobile">
                                     <div className="column">
                                         <div className="control">
                                             <input className='input' type="password" value="placeholder" readOnly />
@@ -82,7 +82,7 @@ class MyAccount extends React.Component {
                             </div>
                             <div className="field">
                                 <label className="label">Share Shelf</label>
-                                <div className="columns" style={{'marginBottom': '0'}}>
+                                <div className="columns is-mobile" style={{'marginBottom': '0'}}>
                                     <div className="column">
                                         <div className="control">
                                             <input 
