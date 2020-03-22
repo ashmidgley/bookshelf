@@ -2,10 +2,10 @@ import { LOGIN, REGISTER } from './types';
 import { persistToken, createUserPayload } from '../helpers/action-helper';
 import axios from 'axios';
 
-let usersUrl = process.env.REACT_APP_API_URL + '/users';
+let authUrl = process.env.REACT_APP_API_URL + '/auth';
 
 export const login = (login) => dispatch => {
-    axios.post(`${usersUrl}/login`, login)
+    axios.post(`${authUrl}/login`, login)
         .then(response => {
             var payload = response.data;
             if(response.data.token) {
@@ -27,7 +27,7 @@ export const login = (login) => dispatch => {
 };
   
 export const register = (register) => dispatch => {
-    axios.post(`${usersUrl}/register`, register)
+    axios.post(`${authUrl}/register`, register)
         .then(response => {
             var payload = response.data;
             if(response.data.token) {
@@ -49,7 +49,7 @@ export const register = (register) => dispatch => {
 };
 
 export const resetTokenValid = (userId, token) => {
-    var url = `${usersUrl}/reset-token-valid/${userId}/${token}`;
+    var url = `${authUrl}/reset-token-valid/${userId}/${token}`;
     axios.get(url)
         .then(response => {
             return response.data;
