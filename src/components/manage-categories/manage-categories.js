@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
-import { customStyles } from '../../custom-modal';
+import { customStyles } from '../../helpers/custom-modal';
 import { fetchCategories, removeCategory } from '../../actions/categoryActions';
 
 class ManageCategories extends React.Component {

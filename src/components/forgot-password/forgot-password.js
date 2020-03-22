@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
-import { validateEmail } from '../../verifier';
+import { validateEmail } from '../../helpers/field-validator';
 
 class ForgotPassword extends React.Component {
 

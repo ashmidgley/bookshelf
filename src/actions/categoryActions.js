@@ -1,4 +1,5 @@
 import { FETCH_CATEGORIES, NEW_CATEGORY, UPDATE_CATEGORY, REMOVE_CATEGORY, CLEAR_CATEGORIES } from './types';
+import { createConfig } from '../helpers/action-helper';
 import axios from 'axios';
 
 let url = process.env.REACT_APP_API_URL + '/categories';
@@ -78,13 +79,4 @@ export const clearCategories = () => dispatch => {
   dispatch({
     type: CLEAR_CATEGORIES
   })
-}
-
-function createConfig(token) {
-  var config = {
-    headers: {
-      'Authorization': 'Bearer ' + token
-    }
-  };
-  return config;
 }

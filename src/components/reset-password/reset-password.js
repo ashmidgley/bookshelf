@@ -5,8 +5,9 @@ import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
-import { validatePasswordLength } from '../../verifier';
-import { updatePasswordUsingToken, resetTokenValid } from '../../actions/userActions';
+import { validatePasswordLength } from '../../helpers/field-validator';
+import { resetTokenValid } from '../../actions/authActions';
+import { updatePasswordUsingToken } from '../../actions/userActions';
 
 class ResetPassword extends React.Component {
 

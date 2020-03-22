@@ -1,4 +1,5 @@
 import { FETCH_RATINGS, NEW_RATING, UPDATE_RATING, REMOVE_RATING, CLEAR_RATINGS } from './types';
+import { createConfig } from '../helpers/action-helper';
 import axios from 'axios';
 
 let url = process.env.REACT_APP_API_URL + '/ratings';
@@ -78,13 +79,4 @@ export const clearRatings = () => dispatch => {
   dispatch({
     type: CLEAR_RATINGS
   })
-}
-
-function createConfig(token) {
-  var config = {
-    headers: {
-      'Authorization': 'Bearer ' + token
-    }
-  };
-  return config;
 }

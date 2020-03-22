@@ -6,7 +6,7 @@ import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { validateEmail } from '../../verifier';
+import { validateEmail } from '../../helpers/field-validator';
 import { fetchUsers, updateUser } from '../../actions/userActions';
 
 class UpdateUser extends React.Component {

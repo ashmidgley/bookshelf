@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
-import { customStyles } from '../../custom-modal';
+import { customStyles } from '../../helpers/custom-modal';
 import { fetchUsers, deleteUser } from '../../actions/userActions';
 
 class ManageUsers extends React.Component {

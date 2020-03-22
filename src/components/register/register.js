@@ -5,8 +5,9 @@ import { withRouter, Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
-import { validateEmail, validatePasswordLength } from '../../verifier';
-import { register, clearUser } from '../../actions/userActions';
+import { validateEmail, validatePasswordLength } from '../../helpers/field-validator';
+import { register } from '../../actions/authActions';
+import { clearUser } from '../../actions/userActions';
 
 class Register extends React.Component {
 

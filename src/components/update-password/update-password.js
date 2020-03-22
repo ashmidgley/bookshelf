@@ -4,7 +4,7 @@ import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
-import { validatePasswordLength } from '../../verifier';
+import { validatePasswordLength } from '../../helpers/field-validator';
 import { updatePassword } from '../../actions/userActions';
 
 class UpdatePassword extends React.Component {
