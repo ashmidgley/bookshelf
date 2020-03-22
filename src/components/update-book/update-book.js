@@ -7,9 +7,9 @@ import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { updateBook, fetchBooks } from '../../actions/bookActions';
-import { fetchCategories } from '../../actions/categoryActions';
-import { fetchRatings } from '../../actions/ratingActions';
+import { updateBook, fetchBooks } from '../../actions/book-actions';
+import { fetchCategories } from '../../actions/category-actions';
+import { fetchRatings } from '../../actions/rating-actions';
 
 class UpdateBook extends React.Component {
     tempImage = 'https://bulma.io/images/placeholders/96x96.png';

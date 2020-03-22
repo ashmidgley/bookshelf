@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { customStyles } from '../../helpers/custom-modal';
-import { fetchBooks, removeBook } from '../../actions/bookActions';
+import { fetchBooks, removeBook } from '../../actions/book-actions';
 
 class ManageBooks extends React.Component {
 

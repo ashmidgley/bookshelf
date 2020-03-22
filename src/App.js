@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { setUser, clearUser } from './actions/userActions';
+import { setUser, clearUser } from './actions/user-actions';
 
 import Home from './components/home/home';
 import Shelf from './components/shelf/shelf';

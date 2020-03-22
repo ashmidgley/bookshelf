@@ -5,7 +5,7 @@ import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { createRating, updateRating, fetchRatings } from '../../actions/ratingActions';
+import { createRating, updateRating, fetchRatings } from '../../actions/rating-actions';
 
 class RatingForm extends React.Component {
 

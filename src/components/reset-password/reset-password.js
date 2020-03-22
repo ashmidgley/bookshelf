@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
 import { validatePasswordLength } from '../../helpers/field-validator';
-import { resetTokenValid } from '../../actions/authActions';
-import { updatePasswordUsingToken } from '../../actions/userActions';
+import { resetTokenValid } from '../../actions/auth-actions';
+import { updatePasswordUsingToken } from '../../actions/user-actions';
 
 class ResetPassword extends React.Component {
 

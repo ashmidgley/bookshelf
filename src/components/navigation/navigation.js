@@ -4,10 +4,10 @@ import { withRouter, NavLink, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
-import { clearUser } from '../../actions/userActions';
-import { clearBooks } from '../../actions/bookActions';
-import { clearCategories } from '../../actions/categoryActions';
-import { clearRatings } from '../../actions/ratingActions';
+import { clearUser } from '../../actions/user-actions';
+import { clearBooks } from '../../actions/book-actions';
+import { clearCategories } from '../../actions/category-actions';
+import { clearRatings } from '../../actions/rating-actions';
 
 class Navigation extends React.Component {
 

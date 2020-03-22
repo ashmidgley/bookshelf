@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { validateEmail } from '../../helpers/field-validator';
-import { fetchUsers, updateUser } from '../../actions/userActions';
+import { fetchUsers, updateUser } from '../../actions/user-actions';
 
 class UpdateUser extends React.Component {
     

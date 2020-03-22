@@ -7,7 +7,7 @@ import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { customStyles } from '../../helpers/custom-modal';
-import { fetchRatings, removeRating } from '../../actions/ratingActions';
+import { fetchRatings, removeRating } from '../../actions/rating-actions';
 
 class ManageRatings extends React.Component {
 

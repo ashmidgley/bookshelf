@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import bookReducer from './bookReducer';
-import categoryReducer from './categoryReducer';
-import ratingReducer from './ratingReducer';
-import userReducer from './userReducer';
+import bookReducer from './book-reducer';
+import categoryReducer from './category-reducer';
+import ratingReducer from './rating-reducer';
+import userReducer from './user-reducer';
 
 export default combineReducers({
   books: bookReducer,

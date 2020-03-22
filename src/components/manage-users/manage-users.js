@@ -2,12 +2,12 @@ import React from 'react';
 import Modal from 'react-modal';
 import Loading from '../loading/loading';
 import { connect } from 'react-redux';
-import { Helmet } from "react-helmet";
+import { Helmet } from 'react-helmet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { customStyles } from '../../helpers/custom-modal';
-import { fetchUsers, deleteUser } from '../../actions/userActions';
+import { fetchUsers, deleteUser } from '../../actions/user-actions';
 
 class ManageUsers extends React.Component {
 

@@ -5,8 +5,8 @@ import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { validateEmail, validatePasswordLength } from '../../helpers/field-validator';
-import { login } from '../../actions/authActions';
-import { clearUser } from '../../actions/userActions';
+import { login } from '../../actions/auth-actions';
+import { clearUser } from '../../actions/user-actions';
 
 class Login extends React.Component {
 

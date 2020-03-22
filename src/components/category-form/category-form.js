@@ -5,7 +5,7 @@ import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { createCategory, updateCategory, fetchCategories } from '../../actions/categoryActions';
+import { createCategory, updateCategory, fetchCategories } from '../../actions/category-actions';
 
 class CategoryForm extends React.Component {
 

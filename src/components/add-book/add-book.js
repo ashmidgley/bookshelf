@@ -5,9 +5,9 @@ import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { createBook, fetchBooks } from '../../actions/bookActions';
-import { fetchCategories } from '../../actions/categoryActions';
-import { fetchRatings } from '../../actions/ratingActions';
+import { createBook, fetchBooks } from '../../actions/book-actions';
+import { fetchCategories } from '../../actions/category-actions';
+import { fetchRatings } from '../../actions/rating-actions';
 
 class AddBook extends React.Component {
 
