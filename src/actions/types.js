@@ -22,3 +22,4 @@ export const UPDATE_USER = 'UPDATE_USER';
 export const UPDATE_EMAIL = 'UPDATE_EMAIL';
 export const UPDATE_PASSWORD = 'UPDATE_PASSWORD';
 export const DELETE_USER = 'DELETE_USER';
+export const SEND_RESET_TOKEN = 'SEND_RESET_TOKEN';

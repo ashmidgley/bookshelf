@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
-import { customStyles } from '../../custom-modal';
-import { fetchRatings, removeRating } from '../../actions/ratingActions';
+import { customStyles } from '../../helpers/custom-modal';
+import { fetchRatings, removeRating } from '../../actions/rating-actions';
 
 class ManageRatings extends React.Component {
 
@@ -126,8 +126,8 @@ class ManageRatings extends React.Component {
                                             <tr>
                                                 <th>Description</th>
                                                 <th>Code</th>
-                                                <th>Edit</th>
-                                                <th>Delete</th>
+                                                <th></th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>

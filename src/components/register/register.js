@@ -1,12 +1,12 @@
 import React from 'react';
-import LoginDto from '../../models/loginDto';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
-import { validateEmail, validatePasswordLength } from '../../verifier';
-import { register, clearUser } from '../../actions/userActions';
+import { validateEmail, validatePasswordLength } from '../../helpers/field-validator';
+import { register } from '../../actions/auth-actions';
+import { clearUser } from '../../actions/user-actions';
 
 class Register extends React.Component {
 
@@ -41,7 +41,11 @@ class Register extends React.Component {
             submitting: true
         });
 
-        var register = new LoginDto(values.email, values.password);
+        var register = {
+            email: values.email,
+            password: values.password
+        }; 
+        
         this.props.register(register);
     }
 
@@ -94,19 +98,19 @@ class Register extends React.Component {
                                                         </div>
                                                         {
                                                             errors.email && touched.email &&
-                                                            <div className="has-text-danger is-size-7">
+                                                            <div className="has-text-danger is-size-7 custom-validation">
                                                                 {errors.email}
                                                             </div>
                                                         }
                                                     </div>
-                                                    <div className="field">
+                                                    <div id="password-field" className="field">
                                                         <label className="label custom-label">Password</label>
                                                         <div className="control is-clearfix">
                                                             <input className={errors.password && touched.password ? 'input is-danger' : 'input'} type="password" name="password" onChange={handleChange} onBlur={handleBlur} value={values.password} />
                                                         </div>
                                                         {
                                                             errors.password && touched.password &&
-                                                            <div className="has-text-danger is-size-7">
+                                                            <div className="has-text-danger is-size-7 custom-validation">
                                                                 {errors.password}
                                                             </div>
                                                         }

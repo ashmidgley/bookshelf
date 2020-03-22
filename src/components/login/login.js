@@ -1,12 +1,12 @@
 import React from 'react';
-import LoginDto from '../../models/loginDto';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
-import { validateEmail, validatePasswordLength } from '../../verifier'; 
-import { login, clearUser } from '../../actions/userActions';
+import { validateEmail, validatePasswordLength } from '../../helpers/field-validator';
+import { login } from '../../actions/auth-actions';
+import { clearUser } from '../../actions/user-actions';
 
 class Login extends React.Component {
 
@@ -41,7 +41,11 @@ class Login extends React.Component {
             submitting: true
         });
 
-        var login = new LoginDto(values.email, values.password);
+        var login = {
+            email: values.email,
+            password: values.password
+        };
+        
         this.props.login(login);
     }
 
@@ -93,7 +97,7 @@ class Login extends React.Component {
                                                             <input autoFocus="autofocus" className={errors.email && touched.email ? 'input is-danger' : 'input'} type="text" name="email" onChange={handleChange} onBlur={handleBlur} value={values.email} />
                                                         </div>
                                                     </div>
-                                                    <div className="field">
+                                                    <div id="password-field" className="field">
                                                         <label className="label custom-label">Password</label>
                                                         <div className="control is-clearfix">
                                                             <input className={errors.password && touched.password ? 'input is-danger' : 'input'} type="password" name="password" onChange={handleChange} onBlur={handleBlur} value={values.password} />
@@ -105,6 +109,9 @@ class Login extends React.Component {
                                                             {this.props.incorrectCredentials}
                                                         </div>
                                                     }
+                                                    <div id="forgot-password">
+                                                        <Link to="/forgot-password">Forgotten password?</Link>
+                                                    </div>
                                                     <hr />
                                                     <div className="field is-grouped">
                                                         <div className="control">

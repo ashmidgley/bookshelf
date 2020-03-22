@@ -1,4 +1,5 @@
 import { FETCH_BOOKS, NEW_BOOK, UPDATE_BOOK, REMOVE_BOOK, CLEAR_BOOKS } from './types';
+import { createConfig } from '../helpers/action-helper';
 import * as moment from 'moment';
 import axios from 'axios';
 
@@ -79,13 +80,4 @@ export const clearBooks = () => dispatch => {
   dispatch({
     type: CLEAR_BOOKS
   })
-}
-
-function createConfig(token) {
-  var config = {
-    headers: {
-      'Authorization': 'Bearer ' + token
-    }
-  };
-  return config;
 }

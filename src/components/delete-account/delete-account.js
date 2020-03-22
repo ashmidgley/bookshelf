@@ -4,10 +4,10 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
-import { deleteUser, clearUser } from '../../actions/userActions';
-import { clearBooks } from '../../actions/bookActions';
-import { clearCategories } from '../../actions/categoryActions';
-import { clearRatings } from '../../actions/ratingActions';
+import { deleteUser, clearUser } from '../../actions/user-actions';
+import { clearBooks } from '../../actions/book-actions';
+import { clearCategories } from '../../actions/category-actions';
+import { clearRatings } from '../../actions/rating-actions';
 
 class DeleteAccount extends React.Component {
 

@@ -5,9 +5,9 @@ import * as moment from 'moment';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
-import { fetchBooks } from '../../actions/bookActions';
-import { fetchCategories } from '../../actions/categoryActions';
-import { fetchRatings } from '../../actions/ratingActions';
+import { fetchBooks } from '../../actions/book-actions';
+import { fetchCategories } from '../../actions/category-actions';
+import { fetchRatings } from '../../actions/rating-actions';
 
 class Review extends React.Component {
 

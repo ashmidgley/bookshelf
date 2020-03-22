@@ -3,10 +3,10 @@ import './shelf.css'
 import Loading from '../loading/loading';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Helmet } from "react-helmet";
-import { fetchBooks } from '../../actions/bookActions';
-import { fetchCategories } from '../../actions/categoryActions';
-import { fetchRatings } from '../../actions/ratingActions';
+import { Helmet } from 'react-helmet';
+import { fetchBooks } from '../../actions/book-actions';
+import { fetchCategories } from '../../actions/category-actions';
+import { fetchRatings } from '../../actions/rating-actions';
 
 class Shelf extends React.Component {
 

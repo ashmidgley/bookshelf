@@ -1,6 +1,5 @@
 import React from 'react';
 import './update-book.css';
-import Book from '../../models/book';
 import Loading from '../loading/loading';
 import * as moment from 'moment';
 import { Link } from 'react-router-dom';
@@ -8,9 +7,9 @@ import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { updateBook, fetchBooks } from '../../actions/bookActions';
-import { fetchCategories } from '../../actions/categoryActions';
-import { fetchRatings } from '../../actions/ratingActions';
+import { updateBook, fetchBooks } from '../../actions/book-actions';
+import { fetchCategories } from '../../actions/category-actions';
+import { fetchRatings } from '../../actions/rating-actions';
 
 class UpdateBook extends React.Component {
     tempImage = 'https://bulma.io/images/placeholders/96x96.png';
@@ -71,10 +70,20 @@ class UpdateBook extends React.Component {
             success: false
         });
 
+        var book = {
+            id: this.state.book.id,
+            userId: parseInt(localStorage.getItem('userId')),
+            categoryId: values.categoryId,
+            ratingId: values.ratingId,
+            imageUrl: values.imageUrl,
+            title: values.title,
+            author: values.author,
+            finishedOn: values.finishedOn,
+            pageCount: values.pageCount,
+            summary: values.summary
+        };
+        
         var token = localStorage.getItem('token');
-        var userId = parseInt(localStorage.getItem('userId'))
-        var book = new Book(userId, values.categoryId, values.ratingId, values.imageUrl, values.title, values.author, values.finishedOn, values.pageCount, values.summary);
-        book.id = this.state.book.id;
         this.props.updateBook(book, token);
     }
 

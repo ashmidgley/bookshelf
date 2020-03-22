@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { setUser, clearUser } from './actions/userActions';
-import User from './models/user';
+import { setUser, clearUser } from './actions/user-actions';
 
 import Home from './components/home/home';
 import Shelf from './components/shelf/shelf';
@@ -26,8 +25,10 @@ import MyAccount from './components/my-account/my-account';
 import UpdateEmail from './components/update-email/update-email';
 import UpdatePassword from './components/update-password/update-password';
 import DeleteAccount from './components/delete-account/delete-account';
+import ForgotPassword from './components/forgot-password/forgot-password';
+import ResetPassword from './components/reset-password/reset-password';
 
-class App extends Component {
+class App extends React.Component {
 
   constructor(props) {
     super(props);
@@ -43,13 +44,18 @@ class App extends Component {
       var currentTime = new Date().getTime();
       var expiryDate = localStorage.getItem('expiryDate');
       if(expiryDate < currentTime) {
-        var user = new User(localStorage.getItem('userId'), localStorage.getItem('userEmail'), localStorage.getItem('userIsAdmin'));
+        var user = {
+          userId: localStorage.getItem('userId'),
+          email: localStorage.getItem('userEmail'),
+          isAdmin: localStorage.getItem('userIsAdmin')
+        };
+        
         var data = { token, expiryDate, user };
         this.props.setUser(data);
       }
     } else {
       this.props.clearUser();
-      if(window.location.pathname !== '/' && !window.location.pathname.includes('shelf')) {
+      if(!this.validAnonymousPath(window.location.pathname)) {
         this.setState({
           redirectLogin: true
         });
@@ -57,29 +63,18 @@ class App extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.bookError || nextProps.categoryError || nextProps.ratingError || nextProps.loginError) {
-      this.handleError(nextProps);
-    }
+  validAnonymousPath(pathname) {
+    return pathname === '/' || pathname === '/forgot-password' || pathname.includes('shelf') || pathname.includes('reset-password');
   }
 
-  handleError(nextProps) {
-    var error = "";
-    if(nextProps.bookError)
-      error += 'Book error: ' + nextProps.bookError + '. ';
-    if(nextProps.categoryError)
-      error += 'Category error: ' + nextProps.categoryError + '. ';
-    if(nextProps.ratingError)
-      error += 'Rating error: ' + nextProps.ratingError + '. ';
-    if(nextProps.loginError) {
-      error += 'Login error: ' + nextProps.loginError + '. ';
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.bookError || nextProps.categoryError || nextProps.ratingError || nextProps.loginError) {
+      this.setState({
+        error: 'An error has occured. Please refresh the page and try again.',
+        loading: false
+      });
+      window.scrollTo(0, 0);
     }
-    error += 'Please refresh page and try again.';
-    this.setState({
-      error: error,
-      loading: false
-    })
-    window.scrollTo(0, 0);
   }
 
   render() {
@@ -102,6 +97,8 @@ class App extends Component {
                   <Switch>
                     <Route exact path="/" component={Home} />
                     <Route exact path="/login" component={Login} />
+                    <Route exact path="/forgot-password" component={ForgotPassword} />
+                    <Route exact path="/reset-password/:userId/:resetToken" component={ResetPassword} />
                     <Route exact path="/register" component={Register} />
                     <Route exact path="/shelf/:id" component={Shelf} />
                     <Route exact path="/review/:id" component={Review} />

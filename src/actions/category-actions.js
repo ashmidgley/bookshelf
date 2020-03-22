@@ -1,90 +1,82 @@
-import { FETCH_RATINGS, NEW_RATING, UPDATE_RATING, REMOVE_RATING, CLEAR_RATINGS } from './types';
+import { FETCH_CATEGORIES, NEW_CATEGORY, UPDATE_CATEGORY, REMOVE_CATEGORY, CLEAR_CATEGORIES } from './types';
+import { createConfig } from '../helpers/action-helper';
 import axios from 'axios';
 
-let url = process.env.REACT_APP_API_URL + '/ratings';
+let url = process.env.REACT_APP_API_URL + '/categories';
 
-export const fetchRatings = (userId) => dispatch => {
+export const fetchCategories = (userId) => dispatch => {
   axios.get(url + `/user/${userId}`)
   .then(response => {
     dispatch({
-      type: FETCH_RATINGS,
+      type: FETCH_CATEGORIES,
       payload: response.data
     })
   })
   .catch(error => {
     console.error(error);
     dispatch({
-      type: FETCH_RATINGS,
+      type: FETCH_CATEGORIES,
       error: error.message
     })
   })
 };
 
-export const createRating = (postData, token) => dispatch => {
+export const createCategory = (postData, token) => dispatch => {
   var config = createConfig(token);
   axios.post(url, postData, config)
     .then(response => {
       dispatch({
-        type: NEW_RATING,
+        type: NEW_CATEGORY,
         payload: response.data
       })
     })
     .catch(error => {
       console.error(error);
       dispatch({
-        type: NEW_RATING,
+        type: NEW_CATEGORY,
         error: error.message
       })
     })
 };
 
-export const updateRating = (postData, token) => dispatch => {
+export const updateCategory = (postData, token) => dispatch => {
   var config = createConfig(token);
   axios.put(url, postData, config)
     .then(response => {
       dispatch({
-        type: UPDATE_RATING,
+        type: UPDATE_CATEGORY,
         payload: response.data
       })
     })
     .catch(error => {
       console.error(error);
       dispatch({
-        type: UPDATE_RATING,
+        type: UPDATE_CATEGORY,
         error: error.message
       })
     })
 };
 
-export const removeRating = (id, token) => dispatch => {
+export const removeCategory = (id, token) => dispatch => {
   var config = createConfig(token);
   axios.delete(url + '/' + id, config)
     .then(response => {
       dispatch({
-        type: REMOVE_RATING,
+        type: REMOVE_CATEGORY,
         payload: response.data
       })
     })
     .catch(error => {
       console.error(error);
       dispatch({
-        type: REMOVE_RATING,
+        type: REMOVE_CATEGORY,
         error: error.message
       })
     })
 };
 
-export const clearRatings = () => dispatch => {
+export const clearCategories = () => dispatch => {
   dispatch({
-    type: CLEAR_RATINGS
+    type: CLEAR_CATEGORIES
   })
-}
-
-function createConfig(token) {
-  var config = {
-    headers: {
-      'Authorization': 'Bearer ' + token
-    }
-  };
-  return config;
 }

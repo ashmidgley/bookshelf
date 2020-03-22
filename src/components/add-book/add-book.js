@@ -1,14 +1,13 @@
 import React from 'react';
-import NewBook from '../../models/newBook';
 import Loading from '../loading/loading';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { createBook, fetchBooks } from '../../actions/bookActions';
-import { fetchCategories } from '../../actions/categoryActions';
-import { fetchRatings } from '../../actions/ratingActions';
+import { createBook, fetchBooks } from '../../actions/book-actions';
+import { fetchCategories } from '../../actions/category-actions';
+import { fetchRatings } from '../../actions/rating-actions';
 
 class AddBook extends React.Component {
 
@@ -48,7 +47,6 @@ class AddBook extends React.Component {
                 submitting: false,
                 success: true
             });
-            
             window.scrollTo(0, 0);
         }
     }
@@ -59,10 +57,16 @@ class AddBook extends React.Component {
             success: false
         });
 
-        var userId = parseInt(localStorage.getItem('userId'));
+        var newBook = {
+            userId: parseInt(localStorage.getItem('userId')),
+            title: values.title,
+            author: values.author,
+            categoryId: values.categoryId,
+            ratingId: values.ratingId,
+            finishedOn: values.finishedOn
+        };
+        
         var token = localStorage.getItem('token');
-        var newBook = new NewBook(values.title, values.author, userId, values.categoryId, values.ratingId, values.finishedOn);
-
         this.props.createBook(newBook, token);
     }
 

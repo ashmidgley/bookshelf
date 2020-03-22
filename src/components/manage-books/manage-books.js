@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
-import { customStyles } from '../../custom-modal';
-import { fetchBooks, removeBook } from '../../actions/bookActions';
+import { customStyles } from '../../helpers/custom-modal';
+import { fetchBooks, removeBook } from '../../actions/book-actions';
 
 class ManageBooks extends React.Component {
 
@@ -129,8 +129,8 @@ class ManageBooks extends React.Component {
                                         <tr>
                                             <th>Title</th>
                                             <th>Author</th>
-                                            <th>Edit</th>
-                                            <th>Delete</th>
+                                            <th></th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
