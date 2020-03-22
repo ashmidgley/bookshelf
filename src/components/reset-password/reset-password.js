@@ -24,7 +24,7 @@ class ResetPassword extends React.Component {
     componentDidMount() {
         var userId = this.props.match.params.userId;
         var resetToken = this.props.match.params.resetToken;
-        var tokenValid = this.props.resetTokenValid(userId, resetToken);
+        var tokenValid = resetTokenValid(userId, resetToken);
 
         if(tokenValid === true) {
             this.setState({
@@ -81,7 +81,7 @@ class ResetPassword extends React.Component {
                     {
                         this.state.tokenInvalid ?
                         <div className="notification is-danger">
-                            The password reset token has expired. Please <Link to="/forgot-password">request another password reset</Link> and try again.
+                            The password reset token has expired. Please <Link to="/forgot-password">request another</Link> and try again.
                         </div>
                         :
                         <div>
@@ -143,4 +143,4 @@ const mapStateToProps = state => ({
     updatedUser: state.user.updatedUser
 });
 
-export default connect(mapStateToProps, {updatePasswordUsingToken, resetTokenValid})(ResetPassword);
+export default connect(mapStateToProps, {updatePasswordUsingToken})(ResetPassword);

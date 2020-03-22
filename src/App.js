@@ -55,7 +55,7 @@ class App extends React.Component {
       }
     } else {
       this.props.clearUser();
-      if(window.location.pathname !== '/' && !window.location.pathname.includes('shelf')) {
+      if(!this.validAnonymousPath(window.location.pathname)) {
         this.setState({
           redirectLogin: true
         });
@@ -63,29 +63,18 @@ class App extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.bookError || nextProps.categoryError || nextProps.ratingError || nextProps.loginError) {
-      this.handleError(nextProps);
-    }
+  validAnonymousPath(pathname) {
+    return pathname === '/' || pathname === '/forgot-password' || pathname.includes('shelf') || pathname.includes('reset-password');
   }
 
-  handleError(nextProps) {
-    var error = "";
-    if(nextProps.bookError)
-      error += 'Book error: ' + nextProps.bookError + '. ';
-    if(nextProps.categoryError)
-      error += 'Category error: ' + nextProps.categoryError + '. ';
-    if(nextProps.ratingError)
-      error += 'Rating error: ' + nextProps.ratingError + '. ';
-    if(nextProps.loginError) {
-      error += 'Login error: ' + nextProps.loginError + '. ';
+  componentWillReceiveProps(nextProps) {
+    if(nextProps.bookError || nextProps.categoryError || nextProps.ratingError || nextProps.loginError) {
+      this.setState({
+        error: 'An error has occured. Please refresh the page and try again.',
+        loading: false
+      });
+      window.scrollTo(0, 0);
     }
-    error += 'Please refresh page and try again.';
-    this.setState({
-      error: error,
-      loading: false
-    })
-    window.scrollTo(0, 0);
   }
 
   render() {

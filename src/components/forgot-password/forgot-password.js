@@ -34,6 +34,7 @@ class ForgotPassword extends React.Component {
 
     submitEntry(values) {
         this.setState({
+            invalidAction: null,
             submitting: true,
             email: values.email
         });
