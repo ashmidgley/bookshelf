@@ -1,5 +1,4 @@
 import React from 'react';
-import Rating from '../../models/rating';
 import Loading from '../loading/loading';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
@@ -63,11 +62,14 @@ class RatingForm extends React.Component {
             submitting: true,
             success: false
         });
-
-        var token = localStorage.getItem('token');
-        var userId = parseInt(localStorage.getItem('userId'));
-        var rating = new Rating(userId, values.description, values.code);
         
+        var rating = {
+            userId: parseInt(localStorage.getItem('userId')),
+            description: values.description,
+            code: values.code
+        };
+        
+        var token = localStorage.getItem('token');
         if(!this.props.match.params.id) {
             this.props.createRating(rating, token);
         } else {

@@ -3,7 +3,6 @@ import './App.css';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setUser, clearUser } from './actions/userActions';
-import User from './models/user';
 
 import Home from './components/home/home';
 import Shelf from './components/shelf/shelf';
@@ -45,7 +44,12 @@ class App extends React.Component {
       var currentTime = new Date().getTime();
       var expiryDate = localStorage.getItem('expiryDate');
       if(expiryDate < currentTime) {
-        var user = new User(localStorage.getItem('userId'), localStorage.getItem('userEmail'), localStorage.getItem('userIsAdmin'));
+        var user = {
+          userId: localStorage.getItem('userId'),
+          email: localStorage.getItem('userEmail'),
+          isAdmin: localStorage.getItem('userIsAdmin')
+        };
+        
         var data = { token, expiryDate, user };
         this.props.setUser(data);
       }

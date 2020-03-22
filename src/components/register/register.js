@@ -1,5 +1,4 @@
 import React from 'react';
-import LoginDto from '../../models/loginDto';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { Formik } from 'formik';
@@ -42,7 +41,11 @@ class Register extends React.Component {
             submitting: true
         });
 
-        var register = new LoginDto(values.email, values.password);
+        var register = {
+            email: values.email,
+            password: values.password
+        }; 
+        
         this.props.register(register);
     }
 

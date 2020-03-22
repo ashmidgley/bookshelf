@@ -1,5 +1,3 @@
-import User from '../models/user';
-
 export const createConfig = (token) => {
     var config = {
       headers: {
@@ -28,6 +26,12 @@ export const createUserPayload = (response) => {
   var token = response.data.token;
   var payload = parseJwt(response.data.token);
   var expiryDate = payload.exp;
-  var user = new User(parseInt(payload.Id), payload.Email, (payload.IsAdmin === 'True'));
+
+  var user = {
+    id: parseInt(payload.Id),
+    email: payload.Email,
+    isAdmin: payload.IsAdmin === 'True'
+  };
+
   return { token, expiryDate, user };
 }

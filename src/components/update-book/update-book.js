@@ -1,6 +1,5 @@
 import React from 'react';
 import './update-book.css';
-import Book from '../../models/book';
 import Loading from '../loading/loading';
 import * as moment from 'moment';
 import { Link } from 'react-router-dom';
@@ -71,10 +70,20 @@ class UpdateBook extends React.Component {
             success: false
         });
 
+        var book = {
+            id: this.state.book.id,
+            userId: parseInt(localStorage.getItem('userId')),
+            categoryId: values.categoryId,
+            ratingId: values.ratingId,
+            imageUrl: values.imageUrl,
+            title: values.title,
+            author: values.author,
+            finishedOn: values.finishedOn,
+            pageCount: values.pageCount,
+            summary: values.summary
+        };
+        
         var token = localStorage.getItem('token');
-        var userId = parseInt(localStorage.getItem('userId'))
-        var book = new Book(userId, values.categoryId, values.ratingId, values.imageUrl, values.title, values.author, values.finishedOn, values.pageCount, values.summary);
-        book.id = this.state.book.id;
         this.props.updateBook(book, token);
     }
 

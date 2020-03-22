@@ -1,5 +1,4 @@
 import React from 'react';
-import Category from '../../models/category';
 import Loading from '../loading/loading';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
@@ -63,10 +62,13 @@ class CategoryForm extends React.Component {
             success: false
         });
 
-        var token = localStorage.getItem('token');
-        var userId = parseInt(localStorage.getItem('userId'));
-        var category = new Category(userId, values.description, values.code);
+        var category = {
+            userId: parseInt(localStorage.getItem('userId')),
+            description: values.description,
+            code: values.code
+        };
         
+        var token = localStorage.getItem('token');
         if(!this.props.match.params.id) {
             this.props.createCategory(category, token);
         } else {
