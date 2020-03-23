@@ -1,4 +1,4 @@
-import { LOGIN, REGISTER } from './types';
+import { LOGIN, REGISTER, RESET_TOKEN_VALID } from './types';
 import { persistToken, createUserPayload } from '../helpers/action-helper';
 import axios from 'axios';
 
@@ -37,8 +37,8 @@ export const register = (register) => dispatch => {
             dispatch({
                 type: REGISTER,
                 payload: payload
-                })
             })
+        })
         .catch(error => {
             console.error(error);
             dispatch({
@@ -48,14 +48,20 @@ export const register = (register) => dispatch => {
         })
 };
 
-export const resetTokenValid = (userId, token) => {
+export const resetTokenValid = (userId, token) => dispatch => {
     var url = `${authUrl}/reset-token-valid/${userId}/${token}`;
     axios.get(url)
         .then(response => {
-            return response.data;
+            dispatch({
+                type: RESET_TOKEN_VALID,
+                error: response.data
+            })
         })
         .catch(error => {
             console.error(error);
-        })
-    return false;
+            dispatch({
+                type: RESET_TOKEN_VALID,
+                error: error.message
+            })
+        });
 };

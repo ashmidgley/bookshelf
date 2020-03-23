@@ -1,4 +1,4 @@
-import { LOGIN, REGISTER, SET_USER, CLEAR_USER, GET_USERS, UPDATE_USER, UPDATE_EMAIL, UPDATE_PASSWORD, DELETE_USER } from '../actions/types';
+import { LOGIN, REGISTER, SET_USER, CLEAR_USER, GET_USERS, UPDATE_USER, UPDATE_EMAIL, UPDATE_PASSWORD, DELETE_USER, RESET_TOKEN_VALID } from '../actions/types';
 
 const initialState = {
   users: null,
@@ -8,6 +8,7 @@ const initialState = {
   deletedUser: null,
   updatedUser: null,
   invalidAction: null,
+  resetTokenValid: false,
   error: null
 };
 
@@ -98,6 +99,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         deletedUser: action.payload,
+        error: action.error
+      };
+    case RESET_TOKEN_VALID:
+      return {
+        ...state,
+        resetTokenValid: action.payload,
         error: action.error
       };
     default:
