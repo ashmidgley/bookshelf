@@ -81,7 +81,7 @@ class ResetPassword extends React.Component {
                     {
                         this.state.tokenInvalid ?
                         <div className="notification is-danger">
-                            The password reset token has expired. Please <Link to="/forgot-password">request another</Link> and try again.
+                            The password reset token does not match or has expired. Please <Link to="/forgot-password">request another</Link> and try again.
                         </div>
                         :
                         <div>

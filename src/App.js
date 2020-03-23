@@ -33,7 +33,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      error: null,
+      error: false,
       redirectLogin: false
     };
   }
@@ -45,7 +45,7 @@ class App extends React.Component {
       var expiryDate = localStorage.getItem('expiryDate');
       if(expiryDate < currentTime) {
         var user = {
-          userId: localStorage.getItem('userId'),
+          id: localStorage.getItem('userId'),
           email: localStorage.getItem('userEmail'),
           isAdmin: localStorage.getItem('userIsAdmin')
         };
@@ -70,7 +70,7 @@ class App extends React.Component {
   componentWillReceiveProps(nextProps) {
     if(nextProps.bookError || nextProps.categoryError || nextProps.ratingError || nextProps.loginError) {
       this.setState({
-        error: 'An error has occured. Please refresh the page and try again.',
+        error: true,
         loading: false
       });
       window.scrollTo(0, 0);
@@ -86,7 +86,8 @@ class App extends React.Component {
               {this.state.error ?
                 <div className="container error-container">
                   <div className="notification is-danger">
-                    {this.state.error}
+                    An error has occured. Please refresh the page and try again. If the issue persists please raise an 
+                    issue <a href="https://github.com/ashmidgley/bookshelf/issues">here</a>.
                   </div>
                 </div>
                 :
