@@ -68,7 +68,7 @@ class App extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.bookError || nextProps.categoryError || nextProps.ratingError || nextProps.loginError) {
+    if(nextProps.bookError || nextProps.categoryError || nextProps.ratingError) {
       this.setState({
         error: true,
         loading: false
@@ -133,8 +133,7 @@ class App extends React.Component {
 const mapStateToProps = state => ({
   bookError: state.books.error,
   categoryError: state.categories.error,
-  ratingError: state.ratings.error,
-  loginError: state.user.error
+  ratingError: state.ratings.error
 });
 
 export default connect(mapStateToProps, {setUser, clearUser})(App);

@@ -14,22 +14,26 @@ class Login extends React.Component {
         super(props);
         this.state = {
             submitting: false,
-            incorrectCredentials: false
+            invalidAction: null
         };
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.incorrectCredentials) {
+        if(nextProps.authError) {
             this.setState({
-                incorrectCredentials: true,
+                invalidAction: nextProps.authError,
                 submitting: false
             });
-            return;
-        }
-        if(nextProps.token && nextProps.user) {
+        } else if(nextProps.invalidAction) {
+            this.setState({
+                invalidAction: nextProps.invalidAction,
+                submitting: false
+            });
+        } else if(nextProps.token && nextProps.user) {
             this.setState({
                 submitting: false
             });
+
             this.props.history.push(`/shelf/${nextProps.user.id}`);
         }
     }
@@ -37,7 +41,7 @@ class Login extends React.Component {
     login(values) {
         this.props.clearUser();
         this.setState({
-            incorrectCredentials: false,
+            invalidAction: null,
             submitting: true
         });
 
@@ -104,9 +108,9 @@ class Login extends React.Component {
                                                         </div>
                                                     </div>
                                                     {
-                                                        this.state.incorrectCredentials &&
+                                                        this.state.invalidAction &&
                                                         <div className="notification is-danger custom-notification">
-                                                            {this.props.incorrectCredentials}
+                                                            {this.state.invalidAction}
                                                         </div>
                                                     }
                                                     <div id="forgot-password">
@@ -142,7 +146,8 @@ class Login extends React.Component {
 const mapStateToProps = state => ({
     token: state.user.token,
     user: state.user.user,
-    incorrectCredentials: state.user.invalidAction
+    invalidAction: state.user.invalidAction,
+    authError: state.user.error
 });
 
 export default connect(mapStateToProps, {login, clearUser})(withRouter(Login));

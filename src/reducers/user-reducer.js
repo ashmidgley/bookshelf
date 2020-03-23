@@ -14,22 +14,32 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case LOGIN:
+      if(action.error) {
+        return {
+          ...state,
+          error: action.error
+        };
+      }
       return {
         ...state,
         token: action.payload.token,
         expiryDate: action.payload.expiryDate,
         user: action.payload.user,
-        invalidAction: action.payload.error,
-        error: action.error,
+        invalidAction: action.payload.error
       };
     case REGISTER:
+      if(action.error) {
+        return {
+          ...state,
+          error: action.error
+        };
+      }
       return {
         ...state,
         token: action.payload.token,
         expiryDate: action.payload.expiryDate,
         user: action.payload.user,
-        invalidAction: action.payload.error,
-        error: action.error
+        invalidAction: action.payload.error
       };
     case SET_USER:
       return {
