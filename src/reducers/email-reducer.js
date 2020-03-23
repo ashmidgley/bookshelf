@@ -8,10 +8,17 @@ const initialState = {
 export default function(state = initialState, action) {
   switch (action.type) {
     case SEND_RESET_TOKEN:
+      if(action.error) {
+        return {
+          ...state,
+          error: action.error 
+        };
+      }
+      
       return {
         ...state,
-        resetTokenSent: action.payload ? action.payload.error == null : false,
-        error: action.payload ? action.payload.error : action.error
+        resetTokenSent: action.payload.error == null,
+        error: action.payload.error
       };
     default:
       return state;

@@ -42,13 +42,18 @@ export default function(state = initialState, action) {
         invalidAction: action.payload.error
       };
     case SET_USER:
+      if(action.error) {
+        return {
+          ...state,
+          error: action.error
+        };
+      }
       return {
         ...state,
         token: action.payload.token,
         expiryDate: action.payload.expiryDate,
         user: action.payload.user,
-        invalidAction: action.payload.error,
-        error: action.error,
+        invalidAction: action.payload.error
       };
     case CLEAR_USER:
       return {
@@ -72,11 +77,16 @@ export default function(state = initialState, action) {
         error: action.error
       };
     case UPDATE_EMAIL:
+      if(action.error) {
+        return {
+          ...state,
+          error: action.error
+        };
+      }
       return {
         ...state,
         updatedUser: action.payload.user,
-        invalidAction: action.payload.error,
-        error: action.error
+        invalidAction: action.payload.error
       };
     case UPDATE_PASSWORD:
       return {
