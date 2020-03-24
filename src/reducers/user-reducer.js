@@ -8,7 +8,7 @@ const initialState = {
   deletedUser: null,
   updatedUser: null,
   invalidAction: null,
-  resetTokenValid: false,
+  resetTokenValid: null,
   error: null
 };
 
