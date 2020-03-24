@@ -1,4 +1,4 @@
-import { LOGIN, REGISTER, SET_USER, CLEAR_USER, GET_USERS, UPDATE_USER, UPDATE_EMAIL, UPDATE_PASSWORD, DELETE_USER } from '../actions/types';
+import { LOGIN, REGISTER, SET_USER, CLEAR_USER, GET_USERS, UPDATE_USER, UPDATE_EMAIL, UPDATE_PASSWORD, DELETE_USER, RESET_TOKEN_VALID } from '../actions/types';
 
 const initialState = {
   users: null,
@@ -8,37 +8,53 @@ const initialState = {
   deletedUser: null,
   updatedUser: null,
   invalidAction: null,
+  resetTokenValid: false,
   error: null
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case LOGIN:
+      if(action.error) {
+        return {
+          ...state,
+          error: action.error
+        };
+      }
       return {
         ...state,
         token: action.payload.token,
         expiryDate: action.payload.expiryDate,
         user: action.payload.user,
-        invalidAction: action.payload.error,
-        error: action.error,
+        invalidAction: action.payload.error
       };
     case REGISTER:
+      if(action.error) {
+        return {
+          ...state,
+          error: action.error
+        };
+      }
       return {
         ...state,
         token: action.payload.token,
         expiryDate: action.payload.expiryDate,
         user: action.payload.user,
-        invalidAction: action.payload.error,
-        error: action.error
+        invalidAction: action.payload.error
       };
     case SET_USER:
+      if(action.error) {
+        return {
+          ...state,
+          error: action.error
+        };
+      }
       return {
         ...state,
         token: action.payload.token,
         expiryDate: action.payload.expiryDate,
         user: action.payload.user,
-        invalidAction: action.payload.error,
-        error: action.error,
+        invalidAction: action.payload.error
       };
     case CLEAR_USER:
       return {
@@ -62,11 +78,16 @@ export default function(state = initialState, action) {
         error: action.error
       };
     case UPDATE_EMAIL:
+      if(action.error) {
+        return {
+          ...state,
+          error: action.error
+        };
+      }
       return {
         ...state,
         updatedUser: action.payload.user,
-        invalidAction: action.payload.error,
-        error: action.error
+        invalidAction: action.payload.error
       };
     case UPDATE_PASSWORD:
       return {
@@ -78,6 +99,12 @@ export default function(state = initialState, action) {
       return {
         ...state,
         deletedUser: action.payload,
+        error: action.error
+      };
+    case RESET_TOKEN_VALID:
+      return {
+        ...state,
+        resetTokenValid: action.payload,
         error: action.error
       };
     default:

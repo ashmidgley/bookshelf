@@ -14,9 +14,9 @@ class ResetPassword extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            tokenInvalid: false,
             loading: true,
             submitting: false,
+            invalidAction: null,
             success: false
         }
     }
@@ -24,25 +24,30 @@ class ResetPassword extends React.Component {
     componentDidMount() {
         var userId = this.props.match.params.userId;
         var resetToken = this.props.match.params.resetToken;
-        var tokenValid = resetTokenValid(userId, resetToken);
-
-        if(tokenValid === true) {
-            this.setState({
-                loading: false
-            });
-        } else {
-            this.setState({
-                tokenInvalid: true,
-                loading: false
-            })
-        }
+        this.props.resetTokenValid(userId, resetToken);
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.updatedUser) {
+        if(nextProps.authError) {
             this.setState({
-                submitting: false,
-                success: true
+                invalidAction: nextProps.authError,
+                loading: false
+            });
+        } else if (nextProps.resetTokenValid) {
+            if(nextProps.resetTokenValid === true) {
+                this.setState({
+                    loading: false
+                });
+            } else {
+                this.setState({
+                    invalidAction: 'The password reset token does not match or has expired. Please request another and try again.',
+                    loading: false
+                });
+            }
+        } else if(nextProps.updatedUser) {
+            this.setState({
+                success: true,
+                submitting: false
             });
         }
     }
@@ -79,9 +84,9 @@ class ResetPassword extends React.Component {
                         </div>
                     </div>
                     {
-                        this.state.tokenInvalid ?
+                        this.state.invalidAction ?
                         <div className="notification is-danger">
-                            The password reset token has expired. Please <Link to="/forgot-password">request another</Link> and try again.
+                            {this.state.invalidAction}
                         </div>
                         :
                         <div>
@@ -140,7 +145,9 @@ class ResetPassword extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    updatedUser: state.user.updatedUser
+    updatedUser: state.user.updatedUser,
+    resetTokenValid: state.user.resetTokenValid,
+    authError: state.user.error
 });
 
-export default connect(mapStateToProps, {updatePasswordUsingToken})(ResetPassword);
+export default connect(mapStateToProps, {updatePasswordUsingToken, resetTokenValid})(ResetPassword);

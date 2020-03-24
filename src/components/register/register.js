@@ -14,30 +14,34 @@ class Register extends React.Component {
         super(props);
         this.state = {
             submitting: false,
-            existingEmail: false
+            invalidAction: null
         };
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.existingEmail) {
+        if(nextProps.authError) {
             this.setState({
-                existingEmail: true,
+                invalidAction: nextProps.authError,
                 submitting: false
             });
-            return;
-        }
-        
-        if(nextProps.token && nextProps.user) {
-            this.setState({ submitting: false });
+        } else if(nextProps.invalidAction) {
+            this.setState({
+                invalidAction: nextProps.invalidAction,
+                submitting: false
+            });
+        } else if(nextProps.token && nextProps.user) {
+            this.setState({ 
+                submitting: false
+            });
+
             this.props.history.push(`/shelf/${nextProps.user.id}`);
         }
     }
 
     register(values) {
         this.props.clearUser();
-
         this.setState({
-            existingEmail: false,
+            invalidAction: null,
             submitting: true
         });
 
@@ -116,9 +120,9 @@ class Register extends React.Component {
                                                         }
                                                     </div>
                                                     {
-                                                        this.state.existingEmail &&
+                                                        this.state.invalidAction &&
                                                         <div className="notification is-danger custom-notification">
-                                                            {this.props.existingEmail}
+                                                            {this.state.invalidAction}
                                                         </div>
                                                     }
                                                     <hr />
@@ -151,7 +155,8 @@ class Register extends React.Component {
 const mapStateToProps = state => ({
     token: state.user.token,
     user: state.user.user,
-    existingEmail: state.user.invalidAction
+    invalidAction: state.user.invalidAction,
+    authError: state.user.error
 });
 
 export default connect(mapStateToProps, {register, clearUser})(withRouter(Register));
