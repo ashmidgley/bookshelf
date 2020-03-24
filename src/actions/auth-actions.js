@@ -54,7 +54,7 @@ export const resetTokenValid = (userId, token) => dispatch => {
         .then(response => {
             dispatch({
                 type: RESET_TOKEN_VALID,
-                error: response.data
+                payload: response.data
             })
         })
         .catch(error => {
