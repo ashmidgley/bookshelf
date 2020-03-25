@@ -14,19 +14,14 @@ class Register extends React.Component {
         super(props);
         this.state = {
             submitting: false,
-            invalidAction: null
+            error: null
         };
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.authError) {
+        if(nextProps.error) {
             this.setState({
-                invalidAction: nextProps.authError,
-                submitting: false
-            });
-        } else if(nextProps.invalidAction) {
-            this.setState({
-                invalidAction: nextProps.invalidAction,
+                error: nextProps.error,
                 submitting: false
             });
         } else if(nextProps.token && nextProps.user) {
@@ -41,7 +36,7 @@ class Register extends React.Component {
     register(values) {
         this.props.clearUser();
         this.setState({
-            invalidAction: null,
+            error: null,
             submitting: true
         });
 
@@ -120,9 +115,9 @@ class Register extends React.Component {
                                                         }
                                                     </div>
                                                     {
-                                                        this.state.invalidAction &&
+                                                        this.state.error &&
                                                         <div className="notification is-danger custom-notification">
-                                                            {this.state.invalidAction}
+                                                            {this.state.error}
                                                         </div>
                                                     }
                                                     <hr />
@@ -155,8 +150,7 @@ class Register extends React.Component {
 const mapStateToProps = state => ({
     token: state.user.token,
     user: state.user.user,
-    invalidAction: state.user.invalidAction,
-    authError: state.user.error
+    error: state.user.error
 });
 
 export default connect(mapStateToProps, {register, clearUser})(withRouter(Register));

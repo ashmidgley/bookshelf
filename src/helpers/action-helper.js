@@ -22,9 +22,8 @@ export const parseJwt = (token) => {
   return JSON.parse(jsonPayload);
 };
 
-export const createUserPayload = (response) => {
-  var token = response.data.token;
-  var payload = parseJwt(response.data.token);
+export const createUserPayload = (token) => {
+  var payload = parseJwt(token);
   var expiryDate = payload.exp;
 
   var user = {
