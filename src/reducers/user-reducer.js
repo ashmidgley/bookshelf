@@ -25,8 +25,7 @@ export default function(state = initialState, action) {
         ...state,
         token: action.payload.token,
         expiryDate: action.payload.expiryDate,
-        user: action.payload.user,
-        invalidAction: action.payload.error
+        user: action.payload.user
       };
     case REGISTER:
       if(action.error) {
@@ -39,8 +38,7 @@ export default function(state = initialState, action) {
         ...state,
         token: action.payload.token,
         expiryDate: action.payload.expiryDate,
-        user: action.payload.user,
-        invalidAction: action.payload.error
+        user: action.payload.user
       };
     case SET_USER:
       if(action.error) {

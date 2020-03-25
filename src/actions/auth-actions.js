@@ -7,11 +7,8 @@ let authUrl = process.env.REACT_APP_API_URL + '/auth';
 export const login = (login) => dispatch => {
     axios.post(`${authUrl}/login`, login)
         .then(response => {
-            var payload = response.data;
-            if(response.data.token) {
-                payload = createUserPayload(response);
-                persistToken(payload.token, payload.expiryDate, payload.user);
-            }
+            var payload = createUserPayload(response.data);
+            persistToken(payload.token, payload.expiryDate, payload.user);
             dispatch({
                 type: LOGIN,
                 payload: payload
@@ -19,9 +16,10 @@ export const login = (login) => dispatch => {
         })
         .catch(error => {
             console.error(error);
+            var error = error.response ? error.response.data : error.message;
             dispatch({
                 type: LOGIN,
-                error: error.message
+                error: error
             })
         })
 };
@@ -29,11 +27,8 @@ export const login = (login) => dispatch => {
 export const register = (register) => dispatch => {
     axios.post(`${authUrl}/register`, register)
         .then(response => {
-            var payload = response.data;
-            if(response.data.token) {
-                payload = createUserPayload(response);
-                persistToken(payload.token, payload.expiryDate, payload.user);
-            }
+            var payload = createUserPayload(response.data);
+            persistToken(payload.token, payload.expiryDate, payload.user);
             dispatch({
                 type: REGISTER,
                 payload: payload
@@ -41,9 +36,10 @@ export const register = (register) => dispatch => {
         })
         .catch(error => {
             console.error(error);
+            var error = error.response ? error.response.data : error.message;
             dispatch({
                 type: REGISTER,
-                error: error.message
+                error: error
             })
         })
 };
