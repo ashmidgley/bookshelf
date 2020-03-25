@@ -122,7 +122,9 @@ class ManageUsers extends React.Component {
                                                 <td>{user.email}</td>
                                                 <td>{user.isAdmin.toString()}</td>
                                                 <td>{user.passwordResetToken}</td>
-                                                <td>{user.passwordResetExpiry}</td>
+                                                <td style={{'wordWrap': 'anywhere'}}>
+                                                    {user.passwordResetExpiry}
+                                                </td>
                                                 <td className="has-text-centered">
                                                     <Link to={`/admin/manage-users/${user.id}`} className="button">
                                                         Edit
