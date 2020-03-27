@@ -1,4 +1,4 @@
-import { LOGIN, REGISTER, RESET_TOKEN_VALID } from './types';
+import { LOGIN, REGISTER, RESET_TOKEN_VALID, USER_ERROR } from './types';
 import { persistToken, createUserPayload } from '../helpers/action-helper';
 import axios from 'axios';
 
@@ -16,10 +16,9 @@ export const login = (login) => dispatch => {
         })
         .catch(error => {
             console.error(error);
-            var error = error.response ? error.response.data : error.message;
             dispatch({
-                type: LOGIN,
-                error: error
+                type: USER_ERROR,
+                error: error.response ? error.response.data : error.message
             })
         })
 };
@@ -36,10 +35,9 @@ export const register = (register) => dispatch => {
         })
         .catch(error => {
             console.error(error);
-            var error = error.response ? error.response.data : error.message;
             dispatch({
-                type: REGISTER,
-                error: error
+                type: USER_ERROR,
+                error: error.response ? error.response.data : error.message
             })
         })
 };
@@ -56,8 +54,8 @@ export const resetTokenValid = (userId, token) => dispatch => {
         .catch(error => {
             console.error(error);
             dispatch({
-                type: RESET_TOKEN_VALID,
-                error: error.message
+                type: USER_ERROR,
+                error: error.response ? error.response.data : error.message
             })
         });
 };

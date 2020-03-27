@@ -33,8 +33,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      error: false,
-      redirectLogin: false
+      redirectToLogin: false
     };
   }
 
@@ -57,7 +56,7 @@ class App extends React.Component {
       this.props.clearUser();
       if(!this.validAnonymousPath(window.location.pathname)) {
         this.setState({
-          redirectLogin: true
+          redirectToLogin: true
         });
       }
     }
@@ -67,33 +66,16 @@ class App extends React.Component {
     return pathname === '/' || pathname === '/forgot-password' || pathname.includes('shelf') || pathname.includes('reset-password');
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.bookError || nextProps.categoryError || nextProps.ratingError) {
-      this.setState({
-        error: true,
-        loading: false
-      });
-      window.scrollTo(0, 0);
-    }
-  }
-
   render() {
     return (
         <Router>
           <div>
             <div className="screen-content">
               <Navigation />
-              {this.state.error ?
-                <div className="container error-container">
-                  <div className="notification is-danger">
-                    An error has occured. Please refresh the page and try again. If the issue persists please raise an 
-                    issue <a href="https://github.com/ashmidgley/bookshelf/issues">here</a>.
-                  </div>
-                </div>
-                :
                 <div className="container app-container">
                   {
-                    this.state.redirectLogin && <Redirect to="/login"/>
+                    this.state.redirectToLogin &&
+                    <Redirect to="/login"/>
                   }
                   <Switch>
                     <Route exact path="/" component={Home} />
@@ -119,10 +101,9 @@ class App extends React.Component {
                     <Route exact path="/admin/manage-users" component={ManageUsers} />
                     <Route exact path="/admin/manage-users/:id" component={UpdateUser} />
                     <Route component={NoMatch} />
-                </Switch>
+                  </Switch>
+                </div>
               </div>
-              }
-            </div>
             <Footer />
           </div>
         </Router>
@@ -130,10 +111,4 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  bookError: state.books.error,
-  categoryError: state.categories.error,
-  ratingError: state.ratings.error
-});
-
-export default connect(mapStateToProps, {setUser, clearUser})(App);
+export default connect(null, {setUser, clearUser})(App);

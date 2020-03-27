@@ -1,4 +1,4 @@
-import { FETCH_CATEGORIES, NEW_CATEGORY, REMOVE_CATEGORY, UPDATE_CATEGORY, CLEAR_CATEGORIES } from '../actions/types';
+import { FETCH_CATEGORIES, NEW_CATEGORY, REMOVE_CATEGORY, UPDATE_CATEGORY, CLEAR_CATEGORIES, CATEGORY_ERROR } from '../actions/types';
 
 const initialState = {
   items: null,
@@ -12,33 +12,33 @@ export default function(state = initialState, action) {
       return {
         ...state,
         items: action.payload,
-        item: null,
-        error: action.error
+        item: null
       };
     case NEW_CATEGORY:
       return {
         ...state,
-        item: action.payload,
-        error: action.error
+        item: action.payload
       };
     case REMOVE_CATEGORY:
       return {
         ...state,
-        item: action.payload,
-        error: action.error
+        item: action.payload
       };
     case UPDATE_CATEGORY:
       return {
         ...state,
-        item: action.payload,
-        error: action.error
+        item: action.payload
       };
     case CLEAR_CATEGORIES:
       return {
         ...state,
         items: null,
-        item: null,
-        error: null
+        item: null
+      };
+    case CATEGORY_ERROR:
+      return {
+        ...state,
+        error: action.error
       };
     default:
       return state;

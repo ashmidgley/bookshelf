@@ -13,15 +13,21 @@ class UpdatePassword extends React.Component {
         super(props);
         this.state = {
             submitting: false,
-            success: false
+            success: false,
+            error: null
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.updatedUser) {
+        if(nextProps.error) {
             this.setState({
-                submitting: false,
-                success: true
+                error: nextProps.error,
+                submitting: false
+            });
+        } else if(nextProps.updatedUser) {
+            this.setState({
+                success: true,
+                submitting: false
             });
         }
     }
@@ -87,6 +93,10 @@ class UpdatePassword extends React.Component {
                                         </div>
                                     }
                                 </div>
+                                {
+                                    this.state.error &&
+                                    <div className="notification is-danger">{this.state.error}</div>
+                                }
                                 <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit" disabled={isSubmitting}>Update</button>
                                 <Link to="/my-account">
                                     <button className="button cancel-button">Cancel</button>
@@ -102,7 +112,8 @@ class UpdatePassword extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    updatedUser: state.user.updatedUser
+    updatedUser: state.user.updatedUser,
+    error: state.user.error
 });
 
 export default connect(mapStateToProps, {updatePassword})(UpdatePassword);

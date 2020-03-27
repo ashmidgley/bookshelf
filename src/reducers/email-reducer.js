@@ -1,24 +1,21 @@
-import { SEND_RESET_TOKEN } from '../actions/types';
+import { SEND_RESET_TOKEN, EMAIL_ERROR } from '../actions/types';
 
 const initialState = {
-  resetTokenSent: false,
+  resetTokenSent: null,
   error: null
 };
 
 export default function(state = initialState, action) {
   switch (action.type) {
     case SEND_RESET_TOKEN:
-      if(action.error) {
-        return {
-          ...state,
-          error: action.error 
-        };
-      }
-      
       return {
         ...state,
-        resetTokenSent: action.payload.error == null,
-        error: action.payload.error
+        resetTokenSent: true
+      };
+    case EMAIL_ERROR:
+      return {
+        ...state,
+        error: action.error
       };
     default:
       return state;

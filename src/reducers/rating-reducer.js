@@ -1,4 +1,4 @@
-import { FETCH_RATINGS, NEW_RATING, REMOVE_RATING, UPDATE_RATING, CLEAR_RATINGS } from '../actions/types';
+import { FETCH_RATINGS, NEW_RATING, REMOVE_RATING, UPDATE_RATING, CLEAR_RATINGS, RATING_ERROR } from '../actions/types';
 
 const initialState = {
   items: null,
@@ -12,33 +12,33 @@ export default function(state = initialState, action) {
       return {
         ...state,
         items: action.payload,
-        item: null,
-        error: action.error
+        item: null
       };
     case NEW_RATING:
       return {
         ...state,
-        item: action.payload,
-        error: action.error
+        item: action.payload
       };
     case REMOVE_RATING:
       return {
         ...state,
-        item: action.payload,
-        error: action.error
+        item: action.payload
       };
     case UPDATE_RATING:
       return {
         ...state,
-        item: action.payload,
-        error: action.error
+        item: action.payload
       };
     case CLEAR_RATINGS:
       return {
         ...state,
         items: null,
-        item: null,
-        error: null
+        item: null
+      };
+    case RATING_ERROR:
+      return {
+        ...state,
+        error: action.error
       };
     default:
       return state;

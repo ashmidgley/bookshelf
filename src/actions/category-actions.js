@@ -1,4 +1,4 @@
-import { FETCH_CATEGORIES, NEW_CATEGORY, UPDATE_CATEGORY, REMOVE_CATEGORY, CLEAR_CATEGORIES } from './types';
+import { FETCH_CATEGORIES, NEW_CATEGORY, UPDATE_CATEGORY, REMOVE_CATEGORY, CLEAR_CATEGORIES, CATEGORY_ERROR } from './types';
 import { createConfig } from '../helpers/action-helper';
 import axios from 'axios';
 
@@ -15,8 +15,8 @@ export const fetchCategories = (userId) => dispatch => {
   .catch(error => {
     console.error(error);
     dispatch({
-      type: FETCH_CATEGORIES,
-      error: error.message
+      type: CATEGORY_ERROR,
+      error: error.response ? error.response.data : error.message
     })
   })
 };
@@ -33,8 +33,8 @@ export const createCategory = (postData, token) => dispatch => {
     .catch(error => {
       console.error(error);
       dispatch({
-        type: NEW_CATEGORY,
-        error: error.message
+        type: CATEGORY_ERROR,
+        error: error.response ? error.response.data : error.message
       })
     })
 };
@@ -51,8 +51,8 @@ export const updateCategory = (postData, token) => dispatch => {
     .catch(error => {
       console.error(error);
       dispatch({
-        type: UPDATE_CATEGORY,
-        error: error.message
+        type: CATEGORY_ERROR,
+        error: error.response ? error.response.data : error.message
       })
     })
 };
@@ -69,8 +69,8 @@ export const removeCategory = (id, token) => dispatch => {
     .catch(error => {
       console.error(error);
       dispatch({
-        type: REMOVE_CATEGORY,
-        error: error.message
+        type: CATEGORY_ERROR,
+        error: error.response ? error.response.data : error.message
       })
     })
 };
