@@ -15,8 +15,9 @@ class AddBook extends React.Component {
         super(props);
         this.state = {
             submitting: false,
+            loading: true,
             success: false,
-            loading: true
+            error: null
         };
     }
 
@@ -35,18 +36,24 @@ class AddBook extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings))
+        if(nextProps.error) {
+            this.setState({
+                error: nextProps.error,
+                submitting: false,
+                loading: false
+            });
+        } else if(Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings)) {
             this.setState({
                 loading: false
-        });
-
-        if(nextProps.book) {
+            });
+        } else if (nextProps.book) {
             this.props.books.unshift(nextProps.book);
 
             this.setState({
                 submitting: false,
                 success: true
             });
+
             window.scrollTo(0, 0);
         }
     }
@@ -90,6 +97,10 @@ class AddBook extends React.Component {
                         this.state.success && 
                         <div className="notification is-primary">Successfully created entry.</div>
                     }
+                    {
+                        this.state.error && 
+                        <div className="notification is-danger">{this.state.error}</div>
+                    }
                     <Formik
                         initialValues=
                         {
@@ -97,8 +108,8 @@ class AddBook extends React.Component {
                                 title: '',
                                 author: '',
                                 finishedOn: '',
-                                categoryId: this.props.categories.length ? this.props.categories[0].id : null,
-                                ratingId: this.props.ratings.length ? this.props.ratings[0].id : null,
+                                categoryId: this.props.categories && this.props.categories.length ? this.props.categories[0].id : null,
+                                ratingId: this.props.ratings && this.props.ratings.length ? this.props.ratings[0].id : null,
                             }
                         }
                         validate={values => {
@@ -137,7 +148,9 @@ class AddBook extends React.Component {
                                 <div className="field">
                                     <label className="label">Category</label>
                                     <div className="control radio-container">
-                                        {this.props.categories.map(category =>
+                                        {
+                                            this.props.categories && 
+                                            this.props.categories.map(category =>
                                             <div key={category.id}> 
                                                 <input type="radio" name="categoryId" id={category.id} value={values.categoryId} checked={values.categoryId === category.id} onChange={() => {setFieldValue('categoryId', category.id)}} onBlur={handleBlur} />
                                                 <label className="radio">{category.description}</label>
@@ -148,7 +161,9 @@ class AddBook extends React.Component {
                                 <div className="field">
                                     <label className="label">Rating</label>
                                     <div className="control radio-container">
-                                        {this.props.ratings.map(rating =>
+                                        {
+                                            this.props.ratings && 
+                                            this.props.ratings.map(rating =>
                                             <div key={rating.id}> 
                                                 <input type="radio" name="ratingId" id={rating.id} value={values.ratingId} checked={values.ratingId === rating.id} onChange={() => {setFieldValue('ratingId', rating.id)}} onBlur={handleBlur} />
                                                 <label className="radio">{rating.description}</label>
@@ -174,7 +189,8 @@ const mapStateToProps = state => ({
     books: state.books.items,
     book: state.books.item,
     categories: state.categories.items,
-    ratings: state.ratings.items
+    ratings: state.ratings.items,
+    error: state.books.error
 });
 
 export default connect(mapStateToProps, {createBook, fetchBooks, fetchCategories, fetchRatings})(AddBook);
