@@ -1,4 +1,4 @@
-import { FETCH_RATINGS, NEW_RATING, UPDATE_RATING, REMOVE_RATING, CLEAR_RATINGS } from './types';
+import { FETCH_RATINGS, NEW_RATING, UPDATE_RATING, REMOVE_RATING, CLEAR_RATINGS, RATING_ERROR } from './types';
 import { createConfig } from '../helpers/action-helper';
 import axios from 'axios';
 
@@ -15,8 +15,8 @@ export const fetchRatings = (userId) => dispatch => {
   .catch(error => {
     console.error(error);
     dispatch({
-      type: FETCH_RATINGS,
-      error: error.message
+      type: RATING_ERROR,
+      error: error.response ? error.response.data : error.message
     })
   })
 };
@@ -33,8 +33,8 @@ export const createRating = (postData, token) => dispatch => {
     .catch(error => {
       console.error(error);
       dispatch({
-        type: NEW_RATING,
-        error: error.message
+        type: RATING_ERROR,
+        error: error.response ? error.response.data : error.message
       })
     })
 };
@@ -51,8 +51,8 @@ export const updateRating = (postData, token) => dispatch => {
     .catch(error => {
       console.error(error);
       dispatch({
-        type: UPDATE_RATING,
-        error: error.message
+        type: RATING_ERROR,
+        error: error.response ? error.response.data : error.message
       })
     })
 };
@@ -69,8 +69,8 @@ export const removeRating = (id, token) => dispatch => {
     .catch(error => {
       console.error(error);
       dispatch({
-        type: REMOVE_RATING,
-        error: error.message
+        type: RATING_ERROR,
+        error: error.response ? error.response.data : error.message
       })
     })
 };

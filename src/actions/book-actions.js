@@ -1,4 +1,4 @@
-import { FETCH_BOOKS, NEW_BOOK, UPDATE_BOOK, REMOVE_BOOK, CLEAR_BOOKS } from './types';
+import { FETCH_BOOKS, NEW_BOOK, UPDATE_BOOK, REMOVE_BOOK, CLEAR_BOOKS, BOOK_ERROR } from './types';
 import { createConfig } from '../helpers/action-helper';
 import * as moment from 'moment';
 import axios from 'axios';
@@ -16,8 +16,8 @@ export const fetchBooks = (userId) => dispatch => {
     .catch(error => {
       console.error(error);
       dispatch({
-        type: FETCH_BOOKS,
-        error: error.message
+        type: BOOK_ERROR,
+        error: error.response ? error.response.data : error.message
       })
     })
 };
@@ -34,8 +34,8 @@ export const createBook = (postData, token) => dispatch => {
     .catch(error => {
       console.error(error);
       dispatch({
-        type: NEW_BOOK,
-        error: error.message
+        type: BOOK_ERROR,
+        error: error.response ? error.response.data : error.message
       })
     })
 };
@@ -52,8 +52,8 @@ export const updateBook = (postData, token) => dispatch => {
     .catch(error => {
       console.error(error);
       dispatch({
-        type: UPDATE_BOOK,
-        error: error.message
+        type: BOOK_ERROR,
+        error: error.response ? error.response.data : error.message
       })
     })
 };
@@ -70,8 +70,8 @@ export const removeBook = (id, token) => dispatch => {
     .catch(error => {
       console.error(error);
       dispatch({
-        type: REMOVE_BOOK,
-        error: error.message
+        type: BOOK_ERROR,
+        error: error.response ? error.response.data : error.message
       })
     })
 };
