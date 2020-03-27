@@ -15,14 +15,14 @@ class ForgotPassword extends React.Component {
             submitting: false,
             submitted: false,
             email: null,
-            invalidAction: null
+            error: null
         };
     }
 
     componentWillReceiveProps(nextProps) {
         if(nextProps.error) {
             this.setState({
-                invalidAction: nextProps.error,
+                error: nextProps.error,
                 submitting: false
             });
         } else if(nextProps.resetTokenSent === true) {
@@ -34,7 +34,7 @@ class ForgotPassword extends React.Component {
 
     submitEntry(values) {
         this.setState({
-            invalidAction: null,
+            error: null,
             submitting: true,
             email: values.email
         });
@@ -91,8 +91,8 @@ class ForgotPassword extends React.Component {
                                         }
                                     </div>
                                     {
-                                        this.state.invalidAction &&
-                                        <div className="notification is-danger">{this.state.invalidAction}</div>
+                                        this.state.error &&
+                                        <div className="notification is-danger">{this.state.error}</div>
                                     }
                                     <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit" disabled={isSubmitting}>Send</button>
                                     <Link to="/">

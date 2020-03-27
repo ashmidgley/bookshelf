@@ -14,12 +14,17 @@ class UpdateEmail extends React.Component {
         this.state = {
             submitting: false,
             success: false,
-            invalidAction: null
+            error: null
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.updatedUser) {
+        if(nextProps.error) {
+            this.setState({
+                submitting: false,
+                error: nextProps.error
+            })
+        } else if(nextProps.updatedUser) {
             localStorage.setItem('userEmail', nextProps.updatedUser.email);
             var data = { 
                 token: localStorage.getItem('token'),
@@ -33,20 +38,13 @@ class UpdateEmail extends React.Component {
                 success: true
             });
         }
-
-        if(nextProps.invalidAction) {
-            this.setState({
-                submitting: false,
-                invalidAction: nextProps.invalidAction
-            })
-        }
     }
 
     submitEntry(values) {
         this.setState({
             submitting: true,
             success: false,
-            invalidAction: null
+            error: null
         });
 
         var token = localStorage.getItem('token');
@@ -105,8 +103,8 @@ class UpdateEmail extends React.Component {
                                     }
                                 </div>
                                 {
-                                    this.state.invalidAction &&
-                                    <div className="notification is-danger">{this.state.invalidAction}</div>
+                                    this.state.error &&
+                                    <div className="notification is-danger">{this.state.error}</div>
                                 }
                                 <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit" disabled={isSubmitting}>Update</button>
                                 <Link to="/my-account">
@@ -125,7 +123,7 @@ class UpdateEmail extends React.Component {
 const mapStateToProps = state => ({
     user: state.user.user,
     updatedUser: state.user.updatedUser,
-    invalidAction: state.user.invalidAction
+    error: state.user.error
 });
 
 export default connect(mapStateToProps, {updateEmail, setUser})(UpdateEmail);

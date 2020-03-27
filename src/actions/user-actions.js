@@ -1,4 +1,4 @@
-import { GET_USERS, UPDATE_USER, UPDATE_EMAIL, UPDATE_PASSWORD, DELETE_USER, SET_USER, CLEAR_USER } from './types';
+import { GET_USERS, UPDATE_USER, UPDATE_EMAIL, UPDATE_PASSWORD, DELETE_USER, SET_USER, CLEAR_USER, USER_ERROR } from './types';
 import { createConfig } from '../helpers/action-helper';
 import axios from 'axios';
 
@@ -16,8 +16,8 @@ export const fetchUsers = (token) => dispatch => {
     .catch(error => {
       console.error(error);
       dispatch({
-        type: GET_USERS,
-        error: error.message
+        type: USER_ERROR,
+        error: error.response ? error.response.data : error.message
       })
     });
 }
@@ -34,8 +34,8 @@ export const updateUser = (user, token) => dispatch => {
     .catch(error => {
       console.error(error);
       dispatch({
-        type: UPDATE_USER,
-        error: error.message
+        type: USER_ERROR,
+        error: error.response ? error.response.data : error.message
       })
     });
 }
@@ -52,8 +52,8 @@ export const updateEmail = (data, token) => dispatch => {
     .catch(error => {
       console.error(error);
       dispatch({
-        type: UPDATE_EMAIL,
-        error: error.message
+        type: USER_ERROR,
+        error: error.response ? error.response.data : error.message
       })
     });
 }
@@ -70,8 +70,8 @@ export const updatePassword = (data, token) => dispatch => {
     .catch(error => {
       console.error(error);
       dispatch({
-        type: UPDATE_PASSWORD,
-        error: error.message
+        type: USER_ERROR,
+        error: error.response ? error.response.data : error.message
       })
     });
 }
@@ -89,8 +89,8 @@ export const deleteUser = (userId, token) => dispatch => {
     .catch(error => {
       console.error(error);
       dispatch({
-        type: DELETE_USER,
-        error: error.message
+        type: USER_ERROR,
+        error: error.response ? error.response.data : error.message
       })
     });
 }
@@ -106,8 +106,8 @@ export const updatePasswordUsingToken = (data) => dispatch => {
     .catch(error => {
       console.error(error);
       dispatch({
-        type: UPDATE_PASSWORD,
-        error: error.message
+        type: USER_ERROR,
+        error: error.response ? error.response.data : error.message
       })
     });
 }
