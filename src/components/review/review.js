@@ -1,7 +1,7 @@
 import React from 'react';
 import './review.css';
 import Loading from '../loading/loading';
-import * as moment from 'moment';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookOpen } from '@fortawesome/free-solid-svg-icons';

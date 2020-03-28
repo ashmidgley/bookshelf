@@ -1,7 +1,7 @@
 import React from 'react';
 import './update-book.css';
 import Loading from '../loading/loading';
-import * as moment from 'moment';
+import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import { connect } from 'react-redux';
