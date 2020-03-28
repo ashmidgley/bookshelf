@@ -5,7 +5,7 @@ import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { createRating, updateRating, fetchRatings } from '../../actions/rating-actions';
+import { createRating, updateRating, fetchRatings, clearError } from '../../actions/rating-actions';
 
 class RatingForm extends React.Component {
 
@@ -15,9 +15,10 @@ class RatingForm extends React.Component {
             action: props.match.params.id ? 'Update' : 'Create',
             ratingId: parseInt(props.match.params.id),
             rating: null,
+            loading: true,
             submitting: false,
             success: false,
-            loading: true
+            error: null
         };
     }
 
@@ -31,18 +32,26 @@ class RatingForm extends React.Component {
                 loading: false
             })
         }
-
         window.scrollTo(0, 0);
     }
 
     componentWillReceiveProps(nextProps) {
-        if(Array.isArray(nextProps.ratings))
+        if(this.state.loading && Array.isArray(nextProps.ratings)) {
             this.setState({
                 rating: this.state.ratingId ? nextProps.ratings.find(b => b.id === this.state.ratingId) : null,
                 loading: false
-        });
+            });
+            return;
+        }
 
-        if(nextProps.rating) {
+        if(nextProps.error) {
+            this.setState({
+                error: nextProps.error,
+                loading: false,
+                submitting: false
+            });
+            this.props.clearError();
+        } else if(this.state.submitting && nextProps.rating) {
             if(this.props.match.params.id){
                 var oldRating = this.props.ratings.find(b => b.id === nextProps.rating.id);
                 var i = this.props.ratings.indexOf(oldRating);
@@ -60,7 +69,8 @@ class RatingForm extends React.Component {
     submitEntry(values) {
         this.setState({
             submitting: true,
-            success: false
+            success: false,
+            error: null
         });
         
         var rating = {
@@ -97,6 +107,10 @@ class RatingForm extends React.Component {
                     {
                         this.state.success &&
                         <div className="notification is-primary">Successfully {this.state.action.toLowerCase()}d entry.</div>
+                    }
+                    {
+                        this.state.error && 
+                        <div className="notification is-danger">{this.state.error}</div>
                     }
                     <Formik
                         initialValues=
@@ -148,7 +162,8 @@ class RatingForm extends React.Component {
 
 const mapStateToProps = state => ({
     ratings: state.ratings.items,
-    rating: state.ratings.item
+    rating: state.ratings.item,
+    error: state.ratings.error
 });
 
-export default connect(mapStateToProps, {createRating, updateRating, fetchRatings})(RatingForm);
+export default connect(mapStateToProps, {createRating, updateRating, fetchRatings, clearError})(RatingForm);
