@@ -7,30 +7,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { customStyles } from '../../helpers/custom-modal';
-import { fetchUsers, deleteUser } from '../../actions/user-actions';
+import { fetchUsers, deleteUser, clearError } from '../../actions/user-actions';
 
 class ManageUsers extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
-            loading: true,
+            selectedUserId: null,
             modalIsOpen: false,
-            selectedUserId: null
-        }
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.users) {
-            this.setState({
-                loading: false
-            });
-        }
-
-        if(nextProps.deletedUser) {
-            var deletedUser = this.props.users.find(b => b.id === nextProps.deletedUser.id);
-            var index = this.props.users.indexOf(deletedUser);
-            this.props.users.splice(index, 1);
+            loading: true,
+            success: false,
+            error: null
         }
     }
 
@@ -50,6 +38,35 @@ class ManageUsers extends React.Component {
         }
     }
 
+    componentWillReceiveProps(nextProps) {
+        if(this.state.loading && Array.isArray(nextProps.users)) {
+            this.setState({
+                loading: false
+            });
+            return;
+        }
+
+        if(nextProps.error) {
+            this.setState({
+                error: nextProps.error,
+                modalIsOpen: false,
+                loading: false,
+                submitting: false
+            });
+            this.props.clearError();
+        } else if (this.state.submitting && nextProps.deletedUser) {
+            var deletedUser = this.props.users.find(b => b.id === nextProps.deletedUser.id);
+            var index = this.props.users.indexOf(deletedUser);
+            this.props.users.splice(index, 1);
+
+            this.setState({
+                modalIsOpen: false,
+                submitting: false,
+                success: true
+            });
+        }
+    }
+
     openModal = (id) => {
         this.setState({
             selectedUserId: id,
@@ -63,7 +80,14 @@ class ManageUsers extends React.Component {
         });
     }
 
-    handleSubmit = () => {
+    handleSubmit = (event) => {
+        event.preventDefault();
+        this.setState({
+            submitting: true,
+            error: null,
+            success: false
+        });
+
         var token = localStorage.getItem('token');
         this.props.deleteUser(this.state.selectedUserId, token);
     }
@@ -91,7 +115,7 @@ class ManageUsers extends React.Component {
                             <form onSubmit={this.handleSubmit}>
                                 <div>Are you sure you would like to delete this user?</div>
                                 <div className="modal-actions">
-                                    <button className="button is-link" type="submit">
+                                    <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit">
                                         Confirm
                                     </button>
                                     <button id="cancel" className="button" onClick={this.closeModal}>
@@ -102,6 +126,14 @@ class ManageUsers extends React.Component {
                         </Modal>
                         <div>
                             <h1 className="title">Users</h1>
+                            {
+                                this.state.success &&
+                                <div className="notification is-primary">Successfully removed entry.</div>
+                            }
+                            {
+                                this.state.error && 
+                                <div className="notification is-danger">{this.state.error}</div>
+                            }
                             <div className="form-table">
                                 <table className="table is-fullwidth is-bordered">
                                     <thead>
@@ -116,7 +148,9 @@ class ManageUsers extends React.Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {this.props.users.map(user =>
+                                        {
+                                            this.props.users &&
+                                            this.props.users.map(user =>
                                             <tr key={user.id}>
                                                 <td>{user.id}</td>
                                                 <td>{user.email}</td>
@@ -151,7 +185,8 @@ class ManageUsers extends React.Component {
 const mapStateToProps = state => ({
     users: state.user.users,
     deletedUser: state.user.deletedUser,
-    token: state.user.token
+    token: state.user.token,
+    error: state.user.error
 });
 
-export default connect(mapStateToProps, {fetchUsers, deleteUser})(ManageUsers);
+export default connect(mapStateToProps, {fetchUsers, deleteUser, clearError})(ManageUsers);
