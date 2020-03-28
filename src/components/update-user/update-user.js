@@ -1,5 +1,6 @@
 import React from 'react';
 import Loading from '../loading/loading';
+import moment from 'moment';
 import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
@@ -59,6 +60,7 @@ class UpdateUser extends React.Component {
                 submitting: false,
                 success: true
             });
+            window.scrollTo(0, 0);
         }
     }
 
@@ -103,7 +105,9 @@ class UpdateUser extends React.Component {
                             {
                                 id: this.state.user ? this.state.user.id : null,
                                 email: this.state.user ? this.state.user.email : null,
-                                isAdmin: this.state.user ? this.state.user.isAdmin : null
+                                isAdmin: this.state.user ? this.state.user.isAdmin : null,
+                                passwordResetToken: this.state.user ? this.state.user.passwordResetToken : null,
+                                passwordResetExpiry: this.state.user ? moment(this.state.user.passwordResetExpiry).format('YYYY-MM-DD') : null
                             }
                         }
                         validate={values => {
@@ -148,6 +152,18 @@ class UpdateUser extends React.Component {
                                             <input type="radio" name="isAdmin" value={values.isAdmin} checked={values.isAdmin === false} onChange={() => {setFieldValue('isAdmin', false)}} onBlur={handleBlur} />
                                             <label className="radio">False</label>
                                         </div>
+                                    </div>
+                                </div>
+                                <div className="field">
+                                    <label className="label">Reset Token</label>
+                                    <div className="control">
+                                        <input className="input" type="text" name="passwordResetToken" placeholder="Enter password reset token" onChange={handleChange} onBlur={handleBlur} value={values.passwordResetToken} />
+                                    </div>
+                                </div>
+                                <div className="field">
+                                    <label className="label">Reset Expiry</label>
+                                    <div className="control">
+                                        <input className="input" type="date" name="passwordResetExpiry" onChange={handleChange} onBlur={handleBlur} value={values.passwordResetExpiry} />
                                     </div>
                                 </div>
                                 <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit" disabled={isSubmitting}>
