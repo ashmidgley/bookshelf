@@ -95,23 +95,6 @@ export const deleteUser = (userId, token) => dispatch => {
     });
 }
 
-export const updatePasswordUsingToken = (data) => dispatch => {
-  axios.put(`${usersUrl}/password/token`, data)
-    .then(response => {
-      dispatch({
-        type: UPDATE_PASSWORD,
-        payload: response.data
-      })
-    })
-    .catch(error => {
-      console.error(error);
-      dispatch({
-        type: USER_ERROR,
-        error: error.response ? error.response.data : error.message
-      })
-    });
-}
-
 export const setUser = (data) => dispatch => {
   dispatch({
     type: SET_USER,

@@ -1,4 +1,4 @@
-import { LOGIN, REGISTER, RESET_TOKEN_VALID, USER_ERROR } from './types';
+import { LOGIN, REGISTER, RESET_TOKEN_VALID, UPDATE_PASSWORD, USER_ERROR, CLEAR_TOKEN } from './types';
 import { persistToken, createUserPayload } from '../helpers/action-helper';
 import axios from 'axios';
 
@@ -59,3 +59,26 @@ export const resetTokenValid = (userId, token) => dispatch => {
             })
         });
 };
+
+export const updatePasswordUsingToken = (data) => dispatch => {
+    axios.put(authUrl, data)
+      .then(response => {
+        dispatch({
+          type: UPDATE_PASSWORD,
+          payload: response.data
+        })
+      })
+      .catch(error => {
+        console.error(error);
+        dispatch({
+          type: USER_ERROR,
+          error: error.response ? error.response.data : error.message
+        })
+      });
+}
+
+export const clearToken = () => dispatch => {
+    dispatch({
+        type: CLEAR_TOKEN
+    })
+}

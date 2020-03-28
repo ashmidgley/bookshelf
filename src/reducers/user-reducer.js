@@ -1,4 +1,4 @@
-import { LOGIN, REGISTER, SET_USER, CLEAR_USER, GET_USERS, UPDATE_USER, UPDATE_EMAIL, UPDATE_PASSWORD, DELETE_USER, RESET_TOKEN_VALID, USER_ERROR, CLEAR_ERROR } from '../actions/types';
+import { LOGIN, REGISTER, SET_USER, CLEAR_USER, GET_USERS, UPDATE_USER, UPDATE_EMAIL, UPDATE_PASSWORD, DELETE_USER, RESET_TOKEN_VALID, USER_ERROR, CLEAR_ERROR, CLEAR_TOKEN } from '../actions/types';
 
 const initialState = {
   users: null,
@@ -81,6 +81,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         error: null
+      };
+    case CLEAR_TOKEN:
+      return {
+        ...state,
+        resetTokenValid: null
       };
     default:
       return state;
