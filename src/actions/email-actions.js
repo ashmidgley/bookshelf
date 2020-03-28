@@ -1,4 +1,4 @@
-import { SEND_RESET_TOKEN, EMAIL_ERROR } from './types';
+import { SEND_RESET_TOKEN, EMAIL_ERROR, CLEAR_ERROR } from './types';
 import axios from 'axios';
 
 let emailsUrl = process.env.REACT_APP_API_URL + '/emails';
@@ -18,4 +18,10 @@ export const sendResetToken = (email) => dispatch => {
           error: error.response ? error.response.data : error.message
         })
       });
-  }
+}
+
+export const clearError = () => dispatch => {
+  dispatch({
+    type: CLEAR_ERROR
+  })
+}

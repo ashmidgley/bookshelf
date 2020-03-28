@@ -1,4 +1,4 @@
-import { FETCH_RATINGS, NEW_RATING, UPDATE_RATING, REMOVE_RATING, CLEAR_RATINGS, RATING_ERROR } from './types';
+import { FETCH_RATINGS, NEW_RATING, UPDATE_RATING, REMOVE_RATING, CLEAR_RATINGS, RATING_ERROR, CLEAR_ERROR } from './types';
 import { createConfig } from '../helpers/action-helper';
 import axios from 'axios';
 
@@ -78,5 +78,11 @@ export const removeRating = (id, token) => dispatch => {
 export const clearRatings = () => dispatch => {
   dispatch({
     type: CLEAR_RATINGS
+  })
+}
+
+export const clearError = () => dispatch => {
+  dispatch({
+    type: CLEAR_ERROR
   })
 }

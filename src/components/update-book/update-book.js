@@ -1,13 +1,13 @@
 import React from 'react';
 import './update-book.css';
 import Loading from '../loading/loading';
-import * as moment from 'moment';
+import moment from 'moment';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { updateBook, fetchBooks } from '../../actions/book-actions';
+import { updateBook, fetchBooks, clearError } from '../../actions/book-actions';
 import { fetchCategories } from '../../actions/category-actions';
 import { fetchRatings } from '../../actions/rating-actions';
 
@@ -21,9 +21,10 @@ class UpdateBook extends React.Component {
         this.state = {
             bookId: parseInt(props.match.params.id),
             book: null,
+            loading: true,
             submitting: false,
             success: false,
-            loading: true
+            error: null
         };
     }
 
@@ -43,23 +44,29 @@ class UpdateBook extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings)) {
+        if(this.state.loading && Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings)) {
             this.setState({
-                book: this.props.books.find(b => b.id === this.state.bookId),
+                book: nextProps.books.find(b => b.id === this.state.bookId),
                 loading: false
             });
+            return;
         }
 
-        if(nextProps.book) {
+        if(nextProps.error) {
+            this.setState({
+                error: nextProps.error,
+                submitting: false,
+                loading: false
+            });
+            this.props.clearError();
+        } else if(this.state.submitting && nextProps.book) {
             var oldBook = this.props.books.find(b => b.id === nextProps.book.id);
             var i = this.props.books.indexOf(oldBook);
             this.props.books[i] = nextProps.book;
-
             this.setState({
                 submitting: false,
                 success: true
             });
-            
             window.scrollTo(0, 0);
         }
     }
@@ -101,6 +108,26 @@ class UpdateBook extends React.Component {
         return false;
     }
 
+    getCategoryId() {
+        if(this.state.book) {
+            return this.state.book.categoryId;
+        }
+        if(this.props.categories && this.props.categories.length) {
+            return this.props.categories[0].id
+        }
+        return null;
+    }
+
+    getRatingId() {
+        if(this.state.book) {
+            return this.state.book.ratingId;
+        }
+        if(this.props.ratings && this.props.ratings.length) {
+            return this.props.ratings[0].id;
+        }
+        return null;
+    }
+
     render() {
         if(this.state.loading) {
             return (
@@ -121,6 +148,10 @@ class UpdateBook extends React.Component {
                         this.state.success &&
                         <div className="notification is-primary">Successfully updated entry.</div>
                     }
+                    {
+                        this.state.error &&
+                        <div className="notification is-danger">{this.state.error}</div>
+                    }
                     <Formik
                         initialValues=
                         {
@@ -130,8 +161,8 @@ class UpdateBook extends React.Component {
                                 author: this.state.book ? this.state.book.author : '',
                                 finishedOn: this.state.book ? moment(this.state.book.finishedOn).format('YYYY-MM-DD') : '',
                                 pageCount: this.state.book ? this.state.book.pageCount : '',
-                                categoryId: this.state.book ? this.state.book.categoryId : this.props.categories.length ? this.props.categories[0].id : null,
-                                ratingId: this.state.book ? this.state.book.ratingId : this.props.ratings.length ? this.props.ratings[0].id : null,
+                                categoryId: this.getCategoryId(),
+                                ratingId: this.getRatingId(),
                                 summary: this.state.book ? this.state.book.summary : ''
                             }
                         }
@@ -175,7 +206,8 @@ class UpdateBook extends React.Component {
                                     }
                                 </div>
                                 <div className="has-text-centered">
-                                    {!errors.imageUrl && values.imageUrl ? 
+                                    {
+                                        !errors.imageUrl && values.imageUrl ? 
                                         <img src={values.imageUrl} alt={values.imageUrl} width="96" height="96" /> 
                                         : 
                                         <img src={this.tempImage} alt="Placeholder" />
@@ -202,7 +234,9 @@ class UpdateBook extends React.Component {
                                 <div className="field">
                                     <label className="label">Category</label>
                                     <div className="control radio-container">
-                                        {this.props.categories.map(category =>
+                                        {
+                                            this.props.categories &&
+                                            this.props.categories.map(category =>
                                             <div key={category.id}> 
                                                 <input type="radio" name="categoryId" id={category.id} value={values.categoryId} checked={values.categoryId === category.id} onChange={() => {setFieldValue('categoryId', category.id)}} onBlur={handleBlur} />
                                                 <label className="radio">{category.description}</label>
@@ -213,7 +247,9 @@ class UpdateBook extends React.Component {
                                 <div className="field">
                                     <label className="label">Rating</label>
                                     <div className="control radio-container">
-                                        {this.props.ratings.map(rating =>
+                                        {
+                                            this.props.ratings &&
+                                            this.props.ratings.map(rating =>
                                             <div key={rating.id}> 
                                                 <input type="radio" name="ratingId" id={rating.id} value={values.ratingId} checked={values.ratingId === rating.id} onChange={() => {setFieldValue('ratingId', rating.id)}} onBlur={handleBlur} />
                                                 <label className="radio">{rating.description}</label>
@@ -245,7 +281,8 @@ const mapStateToProps = state => ({
     books: state.books.items,
     book: state.books.item,
     categories: state.categories.items,
-    ratings: state.ratings.items
+    ratings: state.ratings.items,
+    error: state.books.error
 });
 
-export default connect(mapStateToProps, {updateBook, fetchBooks, fetchCategories, fetchRatings})(UpdateBook);
+export default connect(mapStateToProps, {updateBook, fetchBooks, clearError, fetchCategories, fetchRatings})(UpdateBook);

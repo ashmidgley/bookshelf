@@ -6,8 +6,8 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
 import { validatePasswordLength } from '../../helpers/field-validator';
-import { resetTokenValid } from '../../actions/auth-actions';
-import { updatePasswordUsingToken } from '../../actions/user-actions';
+import { resetTokenValid, updatePasswordUsingToken, clearToken } from '../../actions/auth-actions';
+import { clearError } from '../../actions/user-actions';
 
 class ResetPassword extends React.Component {
 
@@ -31,20 +31,22 @@ class ResetPassword extends React.Component {
         if(nextProps.error) {
             this.setState({
                 error: nextProps.error,
+                loading: false,
+                submitting: false
+            });
+            this.props.clearError();
+        } else if (nextProps.tokenValid === true) {
+            this.setState({
                 loading: false
             });
-        } else if (nextProps.resetTokenValid) {
-            if(nextProps.resetTokenValid === true) {
-                this.setState({
-                    loading: false
-                });
-            } else {
-                this.setState({
-                    error: 'The password reset token does not match or has expired. Please request another and try again.',
-                    loading: false
-                });
-            }
-        } else if(nextProps.updatedUser) {
+            this.props.clearToken();
+        } else if(nextProps.tokenValid === false) {
+            this.setState({
+                error: 'The password reset token does not match or has expired. Please request another and try again.',
+                loading: false
+            });
+            this.props.clearToken();
+        } else if(this.state.submitting && nextProps.updatedUser) {
             this.setState({
                 success: true,
                 submitting: false
@@ -55,11 +57,12 @@ class ResetPassword extends React.Component {
     submitEntry(values) {
         this.setState({
             submitting: true,
-            success: false
+            success: false,
+            error: null
         });
 
         var data = { 
-            id: this.props.match.params.userId,
+            userId: parseInt(this.props.match.params.userId),
             token: this.props.match.params.resetToken,
             password: values.password
         };
@@ -84,58 +87,56 @@ class ResetPassword extends React.Component {
                         </div>
                     </div>
                     {
-                        this.state.error ?
-                        <div className="notification is-danger">
-                            {this.state.error}
+                        this.state.success && 
+                        <div className="notification is-success">
+                            Successfully updated password. Please <Link to="/login">login</Link> to continue.
                         </div>
-                        :
-                        <div>
+                    }
+                    {
+                        this.state.error &&
+                        <div className="notification is-danger">{this.state.error}</div>
+                    }
+                    {
+                        !this.state.error && !this.state.success &&
+                        <Formik
+                            initialValues=
                             {
-                                this.state.success && 
-                                <div className="notification is-primary">
-                                    Successfully updated password. Please <Link to="/login">login</Link> to continue.
-                                </div>
-                            }
-                            <Formik
-                                initialValues=
                                 {
-                                    {
-                                        password: ''
-                                    }
+                                    password: ''
                                 }
-                                validate={values => {
-                                    let errors = {};
-                                    if(!validatePasswordLength(values.password))
-                                        errors.password = 'Password must be at least 5 characters long';
-                                    if (!values.password)
-                                        errors.password = 'Required';
-                                    return errors;
-                                }}
-                                onSubmit={(values, { setSubmitting }) => {
-                                    this.submitEntry(values);
-                                    setSubmitting(false);
-                                }}>{({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
-                                    <form className="form" onSubmit={handleSubmit}>
-                                        <div className="field">
-                                            <label className="label">Password</label>
-                                            <div className="control">
-                                                <input className={errors.password && touched.password ? 'input is-danger' : 'input'} type="password" name="password" placeholder="Enter password" onChange={handleChange} onBlur={handleBlur} value={values.password} />
-                                            </div>
-                                            {
-                                                errors.password && touched.password &&
-                                                <div className="has-text-danger is-size-7">
-                                                    {errors.password}
-                                                </div>
-                                            }
+                            }
+                            validate={values => {
+                                let errors = {};
+                                if(!validatePasswordLength(values.password))
+                                    errors.password = 'Password must be at least 5 characters long';
+                                if (!values.password)
+                                    errors.password = 'Required';
+                                return errors;
+                            }}
+                            onSubmit={(values, { setSubmitting }) => {
+                                this.submitEntry(values);
+                                setSubmitting(false);
+                            }}>{({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
+                                <form className="form" onSubmit={handleSubmit}>
+                                    <div className="field">
+                                        <label className="label">Password</label>
+                                        <div className="control">
+                                            <input className={errors.password && touched.password ? 'input is-danger' : 'input'} type="password" name="password" placeholder="Enter password" onChange={handleChange} onBlur={handleBlur} value={values.password} />
                                         </div>
-                                        <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit" disabled={isSubmitting}>Update</button>
-                                        <Link to="/">
-                                            <button className="button cancel-button">Cancel</button>
-                                        </Link>
-                                    </form>
-                                )}
-                                </Formik>
-                            </div>
+                                        {
+                                            errors.password && touched.password &&
+                                            <div className="has-text-danger is-size-7">
+                                                {errors.password}
+                                            </div>
+                                        }
+                                    </div>
+                                    <button className={this.state.submitting ? "button is-link is-loading" : "button is-link"} type="submit" disabled={isSubmitting}>Update</button>
+                                    <Link to="/">
+                                        <button className="button cancel-button">Cancel</button>
+                                    </Link>
+                                </form>
+                            )}
+                            </Formik>
                         }
                     </div>
                 </div>
@@ -146,8 +147,8 @@ class ResetPassword extends React.Component {
 
 const mapStateToProps = state => ({
     updatedUser: state.user.updatedUser,
-    resetTokenValid: state.user.resetTokenValid,
+    tokenValid: state.user.resetTokenValid,
     error: state.user.error
 });
 
-export default connect(mapStateToProps, {updatePasswordUsingToken, resetTokenValid})(ResetPassword);
+export default connect(mapStateToProps, {updatePasswordUsingToken, resetTokenValid, clearError, clearToken})(ResetPassword);

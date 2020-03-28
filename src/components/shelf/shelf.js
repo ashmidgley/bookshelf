@@ -22,7 +22,8 @@ class Shelf extends React.Component {
             searchQuery: null,
             selectedCategory: null,
             selectedRating: null,
-            loading: true
+            loading: true,
+            error: false
         }
     }
 
@@ -40,7 +41,7 @@ class Shelf extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings))
+        if(this.state.loading && Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings)) {
             this.setState({
                 books: nextProps.books,
                 years: this.getYears(nextProps.books),
@@ -48,6 +49,15 @@ class Shelf extends React.Component {
                 ratingMenu: this.getMenu(nextProps.ratings.length+1),
                 loading: false
             });
+            return;
+        }
+        
+        if(nextProps.bookError || nextProps.categoryError || nextProps.ratingError) {
+            this.setState({
+                error: true,
+                loading: false
+            });
+        }
       }
 
     componentDidMount() {
@@ -145,15 +155,21 @@ class Shelf extends React.Component {
                 <div className="shelf-menu-items columns is-mobile card">
                     <div className="columns">
                         <div className="column is-three-fifths">
-                            <input className="input" type="text" placeholder="Search by title or author..." onChange={this.searchSubmit} />
+                            <input 
+                                className="input" type="text" placeholder="Search by title or author..."
+                                onChange={this.searchSubmit}
+                                disabled={this.state.error} 
+                            />
                         </div>
                         <div className="column is-one-fifth hide-mobile">
                             <button 
-                                className={this.state.categoryMenu[0] ? "button selected" : "button"} 
+                                className={this.state.categoryMenu && this.state.categoryMenu[0] ? "button selected" : "button"} 
                                 onClick={this.displayAllCategories} 
                                 style={{'padding':'0 23px'}}>
                             </button>
-                            {this.props.categories.map(category =>
+                            {
+                                this.props.categories &&
+                                this.props.categories.map(category =>
                                 <button 
                                     className={this.state.categoryMenu[this.props.categories.indexOf(category)+1] ? "button selected" : "button"}
                                     key={category.id}
@@ -164,11 +180,13 @@ class Shelf extends React.Component {
                         </div>
                         <div className="column is-one-fifth hide-mobile">
                             <button 
-                                className={this.state.ratingMenu[0] ? "button selected" : "button"} 
+                                className={this.state.ratingMenu && this.state.ratingMenu[0] ? "button selected" : "button"} 
                                 onClick={this.displayAllRatings} 
                                 style={{'padding':'0 23px'}}>
                             </button>
-                            {this.props.ratings.map(rating =>
+                            {
+                                this.props.ratings &&
+                                this.props.ratings.map(rating =>
                                 <button 
                                     className={this.state.ratingMenu[this.props.ratings.indexOf(rating)+1] ? "button selected" : "button"}
                                     key={rating.id}
@@ -180,38 +198,47 @@ class Shelf extends React.Component {
                     </div>
                 </div>
                 {
-                    this.props.books.length === 0 &&
-                    <div className="notification is-link shelf-notification">
-                        No books to display.
+                    this.state.error ?
+                    <div className="notification is-danger">
+                        Error pulling user data. Please refresh and try again.
+                    </div>
+                    :
+                    <div>
+                        {
+                            this.props.books.length === 0 &&
+                            <div className="notification is-link shelf-notification">
+                                No books to display.
+                            </div>
+                        }
+                        <div>
+                            {this.state.years.map(year =>
+                                <div key={year.value}>
+                                    <div className="year-toggle-container">
+                                        <button className="button is-link" onClick={() => this.toggleYear(year.value)}>
+                                            {year.value}
+                                            {year.show ?
+                                                <i className="fa fa-sort-down shelf-year-dropdown"></i>
+                                                :
+                                                <i className="fa fa-sort-up shelf-year-dropdown"></i>
+                                            }
+                                        </button>
+                                    </div>
+                                    <div className="columns is-multiline is-mobile shelf-tiles">
+                                        {books.filter(book => book.year === year.value && year.show).map(book =>
+                                            <div key={book.id} className={this.state.columnClass}>
+                                                <div className="shelf-tile">
+                                                    <Link to={`/review/${book.id}`} className="tile-link">
+                                                        <img src={book.imageUrl} className="tile-image" alt="Shelf tile" />
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     </div>
                 }
-                <div>
-                    {this.state.years.map(year =>
-                        <div key={year.value}>
-                            <div className="year-toggle-container">
-                                <button className="button is-link" onClick={() => this.toggleYear(year.value)}>
-                                    {year.value}
-                                    {year.show ?
-                                        <i className="fa fa-sort-down shelf-year-dropdown"></i>
-                                        :
-                                        <i className="fa fa-sort-up shelf-year-dropdown"></i>
-                                    }
-                                </button>
-                            </div>
-                            <div className="columns is-multiline is-mobile shelf-tiles">
-                                {books.filter(book => book.year === year.value && year.show).map(book =>
-                                    <div key={book.id} className={this.state.columnClass}>
-                                        <div className="shelf-tile">
-                                            <Link to={`/review/${book.id}`} className="tile-link">
-                                                <img src={book.imageUrl} className="tile-image" alt="Shelf tile" />
-                                            </Link>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    )}
-                </div>
             </div>
         )
     }
@@ -220,7 +247,10 @@ class Shelf extends React.Component {
 const mapStateToProps = state => ({
     books: state.books.items,
     categories: state.categories.items,
-    ratings: state.ratings.items
+    ratings: state.ratings.items,
+    bookError: state.books.error,
+    categoryError: state.categories.error,
+    ratingError: state.ratings.error
 });
 
 export default connect(mapStateToProps, {fetchBooks, fetchCategories, fetchRatings})(Shelf);

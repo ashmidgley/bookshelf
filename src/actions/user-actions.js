@@ -1,4 +1,4 @@
-import { GET_USERS, UPDATE_USER, UPDATE_EMAIL, UPDATE_PASSWORD, DELETE_USER, SET_USER, CLEAR_USER, USER_ERROR } from './types';
+import { GET_USERS, UPDATE_USER, UPDATE_EMAIL, UPDATE_PASSWORD, DELETE_USER, SET_USER, CLEAR_USER, USER_ERROR, CLEAR_ERROR } from './types';
 import { createConfig } from '../helpers/action-helper';
 import axios from 'axios';
 
@@ -78,28 +78,11 @@ export const updatePassword = (data, token) => dispatch => {
 
 export const deleteUser = (userId, token) => dispatch => {
   var config = createConfig(token);
-  var url = `${usersUrl}?id=${userId}`;
+  var url = `${usersUrl}/${userId}`;
   axios.delete(url, config)
     .then(response => {
       dispatch({
         type: DELETE_USER,
-        payload: response.data
-      })
-    })
-    .catch(error => {
-      console.error(error);
-      dispatch({
-        type: USER_ERROR,
-        error: error.response ? error.response.data : error.message
-      })
-    });
-}
-
-export const updatePasswordUsingToken = (data) => dispatch => {
-  axios.put(`${usersUrl}/password/token`, data)
-    .then(response => {
-      dispatch({
-        type: UPDATE_PASSWORD,
         payload: response.data
       })
     })
@@ -127,5 +110,11 @@ export const clearUser = () => dispatch => {
   localStorage.removeItem('userisAdmin');
   dispatch({
       type: CLEAR_USER
+  })
+}
+
+export const clearError = () => dispatch => {
+  dispatch({
+    type: CLEAR_ERROR
   })
 }

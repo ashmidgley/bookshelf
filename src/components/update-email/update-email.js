@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
 import { validateEmail } from '../../helpers/field-validator';
-import { updateEmail, setUser } from '../../actions/user-actions';
+import { updateEmail, setUser, clearError } from '../../actions/user-actions';
 
 class UpdateEmail extends React.Component {
 
@@ -23,15 +23,15 @@ class UpdateEmail extends React.Component {
             this.setState({
                 submitting: false,
                 error: nextProps.error
-            })
-        } else if(nextProps.updatedUser) {
+            });
+            this.props.clearError();
+        } else if(this.state.submitting && nextProps.updatedUser) {
             localStorage.setItem('userEmail', nextProps.updatedUser.email);
             var data = { 
                 token: localStorage.getItem('token'),
                 expiryDate: localStorage.getItem('expiryDate'), 
                 user: nextProps.updatedUser
             };
-
             this.props.setUser(data);
             this.setState({
                 submitting: false,
@@ -126,4 +126,4 @@ const mapStateToProps = state => ({
     error: state.user.error
 });
 
-export default connect(mapStateToProps, {updateEmail, setUser})(UpdateEmail);
+export default connect(mapStateToProps, {updateEmail, setUser, clearError})(UpdateEmail);

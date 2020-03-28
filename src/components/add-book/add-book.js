@@ -5,7 +5,7 @@ import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { createBook, fetchBooks } from '../../actions/book-actions';
+import { createBook, fetchBooks, clearError } from '../../actions/book-actions';
 import { fetchCategories } from '../../actions/category-actions';
 import { fetchRatings } from '../../actions/rating-actions';
 
@@ -36,24 +36,26 @@ class AddBook extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if(this.state.loading && Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings)) {
+            this.setState({
+                loading: false
+            });
+            return;
+        } 
+
         if(nextProps.error) {
             this.setState({
                 error: nextProps.error,
                 submitting: false,
                 loading: false
             });
-        } else if(Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings)) {
-            this.setState({
-                loading: false
-            });
-        } else if (nextProps.book) {
+            this.props.clearError();
+        } else if (this.state.submitting && nextProps.book) {
             this.props.books.unshift(nextProps.book);
-
             this.setState({
                 submitting: false,
                 success: true
             });
-
             window.scrollTo(0, 0);
         }
     }
@@ -61,7 +63,8 @@ class AddBook extends React.Component {
     submitEntry(values) {
         this.setState({
             submitting: true,
-            success: false
+            success: false,
+            error: null
         });
 
         var newBook = {
@@ -193,4 +196,4 @@ const mapStateToProps = state => ({
     error: state.books.error
 });
 
-export default connect(mapStateToProps, {createBook, fetchBooks, fetchCategories, fetchRatings})(AddBook);
+export default connect(mapStateToProps, {createBook, fetchBooks, clearError, fetchCategories, fetchRatings})(AddBook);

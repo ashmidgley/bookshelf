@@ -1,7 +1,7 @@
 import React from 'react';
 import './review.css';
 import Loading from '../loading/loading';
-import * as moment from 'moment';
+import moment from 'moment';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
@@ -17,7 +17,8 @@ class Review extends React.Component {
             bookId: parseInt(props.match.params.id),
             book: null,
             paragraphs: null,
-            loading: true
+            loading: true,
+            error: false
         };
     }
 
@@ -39,11 +40,19 @@ class Review extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings)) {
+        if(this.state.loading && Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings)) {
             var book = nextProps.books.find(b => b.id === this.state.bookId);
             this.setState({
                 book: book,
                 paragraphs: book.summary ? book.summary.split('\n') : null,
+                loading: false
+            });
+            return;
+        }
+        
+        if(nextProps.bookError || nextProps.categoryError || nextProps.ratingError) {
+            this.setState({
+                error: true,
                 loading: false
             });
         }
@@ -65,60 +74,76 @@ class Review extends React.Component {
                                 <FontAwesomeIcon icon={faBookOpen} className="book-open-icon" size="lg"/>
                             </div>
                             <div id="review-media-content" className="container has-text-centered">
-                                <p className="title">{this.state.book.title}</p>
-                                <p className="subtitle is-6">By {this.state.book.author}</p>
-                                <div className="tags has-addons level-item">    
-                                    <span id="tag-secondary" className="tag is-rounded">{moment(this.state.book.finishedOn).format('Do MMMM')}</span>
+                            {
+                                this.state.error ?
+                                <div className="notification is-danger">
+                                    Error pulling user data. Please refresh and try again.
                                 </div>
+                                :
+                                <div>
+                                    <p className="title">{this.state.book.title}</p>
+                                    <p className="subtitle is-6">By {this.state.book.author}</p>
+                                    <div className="tags has-addons level-item">
+                                        <span id="tag-secondary" className="tag is-rounded">
+                                            {moment(this.state.book.finishedOn).format('Do MMMM')}
+                                        </span>
+                                    </div>
+                                </div>
+                            }
                             </div>
                         </div>
-                        
                     </div>
-                    <div id="review-content" className="has-text-centered">
-                        <hr />
-                        {this.state.paragraphs ? 
-                            this.state.paragraphs.map(paragraph =>
-                                <p className="summary-text">{paragraph}</p>
-                            )
-                            :
-                            <div className="notification">
-                                No summary to display.
-                            </div>
-                        }
-                        <hr />
-                        <nav className="level is-mobile">
-                            <div className="level-item has-text-centered">
-                                <div>
-                                    <p className="heading">Category</p>
-                                    <p className="review-subtitle">
-                                        {this.props.categories.find(c => c.id === this.state.book.categoryId) ?
-                                            this.props.categories.find(c => c.id === this.state.book.categoryId).code
-                                            :
-                                            '-'
-                                        }
-                                    </p>
+                    {
+                        !this.state.error &&
+                        <div id="review-content" className="has-text-centered">
+                            <hr />
+                            {
+                                this.state.paragraphs ?
+                                this.state.paragraphs.map(paragraph =>
+                                    <p className="summary-text">{paragraph}</p>
+                                )
+                                :
+                                <div className="notification">
+                                    No summary to display.
                                 </div>
-                            </div>
-                            <div className="level-item has-text-centered">
-                                <div>
-                                    <p className="heading">Pages</p>
-                                    <p className="review-subtitle">{this.state.book.pageCount}</p>
+                            }
+                            <hr />
+                            <nav className="level is-mobile">
+                                <div className="level-item has-text-centered">
+                                    <div>
+                                        <p className="heading">Category</p>
+                                        <p className="review-subtitle">
+                                            {
+                                                this.props.categories.find(c => c.id === this.state.book.categoryId) ?
+                                                this.props.categories.find(c => c.id === this.state.book.categoryId).code
+                                                :
+                                                '-'
+                                            }
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="level-item has-text-centered">
-                                <div> 
-                                    <p className="heading">Rating</p>
-                                    <p className="review-subtitle">
-                                        {this.props.ratings.find(r => r.id === this.state.book.ratingId) ? 
-                                            this.props.ratings.find(r => r.id === this.state.book.ratingId).code 
-                                            : 
-                                            '-'
-                                        }
-                                    </p>
+                                <div className="level-item has-text-centered">
+                                    <div>
+                                        <p className="heading">Pages</p>
+                                        <p className="review-subtitle">{this.state.book.pageCount}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </nav>
-                    </div>
+                                <div className="level-item has-text-centered">
+                                    <div>
+                                        <p className="heading">Rating</p>
+                                        <p className="review-subtitle">
+                                            {
+                                                this.props.ratings.find(r => r.id === this.state.book.ratingId) ? 
+                                                this.props.ratings.find(r => r.id === this.state.book.ratingId).code 
+                                                :
+                                                '-'
+                                            }
+                                        </p>
+                                    </div>
+                                </div>
+                            </nav>
+                        </div>
+                    }
                 </div>
             </div>
         );
@@ -128,7 +153,10 @@ class Review extends React.Component {
 const mapStateToProps = state => ({
     books: state.books.items,
     categories: state.categories.items,
-    ratings: state.ratings.items
+    ratings: state.ratings.items,
+    bookError: state.books.error,
+    categoryError: state.categories.error,
+    ratingError: state.ratings.error
 });
 
 export default connect(mapStateToProps, {fetchBooks, fetchCategories, fetchRatings})(Review);

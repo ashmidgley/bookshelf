@@ -29,3 +29,5 @@ export const CATEGORY_ERROR = 'CATEGORIES_ERROR';
 export const RATING_ERROR = 'RATINGS_ERROR';
 export const USER_ERROR = 'USER_ERROR';
 export const EMAIL_ERROR = 'EMAIL_ERROR';
+export const CLEAR_ERROR = 'CLEAR_ERROR';
+export const CLEAR_TOKEN = 'CLEAR_TOKEN';

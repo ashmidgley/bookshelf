@@ -5,7 +5,7 @@ import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { createCategory, updateCategory, fetchCategories } from '../../actions/category-actions';
+import { createCategory, updateCategory, fetchCategories, clearError } from '../../actions/category-actions';
 
 class CategoryForm extends React.Component {
 
@@ -15,9 +15,10 @@ class CategoryForm extends React.Component {
             action: props.match.params.id ? 'Update' : 'Create',
             categoryId: parseInt(props.match.params.id),
             category: null,
+            loading: true,
             submitting: false,
             success: false,
-            loading: true
+            error: null
         };
     }
 
@@ -35,13 +36,22 @@ class CategoryForm extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(Array.isArray(nextProps.categories))
+        if(this.state.loading && Array.isArray(nextProps.categories)) {
             this.setState({
                 category: this.state.categoryId ? nextProps.categories.find(b => b.id === this.state.categoryId) : null,
                 loading: false
-        });
+            });
+            return;
+        }
 
-        if(nextProps.category) {
+        if(nextProps.error) {
+            this.setState({
+                error: nextProps.error,
+                loading: false,
+                submitting: false
+            });
+            this.props.clearError();
+        } else if(this.state.submitting && nextProps.category) {
             if(this.props.match.params.id){
                 var oldCategory = this.props.categories.find(b => b.id === nextProps.category.id);
                 var i = this.props.categories.indexOf(oldCategory);
@@ -59,7 +69,8 @@ class CategoryForm extends React.Component {
     submitEntry(values) {
         this.setState({
             submitting: true,
-            success: false
+            success: false,
+            error: null
         });
 
         var category = {
@@ -96,6 +107,10 @@ class CategoryForm extends React.Component {
                     {
                         this.state.success && 
                         <div className="notification is-primary">Successfully {this.state.action.toLowerCase()}d entry.</div>
+                    }
+                    {
+                        this.state.error && 
+                        <div className="notification is-danger">{this.state.error}</div>
                     }
                     <Formik
                         initialValues=
@@ -147,7 +162,8 @@ class CategoryForm extends React.Component {
 
 const mapStateToProps = state => ({
     categories: state.categories.items,
-    category: state.categories.item
+    category: state.categories.item,
+    error: state.categories.error
 });
 
-export default connect(mapStateToProps, {createCategory, updateCategory, fetchCategories})(CategoryForm);
+export default connect(mapStateToProps, {createCategory, updateCategory, fetchCategories, clearError})(CategoryForm);

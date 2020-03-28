@@ -7,37 +7,19 @@ import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { customStyles } from '../../helpers/custom-modal';
-import { fetchRatings, removeRating } from '../../actions/rating-actions';
+import { fetchRatings, removeRating, clearError } from '../../actions/rating-actions';
 
 class ManageRatings extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
+            selectedRatingId: null,
             modalIsOpen: false,
+            loading: true,
             submitting: false,
             success: false,
-            selectedRatingId: null,
-            loading: true
-        }
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if(Array.isArray(nextProps.ratings))
-            this.setState({
-                loading: false
-        });
-
-        if(nextProps.removedRating) {
-            var oldRating = this.props.ratings.find(b => b.id === nextProps.removedRating.id);
-            var i = this.props.ratings.indexOf(oldRating);
-            this.props.ratings.splice(i, 1);
-            this.setState({
-                modalIsOpen: false,
-                submitting: false,
-                success: true,
-                selectedRatingId: null
-            })
+            error: null
         }
     }
 
@@ -48,6 +30,35 @@ class ManageRatings extends React.Component {
         } else {
             this.setState({
                 loading: false
+            });
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(this.state.loading && Array.isArray(nextProps.ratings)) {
+            this.setState({
+                loading: false
+            });
+            return;
+        }
+
+        if(nextProps.error) {
+            this.setState({
+                error: nextProps.error,
+                modalIsOpen: false,
+                loading: false,
+                submitting: false
+            });
+            this.props.clearError();
+        } else if(this.state.submitting && nextProps.removedRating) {
+            var oldRating = this.props.ratings.find(b => b.id === nextProps.removedRating.id);
+            var i = this.props.ratings.indexOf(oldRating);
+            this.props.ratings.splice(i, 1);
+            this.setState({
+                modalIsOpen: false,
+                submitting: false,
+                success: true,
+                selectedRatingId: null
             });
         }
     }
@@ -69,7 +80,9 @@ class ManageRatings extends React.Component {
     handleSubmit = (event) => {
         event.preventDefault();
         this.setState({
-            submitting: true
+            submitting: true,
+            success: false,
+            error: null
         });
 
         var token = localStorage.getItem('token');
@@ -107,15 +120,20 @@ class ManageRatings extends React.Component {
                         <div>
                             <h1 className="title">Ratings</h1>
                             {
-                                this.state.success && this.props.ratings.length &&
+                                this.state.success && this.props.ratings && this.props.ratings.length &&
                                 <div className="notification is-primary">Successfully removed entry.</div>
+                            }
+                            {
+                                this.state.error && 
+                                <div className="notification is-danger">{this.state.error}</div>
                             }
                             <div style={{'marginBottom': '25px'}}>
                                 <Link to={'/rating-form'}>
                                     <button className="button is-outlined">Add</button>
                                 </Link>
                             </div>
-                            {!this.props.ratings.length ?
+                            {
+                                !this.props.ratings || !this.props.ratings.length ?
                                 <div className="notification is-link">
                                     No ratings to display.
                                 </div>
@@ -163,7 +181,8 @@ class ManageRatings extends React.Component {
 
 const mapStateToProps = state => ({
     ratings: state.ratings.items,
-    removedRating: state.ratings.item
+    removedRating: state.ratings.item,
+    error: state.ratings.error
 });
 
-export default connect(mapStateToProps, {fetchRatings, removeRating})(ManageRatings);
+export default connect(mapStateToProps, {fetchRatings, removeRating, clearError})(ManageRatings);

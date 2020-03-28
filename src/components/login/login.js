@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { validateEmail, validatePasswordLength } from '../../helpers/field-validator';
 import { login } from '../../actions/auth-actions';
-import { clearUser } from '../../actions/user-actions';
+import { clearError } from '../../actions/user-actions';
 
 class Login extends React.Component {
 
@@ -24,17 +24,16 @@ class Login extends React.Component {
                 error: nextProps.error,
                 submitting: false
             });
-        } else if(nextProps.token && nextProps.user) {
+            this.props.clearError();
+        } else if(this.state.submitting && nextProps.token && nextProps.user) {
             this.setState({
                 submitting: false
             });
-
             this.props.history.push(`/shelf/${nextProps.user.id}`);
         }
     }
 
     login(values) {
-        this.props.clearUser();
         this.setState({
             error: null,
             submitting: true
@@ -50,8 +49,8 @@ class Login extends React.Component {
 
     render() {
         return (
-            <section className="section hero is-fullheight">
-                <div className="hero-body">
+            <section className="section hero is-fullheight mobile-auth">
+                <div className="hero-body mobile-auth">
                     <div className="container">
                         <div className="columns is-centered">
                             <div className="column is-two-fifths">
@@ -144,4 +143,4 @@ const mapStateToProps = state => ({
     error: state.user.error
 });
 
-export default connect(mapStateToProps, {login, clearUser})(withRouter(Login));
+export default connect(mapStateToProps, {login, clearError})(withRouter(Login));

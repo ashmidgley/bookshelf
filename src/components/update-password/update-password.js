@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
 import { validatePasswordLength } from '../../helpers/field-validator';
-import { updatePassword } from '../../actions/user-actions';
+import { updatePassword, clearError } from '../../actions/user-actions';
 
 class UpdatePassword extends React.Component {
 
@@ -24,7 +24,8 @@ class UpdatePassword extends React.Component {
                 error: nextProps.error,
                 submitting: false
             });
-        } else if(nextProps.updatedUser) {
+            this.props.clearError();
+        } else if(this.state.submitting && nextProps.updatedUser) {
             this.setState({
                 success: true,
                 submitting: false
@@ -35,7 +36,8 @@ class UpdatePassword extends React.Component {
     submitEntry(values) {
         this.setState({
             submitting: true,
-            success: false
+            success: false,
+            error: null
         });
 
         var token = localStorage.getItem('token');
@@ -116,4 +118,4 @@ const mapStateToProps = state => ({
     error: state.user.error
 });
 
-export default connect(mapStateToProps, {updatePassword})(UpdatePassword);
+export default connect(mapStateToProps, {updatePassword, clearError})(UpdatePassword);
