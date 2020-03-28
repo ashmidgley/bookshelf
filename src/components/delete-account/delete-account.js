@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
-import { deleteUser, clearUser } from '../../actions/user-actions';
+import { deleteUser, clearUser, clearError } from '../../actions/user-actions';
 import { clearBooks } from '../../actions/book-actions';
 import { clearCategories } from '../../actions/category-actions';
 import { clearRatings } from '../../actions/rating-actions';
@@ -14,12 +14,19 @@ class DeleteAccount extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            submitting: false
+            submitting: false,
+            error: null
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.deletedUser) {
+        if(nextProps.error) {
+            this.setState({
+                error: nextProps.error,
+                submitting: false
+            });
+            this.props.clearError();
+        } else if(this.state.submitting && nextProps.deletedUser) {
             this.setState({
                 submitting: false
             });
@@ -53,6 +60,10 @@ class DeleteAccount extends React.Component {
                                 <FontAwesomeIcon icon={faMask} className="mask-icon" size="lg"/>
                             </div>
                         </div>
+                        {
+                            this.state.error && 
+                            <div className="notification is-danger">{this.state.error}</div>
+                        }
                         <div className="has-text-centered">
                             <div>
                                 <p>Are you sure you want to delete your account?</p>
@@ -75,7 +86,8 @@ class DeleteAccount extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    deletedUser: state.user.deletedUser
+    deletedUser: state.user.deletedUser,
+    error: state.user.error
 });
 
-export default connect(mapStateToProps, {deleteUser, clearUser, clearBooks, clearCategories, clearRatings})(withRouter(DeleteAccount));
+export default connect(mapStateToProps, {deleteUser, clearUser, clearError, clearBooks, clearCategories, clearRatings})(withRouter(DeleteAccount));

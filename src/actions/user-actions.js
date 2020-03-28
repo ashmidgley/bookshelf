@@ -78,7 +78,7 @@ export const updatePassword = (data, token) => dispatch => {
 
 export const deleteUser = (userId, token) => dispatch => {
   var config = createConfig(token);
-  var url = `${usersUrl}?id=${userId}`;
+  var url = `${usersUrl}/${userId}`;
   axios.delete(url, config)
     .then(response => {
       dispatch({
