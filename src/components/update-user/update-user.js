@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { validateEmail } from '../../helpers/field-validator';
-import { fetchUsers, updateUser } from '../../actions/user-actions';
+import { fetchUsers, updateUser, clearError } from '../../actions/user-actions';
 
 class UpdateUser extends React.Component {
     
@@ -17,7 +17,9 @@ class UpdateUser extends React.Component {
             userId: parseInt(props.match.params.id),
             user: null,
             loading: true,
-            submitting: false
+            submitting: false,
+            success: false,
+            error: null
         };
     }
 
@@ -34,24 +36,37 @@ class UpdateUser extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(!this.props.users && nextProps.users) {
+        if(this.state.loading && !this.props.users && nextProps.users) {
             this.setState({
                 user: nextProps.users.find(x => x.id === this.state.userId),
                 loading: false
             });
+            return;
         }
 
-        if(nextProps.updatedUser) {
+        if(nextProps.error) {
+            this.setState({
+                error: nextProps.error,
+                submitting: false,
+                loading: false
+            });
+            this.props.clearError();
+        } else if (this.state.submitting && nextProps.updatedUser) {
             var oldUser = this.props.users.find(b => b.id === nextProps.updatedUser.id);
             var index = this.props.users.indexOf(oldUser);
             this.props.users[index] = nextProps.updatedUser;
-            this.props.history.push('/admin/manage-users');
+            this.setState({
+                submitting: false,
+                success: true
+            });
         }
     }
 
     updateUser(user) {
         this.setState({
-            submitting: true
+            submitting: true,
+            success: false,
+            error: null
         });
 
         var token = localStorage.getItem('token');
@@ -74,13 +89,21 @@ class UpdateUser extends React.Component {
                             <FontAwesomeIcon icon={faPlus} className="plus-icon" size="lg"/>
                         </div>
                     </div>
+                    {
+                        this.state.success && 
+                        <div className="notification is-primary">Successfully updated user.</div>
+                    }
+                    {
+                        this.state.error && 
+                        <div className="notification is-danger">{this.state.error}</div>
+                    }
                     <Formik
                         initialValues=
                         {
                             {
-                                id: this.state.user.id,
-                                email: this.state.user.email,
-                                isAdmin: this.state.user.isAdmin
+                                id: this.state.user ? this.state.user.id : null,
+                                email: this.state.user ? this.state.user.email : null,
+                                isAdmin: this.state.user ? this.state.user.isAdmin : null
                             }
                         }
                         validate={values => {
@@ -147,7 +170,8 @@ class UpdateUser extends React.Component {
 
 const mapStateToProps = state => ({
     users: state.user.users,
-    updatedUser: state.user.updatedUser
+    updatedUser: state.user.updatedUser,
+    error: state.user.error
 });
 
-export default connect(mapStateToProps, {fetchUsers, updateUser})(withRouter(UpdateUser));
+export default connect(mapStateToProps, {fetchUsers, updateUser, clearError})(withRouter(UpdateUser));
