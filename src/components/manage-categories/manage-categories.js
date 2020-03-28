@@ -7,37 +7,19 @@ import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { customStyles } from '../../helpers/custom-modal';
-import { fetchCategories, removeCategory } from '../../actions/category-actions';
+import { fetchCategories, removeCategory, clearError } from '../../actions/category-actions';
 
 class ManageCategories extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
+            selectedCategoryId: null,
             modalIsOpen: false,
+            loading: true,
             submitting: false,
             success: false,
-            selectedCategoryId: null,
-            loading: true
-        }
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if(Array.isArray(nextProps.categories))
-            this.setState({
-                loading: false
-        });
-
-        if(nextProps.removedCategory) {
-            var oldCategory = this.props.categories.find(b => b.id === nextProps.removedCategory.id);
-            var i = this.props.categories.indexOf(oldCategory);
-            this.props.categories.splice(i, 1);
-            this.setState({
-                modalIsOpen: false,
-                submitting: false,
-                success: true,
-                selectedCategoryId: null
-            })
+            error: null
         }
     }
 
@@ -48,6 +30,35 @@ class ManageCategories extends React.Component {
         } else {
             this.setState({
                 loading: false
+            });
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(this.state.loading && Array.isArray(nextProps.categories)) {
+            this.setState({
+                loading: false
+            });
+            return;
+        }
+
+        if(nextProps.error) {
+            this.setState({
+                error: nextProps.error,
+                modalIsOpen: false,
+                loading: false,
+                submitting: false
+            });
+            this.props.clearError();
+        } else if(this.state.submitting && nextProps.removedCategory) {
+            var oldCategory = this.props.categories.find(b => b.id === nextProps.removedCategory.id);
+            var i = this.props.categories.indexOf(oldCategory);
+            this.props.categories.splice(i, 1);
+            this.setState({
+                selectedCategoryId: null,
+                modalIsOpen: false,
+                submitting: false,
+                success: true
             });
         }
     }
@@ -107,15 +118,20 @@ class ManageCategories extends React.Component {
                         <div>
                             <h1 className="title">Categories</h1>
                             {
-                                this.state.success && this.props.categories.length &&
+                                this.state.success && this.props.categories && this.props.categories.length &&
                                 <div className="notification is-primary">Successfully removed entry.</div>
+                            }
+                            {
+                                this.state.error && 
+                                <div className="notification is-danger">{this.state.error}</div>
                             }
                             <div style={{'marginBottom': '25px'}}>
                                 <Link to={'/category-form'}>
                                     <button className="button is-outlined">Add</button>
                                 </Link>
                             </div>
-                            {!this.props.categories.length ?
+                            {
+                                !this.props.categories || !this.props.categories.length ?
                                 <div className="notification is-link">
                                     No categories to display.
                                 </div>
@@ -163,7 +179,8 @@ class ManageCategories extends React.Component {
 
 const mapStateToProps = state => ({
     categories: state.categories.items,
-    removedCategory: state.categories.item
+    removedCategory: state.categories.item,
+    error: state.categories.error
 });
 
-export default connect(mapStateToProps, {fetchCategories, removeCategory})(ManageCategories);
+export default connect(mapStateToProps, {fetchCategories, removeCategory, clearError})(ManageCategories);
