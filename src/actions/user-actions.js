@@ -1,4 +1,4 @@
-import { GET_USERS, UPDATE_USER, UPDATE_EMAIL, UPDATE_PASSWORD, DELETE_USER, SET_USER, CLEAR_USER, USER_ERROR } from './types';
+import { GET_USERS, UPDATE_USER, UPDATE_EMAIL, UPDATE_PASSWORD, DELETE_USER, SET_USER, CLEAR_USER, USER_ERROR, CLEAR_ERROR } from './types';
 import { createConfig } from '../helpers/action-helper';
 import axios from 'axios';
 
@@ -127,5 +127,11 @@ export const clearUser = () => dispatch => {
   localStorage.removeItem('userisAdmin');
   dispatch({
       type: CLEAR_USER
+  })
+}
+
+export const clearError = () => dispatch => {
+  dispatch({
+    type: CLEAR_ERROR
   })
 }

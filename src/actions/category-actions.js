@@ -1,4 +1,4 @@
-import { FETCH_CATEGORIES, NEW_CATEGORY, UPDATE_CATEGORY, REMOVE_CATEGORY, CLEAR_CATEGORIES, CATEGORY_ERROR } from './types';
+import { FETCH_CATEGORIES, NEW_CATEGORY, UPDATE_CATEGORY, REMOVE_CATEGORY, CLEAR_CATEGORIES, CATEGORY_ERROR, CLEAR_ERROR } from './types';
 import { createConfig } from '../helpers/action-helper';
 import axios from 'axios';
 
@@ -78,5 +78,11 @@ export const removeCategory = (id, token) => dispatch => {
 export const clearCategories = () => dispatch => {
   dispatch({
     type: CLEAR_CATEGORIES
+  })
+}
+
+export const clearError = () => dispatch => {
+  dispatch({
+    type: CLEAR_ERROR
   })
 }

@@ -1,4 +1,4 @@
-import { FETCH_CATEGORIES, NEW_CATEGORY, REMOVE_CATEGORY, UPDATE_CATEGORY, CLEAR_CATEGORIES, CATEGORY_ERROR } from '../actions/types';
+import { FETCH_CATEGORIES, NEW_CATEGORY, REMOVE_CATEGORY, UPDATE_CATEGORY, CLEAR_CATEGORIES, CATEGORY_ERROR, CLEAR_ERROR } from '../actions/types';
 
 const initialState = {
   items: null,
@@ -39,6 +39,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         error: action.error
+      };
+    case CLEAR_ERROR:
+      return {
+        ...state,
+        error: null
       };
     default:
       return state;

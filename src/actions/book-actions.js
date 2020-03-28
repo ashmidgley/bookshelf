@@ -1,4 +1,4 @@
-import { FETCH_BOOKS, NEW_BOOK, UPDATE_BOOK, REMOVE_BOOK, CLEAR_BOOKS, BOOK_ERROR } from './types';
+import { FETCH_BOOKS, NEW_BOOK, UPDATE_BOOK, REMOVE_BOOK, CLEAR_BOOKS, BOOK_ERROR, CLEAR_ERROR } from './types';
 import { createConfig } from '../helpers/action-helper';
 import * as moment from 'moment';
 import axios from 'axios';
@@ -79,5 +79,11 @@ export const removeBook = (id, token) => dispatch => {
 export const clearBooks = () => dispatch => {
   dispatch({
     type: CLEAR_BOOKS
+  })
+}
+
+export const clearError = () => dispatch => {
+  dispatch({
+    type: CLEAR_ERROR
   })
 }
