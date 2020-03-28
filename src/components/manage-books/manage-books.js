@@ -7,7 +7,7 @@ import { Helmet } from 'react-helmet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { customStyles } from '../../helpers/custom-modal';
-import { fetchBooks, removeBook } from '../../actions/book-actions';
+import { fetchBooks, removeBook, clearError } from '../../actions/book-actions';
 
 class ManageBooks extends React.Component {
 
@@ -15,10 +15,11 @@ class ManageBooks extends React.Component {
         super(props);
         this.state = {
             selectedBookId: null,
-            loading: true,
             modalIsOpen: false,
+            loading: true,
             submitting: false,
-            success: false
+            success: false,
+            error: null
         }
     }
 
@@ -34,12 +35,22 @@ class ManageBooks extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(Array.isArray(nextProps.books))
+        if(this.state.loading && Array.isArray(nextProps.books)) {
             this.setState({
                 loading: false
-        });
+            });
+            return;
+        }
 
-        if(nextProps.removedBook) {
+        if(nextProps.error) {
+            this.setState({
+                error: nextProps.error,
+                modalIsOpen: false,
+                loading: false,
+                submitting: false
+            });
+            this.props.clearError();
+        } else if(this.state.submitting && nextProps.removedBook) {
             var oldBook = this.props.books.find(b => b.id === nextProps.removedBook.id);
             var i = this.props.books.indexOf(oldBook);
             this.props.books.splice(i, 1);
@@ -113,12 +124,17 @@ class ManageBooks extends React.Component {
                             this.state.success && this.props.books.length &&
                             <div className="notification is-primary">Successfully removed entry.</div>
                         }
+                        {
+                            this.state.error && 
+                            <div className="notification is-danger">{this.state.error}</div>
+                        }
                         <div style={{ 'marginBottom': '25px' }}>   
                             <Link to={'/book-form'}>
                                 <button className="button is-outlined">Add</button>
                             </Link>
                         </div>
-                        {!this.props.books.length ?
+                        {
+                            !this.props.books || !this.props.books.length ?
                             <div className="notification is-link">
                                 No books to display.
                             </div>
@@ -159,7 +175,8 @@ class ManageBooks extends React.Component {
 
 const mapStateToProps = state => ({
     books: state.books.items,
-    removedBook: state.books.item
+    removedBook: state.books.item,
+    error: state.books.error
 });
 
-export default connect(mapStateToProps, {fetchBooks, removeBook})(ManageBooks);
+export default connect(mapStateToProps, {fetchBooks, removeBook, clearError})(ManageBooks);
