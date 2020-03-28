@@ -80,7 +80,9 @@ class ManageCategories extends React.Component {
     handleSubmit = (event) => {
         event.preventDefault();
         this.setState({
-            submitting: true
+            submitting: true,
+            success: false,
+            error: null
         });
 
         var token = localStorage.getItem('token');
