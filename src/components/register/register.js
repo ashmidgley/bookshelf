@@ -49,8 +49,8 @@ class Register extends React.Component {
 
     render() {
         return (
-            <section className="section hero is-fullheight">
-                <div className="hero-body">
+            <section className="section hero is-fullheight mobile-auth">
+                <div className="hero-body mobile-auth">
                     <div className="container">
                         <div className="columns is-centered">
                             <div className="column is-two-fifths">
