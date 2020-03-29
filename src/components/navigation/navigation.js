@@ -2,7 +2,7 @@ import React from 'react';
 import './navigation.css';
 import { withRouter, NavLink, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
+import { faAngleDown, faAngleUp, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { connect } from 'react-redux';
 import { clearUser } from '../../actions/user-actions';
 import { clearBooks } from '../../actions/book-actions';
@@ -103,42 +103,47 @@ class Navigation extends React.Component {
                           <div id="desktop-options">
                             {
                               this.props.user &&
-                              <div className={this.state.dropdownVisible ? "dropdown is-right is-active" : "dropdown is-right"}>
-                                <div className="dropdown-trigger">
-                                  <button id="dropdown" onClick={this.toggleDropdown} className="button user-menu-actions">
-                                    <span id="dropdown">{this.props.user.email}</span>
-                                      <span id="dropdown" className="icon is-small">
-                                        {this.state.dropdownVisible ? 
-                                          <FontAwesomeIcon id="dropdown" icon={faAngleUp}/>
-                                          :
-                                          <FontAwesomeIcon id="dropdown" icon={faAngleDown}/>
-                                        }
-                                    </span>
-                                  </button>
-                                </div>
-                                <div ref={this.setDropdownRef} className="dropdown-menu">
-                                  <div className="dropdown-content">
-                                    <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to={`/shelf/${this.props.user.id}`}>
-                                      Bookshelf
-                                    </NavLink>
-                                    <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/manage-books">
-                                      Manage Books
-                                    </NavLink>
-                                    <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/manage-categories">
-                                      Manage Categories
-                                    </NavLink>
-                                    <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/manage-ratings">
-                                      Manage Ratings
-                                    </NavLink>
-                                    <hr className="dropdown-divider" />
-                                    <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/my-account">
-                                      My Account
-                                    </NavLink>
-                                    <a onClick={this.logout} href="#" className="dropdown-item">
-                                      Logout
-                                    </a>
+                              <div>
+                                <Link className="button user-menu-actions" to="/book-form" style={{'marginRight' : '10px'}}>
+                                  <FontAwesomeIcon icon={faPlus}/>
+                                </Link>
+                                <div className={this.state.dropdownVisible ? "dropdown is-right is-active" : "dropdown is-right"}>
+                                  <div className="dropdown-trigger">
+                                    <button id="dropdown" onClick={this.toggleDropdown} className="button user-menu-actions">
+                                      <span id="dropdown">{this.props.user.email}</span>
+                                        <span id="dropdown" className="icon is-small">
+                                          {this.state.dropdownVisible ? 
+                                            <FontAwesomeIcon id="dropdown" icon={faAngleUp}/>
+                                            :
+                                            <FontAwesomeIcon id="dropdown" icon={faAngleDown}/>
+                                          }
+                                      </span>
+                                    </button>
                                   </div>
-                                </div>  
+                                  <div ref={this.setDropdownRef} className="dropdown-menu">
+                                    <div className="dropdown-content">
+                                      <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to={`/shelf/${this.props.user.id}`}>
+                                        Bookshelf
+                                      </NavLink>
+                                      <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/manage-books">
+                                        Manage Books
+                                      </NavLink>
+                                      <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/manage-categories">
+                                        Manage Categories
+                                      </NavLink>
+                                      <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/manage-ratings">
+                                        Manage Ratings
+                                      </NavLink>
+                                      <hr className="dropdown-divider" />
+                                      <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/my-account">
+                                        My Account
+                                      </NavLink>
+                                      <a onClick={this.logout} href="#" className="dropdown-item">
+                                        Logout
+                                      </a>
+                                    </div>
+                                  </div>  
+                                </div>
                               </div>
                             }
                           </div>

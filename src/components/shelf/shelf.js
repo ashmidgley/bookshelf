@@ -207,7 +207,7 @@ class Shelf extends React.Component {
                         {
                             this.props.books.length === 0 &&
                             <div className="notification is-link shelf-notification">
-                                No books to display.
+                                No books to display. <Link to="/book-form">Add one?</Link>
                             </div>
                         }
                         <div>
