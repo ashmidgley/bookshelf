@@ -80,9 +80,6 @@ class DesktopNav extends React.Component {
                                 </div>
                                 :
                                 <div>
-                                    <Link className="button user-menu-actions desktop-nav-button" to="/book-form" style={{'marginRight' : '10px'}}>
-                                        <FontAwesomeIcon icon={faPlus}/>
-                                    </Link>
                                     <div className={this.state.dropdownVisible ? "dropdown is-right is-active" : "dropdown is-right"}>
                                         <div className="dropdown-trigger">
                                         <button id="dropdown" onClick={this.toggleDropdown} className="button user-menu-actions desktop-nav-button">
@@ -100,23 +97,23 @@ class DesktopNav extends React.Component {
                                         <div ref={this.setDropdownRef} className="dropdown-menu">
                                             <div className="dropdown-content">
                                                 <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to={`/shelf/${this.props.user.id}`}>
-                                                Bookshelf
+                                                    Bookshelf
                                                 </NavLink>
                                                 <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/manage-books">
-                                                Manage Books
+                                                    Manage Books
                                                 </NavLink>
                                                 <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/manage-categories">
-                                                Manage Categories
+                                                    Manage Categories
                                                 </NavLink>
                                                 <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/manage-ratings">
-                                                Manage Ratings
+                                                    Manage Ratings
                                                 </NavLink>
                                                 <hr className="dropdown-divider" />
                                                 <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/my-account">
-                                                My Account
+                                                    My Account
                                                 </NavLink>
                                                 <a onClick={this.logout} href="#" className="dropdown-item">
-                                                Logout
+                                                    Logout
                                                 </a>
                                             </div>
                                         </div>  
