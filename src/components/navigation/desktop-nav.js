@@ -57,11 +57,11 @@ class DesktopNav extends React.Component {
 
     render() {
         return (
-            <nav className="navbar">
+            <nav id="desktop-nav" className="navbar">
                 <div className="container">
                     <div className="navbar-brand">
-                        <Link className="navbar-item" to={this.props.user ? `/shelf/${this.props.user.id}` : '/'}>
-                            <img className="nav-icon" src="/bookshelf.png" alt="Small bookshelf" />
+                        <Link id="nav-icon" className="navbar-item" to={this.props.user ? `/shelf/${this.props.user.id}` : '/'}>
+                            <img src="/bookshelf.png" alt="Small bookshelf" />
                         </Link>
                     </div>
                     <div id="desktop-menu" className="navbar-menu">

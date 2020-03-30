@@ -1,3 +1,11 @@
+#desktop-nav {
+    background-color: rgba(0, 0, 0, 0.92);
+}
+
 #desktop-menu {
     display: initial;
-} 
+}
+
+#nav-icon {
+    filter: grayscale(1);
+}

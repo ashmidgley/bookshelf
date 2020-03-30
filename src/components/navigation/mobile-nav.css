@@ -28,7 +28,7 @@
     color: #f5f5f7;
 }
 
-#nav-icon { 
+#mobile-nav-icon { 
     position: absolute;
     left: 50%;
     -webkit-transform: translateX(-50%);
