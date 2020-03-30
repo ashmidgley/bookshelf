@@ -91,7 +91,7 @@ class MobileNav extends React.Component {
                     <div 
                         id="mobile-menu"
                         ref={this.setBurgerRef} 
-                        className={!this.state.initialOpen ? "navbar-menu" : this.state.optionsVisible ? "navbar-menu fade-in" : "navbar-menu fade-out"}>
+                        className={!this.state.initialOpen ? "navbar-menu" : this.state.optionsVisible ? "navbar-menu fade-in-menu" : "navbar-menu fade-out-menu"}>
                         <div 
                             className={!this.state.initialOpen ? "navbar-end" : this.state.optionsVisible ? "navbar-end fade-in-options" : "navbar-end fade-out-options"}>
                             {

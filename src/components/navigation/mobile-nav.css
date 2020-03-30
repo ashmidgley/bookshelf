@@ -99,9 +99,9 @@
     left: 50%;
   }
 
-.fade-in {
+.fade-in-menu {
     display: block;
-    animation: fadeIn 0.5s;
+    animation: fadeInMenu 0.5s;
     animation-fill-mode: forwards;
 }
 
@@ -110,9 +110,9 @@
   animation-fill-mode: forwards;
 }
 
-.fade-out {
+.fade-out-menu {
     display: block;
-    animation: fadeOut 0.5s;
+    animation: fadeOutMenu 0.5s;
     animation-fill-mode: forwards;
 }
 
@@ -121,7 +121,7 @@
   animation-fill-mode: forwards;
 }
 
-@keyframes fadeIn {
+@keyframes fadeInMenu {
     0% {
         transform: translateY(-100%);
         z-index: -1;
@@ -147,7 +147,7 @@
   }
 }
 
-@keyframes fadeOut {
+@keyframes fadeOutMenu {
     0% {
       transform: translateY(0%);
       z-index: 1;
