@@ -1,4 +1,5 @@
 import React from 'react';
+import './my-account.css';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -56,7 +57,7 @@ class MyAccount extends React.Component {
                         <form className="form">
                             <div className="field">
                                 <label className="label">Email</label>
-                                <div className="columns is-mobile">
+                                <div className="columns is-mobile my-account-columns">
                                     <div className="column">
                                         <div className="control">
                                             <input className='input' type="text" value={this.state.email} readOnly />
@@ -69,7 +70,7 @@ class MyAccount extends React.Component {
                             </div>
                             <div className="field">
                                 <label className="label">Password</label>
-                                <div className="columns is-mobile">
+                                <div className="columns is-mobile my-account-columns">
                                     <div className="column">
                                         <div className="control">
                                             <input className='input' type="password" value="placeholder" readOnly />
@@ -82,7 +83,7 @@ class MyAccount extends React.Component {
                             </div>
                             <div className="field">
                                 <label className="label">Share Shelf</label>
-                                <div className="columns is-mobile" style={{'marginBottom': '0'}}>
+                                <div className="columns is-mobile my-account-columns" style={{'marginBottom': '0'}}>
                                     <div className="column">
                                         <div className="control">
                                             <input 

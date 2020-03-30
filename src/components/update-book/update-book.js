@@ -146,7 +146,9 @@ class UpdateBook extends React.Component {
                     </div>
                     {
                         this.state.success &&
-                        <div className="notification is-primary">Successfully updated entry.</div>
+                        <div className="notification is-primary">
+                            Successfully updated entry. <Link to={`/review/${this.props.book.id}`}>View update?</Link>
+                        </div>
                     }
                     {
                         this.state.error &&

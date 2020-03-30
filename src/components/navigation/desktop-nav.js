@@ -57,11 +57,11 @@ class DesktopNav extends React.Component {
 
     render() {
         return (
-            <nav className="navbar">
+            <nav id="desktop-nav" className="navbar">
                 <div className="container">
                     <div className="navbar-brand">
-                        <Link className="navbar-item" to={this.props.user ? `/shelf/${this.props.user.id}` : '/'}>
-                            <img className="nav-icon" src="/bookshelf.png" alt="Small bookshelf" />
+                        <Link id="nav-icon" className="navbar-item" to={this.props.user ? `/shelf/${this.props.user.id}` : '/'}>
+                            <img src="/bookshelf.png" alt="Small bookshelf" />
                         </Link>
                     </div>
                     <div id="desktop-menu" className="navbar-menu">
@@ -73,19 +73,16 @@ class DesktopNav extends React.Component {
                                         <Link onClick={this.toggleBurger} className="button is-link" to="/register">
                                             <strong>Sign up</strong>
                                         </Link>
-                                        <Link onClick={this.toggleBurger} className="button is-light" to="/login">
+                                        <Link onClick={this.toggleBurger} className="button desktop-nav-button" to="/login">
                                             Log in
                                         </Link>
                                     </div>
                                 </div>
                                 :
                                 <div>
-                                    <Link className="button user-menu-actions" to="/book-form" style={{'marginRight' : '10px'}}>
-                                        <FontAwesomeIcon icon={faPlus}/>
-                                    </Link>
                                     <div className={this.state.dropdownVisible ? "dropdown is-right is-active" : "dropdown is-right"}>
                                         <div className="dropdown-trigger">
-                                        <button id="dropdown" onClick={this.toggleDropdown} className="button user-menu-actions">
+                                        <button id="dropdown" onClick={this.toggleDropdown} className="button user-menu-actions desktop-nav-button">
                                             <span id="dropdown">{this.props.user.email}</span>
                                             <span id="dropdown" className="icon is-small">
                                                 {
@@ -100,23 +97,23 @@ class DesktopNav extends React.Component {
                                         <div ref={this.setDropdownRef} className="dropdown-menu">
                                             <div className="dropdown-content">
                                                 <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to={`/shelf/${this.props.user.id}`}>
-                                                Bookshelf
+                                                    Bookshelf
                                                 </NavLink>
                                                 <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/manage-books">
-                                                Manage Books
+                                                    Manage Books
                                                 </NavLink>
                                                 <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/manage-categories">
-                                                Manage Categories
+                                                    Manage Categories
                                                 </NavLink>
                                                 <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/manage-ratings">
-                                                Manage Ratings
+                                                    Manage Ratings
                                                 </NavLink>
                                                 <hr className="dropdown-divider" />
                                                 <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/my-account">
-                                                My Account
+                                                    My Account
                                                 </NavLink>
                                                 <a onClick={this.logout} href="#" className="dropdown-item">
-                                                Logout
+                                                    Logout
                                                 </a>
                                             </div>
                                         </div>  

@@ -7,7 +7,7 @@
 }
 
 .form-container {
-  padding-top: 30px;
+  padding-top: 40px;
 }
 
 .cancel-button {
@@ -52,10 +52,6 @@
   color: #3273dc;
   margin-left: 10px;
   margin-top: 12px;
-}
-
-.nav-icon {
-  filter: grayscale(1);
 }
 
 .modal-actions {

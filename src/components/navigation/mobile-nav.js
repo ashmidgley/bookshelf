@@ -74,24 +74,24 @@ class MobileNav extends React.Component {
                             <span id="burger"></span>
                             <span id="burger"></span>
                         </a>
-                        <Link id="nav-icon" to={this.props.user ? `/shelf/${this.props.user.id}` : '/'} className="navbar-item">
-                            <img className="nav-icon" src="/bookshelf.png" alt="Small bookshelf" />
+                        <Link id="mobile-nav-icon" to={this.props.user ? `/shelf/${this.props.user.id}` : '/'} className="navbar-item">
+                            <img src="/bookshelf.png" alt="Small bookshelf" />
                         </Link>
                         {
                             this.props.user ?
-                            <Link id="mobile-plus" className="button user-menu-actions" to="/book-form">
-                                <FontAwesomeIcon icon={faPlus} size="lg"/>
+                            <Link id="mobile-plus" className="user-menu-actions" to="/book-form">
+                                <FontAwesomeIcon icon={faPlus} size="lg" color="#f5f5f7" />
                             </Link>
                             :
-                            <Link id="mobile-plus" className="button user-menu-actions" to="/login">
-                                <FontAwesomeIcon icon={faAddressCard} size="lg" color="rgba(0,0,0,0.5)"/>
+                            <Link id="mobile-login" className="user-menu-actions" to="/login">
+                                <FontAwesomeIcon icon={faAddressCard} size="lg" color="#f5f5f7" />
                             </Link>
                         }
                     </div>
                     <div 
                         id="mobile-menu"
                         ref={this.setBurgerRef} 
-                        className={!this.state.initialOpen ? "navbar-menu" : this.state.optionsVisible ? "navbar-menu fade-in" : "navbar-menu fade-out"}>
+                        className={!this.state.initialOpen ? "navbar-menu" : this.state.optionsVisible ? "navbar-menu fade-in-menu" : "navbar-menu fade-out-menu"}>
                         <div 
                             className={!this.state.initialOpen ? "navbar-end" : this.state.optionsVisible ? "navbar-end fade-in-options" : "navbar-end fade-out-options"}>
                             {
