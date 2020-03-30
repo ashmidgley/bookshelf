@@ -73,7 +73,7 @@ class DesktopNav extends React.Component {
                                         <Link onClick={this.toggleBurger} className="button is-link" to="/register">
                                             <strong>Sign up</strong>
                                         </Link>
-                                        <Link onClick={this.toggleBurger} className="button desktop-nav-button" to="/login">
+                                        <Link onClick={this.toggleBurger} className="button is-outlined" to="/login">
                                             Log in
                                         </Link>
                                     </div>

@@ -10,24 +10,6 @@
     filter: grayscale(1);
 }
 
-    #desktop-menu .dropdown-content {
-        background-color: rgba(0, 0, 0, 0.92);
-    }
-
-    #desktop-menu .dropdown-item {
-        color: hsla(0, 0%, 100%, .75);
-    }
-
-    #desktop-menu .dropdown-item:hover {
-        color: white;
-        background-color: initial;
-    }
-
-    #desktop-menu .dropdown-item.is-active {
-        color: white;
-        background-color: initial;
-    }
-
 .desktop-nav-button {
     background-color: rgba(0, 0, 0, 0.92);
     color: hsla(0, 0%, 100%, .75);
