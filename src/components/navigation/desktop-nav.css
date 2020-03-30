@@ -19,7 +19,13 @@
     }
 
     #desktop-menu .dropdown-item:hover {
-        background-color: #3273dc;
+        color: white;
+        background-color: initial;
+    }
+
+    #desktop-menu .dropdown-item.is-active {
+        color: white;
+        background-color: initial;
     }
 
 .desktop-nav-button {
