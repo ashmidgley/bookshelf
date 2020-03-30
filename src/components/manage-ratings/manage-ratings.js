@@ -5,7 +5,7 @@ import { Link }from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { customStyles } from '../../helpers/custom-modal';
 import { fetchRatings, removeRating, clearError } from '../../actions/rating-actions';
 
@@ -118,7 +118,6 @@ class ManageRatings extends React.Component {
                             </form>
                         </Modal>
                         <div>
-                            <h1 className="title">Ratings</h1>
                             {
                                 this.state.success && this.props.ratings && this.props.ratings.length &&
                                 <div className="notification is-primary">Successfully removed entry.</div>
@@ -129,7 +128,9 @@ class ManageRatings extends React.Component {
                             }
                             <div style={{'marginBottom': '25px'}}>
                                 <Link to={'/rating-form'}>
-                                    <button className="button is-outlined">Add</button>
+                                    <button className="button is-outlined">
+                                        <FontAwesomeIcon icon={faPlus} size="lg" />
+                                    </button>
                                 </Link>
                             </div>
                             {
