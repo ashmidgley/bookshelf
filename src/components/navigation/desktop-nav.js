@@ -73,19 +73,19 @@ class DesktopNav extends React.Component {
                                         <Link onClick={this.toggleBurger} className="button is-link" to="/register">
                                             <strong>Sign up</strong>
                                         </Link>
-                                        <Link onClick={this.toggleBurger} className="button is-light" to="/login">
+                                        <Link onClick={this.toggleBurger} className="button desktop-nav-button" to="/login">
                                             Log in
                                         </Link>
                                     </div>
                                 </div>
                                 :
                                 <div>
-                                    <Link className="button user-menu-actions" to="/book-form" style={{'marginRight' : '10px'}}>
+                                    <Link className="button user-menu-actions desktop-nav-button" to="/book-form" style={{'marginRight' : '10px'}}>
                                         <FontAwesomeIcon icon={faPlus}/>
                                     </Link>
                                     <div className={this.state.dropdownVisible ? "dropdown is-right is-active" : "dropdown is-right"}>
                                         <div className="dropdown-trigger">
-                                        <button id="dropdown" onClick={this.toggleDropdown} className="button user-menu-actions">
+                                        <button id="dropdown" onClick={this.toggleDropdown} className="button user-menu-actions desktop-nav-button">
                                             <span id="dropdown">{this.props.user.email}</span>
                                             <span id="dropdown" className="icon is-small">
                                                 {
