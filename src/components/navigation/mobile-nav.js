@@ -75,16 +75,16 @@ class MobileNav extends React.Component {
                             <span id="burger"></span>
                         </a>
                         <Link id="nav-icon" to={this.props.user ? `/shelf/${this.props.user.id}` : '/'} className="navbar-item">
-                            <img className="nav-icon" src="/bookshelf.png" alt="Small bookshelf" />
+                            <img src="/bookshelf.png" alt="Small bookshelf" />
                         </Link>
                         {
                             this.props.user ?
-                            <Link id="mobile-plus" className="button user-menu-actions" to="/book-form">
-                                <FontAwesomeIcon icon={faPlus} size="lg"/>
+                            <Link id="mobile-plus" className="user-menu-actions" to="/book-form">
+                                <FontAwesomeIcon icon={faPlus} size="lg" color="#f5f5f7" />
                             </Link>
                             :
-                            <Link id="mobile-plus" className="button user-menu-actions" to="/login">
-                                <FontAwesomeIcon icon={faAddressCard} size="lg" color="rgba(0,0,0,0.5)"/>
+                            <Link id="mobile-login" className="user-menu-actions" to="/login">
+                                <FontAwesomeIcon icon={faAddressCard} size="lg" color="#f5f5f7" />
                             </Link>
                         }
                     </div>

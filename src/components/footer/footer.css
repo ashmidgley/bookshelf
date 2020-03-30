@@ -31,3 +31,18 @@
 #footer-icon:hover {
     color: black;
 }
+
+@media only screen and (max-width: 600px) {
+    .footer {
+        background-color: rgba(0, 0, 0, 0.92);
+        color: #f5f5f7;
+    }
+
+    #footer-icon {
+        color: #f5f5f7;
+    }
+
+        .footer a {
+            color: #f5f5f7;
+        }
+}
