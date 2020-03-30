@@ -78,7 +78,6 @@
 
 /* Mobile */
 @media only screen and (max-width: 600px) {
-
     .shelf-container {
         margin-top: -15px;
     }
@@ -111,7 +110,7 @@
     }
 
     .year-toggle-container {
-        text-align: center;
+        display: none;
     }
 }
 

@@ -5,7 +5,7 @@ import { Link }from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { customStyles } from '../../helpers/custom-modal';
 import { fetchBooks, removeBook, clearError } from '../../actions/book-actions';
 
@@ -121,7 +121,6 @@ class ManageBooks extends React.Component {
                                 </div>
                             </form>
                         </Modal>
-                        <h1 className="title">Books</h1>
                         {
                             this.state.success && this.props.books.length &&
                             <div className="notification is-primary">Successfully removed entry.</div>
@@ -132,7 +131,9 @@ class ManageBooks extends React.Component {
                         }
                         <div style={{ 'marginBottom': '25px' }}>   
                             <Link to={'/book-form'}>
-                                <button className="button is-outlined">Add</button>
+                                <button className="button is-outlined">
+                                    <FontAwesomeIcon icon={faPlus} size="lg" />
+                                </button>
                             </Link>
                         </div>
                         {

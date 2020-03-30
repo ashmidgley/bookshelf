@@ -23,10 +23,19 @@
     background-color: rgba(0, 0, 0, 0.92);
 }
 
-.mobile-options > .navbar-item {
-    margin-left: 7px;
+  .mobile-options > .navbar-item {
+      margin-left: 7px;
+      color: #f5f5f7;
+  }
+
+  .mobile-options > .navbar-item:focus {
+    background-color: initial;
     color: #f5f5f7;
-}
+  }
+
+  .mobile-options > .navbar-item:focus-within {
+    background-color: initial;
+  }
 
 #mobile-nav-icon { 
     position: absolute;

@@ -5,7 +5,7 @@ import { Link }from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { customStyles } from '../../helpers/custom-modal';
 import { fetchCategories, removeCategory, clearError } from '../../actions/category-actions';
 
@@ -118,7 +118,6 @@ class ManageCategories extends React.Component {
                             </form>
                         </Modal>
                         <div>
-                            <h1 className="title">Categories</h1>
                             {
                                 this.state.success && this.props.categories && this.props.categories.length &&
                                 <div className="notification is-primary">Successfully removed entry.</div>
@@ -129,7 +128,9 @@ class ManageCategories extends React.Component {
                             }
                             <div style={{'marginBottom': '25px'}}>
                                 <Link to={'/category-form'}>
-                                    <button className="button is-outlined">Add</button>
+                                    <button className="button is-outlined">
+                                        <FontAwesomeIcon icon={faPlus} size="lg" />
+                                    </button>
                                 </Link>
                             </div>
                             {
