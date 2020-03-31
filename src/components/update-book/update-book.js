@@ -74,7 +74,8 @@ class UpdateBook extends React.Component {
     submitEntry(values) {
         this.setState({
             submitting: true,
-            success: false
+            success: false,
+            error: null
         });
 
         var book = {
