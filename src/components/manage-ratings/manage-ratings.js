@@ -50,6 +50,7 @@ class ManageRatings extends React.Component {
                 submitting: false
             });
             this.props.clearError();
+            window.scrollTo(0, 0);
         } else if(this.state.submitting && nextProps.removedRating) {
             var oldRating = this.props.ratings.find(b => b.id === nextProps.removedRating.id);
             var i = this.props.ratings.indexOf(oldRating);
@@ -60,6 +61,7 @@ class ManageRatings extends React.Component {
                 success: true,
                 selectedRatingId: null
             });
+            window.scrollTo(0, 0);
         }
     }
 

@@ -50,6 +50,7 @@ class ManageCategories extends React.Component {
                 submitting: false
             });
             this.props.clearError();
+            window.scrollTo(0, 0);
         } else if(this.state.submitting && nextProps.removedCategory) {
             var oldCategory = this.props.categories.find(b => b.id === nextProps.removedCategory.id);
             var i = this.props.categories.indexOf(oldCategory);
@@ -60,6 +61,7 @@ class ManageCategories extends React.Component {
                 submitting: false,
                 success: true
             });
+            window.scrollTo(0, 0);
         }
     }
 

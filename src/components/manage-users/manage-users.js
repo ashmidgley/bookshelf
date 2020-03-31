@@ -54,6 +54,7 @@ class ManageUsers extends React.Component {
                 submitting: false
             });
             this.props.clearError();
+            window.scrollTo(0, 0);
         } else if (this.state.submitting && nextProps.deletedUser) {
             var deletedUser = this.props.users.find(b => b.id === nextProps.deletedUser.id);
             var index = this.props.users.indexOf(deletedUser);

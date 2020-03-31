@@ -50,6 +50,7 @@ class ManageBooks extends React.Component {
                 submitting: false
             });
             this.props.clearError();
+            window.scrollTo(0, 0);
         } else if(this.state.submitting && nextProps.removedBook) {
             var oldBook = this.props.books.find(b => b.id === nextProps.removedBook.id);
             var i = this.props.books.indexOf(oldBook);

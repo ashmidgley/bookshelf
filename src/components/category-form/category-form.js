@@ -51,6 +51,7 @@ class CategoryForm extends React.Component {
                 submitting: false
             });
             this.props.clearError();
+            window.scrollTo(0, 0);
         } else if(this.state.submitting && nextProps.category) {
             if(this.props.match.params.id){
                 var oldCategory = this.props.categories.find(b => b.id === nextProps.category.id);

@@ -50,6 +50,7 @@ class AddBook extends React.Component {
                 loading: false
             });
             this.props.clearError();
+            window.scrollTo(0, 0);
         } else if (this.state.submitting && nextProps.book) {
             this.props.books.unshift(nextProps.book);
             this.setState({

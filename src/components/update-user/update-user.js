@@ -53,6 +53,7 @@ class UpdateUser extends React.Component {
                 loading: false
             });
             this.props.clearError();
+            window.scrollTo(0, 0);
         } else if (this.state.submitting && nextProps.updatedUser) {
             var oldUser = this.props.users.find(b => b.id === nextProps.updatedUser.id);
             var index = this.props.users.indexOf(oldUser);
