@@ -25,6 +25,7 @@ class UpdateUser extends React.Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         if(!this.props.users) {
             var token = localStorage.getItem('token');
             this.props.fetchUsers(token);
@@ -52,6 +53,7 @@ class UpdateUser extends React.Component {
                 loading: false
             });
             this.props.clearError();
+            window.scrollTo(0, 0);
         } else if (this.state.submitting && nextProps.updatedUser) {
             var oldUser = this.props.users.find(b => b.id === nextProps.updatedUser.id);
             var index = this.props.users.indexOf(oldUser);
@@ -64,15 +66,23 @@ class UpdateUser extends React.Component {
         }
     }
 
-    updateUser(user) {
+    updateUser(values) {
         this.setState({
             submitting: true,
             success: false,
             error: null
         });
 
+        if(values.passwordResetToken === "") {
+            values.passwordResetToken = null;
+        }
+
+        if(values.passwordResetExpiry === "" || values.passwordResetExpiry === "Invalid date") {
+            values.passwordResetExpiry = null;
+        }
+
         var token = localStorage.getItem('token');
-        this.props.updateUser(user, token);
+        this.props.updateUser(values, token);
     }
     
     render() {
@@ -93,7 +103,7 @@ class UpdateUser extends React.Component {
                     </div>
                     {
                         this.state.success && 
-                        <div className="notification is-primary">Successfully updated user.</div>
+                        <div className="notification is-success">Successfully updated user.</div>
                     }
                     {
                         this.state.error && 

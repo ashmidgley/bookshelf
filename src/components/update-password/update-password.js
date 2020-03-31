@@ -18,6 +18,10 @@ class UpdatePassword extends React.Component {
         }
     }
 
+    componentDidMount() {
+        window.scrollTo(0, 0);
+    }
+
     componentWillReceiveProps(nextProps) {
         if(nextProps.error) {
             this.setState({
@@ -30,6 +34,7 @@ class UpdatePassword extends React.Component {
                 success: true,
                 submitting: false
             });
+            window.scrollTo(0, 0);
         }
     }
 
@@ -61,7 +66,7 @@ class UpdatePassword extends React.Component {
                     </div>
                     {
                         this.state.success && 
-                        <div className="notification is-primary">Successfully updated password.</div>
+                        <div className="notification is-success">Successfully updated password.</div>
                     }
                     <Formik
                         initialValues=

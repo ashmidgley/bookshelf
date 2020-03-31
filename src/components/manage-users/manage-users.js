@@ -54,16 +54,17 @@ class ManageUsers extends React.Component {
                 submitting: false
             });
             this.props.clearError();
+            window.scrollTo(0, 0);
         } else if (this.state.submitting && nextProps.deletedUser) {
             var deletedUser = this.props.users.find(b => b.id === nextProps.deletedUser.id);
             var index = this.props.users.indexOf(deletedUser);
             this.props.users.splice(index, 1);
-
             this.setState({
                 modalIsOpen: false,
                 submitting: false,
                 success: true
             });
+            window.scrollTo(0, 0);
         }
     }
 
@@ -128,7 +129,7 @@ class ManageUsers extends React.Component {
                             <h1 className="title">Users</h1>
                             {
                                 this.state.success &&
-                                <div className="notification is-primary">Successfully removed entry.</div>
+                                <div className="notification is-success">Successfully removed entry.</div>
                             }
                             {
                                 this.state.error && 

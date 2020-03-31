@@ -59,6 +59,7 @@ class UpdateBook extends React.Component {
                 loading: false
             });
             this.props.clearError();
+            window.scrollTo(0, 0);
         } else if(this.state.submitting && nextProps.book) {
             var oldBook = this.props.books.find(b => b.id === nextProps.book.id);
             var i = this.props.books.indexOf(oldBook);
@@ -74,7 +75,8 @@ class UpdateBook extends React.Component {
     submitEntry(values) {
         this.setState({
             submitting: true,
-            success: false
+            success: false,
+            error: null
         });
 
         var book = {
@@ -146,7 +148,7 @@ class UpdateBook extends React.Component {
                     </div>
                     {
                         this.state.success &&
-                        <div className="notification is-primary">
+                        <div className="notification is-success">
                             Successfully updated entry. <Link to={`/review/${this.props.book.id}`}>View update?</Link>
                         </div>
                     }

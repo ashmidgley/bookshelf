@@ -50,6 +50,7 @@ class ManageBooks extends React.Component {
                 submitting: false
             });
             this.props.clearError();
+            window.scrollTo(0, 0);
         } else if(this.state.submitting && nextProps.removedBook) {
             var oldBook = this.props.books.find(b => b.id === nextProps.removedBook.id);
             var i = this.props.books.indexOf(oldBook);
@@ -59,7 +60,8 @@ class ManageBooks extends React.Component {
                 submitting: false,
                 success: true,
                 selectedBookId: null
-            })
+            });
+            window.scrollTo(0, 0);
         }
     }
 
@@ -123,7 +125,7 @@ class ManageBooks extends React.Component {
                         </Modal>
                         {
                             this.state.success && this.props.books.length &&
-                            <div className="notification is-primary">Successfully removed entry.</div>
+                            <div className="notification is-success">Successfully removed entry.</div>
                         }
                         {
                             this.state.error && 

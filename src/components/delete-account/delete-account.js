@@ -19,6 +19,10 @@ class DeleteAccount extends React.Component {
         }
     }
 
+    componentDidMount() {
+        window.scrollTo(0, 0);
+    }
+
     componentWillReceiveProps(nextProps) {
         if(nextProps.error) {
             this.setState({

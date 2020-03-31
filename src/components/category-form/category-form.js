@@ -23,6 +23,7 @@ class CategoryForm extends React.Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         if(!this.props.categories) {
             var id = localStorage.getItem('userId');
             this.props.fetchCategories(id);
@@ -32,7 +33,6 @@ class CategoryForm extends React.Component {
                 loading: false
             })
         }
-        window.scrollTo(0, 0);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -51,6 +51,7 @@ class CategoryForm extends React.Component {
                 submitting: false
             });
             this.props.clearError();
+            window.scrollTo(0, 0);
         } else if(this.state.submitting && nextProps.category) {
             if(this.props.match.params.id){
                 var oldCategory = this.props.categories.find(b => b.id === nextProps.category.id);
@@ -63,6 +64,7 @@ class CategoryForm extends React.Component {
                 submitting: false,
                 success: true
             });
+            window.scrollTo(0, 0);
         }
     }
 
@@ -106,7 +108,9 @@ class CategoryForm extends React.Component {
                     </div>
                     {
                         this.state.success && 
-                        <div className="notification is-primary">Successfully {this.state.action.toLowerCase()}d category.</div>
+                        <div className="notification is-success">
+                            Successfully {this.state.action.toLowerCase()}d category.
+                        </div>
                     }
                     {
                         this.state.error && 

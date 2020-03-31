@@ -23,6 +23,7 @@ class RatingForm extends React.Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         if(!this.props.ratings) {
             var id = localStorage.getItem('userId');
             this.props.fetchRatings(id);
@@ -32,7 +33,6 @@ class RatingForm extends React.Component {
                 loading: false
             })
         }
-        window.scrollTo(0, 0);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -51,6 +51,7 @@ class RatingForm extends React.Component {
                 submitting: false
             });
             this.props.clearError();
+            window.scrollTo(0, 0);
         } else if(this.state.submitting && nextProps.rating) {
             if(this.props.match.params.id){
                 var oldRating = this.props.ratings.find(b => b.id === nextProps.rating.id);
@@ -63,6 +64,7 @@ class RatingForm extends React.Component {
                 submitting: false,
                 success: true
             });
+            window.scrollTo(0, 0);
         }
     }
 
@@ -106,7 +108,7 @@ class RatingForm extends React.Component {
                     </div>
                     {
                         this.state.success &&
-                        <div className="notification is-primary">Successfully {this.state.action.toLowerCase()}d rating.</div>
+                        <div className="notification is-success">Successfully {this.state.action.toLowerCase()}d rating.</div>
                     }
                     {
                         this.state.error && 
