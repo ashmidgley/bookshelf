@@ -23,6 +23,7 @@ class CategoryForm extends React.Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         if(!this.props.categories) {
             var id = localStorage.getItem('userId');
             this.props.fetchCategories(id);
@@ -32,7 +33,6 @@ class CategoryForm extends React.Component {
                 loading: false
             })
         }
-        window.scrollTo(0, 0);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -63,6 +63,7 @@ class CategoryForm extends React.Component {
                 submitting: false,
                 success: true
             });
+            window.scrollTo(0, 0);
         }
     }
 

@@ -23,6 +23,7 @@ class RatingForm extends React.Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         if(!this.props.ratings) {
             var id = localStorage.getItem('userId');
             this.props.fetchRatings(id);
@@ -32,7 +33,6 @@ class RatingForm extends React.Component {
                 loading: false
             })
         }
-        window.scrollTo(0, 0);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -63,6 +63,7 @@ class RatingForm extends React.Component {
                 submitting: false,
                 success: true
             });
+            window.scrollTo(0, 0);
         }
     }
 

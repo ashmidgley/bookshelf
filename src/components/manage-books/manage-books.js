@@ -59,7 +59,8 @@ class ManageBooks extends React.Component {
                 submitting: false,
                 success: true,
                 selectedBookId: null
-            })
+            });
+            window.scrollTo(0, 0);
         }
     }
 

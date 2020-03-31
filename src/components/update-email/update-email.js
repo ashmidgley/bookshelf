@@ -18,6 +18,10 @@ class UpdateEmail extends React.Component {
         }
     }
 
+    componentDidMount() {
+        window.scrollTo(0, 0);
+    }
+
     componentWillReceiveProps(nextProps) {
         if(nextProps.error) {
             this.setState({
@@ -37,6 +41,7 @@ class UpdateEmail extends React.Component {
                 submitting: false,
                 success: true
             });
+            window.scrollTo(0, 0);
         }
     }
 

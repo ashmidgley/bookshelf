@@ -58,12 +58,12 @@ class ManageUsers extends React.Component {
             var deletedUser = this.props.users.find(b => b.id === nextProps.deletedUser.id);
             var index = this.props.users.indexOf(deletedUser);
             this.props.users.splice(index, 1);
-
             this.setState({
                 modalIsOpen: false,
                 submitting: false,
                 success: true
             });
+            window.scrollTo(0, 0);
         }
     }
 

@@ -25,6 +25,7 @@ class UpdateUser extends React.Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         if(!this.props.users) {
             var token = localStorage.getItem('token');
             this.props.fetchUsers(token);
