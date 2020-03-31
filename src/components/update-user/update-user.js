@@ -66,15 +66,19 @@ class UpdateUser extends React.Component {
         }
     }
 
-    updateUser(user) {
+    updateUser(values) {
         this.setState({
             submitting: true,
             success: false,
             error: null
         });
 
+        if(values.passwordResetExpiry === "Invalid date") {
+            values.passwordResetExpiry = null;
+        }
+
         var token = localStorage.getItem('token');
-        this.props.updateUser(user, token);
+        this.props.updateUser(values, token);
     }
     
     render() {
