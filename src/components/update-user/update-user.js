@@ -103,7 +103,7 @@ class UpdateUser extends React.Component {
                     </div>
                     {
                         this.state.success && 
-                        <div className="notification is-primary">Successfully updated user.</div>
+                        <div className="notification is-success">Successfully updated user.</div>
                     }
                     {
                         this.state.error && 

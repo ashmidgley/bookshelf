@@ -66,7 +66,7 @@ class UpdatePassword extends React.Component {
                     </div>
                     {
                         this.state.success && 
-                        <div className="notification is-primary">Successfully updated password.</div>
+                        <div className="notification is-success">Successfully updated password.</div>
                     }
                     <Formik
                         initialValues=

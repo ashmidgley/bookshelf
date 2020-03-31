@@ -99,7 +99,7 @@ class AddBook extends React.Component {
                     </div>
                     {
                         this.state.success && 
-                        <div className="notification is-primary">
+                        <div className="notification is-success">
                             Successfully created new book. <Link to={`/review/${this.props.book.id}`}>View?</Link>
                         </div>
                     }

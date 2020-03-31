@@ -108,7 +108,9 @@ class CategoryForm extends React.Component {
                     </div>
                     {
                         this.state.success && 
-                        <div className="notification is-primary">Successfully {this.state.action.toLowerCase()}d category.</div>
+                        <div className="notification is-success">
+                            Successfully {this.state.action.toLowerCase()}d category.
+                        </div>
                     }
                     {
                         this.state.error && 

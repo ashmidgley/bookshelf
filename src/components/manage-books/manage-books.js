@@ -125,7 +125,7 @@ class ManageBooks extends React.Component {
                         </Modal>
                         {
                             this.state.success && this.props.books.length &&
-                            <div className="notification is-primary">Successfully removed entry.</div>
+                            <div className="notification is-success">Successfully removed entry.</div>
                         }
                         {
                             this.state.error && 

@@ -122,7 +122,7 @@ class ManageCategories extends React.Component {
                         <div>
                             {
                                 this.state.success && this.props.categories && this.props.categories.length &&
-                                <div className="notification is-primary">Successfully removed entry.</div>
+                                <div className="notification is-success">Successfully removed entry.</div>
                             }
                             {
                                 this.state.error && 

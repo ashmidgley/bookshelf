@@ -129,7 +129,7 @@ class ManageUsers extends React.Component {
                             <h1 className="title">Users</h1>
                             {
                                 this.state.success &&
-                                <div className="notification is-primary">Successfully removed entry.</div>
+                                <div className="notification is-success">Successfully removed entry.</div>
                             }
                             {
                                 this.state.error && 

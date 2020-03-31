@@ -73,7 +73,7 @@ class UpdateEmail extends React.Component {
                     </div>
                     {
                         this.state.success &&
-                        <div className="notification is-primary">Successfully updated email.</div>
+                        <div className="notification is-success">Successfully updated email.</div>
                     }
                     <Formik
                         initialValues=
