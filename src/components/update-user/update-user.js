@@ -73,7 +73,11 @@ class UpdateUser extends React.Component {
             error: null
         });
 
-        if(values.passwordResetExpiry === "Invalid date") {
+        if(values.passwordResetToken === "") {
+            values.passwordResetToken = null;
+        }
+
+        if(values.passwordResetExpiry === "" || values.passwordResetExpiry === "Invalid date") {
             values.passwordResetExpiry = null;
         }
 
