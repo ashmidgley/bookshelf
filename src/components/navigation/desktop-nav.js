@@ -64,7 +64,7 @@ class DesktopNav extends React.Component {
                             <img src="/bookshelf.png" alt="Small bookshelf" />
                         </Link>
                     </div>
-                    <div id="desktop-menu" className="navbar-menu">
+                    <div className="navbar-menu">
                         <div className="navbar-end">
                             {
                                 !this.props.user ?
