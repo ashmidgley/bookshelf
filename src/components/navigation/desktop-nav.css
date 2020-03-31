@@ -1,5 +1,5 @@
 #desktop-nav {
-    background-color: rgba(0, 0, 0, 0.92);
+    background-color: rgb(36, 41, 46);
 }
 
 #desktop-menu {
@@ -11,13 +11,13 @@
 }
 
 .desktop-nav-button {
-    background-color: rgba(0, 0, 0, 0.92);
+    background-color: rgb(36, 41, 46);
     color: hsla(0, 0%, 100%, .75);
 }
 
     .desktop-nav-button:hover {
         color: hsla(0, 0%, 100%, .75);
-        background-color: rgb(30, 30, 30);
+        background-color: rgb(41, 47, 53);
         border-color: #dbdbdb;
     }
 

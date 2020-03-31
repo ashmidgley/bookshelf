@@ -1,6 +1,6 @@
 #mobile-nav {
   z-index: 1;
-  background-color: rgba(0, 0, 0, 0.92);
+  background-color: rgb(36, 41, 46);
 }
 
 #mobile-plus {
@@ -20,7 +20,7 @@
     width: 100%;
     border-radius: 4px;
     box-shadow: 0 0.5em 1em -0.125em rgba(10,10,10,.1), 0 0 0 1px rgba(10,10,10,.02);
-    background-color: rgba(0, 0, 0, 0.92);
+    background-color: rgb(36, 41, 46);
 }
 
   .mobile-options > .navbar-item {
