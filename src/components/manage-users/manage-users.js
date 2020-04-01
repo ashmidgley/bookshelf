@@ -23,6 +23,7 @@ class ManageUsers extends React.Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         if(localStorage.getItem('userIsAdmin') !== 'true') {
             this.props.history.push('/');
             return;
@@ -54,7 +55,7 @@ class ManageUsers extends React.Component {
                 submitting: false
             });
             this.props.clearError();
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         } else if (this.state.submitting && nextProps.deletedUser) {
             var deletedUser = this.props.users.find(b => b.id === nextProps.deletedUser.id);
             var index = this.props.users.indexOf(deletedUser);
@@ -64,7 +65,7 @@ class ManageUsers extends React.Component {
                 submitting: false,
                 success: true
             });
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     }
 

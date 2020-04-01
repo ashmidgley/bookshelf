@@ -23,6 +23,7 @@ class Review extends React.Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         if(!this.props.books || !this.props.categories || !this.props.ratings) {
             var id = localStorage.getItem('userId');
             this.props.fetchBooks(id);
@@ -36,7 +37,6 @@ class Review extends React.Component {
                 loading: false
             });
         }
-        window.scrollTo(0, 0);
     }
 
     componentWillReceiveProps(nextProps) {

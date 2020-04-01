@@ -29,6 +29,7 @@ class UpdateEmail extends React.Component {
                 error: nextProps.error
             });
             this.props.clearError();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         } else if(this.state.submitting && nextProps.updatedUser) {
             localStorage.setItem('userEmail', nextProps.updatedUser.email);
             var data = { 
@@ -41,7 +42,7 @@ class UpdateEmail extends React.Component {
                 submitting: false,
                 success: true
             });
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     }
 

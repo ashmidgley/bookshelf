@@ -22,6 +22,7 @@ class AddBook extends React.Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         if(!this.props.books || !this.props.categories || !this.props.ratings) {
             var id = localStorage.getItem('userId');
             this.props.fetchBooks(id);
@@ -32,7 +33,6 @@ class AddBook extends React.Component {
                 loading: false
             });
         }
-        window.scrollTo(0, 0);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -50,14 +50,14 @@ class AddBook extends React.Component {
                 loading: false
             });
             this.props.clearError();
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         } else if (this.state.submitting && nextProps.book) {
             this.props.books.unshift(nextProps.book);
             this.setState({
                 submitting: false,
                 success: true
             });
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     }
 

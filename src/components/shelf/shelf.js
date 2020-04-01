@@ -61,11 +61,10 @@ class Shelf extends React.Component {
       }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         this.props.fetchBooks(this.state.userId);
         this.props.fetchCategories(this.state.userId);
         this.props.fetchRatings(this.state.userId);
-
-        window.scrollTo(0, 0);
         this.checkDimensions();
         window.addEventListener("resize", this.checkDimensions);
     }
@@ -152,7 +151,7 @@ class Shelf extends React.Component {
                 <Helmet>
                     <title>Bookshelf | A Free Platform to Keep Track of Your Reads</title>
                 </Helmet>
-                <div className="shelf-menu-items columns is-mobile card">
+                <div className="shelf-menu-items columns card hide-mobile">
                     <div className="columns">
                         <div className="column is-three-fifths">
                             <input 

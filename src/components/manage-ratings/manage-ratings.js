@@ -24,6 +24,7 @@ class ManageRatings extends React.Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         if(!this.props.ratings) {
             var id = localStorage.getItem('userId');
             this.props.fetchRatings(id);
@@ -50,7 +51,7 @@ class ManageRatings extends React.Component {
                 submitting: false
             });
             this.props.clearError();
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         } else if(this.state.submitting && nextProps.removedRating) {
             var oldRating = this.props.ratings.find(b => b.id === nextProps.removedRating.id);
             var i = this.props.ratings.indexOf(oldRating);
@@ -61,7 +62,7 @@ class ManageRatings extends React.Component {
                 success: true,
                 selectedRatingId: null
             });
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     }
 

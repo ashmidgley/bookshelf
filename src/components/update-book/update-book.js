@@ -29,6 +29,7 @@ class UpdateBook extends React.Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         if(!this.props.books || !this.props.categories || !this.props.ratings) {
             var id = localStorage.getItem('userId');
             this.props.fetchBooks(id);
@@ -40,7 +41,6 @@ class UpdateBook extends React.Component {
                 loading: false
             });
         }
-        window.scrollTo(0, 0);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -59,7 +59,7 @@ class UpdateBook extends React.Component {
                 loading: false
             });
             this.props.clearError();
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         } else if(this.state.submitting && nextProps.book) {
             var oldBook = this.props.books.find(b => b.id === nextProps.book.id);
             var i = this.props.books.indexOf(oldBook);
@@ -68,7 +68,7 @@ class UpdateBook extends React.Component {
                 submitting: false,
                 success: true
             });
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     }
 

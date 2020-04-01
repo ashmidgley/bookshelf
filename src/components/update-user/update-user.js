@@ -53,7 +53,7 @@ class UpdateUser extends React.Component {
                 loading: false
             });
             this.props.clearError();
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         } else if (this.state.submitting && nextProps.updatedUser) {
             var oldUser = this.props.users.find(b => b.id === nextProps.updatedUser.id);
             var index = this.props.users.indexOf(oldUser);
@@ -62,7 +62,7 @@ class UpdateUser extends React.Component {
                 submitting: false,
                 success: true
             });
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     }
 
