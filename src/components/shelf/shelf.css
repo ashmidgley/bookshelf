@@ -79,7 +79,8 @@
 /* Mobile */
 @media only screen and (max-width: 600px) {
     .shelf-container {
-        margin-top: -15px;
+        padding-top: 0;
+        margin-top: -20px;
     }
     
     .columns {
@@ -98,12 +99,11 @@
         width: 100%;
         object-fit: cover;
     }
-
-    .shelf-menu-items {
-        margin-top: 6px;
-        margin-bottom: 25px;
-        border-radius: 0;
-    }
+    
+    .tile-image:hover {
+        transform: none;
+        box-shadow: none;
+    }    
 
     .hide-mobile {
         display: none;
@@ -112,6 +112,12 @@
     .year-toggle-container {
         display: none;
     }
+
+    /* .shelf-menu-items {
+        margin-top: 6px;
+        margin-bottom: 25px;
+        border-radius: 0;
+    } */
 }
 
 /* Between mobile and desktop */
