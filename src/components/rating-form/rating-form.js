@@ -51,7 +51,7 @@ class RatingForm extends React.Component {
                 submitting: false
             });
             this.props.clearError();
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         } else if(this.state.submitting && nextProps.rating) {
             if(this.props.match.params.id){
                 var oldRating = this.props.ratings.find(b => b.id === nextProps.rating.id);
@@ -64,7 +64,7 @@ class RatingForm extends React.Component {
                 submitting: false,
                 success: true
             });
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     }
 

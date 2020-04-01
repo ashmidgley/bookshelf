@@ -24,6 +24,7 @@ class ManageCategories extends React.Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         if(!this.props.categories) {
             var id = localStorage.getItem('userId');
             this.props.fetchCategories(id);
@@ -50,7 +51,7 @@ class ManageCategories extends React.Component {
                 submitting: false
             });
             this.props.clearError();
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         } else if(this.state.submitting && nextProps.removedCategory) {
             var oldCategory = this.props.categories.find(b => b.id === nextProps.removedCategory.id);
             var i = this.props.categories.indexOf(oldCategory);
@@ -61,7 +62,7 @@ class ManageCategories extends React.Component {
                 submitting: false,
                 success: true
             });
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     }
 

@@ -29,12 +29,13 @@ class UpdatePassword extends React.Component {
                 submitting: false
             });
             this.props.clearError();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         } else if(this.state.submitting && nextProps.updatedUser) {
             this.setState({
                 success: true,
                 submitting: false
             });
-            window.scrollTo(0, 0);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     }
 
