@@ -3,9 +3,9 @@ Mid last year I found myself between jobs and reading more than usual. I was aft
 
 The result has proved:
  * No, I can't.
- * Making sites that have users and pull data from different places and look pretty is actually pretty tricky eh.
+ * Making sites that look pretty, have users and pull data from different places is actually pretty tricky eh.
 
-Rambling aside, [this bloody thing](https://bookshelf.co.nz) lets you keep an eye on the books you've read. You can share your shelf with others, customize the categories and ratings that you add books to and manage your account. All the book data is pulled from the [Google Books API](https://developers.google.com/books).
+Anyway, [this bloody thing](https://bookshelf.co.nz) lets you keep an eye on the books you've read. You can share your shelf with others, customize the categories and ratings that you add books to and manage your account. All the book data is pulled from the [Google Books API](https://developers.google.com/books).
 
 The frontend is written in [React](https://reactjs.org/) and the backend is a [.NET Core Web API](https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-3.1). It's the first proper hair-brained scheme that I've implemented from start to finish, so it's answered a bunch of questions that I had:
  - [What are security headers and how do I use em in .NET Core?](https://www.hanselman.com/blog/EasilyAddingSecurityHeadersToYourASPNETCoreWebAppAndGettingAnAGrade.aspx)
