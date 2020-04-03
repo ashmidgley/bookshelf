@@ -5,7 +5,7 @@ import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
 import { validateEmail } from '../../helpers/field-validator';
-import { sendResetToken, clearError } from '../../actions/email-actions';
+import { sendResetToken, clearError, clearResetTokenSent } from '../../actions/email-actions';
 
 class ForgotPassword extends React.Component {
 
@@ -26,10 +26,14 @@ class ForgotPassword extends React.Component {
                 submitting: false
             });
             this.props.clearError();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         } else if(this.state.submitting && nextProps.resetTokenSent) {
             this.setState({
+                submitting: false,
                 submitted: true
             });
+            this.props.clearResetTokenSent();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     }
 
@@ -115,4 +119,4 @@ const mapStateToProps = state => ({
     error: state.email.error
 });
 
-export default connect(mapStateToProps, {sendResetToken, clearError})(ForgotPassword);
+export default connect(mapStateToProps, {sendResetToken, clearError, clearResetTokenSent})(ForgotPassword);
