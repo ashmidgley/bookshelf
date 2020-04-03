@@ -1,4 +1,4 @@
-import { SEND_RESET_TOKEN, EMAIL_ERROR, CLEAR_ERROR } from '../actions/types';
+import { SEND_RESET_TOKEN, EMAIL_ERROR, CLEAR_ERROR, CLEAR_TOKEN } from '../actions/types';
 
 const initialState = {
   resetTokenSent: null,
@@ -21,6 +21,11 @@ export default function(state = initialState, action) {
       return {
         ...state,
         error: null
+      };
+    case CLEAR_TOKEN:
+      return {
+        ...state,
+        resetTokenSent: null
       };
     default:
       return state;
