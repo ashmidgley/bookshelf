@@ -211,7 +211,7 @@ class Shelf extends React.Component {
                         }
                         <div>
                             {this.state.years.map(year =>
-                                <div key={year.value}>
+                                <div key={year.value} className={this.state.years.indexOf(year) > 0 ? "child-toggle" : ""}>
                                     <div className="year-toggle-container">
                                         <button className="button is-link" onClick={() => this.toggleYear(year.value)}>
                                             {year.value}
