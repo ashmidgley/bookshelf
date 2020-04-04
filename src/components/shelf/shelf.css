@@ -118,6 +118,10 @@
         display: none;
     }
 
+    .shelf-tiles {
+        padding-bottom: 45px;
+    }
+
     .shelf-tile {
         margin-bottom: 0;
     }
