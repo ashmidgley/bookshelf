@@ -38,6 +38,11 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    if(process.env.REACT_APP_ERROR) {
+      this.props.clearUser();
+      return;
+    }
+
     var token = localStorage.getItem('token');
     if(token) {
       var currentTime = new Date().getTime();
@@ -48,7 +53,6 @@ class App extends React.Component {
           email: localStorage.getItem('userEmail'),
           isAdmin: localStorage.getItem('userIsAdmin')
         };
-        
         var data = { token, expiryDate, user };
         this.props.setUser(data);
       }
@@ -77,31 +81,39 @@ class App extends React.Component {
                     this.state.redirectToLogin &&
                     <Redirect to="/login"/>
                   }
-                  <Switch>
-                    <Route exact path="/" component={Home} />
-                    <Route exact path="/login" component={Login} />
-                    <Route exact path="/forgot-password" component={ForgotPassword} />
-                    <Route exact path="/reset-password/:userId/:resetToken" component={ResetPassword} />
-                    <Route exact path="/register" component={Register} />
-                    <Route exact path="/shelf/:id" component={Shelf} />
-                    <Route exact path="/review/:id" component={Review} />
-                    <Route exact path="/manage-books" component={ManageBooks} />
-                    <Route exact path="/manage-categories" component={ManageCategories} />
-                    <Route exact path="/manage-ratings" component={ManageRatings} />
-                    <Route exact path="/my-account" component={MyAccount} />
-                    <Route exact path="/update-password" component={UpdatePassword} />
-                    <Route exact path="/update-email" component={UpdateEmail} />
-                    <Route exact path="/delete-account" component={DeleteAccount} />
-                    <Route exact path="/book-form" component={AddBook} />
-                    <Route exact path="/book-form/:id" component={UpdateBook} />
-                    <Route exact path="/category-form" component={CategoryForm} />
-                    <Route exact path="/category-form/:id" component={CategoryForm} />
-                    <Route exact path="/rating-form" component={RatingForm} />
-                    <Route exact path="/rating-form/:id" component={RatingForm} />
-                    <Route exact path="/admin/manage-users" component={ManageUsers} />
-                    <Route exact path="/admin/manage-users/:id" component={UpdateUser} />
-                    <Route component={NoMatch} />
-                  </Switch>
+                  {
+                    process.env.REACT_APP_ERROR ?
+                    <div>
+                      <div id="global-error" className="notification is-danger">{process.env.REACT_APP_ERROR}</div>
+                      <Redirect to="/" />
+                    </div>
+                    :
+                    <Switch>
+                      <Route exact path="/" component={Home} />
+                      <Route exact path="/login" component={Login} />
+                      <Route exact path="/forgot-password" component={ForgotPassword} />
+                      <Route exact path="/reset-password/:userId/:resetToken" component={ResetPassword} />
+                      <Route exact path="/register" component={Register} />
+                      <Route exact path="/shelf/:id" component={Shelf} />
+                      <Route exact path="/review/:id" component={Review} />
+                      <Route exact path="/manage-books" component={ManageBooks} />
+                      <Route exact path="/manage-categories" component={ManageCategories} />
+                      <Route exact path="/manage-ratings" component={ManageRatings} />
+                      <Route exact path="/my-account" component={MyAccount} />
+                      <Route exact path="/update-password" component={UpdatePassword} />
+                      <Route exact path="/update-email" component={UpdateEmail} />
+                      <Route exact path="/delete-account" component={DeleteAccount} />
+                      <Route exact path="/book-form" component={AddBook} />
+                      <Route exact path="/book-form/:id" component={UpdateBook} />
+                      <Route exact path="/category-form" component={CategoryForm} />
+                      <Route exact path="/category-form/:id" component={CategoryForm} />
+                      <Route exact path="/rating-form" component={RatingForm} />
+                      <Route exact path="/rating-form/:id" component={RatingForm} />
+                      <Route exact path="/admin/manage-users" component={ManageUsers} />
+                      <Route exact path="/admin/manage-users/:id" component={UpdateUser} />
+                      <Route component={NoMatch} />
+                    </Switch>
+                  }
                 </div>
               </div>
             <Footer />

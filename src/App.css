@@ -82,13 +82,8 @@
   margin-top: 6px;
 }
 
-@keyframes fadeIn {
-  from { 
-      opacity: 0; 
-  }
-  to {
-      opacity: 1;
-  }
+#global-error {
+  margin-top: 20px;
 }
 
 @media only screen and (max-width: 600px) {
@@ -125,5 +120,14 @@
   .mobile-auth {
     padding-left: 10px;
     padding-right: 10px;
+  }
+}
+
+@keyframes fadeIn {
+  from { 
+      opacity: 0; 
+  }
+  to {
+      opacity: 1;
   }
 }
