@@ -45,7 +45,7 @@ class MyAccount extends React.Component {
         return (
             <div className="column is-8 is-offset-2 form-container"> 
                 <Helmet>
-                    <title>Bookshelf | My Account</title>
+                    <title>My Account - Bookshelf</title>
                 </Helmet>
                 <div className="card custom-card">
                     <div className="card-content">
