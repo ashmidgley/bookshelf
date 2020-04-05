@@ -102,7 +102,7 @@ class ManageRatings extends React.Component {
         return (
             <div className="column is-8 is-offset-2 form-container">
                 <Helmet>
-                    <title>Bookshelf | Manage Ratings</title>
+                    <title>Manage Ratings - Bookshelf</title>
                 </Helmet>
                 <div className="card form-card">
                     <div className="card-content">
