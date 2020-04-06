@@ -10,9 +10,13 @@ The frontend was built with [React](https://reactjs.org/) and the backend is a [
  - [How do you implement JWT authentication in .NET Core?](https://medium.com/@mmoshikoo/jwt-authentication-using-c-54e0c71f21b0)
  - [How do you send emails in .NET Core?](https://dotnetcoretutorials.com/2017/11/02/using-mailkit-send-receive-email-asp-net-core/)
  - [What are security headers and how do I use them in .NET Core?](https://www.hanselman.com/blog/EasilyAddingSecurityHeadersToYourASPNETCoreWebAppAndGettingAnAGrade.aspx)
- - [How do you backup a database in a MSSQL docker container?](https://gist.github.com/ashmidgley/694046e24c5218bfd6eca94c01e8151c)
  - [How do you install/setup Nginx on a Linux server?](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-18-04)
  - [How do you setup SSL certificates for Nginx?](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04)
  - [Is my SSL certificate in good nick?](https://www.ssllabs.com/ssltest/)
  - [How do you run scheduled jobs using cron?](https://www.digitalocean.com/community/tutorials/how-to-use-cron-to-automate-tasks-ubuntu-1804)
  - [How do you transfer files from a remote server to your local machine?](https://www.digitalocean.com/community/tutorials/how-to-use-sftp-to-securely-transfer-files-with-a-remote-server)
+
+I also wrote a couple of scripts to make life a bit easier when working with a MSSQL docker container.
+ - [Backup database](https://gist.github.com/ashmidgley/694046e24c5218bfd6eca94c01e8151c)
+ - [Restore database](https://gist.github.com/ashmidgley/00a9d9a1a460838fa073675a51388c4a)
+ - [Other useful commands](https://gist.github.com/ashmidgley/7cb251c87a29beaaede1909024bee650)
