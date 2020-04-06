@@ -14,6 +14,7 @@ class Shelf extends React.Component {
         super(props);
         this.state = {
             userId: parseInt(this.props.match.params.id),
+            storageId: parseInt(localStorage.getItem('userId')),
             columnClass: 'column is-one-third child',
             books: null,
             years: null,
@@ -206,7 +207,11 @@ class Shelf extends React.Component {
                         {
                             this.props.books.length === 0 &&
                             <div className="notification is-link shelf-notification">
-                                No books to display. <Link to="/book-form">Add one?</Link>
+                                No books to display.&nbsp;
+                                {
+                                    this.state.storageId === this.state.userId &&
+                                    <Link to="/book-form">Add one?</Link>
+                                }
                             </div>
                         }
                         <div>
