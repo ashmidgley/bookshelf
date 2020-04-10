@@ -14,7 +14,7 @@ import { fetchRatings } from '../../actions/rating-actions';
 class UpdateBook extends React.Component {
     tempImage = 'https://bulma.io/images/placeholders/96x96.png';
     allowedTypes = ['jpg', 'jpeg', 'png'];
-    validPrecursor = 'https://books.google.com';
+    validPrecursor = 'https://books.google.co';
 
     constructor(props) {
         super(props);
