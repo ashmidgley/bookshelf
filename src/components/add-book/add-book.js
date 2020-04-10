@@ -138,6 +138,9 @@ class AddBook extends React.Component {
                                     <div className="control">
                                         <input className={errors.title && touched.title ? 'input is-danger' : 'input'} type="text" name="title" placeholder="Enter title" onChange={handleChange} onBlur={handleBlur} value={values.title} />
                                     </div>
+                                    <div className="is-size-7" style={{'marginLeft':'5px'}}>
+                                        If you are unsure of the correct title or author, please check <a href="https://books.google.com">here</a> first.
+                                    </div>
                                 </div>
                                 <div className="field">
                                     <label className="label">Author</label>
