@@ -4,6 +4,8 @@ Midway through last year I found myself between jobs and reading more than usual
 ![alt Mobile](public/mobile.png?raw=true "Mobile")<br/><br/><br/>
 ![alt Desktop](public/desktop.PNG?raw=true "Desktop")<br/><br/><br/>
 
+## Wiki
+
 The frontend was built with [React](https://reactjs.org/) and the backend is a [.NET Core Web API](https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-3.1). All the book data is pulled from the [Google Books API](https://developers.google.com/books). Below are some of the articles that helped me out along the way.
  - [How do you securely store passwords in a database?](https://medium.com/@mehanix/lets-talk-security-salted-password-hashing-in-c-5460be5c3aae)
  - [What happens when a user forgets their password?](https://stackoverflow.com/questions/1102781/best-way-for-a-forgot-password-implementation)
@@ -15,8 +17,11 @@ The frontend was built with [React](https://reactjs.org/) and the backend is a [
  - [Is my SSL certificate in good nick?](https://www.ssllabs.com/ssltest/)
  - [How do you run scheduled jobs using cron?](https://www.digitalocean.com/community/tutorials/how-to-use-cron-to-automate-tasks-ubuntu-1804)
  - [How do you transfer files from a remote server to your local machine?](https://www.digitalocean.com/community/tutorials/how-to-use-sftp-to-securely-transfer-files-with-a-remote-server)
+ - [How do you automate backups to a DigitalOcean space?](https://www.digitalocean.com/community/tutorials/how-to-automate-backups-digitalocean-spaces)
 
-I also wrote a couple of scripts to make life a bit easier when working with a MSSQL docker container.
+I also wrote a couple of scripts that could be useful if you're working with the same setup.
+ - [Build and release frontend](https://github.com/ashmidgley/bookshelf/blob/master/release.sh)
+ - [Build and release API](https://github.com/ashmidgley/bookshelf-api/blob/master/Bookshelf.Core/release.sh)
  - [Backup database](https://gist.github.com/ashmidgley/694046e24c5218bfd6eca94c01e8151c)
  - [Restore database](https://gist.github.com/ashmidgley/00a9d9a1a460838fa073675a51388c4a)
- - [Other useful commands](https://gist.github.com/ashmidgley/7cb251c87a29beaaede1909024bee650)
+ - [Other database commands](https://gist.github.com/ashmidgley/7cb251c87a29beaaede1909024bee650)
