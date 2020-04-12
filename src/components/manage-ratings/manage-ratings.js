@@ -25,14 +25,8 @@ class ManageRatings extends React.Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        if(!this.props.ratings) {
-            var id = localStorage.getItem('userId');
-            this.props.fetchRatings(id);
-        } else {
-            this.setState({
-                loading: false
-            });
-        }
+        var userId = localStorage.getItem('userId');
+        this.props.fetchRatings(userId);
     }
 
     componentWillReceiveProps(nextProps) {
