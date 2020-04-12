@@ -1,5 +1,5 @@
 #bookshelf-icon {
-    width: 50%;
+    width: 40%;
     animation: fadeIn 1.5s, floatAndSpin 5s linear 0s infinite normal;
 }
 
@@ -26,5 +26,11 @@
     100% {
         -webkit-transform: rotate3d(0, 0, 1, 360deg);
         transform: rotate3d(0, 0, 1, 360deg);
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    #bookshelf-icon {
+        width: 50%;
     }
 }
