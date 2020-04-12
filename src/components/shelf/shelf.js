@@ -42,6 +42,10 @@ class Shelf extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if(nextProps.match.params.id != this.state.userId) {
+            window.location.reload(false);
+        }
+
         if(this.state.loading && Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings)) {
             this.setState({
                 books: nextProps.books,
