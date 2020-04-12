@@ -25,14 +25,8 @@ class ManageCategories extends React.Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        if(!this.props.categories) {
-            var id = localStorage.getItem('userId');
-            this.props.fetchCategories(id);
-        } else {
-            this.setState({
-                loading: false
-            });
-        }
+        var userId = localStorage.getItem('userId');
+        this.props.fetchCategories(userId);
     }
 
     componentWillReceiveProps(nextProps) {

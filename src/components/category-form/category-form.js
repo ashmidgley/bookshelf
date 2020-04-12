@@ -24,15 +24,8 @@ class CategoryForm extends React.Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        if(!this.props.categories) {
-            var id = localStorage.getItem('userId');
-            this.props.fetchCategories(id);
-        } else {
-            this.setState({
-                category: this.state.categoryId ? this.props.categories.find(b => b.id === this.state.categoryId) : null,
-                loading: false
-            })
-        }
+        var userId = localStorage.getItem('userId');
+        this.props.fetchCategories(userId);
     }
 
     componentWillReceiveProps(nextProps) {

@@ -25,14 +25,8 @@ class ManageBooks extends React.Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        if(!this.props.books) {
-            var id = localStorage.getItem('userId');
-            this.props.fetchBooks(id);
-        } else {
-            this.setState({
-                loading: false
-            });
-        }
+        var userId = localStorage.getItem('userId');
+        this.props.fetchBooks(userId);
     }
 
     componentWillReceiveProps(nextProps) {

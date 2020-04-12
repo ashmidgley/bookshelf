@@ -30,17 +30,10 @@ class UpdateBook extends React.Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        if(!this.props.books || !this.props.categories || !this.props.ratings) {
-            var id = localStorage.getItem('userId');
-            this.props.fetchBooks(id);
-            this.props.fetchCategories(id);
-            this.props.fetchRatings(id);
-        } else {
-            this.setState({
-                book: this.props.books.find(b => b.id === this.state.bookId),
-                loading: false
-            });
-        }
+        var userId = localStorage.getItem('userId');
+        this.props.fetchBooks(userId);
+        this.props.fetchCategories(userId);
+        this.props.fetchRatings(userId);
     }
 
     componentWillReceiveProps(nextProps) {
