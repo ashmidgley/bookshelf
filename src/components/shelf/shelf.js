@@ -149,7 +149,7 @@ class Shelf extends React.Component {
         if(this.state.searchQuery) books = books.filter(b => b.title.toLowerCase().includes(this.state.searchQuery) || b.author.toLowerCase().includes(this.state.searchQuery));
         if(this.state.selectedCategory) books =  books.filter(b => b.categoryId === this.state.selectedCategory);
         if(this.state.selectedRating) books = books.filter(b => b.ratingId === this.state.selectedRating);
-        
+
         return (
             <div className="shelf-container">
                 <Helmet>
@@ -220,16 +220,19 @@ class Shelf extends React.Component {
                         <div>
                             {this.state.years.map(year =>
                                 <div key={year.value} className={this.state.years.indexOf(year) > 0 ? "child-toggle" : ""}>
-                                    <div className="year-toggle-container">
-                                        <button className="button is-link" onClick={() => this.toggleYear(year.value)}>
-                                            {year.value}
-                                            {year.show ?
-                                                <i className="fa fa-sort-down shelf-year-dropdown"></i>
-                                                :
-                                                <i className="fa fa-sort-up shelf-year-dropdown"></i>
-                                            }
-                                        </button>
-                                    </div>
+                                    {
+                                        books.some(x => x.year === year.value) &&
+                                        <div className="year-toggle-container">
+                                            <button className="button is-link" onClick={() => this.toggleYear(year.value)}>
+                                                {year.value}
+                                                {year.show ?
+                                                    <i className="fa fa-sort-down shelf-year-dropdown"></i>
+                                                    :
+                                                    <i className="fa fa-sort-up shelf-year-dropdown"></i>
+                                                }
+                                            </button>
+                                        </div>
+                                    }
                                     <div className="columns is-multiline is-mobile shelf-tiles">
                                         {books.filter(book => book.year === year.value && year.show).map(book =>
                                             <div key={book.id} className={this.state.columnClass}>
