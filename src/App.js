@@ -44,30 +44,38 @@ class App extends React.Component {
     }
 
     var token = localStorage.getItem('token');
-    if(token) {
-      var currentTime = new Date().getTime();
-      var expiryDate = localStorage.getItem('expiryDate');
-      if(expiryDate < currentTime) {
-        var user = {
-          id: localStorage.getItem('userId'),
-          email: localStorage.getItem('userEmail'),
-          isAdmin: localStorage.getItem('userIsAdmin')
-        };
-        var data = { token, expiryDate, user };
-        this.props.setUser(data);
-      }
-    } else {
+    var expiryDate = localStorage.getItem('expiryDate');
+    if(!token || !expiryDate || this.tokenExpired(expiryDate)) {
       this.props.clearUser();
       if(!this.validAnonymousPath(window.location.pathname)) {
         this.setState({
           redirectToLogin: true
         });
       }
+    } else {
+      this.refreshUser(token, expiryDate);
     }
+  }
+
+  tokenExpired(expiryDate) {
+    var expiry = new Date(parseFloat(expiryDate) * 1000);
+    var current = new Date();
+    return expiry < current;
   }
 
   validAnonymousPath(pathname) {
     return pathname === '/' || pathname === '/forgot-password' || pathname.includes('shelf') || pathname.includes('reset-password');
+  }
+
+  refreshUser(token, expiryDate) {
+    var user = {
+      id: localStorage.getItem('userId'),
+      email: localStorage.getItem('userEmail'),
+      isAdmin: localStorage.getItem('userIsAdmin')
+    };
+    
+    var data = { token, expiryDate, user };
+    this.props.setUser(data);
   }
 
   render() {
