@@ -66,6 +66,7 @@ class Shelf extends React.Component {
       }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         this.props.fetchBooks(this.state.userId);
         this.props.fetchCategories(this.state.userId);
         this.props.fetchRatings(this.state.userId);
