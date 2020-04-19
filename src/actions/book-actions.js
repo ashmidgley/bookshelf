@@ -22,6 +22,24 @@ export const fetchBooks = (userId) => dispatch => {
     })
 };
 
+export const searchBooks = (title, author, maxResults, token) => {
+  var config = createConfig(token);
+  var data = { title, author, maxResults };
+
+  return new Promise(
+    function (resolve, reject) {
+      axios.post(url + '/search', data, config)
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(error => {
+          console.error(error);
+          reject(error.message);
+        })
+    }
+  );
+}
+
 export const createBook = (postData, token) => dispatch => {
   var config = createConfig(token);
   axios.post(url, postData, config)
