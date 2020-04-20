@@ -1,36 +1,72 @@
-#bookshelf-icon {
-    width: 40%;
-    animation: fadeIn 1.5s, floatAndSpin 5s linear 0s infinite normal;
+#icon-container {
+    animation: fadeIn 1.5s;
 }
 
-@keyframes floatAndSpin {
-    0% {
-        transform: translateY(0);
-    }
-    20% {
-        transform: translateY(5%);
-    }
-    40% {
-        transform: translateY(0%);
-    }
-    60% {
-        transform: translateY(-5%);
-    }
-    80% {
-        transform: translateY(0);
-    }
-    81% {
-        -webkit-transform: rotate3d(0, 0, 1, 0deg);
-        transform: rotate3d(0, 0, 1, 0deg);
-    }
-    100% {
-        -webkit-transform: rotate3d(0, 0, 1, 360deg);
-        transform: rotate3d(0, 0, 1, 360deg);
-    }
+#bookshelf-icon {
+    width: 60%;
+    border-radius: 100%;
+    padding: 50px;
+    background: linear-gradient(to top, rgba(196,225,127,1) 0%, rgba(196,225,127,1) 12%, rgba(247,253,202,1) 12%, rgba(247,253,202,1) 25%, rgba(250,208,113,1) 25%, rgba(250,208,113,1) 39%, rgba(240,118,107,1) 39%, rgba(240,118,107,1) 52%, rgba(219,157,190,1) 52%, rgba(219,157,190,1) 65%, rgba(196,156,223,1) 65%, rgba(196,156,223,1) 78%, rgba(101,153,226,1) 78%, rgba(101,153,226,1) 89%, rgba(97,194,228,1) 89%, rgba(97,194,228,1) 100%);
+}
+
+#fight-club {
+    position: fixed;
+    left: 0;
+    top: 20%;
+    height: 250px;
+    transform: rotateZ(30deg);
+    animation: fadeIn 1.5s;
+}
+
+#leonardo-da-vinci {
+    position: fixed;
+    left: 10%;
+    bottom: 0;
+    height: 230px;
+    animation: fadeIn 1.5s;
+    transform: rotateZ(-20deg);
+}
+
+#the-martian {
+    position: fixed;
+    left: 70%;
+    bottom: 0;
+    height: 250px;
+    animation: fadeIn 1.5s;
+}
+
+#elon-musk {
+    position: fixed;
+    right: -75px;
+    top: 25%;
+    height: 250px;
+    animation: fadeIn 1.5s;
+    transform: rotateZ(-100deg);
+}
+
+#neither-here-nor-there {
+    position: fixed;
+    right: -75px;
+    top: 18%;
+    height: 250px;
+    animation: fadeIn 1.5s;
+    transform: rotateZ(-80deg);
 }
 
 @media only screen and (max-width: 600px) {
     #bookshelf-icon {
-        width: 50%;
+        padding: 20px;
+    }
+
+    #fight-club, #leonardo-da-vinci, #the-martian, #elon-musk, #neither-here-nor-there {
+        height: 100px;
+    }
+
+    #elon-musk, #neither-here-nor-there {
+        right: -30px;
+    }
+
+    #leonardo-da-vinci {
+        left: 5%;
     }
 }
