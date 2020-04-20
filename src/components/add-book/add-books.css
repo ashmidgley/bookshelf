@@ -3,12 +3,6 @@
 }
   #search-books-container > button {
     width: 100%;
-    transition: transform .3s ease-out, box-shadow .3s ease-out, -webkit-transform .3s ease-out, -webkit-box-shadow .3s ease-out;
-  }
-
-  #search-books-container > button:hover {
-    cursor: pointer;
-    box-shadow: 0 2px rgba(10, 16, 34, .08);
   }
 
   #search-books-container > button:focus {
@@ -29,18 +23,26 @@
   }
 
 .custom-radio {
-    padding: 10px;
-    border: 1px solid #ccc;
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    color: #363636;
     border-radius: 5px;
+    padding: 10px;
     margin-top: 0;
     margin-left: 0;
     margin-right: 0;
   }
+
+    .custom-radio:hover {
+      cursor: pointer;
+      border-color: #b5b5b5;
+      color: #363636;
+    }
   
   .custom-radio-selected {
     background-color: #6ac58a;
     border-color: #6ac58a;
-    color: white;
+    color: white !important;
   }
 
 .custom-radio-input {
