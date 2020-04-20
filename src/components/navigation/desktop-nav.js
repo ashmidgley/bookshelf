@@ -60,7 +60,7 @@ class DesktopNav extends React.Component {
             <nav id="desktop-nav" className="navbar">
                 <div className="container">
                     <div className="navbar-brand">
-                        <Link id="nav-icon" className="navbar-item" to={this.props.user ? `/shelf/${this.props.user.id}` : '/'}>
+                        <Link className="navbar-item" to={this.props.user ? `/shelf/${this.props.user.id}` : '/'}>
                             <img src="/bookshelf.png" alt="Small bookshelf" />
                         </Link>
                     </div>

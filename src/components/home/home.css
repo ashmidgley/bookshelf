@@ -1,6 +1,12 @@
+#icon-container {
+    animation: fadeIn 1.5s;
+}
+
 #bookshelf-icon {
-    width: 40%;
-    animation: fadeIn 1.5s, floatAndSpin 5s linear 0s infinite normal;
+    width: 60%;
+    border-radius: 100%;
+    padding: 50px;
+    background: linear-gradient(to bottom, rgba(196,225,127,1) 0%, rgba(196,225,127,1) 12%, rgba(247,253,202,1) 12%, rgba(247,253,202,1) 25%, rgba(250,208,113,1) 25%, rgba(250,208,113,1) 39%, rgba(240,118,107,1) 39%, rgba(240,118,107,1) 52%, rgba(219,157,190,1) 52%, rgba(219,157,190,1) 65%, rgba(196,156,223,1) 65%, rgba(196,156,223,1) 78%, rgba(101,153,226,1) 78%, rgba(101,153,226,1) 89%, rgba(97,194,228,1) 89%, rgba(97,194,228,1) 100%);
 }
 
 @keyframes floatAndSpin {
@@ -31,6 +37,6 @@
 
 @media only screen and (max-width: 600px) {
     #bookshelf-icon {
-        width: 50%;
+        padding: 20px;
     }
 }
