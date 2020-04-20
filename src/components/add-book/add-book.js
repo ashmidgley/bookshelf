@@ -207,12 +207,12 @@ class AddBook extends React.Component {
                                                 <div>
                                                     <div id="search-books-container">
                                                         {this.state.searchBooks.map(book =>
-                                                            <div 
+                                                            <button
                                                                 key={this.state.searchBooks.indexOf(book)}
+                                                                onClick={() => {setFieldValue('book', book)}}
                                                                 className={values.book && book === values.book ? "columns is-mobile custom-radio custom-radio-selected" : "columns is-mobile custom-radio"}> 
                                                                 <div className="column is-1">
-                                                                    <input className="custom-radio-input" type="radio" name="book" checked={values.book === book} onBlur={handleBlur}
-                                                                    onChange={() => {setFieldValue('book', book)}} />
+                                                                    <input className="custom-radio-input" type="radio" name="book" checked={values.book === book} onBlur={handleBlur} />
                                                                 </div>
                                                                 <div className="column is-10 has-text-centered">
                                                                     <p className="is-size-6">{book.title}</p>
@@ -221,7 +221,7 @@ class AddBook extends React.Component {
                                                                 <div id="search-image-column" className="column is-1">
                                                                     <img src={book.imageUrl} />
                                                                 </div>
-                                                            </div>
+                                                            </button>
                                                         )}
                                                     </div>
                                                     <button className="button is-link" disabled={!values.book} 

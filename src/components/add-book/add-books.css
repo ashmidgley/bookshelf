@@ -1,28 +1,45 @@
 #search-books-container {
     margin: 30px 15px;
 }
-    #search-books-container .column {
-        margin-top: auto;
-        margin-bottom: auto;
-    }
+  #search-books-container > button {
+    width: 100%;
+    transition: transform .3s ease-out, box-shadow .3s ease-out, -webkit-transform .3s ease-out, -webkit-box-shadow .3s ease-out;
+  }
+
+  #search-books-container > button:hover {
+    cursor: pointer;
+    box-shadow: 0 2px rgba(10, 16, 34, .08);
+  }
+
+  #search-books-container > button:focus {
+    outline: 0;
+  }
+
+  #search-books-container .column {
+      margin-top: auto;
+      margin-bottom: auto;
+  }
 
 #search-image-column {
     padding: 0;
 }
 
+  #search-image-column > img {
+    border-radius: 3px;
+  }
+
 .custom-radio {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-  }
-  
-  .custom-radio:not(:last-child) {
-    margin-bottom: 25px;
+    margin-top: 0;
+    margin-left: 0;
+    margin-right: 0;
   }
   
   .custom-radio-selected {
     background-color: #6ac58a;
-    border-color: #48c774;
+    border-color: #6ac58a;
     color: white;
   }
 
