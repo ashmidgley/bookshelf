@@ -191,7 +191,8 @@ class AddBook extends React.Component {
                                             <div>
                                                 <button 
                                                     className={this.state.searching ? "button is-link is-loading" : "button is-link"}
-                                                    onClick={() => this.searchBooks(values.searchTitle, values.searchAuthor)}>
+                                                    onClick={() => this.searchBooks(values.searchTitle, values.searchAuthor)}
+                                                    disabled={!values.searchTitle || !values.searchAuthor}>
                                                     Search
                                                 </button>
                                             </div>
