@@ -1,72 +1,104 @@
-#icon-container {
+#home-container {
     animation: fadeIn 1.5s;
 }
 
 #bookshelf-icon {
-    width: 60%;
+    width: 75%;
     border-radius: 100%;
     padding: 50px;
     background: linear-gradient(to top, rgba(196,225,127,1) 0%, rgba(196,225,127,1) 12%, rgba(247,253,202,1) 12%, rgba(247,253,202,1) 25%, rgba(250,208,113,1) 25%, rgba(250,208,113,1) 39%, rgba(240,118,107,1) 39%, rgba(240,118,107,1) 52%, rgba(219,157,190,1) 52%, rgba(219,157,190,1) 65%, rgba(196,156,223,1) 65%, rgba(196,156,223,1) 78%, rgba(101,153,226,1) 78%, rgba(101,153,226,1) 89%, rgba(97,194,228,1) 89%, rgba(97,194,228,1) 100%);
 }
 
-#fight-club {
-    position: fixed;
-    left: 0;
-    top: 20%;
+#fight-club, #leonardo-da-vinci, #the-martian, #elon-musk, #neither-here-nor-there {
+    position: absolute;
     height: 250px;
+}
+
+#fight-club {
+    left: 0;
+    top: 15%;
     transform: rotateZ(30deg);
-    animation: fadeIn 1.5s;
 }
 
 #leonardo-da-vinci {
-    position: fixed;
+    height: 230px;
     left: 10%;
     bottom: 0;
-    height: 230px;
-    animation: fadeIn 1.5s;
     transform: rotateZ(-20deg);
 }
 
 #the-martian {
-    position: fixed;
     left: 70%;
-    bottom: 0;
-    height: 250px;
-    animation: fadeIn 1.5s;
+    bottom: -6%;
+    transform: rotateZ(20deg);
 }
 
 #elon-musk {
-    position: fixed;
     right: -75px;
-    top: 25%;
-    height: 250px;
-    animation: fadeIn 1.5s;
+    top: 20%;
     transform: rotateZ(-100deg);
 }
 
 #neither-here-nor-there {
-    position: fixed;
     right: -75px;
-    top: 18%;
-    height: 250px;
-    animation: fadeIn 1.5s;
+    top: 14%;
     transform: rotateZ(-80deg);
+}
+
+@media screen and (min-width: 1024px) {
+    #fight-club {
+        left: -12%;
+    }
+
+    #elon-musk, #neither-here-nor-there {
+        right: -18%;
+    }
+}
+
+@media screen and (min-width: 1216px) {
+    #fight-club {
+        left: -6%;
+    }
+
+    #elon-musk, #neither-here-nor-there {
+        right: -12%;
+    }
 }
 
 @media only screen and (max-width: 600px) {
     #bookshelf-icon {
         padding: 20px;
+        width: 90%;
     }
 
     #fight-club, #leonardo-da-vinci, #the-martian, #elon-musk, #neither-here-nor-there {
-        height: 100px;
+        height: 150px;
     }
 
-    #elon-musk, #neither-here-nor-there {
-        right: -30px;
+    #the-martian {
+        display: none;
+    }
+
+    #fight-club {
+        top: 5%;
     }
 
     #leonardo-da-vinci {
-        left: 5%;
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #elon-musk, #neither-here-nor-there {
+        right: -50px;
+    }
+
+    #neither-here-nor-there {
+        top: 4%;
+    }
+
+    #elon-musk {
+        top: 10%;
     }
 }
