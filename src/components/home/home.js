@@ -9,11 +9,11 @@ class Home extends React.Component {
 
     render() {
         return (
-            <div>
+            <div id="home-container">
                 <section className="hero is-fullheight">
                     <div className="hero-body">
                         <div className="container has-text-centered">
-                            <div id="icon-container" className="column is-6 is-offset-3">
+                            <div className="column is-6 is-offset-3">
                                 <img id="bookshelf-icon" src="/logo.png" alt="Bookshelf"/>
                             </div>
                         </div>
