@@ -79,7 +79,7 @@ class MobileNav extends React.Component {
                         </Link>
                         {
                             this.props.user ?
-                            <Link id="mobile-plus" className="user-menu-actions" to="/book-form">
+                            <Link id="mobile-plus" className="user-menu-actions" to="/search-form">
                                 <FontAwesomeIcon icon={faPlus} size="lg" color="#f5f5f7" />
                             </Link>
                             :

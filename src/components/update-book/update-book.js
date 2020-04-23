@@ -10,11 +10,10 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { updateBook, fetchBooks, clearError } from '../../actions/book-actions';
 import { fetchCategories } from '../../actions/category-actions';
 import { fetchRatings } from '../../actions/rating-actions';
+import { validImage } from '../../helpers/image-helper';
 
 class UpdateBook extends React.Component {
     tempImage = 'https://bulma.io/images/placeholders/96x96.png';
-    allowedTypes = ['jpg', 'jpeg', 'png'];
-    validPrecursor = 'https://books.google.co';
 
     constructor(props) {
         super(props);
@@ -89,20 +88,6 @@ class UpdateBook extends React.Component {
         this.props.updateBook(book, token);
     }
 
-    validImage(image) {
-        if(image.startsWith(this.validPrecursor)) {
-            return true;
-        }
-
-        for(var i = 0; i < this.allowedTypes.length; i++) {
-            var format = this.allowedTypes[i];
-            if(image.endsWith(format)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     getCategoryId() {
         if(this.state.book) {
             return this.state.book.categoryId;
@@ -169,7 +154,7 @@ class UpdateBook extends React.Component {
                                 errors.title = 'Required';
                             if(!values.imageUrl)
                                 errors.imageUrl = 'Required';
-                            if(!this.validImage(values.imageUrl))
+                            if(!validImage(values.imageUrl))
                                 errors.imageUrl = 'Invalid format';
                             if(!values.author)
                                 errors.author = 'Required';
