@@ -214,7 +214,7 @@ class Shelf extends React.Component {
                                 No books to display.&nbsp;
                                 {
                                     this.state.storageId === this.state.userId &&
-                                    <Link to="/book-form">Add one?</Link>
+                                    <Link to="/search-form">Add one?</Link>
                                 }
                             </div>
                         }

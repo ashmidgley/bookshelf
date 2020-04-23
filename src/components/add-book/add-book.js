@@ -1,23 +1,24 @@
 import React from 'react';
-import './add-books.css';
+import './add-book.css';
+import moment from 'moment';
 import Loading from '../loading/loading';
-import { Link } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { searchBooks, createBook, fetchBooks, clearError } from '../../actions/book-actions';
+import { createBook, fetchBooks, clearError } from '../../actions/book-actions';
 import { fetchCategories } from '../../actions/category-actions';
 import { fetchRatings } from '../../actions/rating-actions';
+import { validImage } from '../../helpers/image-helper';
 
 class AddBook extends React.Component {
-
+    tempImage = 'https://bulma.io/images/placeholders/96x96.png';
+    
     constructor(props) {
         super(props);
         this.state = {
-            searchBooks: null,
-            searching: false,
-            selectedBook: null,
+            book: null,
             submitting: false,
             loading: true,
             success: false,
@@ -31,6 +32,14 @@ class AddBook extends React.Component {
         this.props.fetchBooks(userId);
         this.props.fetchCategories(userId);
         this.props.fetchRatings(userId);
+
+        if(!this.props.location.state) {
+            this.props.history.push('/search-form');
+        } else {
+            this.setState({
+                book: this.props.location.state.book
+            });
+        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -59,44 +68,6 @@ class AddBook extends React.Component {
         }
     }
 
-    searchBooks = (title, author) => {
-        let self = this;
-        self.setState({
-            searching: true,
-            searchBooks: null,
-            selectedBook: null
-        });
-
-        var token = localStorage.getItem('token');
-        searchBooks(title, author, 3, token)
-            .then(function(response) {
-                self.setState({
-                    searchBooks: response,
-                    searching: false
-                });
-            })
-            .catch(function(error) {
-                self.setState({
-                    error: error,
-                    searching: false
-                })
-            });
-    };
-
-    bookSelected = (book) => {
-        this.setState({
-            selectedBook: book
-        });
-        window.scrollTo(0, 0);
-    }
-
-    back = () => {
-        this.setState({
-            searchBooks: null,
-            selectedBook: null
-        });
-    }
-
     submitEntry(values) {
         this.setState({
             submitting: true,
@@ -106,14 +77,14 @@ class AddBook extends React.Component {
 
         var newBook = {
             userId: parseInt(localStorage.getItem('userId')),
+            title: values.title,
+            author: values.author,
+            imageUrl: values.imageUrl,
+            finishedOn: values.finishedOn === "" ? moment().format('YYYY-MM-DD') : values.finishedOn,
+            pageCount: values.pageCount,
             categoryId: values.categoryId,
             ratingId: values.ratingId,
-            finishedOn: values.finishedOn,
-            title: values.book.title,
-            author: values.book.author,
-            imageUrl: values.book.imageUrl,
-            pageCount: values.pageCount,
-            summary: values.book.summary
+            summary: values.summary
         };
         
         var token = localStorage.getItem('token');
@@ -131,41 +102,47 @@ class AddBook extends React.Component {
             <div className="column is-8 is-offset-2 form-container"> 
                 <div className="card custom-card">
                     <div className="card-content">
-                    <div className="media">
-                        <div className="image-header-container">
-                            <FontAwesomeIcon icon={faPlus} className="plus-icon" size="lg"/>
+                        <div className="media">
+                            <div className="image-header-container">
+                                <FontAwesomeIcon icon={faPlus} className="plus-icon" size="lg"/>
+                            </div>
                         </div>
-                    </div>
-                    {
-                        this.state.success && 
-                        <div className="notification is-success">
-                            Successfully created new book. <Link to={`/review/${this.props.book.id}`}>View?</Link>
-                        </div>
-                    }
-                    {
-                        this.state.error && 
-                        <div className="notification is-danger">{this.state.error}</div>
-                    }
+                        {
+                            this.state.success &&
+                            <div className="notification is-success">
+                                Successfully created new book. <Link to={`/review/${this.props.book.id}`}>View?</Link>
+                            </div>
+                        }
+                        {
+                            this.state.error &&
+                            <div className="notification is-danger">{this.state.error}</div>
+                        }
                         <Formik
                             initialValues=
                             {
                                 {
-                                    searchTitle: '',
-                                    searchAuthor: '',
-                                    book: null,
-                                    finishedOn: '',
+                                    title: this.state.book.title,
+                                    imageUrl: this.state.book.imageUrl,
+                                    author: this.state.book.author,
+                                    finishedOn: moment().format('YYYY-MM-DD'),
+                                    pageCount: this.state.book.pageCount,
                                     categoryId: this.props.categories && this.props.categories.length ? this.props.categories[0].id : null,
                                     ratingId: this.props.ratings && this.props.ratings.length ? this.props.ratings[0].id : null,
+                                    summary: this.state.book.summary
                                 }
                             }
                             validate={values => {
                                 let errors = {};
-                                if (!values.searchTitle)
-                                    errors.searchTitle = 'Required';
-                                if (!values.searchAuthor)
-                                    errors.searchAuthor = 'Required';
-                                if(!values.finishedOn) 
-                                    errors.finishedOn = 'Required';
+                                if (!values.title)
+                                    errors.title = 'Required';
+                                if(!values.imageUrl)
+                                    errors.imageUrl = 'Required';
+                                if(!validImage(values.imageUrl))
+                                    errors.imageUrl = 'Invalid format';
+                                if(!values.author)
+                                    errors.author = 'Required';
+                                if(!values.pageCount)
+                                    errors.pageCount = 'Required';
                                 return errors;
                             }}
                             onSubmit={(values, { setSubmitting }) => {
@@ -173,114 +150,96 @@ class AddBook extends React.Component {
                                 setSubmitting(false);
                             }}>{({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, setFieldValue }) => (
                                 <form className="form" onSubmit={handleSubmit}>
-                                    {
-                                        !this.state.selectedBook ?
-                                        <div>
-                                            <div className="field">
-                                                <label className="label">Title</label>
-                                                <div className="control">
-                                                    <input className={errors.searchTitle && touched.searchTitle ? 'input is-danger' : 'input'} type="text" name="searchTitle" placeholder="Enter title" onChange={handleChange} onBlur={handleBlur} value={values.searchTitle} />
-                                                </div>
-                                            </div>
-                                            <div className="field">
-                                                <label className="label">Author</label>
-                                                <div className="control">
-                                                    <input className={errors.searchAuthor && touched.searchAuthor ? 'input is-danger' : 'input'} type="text" name="searchAuthor" placeholder="Enter author" onChange={handleChange} onBlur={handleBlur} value={values.searchAuthor} />
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <button 
-                                                    className={this.state.searching ? "button is-link is-loading" : "button is-link"}
-                                                    onClick={() => this.searchBooks(values.searchTitle, values.searchAuthor)}
-                                                    disabled={!values.searchTitle || !values.searchAuthor}>
-                                                    Search
-                                                </button>
-                                            </div>
-                                            {
-                                                this.state.searchBooks && this.state.searchBooks.length === 0 &&
-                                                <div id="no-search-results" className="notification is-warning">
-                                                    Search returned zero results. Please try again.
-                                                </div>
-                                            }
-                                            {
-                                                this.state.searchBooks && this.state.searchBooks.length > 0 &&
-                                                <div>
-                                                    <div id="search-books-container">
-                                                        {this.state.searchBooks.map(book =>
-                                                            <button
-                                                                key={this.state.searchBooks.indexOf(book)}
-                                                                onClick={() => {setFieldValue('book', book)}}
-                                                                className={values.book && book === values.book ? "columns is-mobile custom-radio custom-radio-selected" : "columns is-mobile custom-radio"}> 
-                                                                <div className="column is-1">
-                                                                    <input className="custom-radio-input" type="radio" name="book" checked={values.book === book} onBlur={handleBlur} />
-                                                                </div>
-                                                                <div className="column is-10 has-text-centered">
-                                                                    <p className="is-size-6">{book.title}</p>
-                                                                    <p>{book.author}</p>
-                                                                </div>
-                                                                <div id="search-image-column" className="column is-1">
-                                                                    <img src={book.imageUrl} />
-                                                                </div>
-                                                            </button>
-                                                        )}
-                                                    </div>
-                                                    <button className="button is-link" disabled={!values.book} 
-                                                        onClick={() => this.bookSelected(values.book)}>
-                                                        Next
-                                                    </button>
-                                                </div>
-                                            }
+                                    <Link to="/search-form" id="back-button" className="button">
+                                        <FontAwesomeIcon icon={faArrowLeft}/> Back
+                                    </Link>
+                                    <div className="field">
+                                        <label className="label">Title</label>
+                                        <div className="control">
+                                            <input className={errors.title && touched.title ? 'input is-danger' : 'input'} type="text" name="title" placeholder="Enter title" onChange={handleChange} onBlur={handleBlur} value={values.title} />
                                         </div>
-                                        :
-                                        <div>
-                                            <button id="back-button" className="button" onClick={() => this.back()}>
-                                                <FontAwesomeIcon icon={faArrowLeft}/> Back
-                                            </button>
-                                            <div className="field">
-                                                <label className="label">Finished On</label>
-                                                <div className="control">
-                                                    <input className={errors.finishedOn && touched.finishedOn ? 'input is-danger' : 'input'} type="date" name="finishedOn" onChange={handleChange} onBlur={handleBlur} value={values.finishedOn} />
-                                                </div>
-                                            </div>
-                                            <div className="field">
-                                                <label className="label">Category</label>
-                                                <div className="control radio-container">
-                                                    {
-                                                        this.props.categories &&
-                                                        this.props.categories.map(category =>
-                                                        <div key={category.id}> 
-                                                            <input type="radio" name="categoryId" id={category.id} value={values.categoryId} checked={values.categoryId === category.id} onChange={() => {setFieldValue('categoryId', category.id)}} onBlur={handleBlur} />
-                                                            <label className="radio">{category.description}</label>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </div>
-                                            <div className="field">
-                                                <label className="label">Rating</label>
-                                                <div className="control radio-container">
-                                                    {
-                                                        this.props.ratings &&
-                                                        this.props.ratings.map(rating =>
-                                                        <div key={rating.id}> 
-                                                            <input type="radio" name="ratingId" id={rating.id} value={values.ratingId} checked={values.ratingId === rating.id} onChange={() => {setFieldValue('ratingId', rating.id)}} onBlur={handleBlur} />
-                                                            <label className="radio">{rating.description}</label>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </div>
-                                            <button 
-                                                type="submit" 
-                                                className={this.state.submitting ? "button is-link is-loading" : "button is-link"}
-                                                disabled={isSubmitting}>
-                                                Save
-                                            </button>
-                                            <Link to="/manage-books">
-                                                <button className="button cancel-button">
-                                                    Cancel
-                                                </button>
-                                            </Link>
+                                    </div>
+                                    <div className="field">
+                                        <label className="label">Image URL</label>
+                                        <div className="control">
+                                            <input className={errors.imageUrl && touched.imageUrl ? 'input is-danger' : 'input'} type="text" name="imageUrl" placeholder="Enter image URL" onChange={handleChange} onBlur={handleBlur} value={values.imageUrl} />
                                         </div>
-                                    }
+                                        {
+                                            errors.imageUrl === 'Invalid format' &&
+                                            <div className="help is-danger">
+                                                Invalid image format. Please use a png, jpg or jpeg.
+                                            </div>
+                                        }
+                                    </div>
+                                    <div className="has-text-centered">
+                                        {
+                                            !errors.imageUrl && values.imageUrl ? 
+                                            <img src={values.imageUrl} alt={values.imageUrl} width="96" height="96" /> 
+                                            : 
+                                            <img src={this.tempImage} alt="Placeholder" />
+                                        }
+                                    </div>
+                                    <div className="field">
+                                        <label className="label">Author</label>
+                                        <div className="control">
+                                            <input className={errors.author && touched.author ? 'input is-danger' : 'input'} type="text" name="author" placeholder="Enter author" onChange={handleChange} onBlur={handleBlur} value={values.author} />
+                                        </div>
+                                    </div>
+                                    <div className="field">
+                                        <label className="label">Finished On</label>
+                                        <div className="control">
+                                            <input className={errors.finishedOn && touched.finishedOn ? 'input is-danger' : 'input'} type="date" name="finishedOn" onChange={handleChange} onBlur={handleBlur} value={values.finishedOn} />
+                                        </div>
+                                    </div>
+                                    <div className="field">
+                                        <label className="label">Page Count</label>
+                                        <div className="control">
+                                            <input className={errors.pageCount && touched.pageCount ? 'input is-danger' : 'input'} type="number" name="pageCount" placeholder="Enter page count" onChange={handleChange} onBlur={handleBlur} value={values.pageCount}/>
+                                        </div>
+                                    </div>
+                                    <div className="field">
+                                        <label className="label">Category</label>
+                                        <div className="control radio-container">
+                                            {
+                                                this.props.categories &&
+                                                this.props.categories.map(category =>
+                                                <div key={category.id}> 
+                                                    <input type="radio" name="categoryId" id={category.id} value={values.categoryId} checked={values.categoryId === category.id} onChange={() => {setFieldValue('categoryId', category.id)}} onBlur={handleBlur} />
+                                                    <label className="radio">{category.description}</label>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                    <div className="field">
+                                        <label className="label">Rating</label>
+                                        <div className="control radio-container">
+                                            {
+                                                this.props.ratings &&
+                                                this.props.ratings.map(rating =>
+                                                <div key={rating.id}> 
+                                                    <input type="radio" name="ratingId" id={rating.id} value={values.ratingId} checked={values.ratingId === rating.id} onChange={() => {setFieldValue('ratingId', rating.id)}} onBlur={handleBlur} />
+                                                    <label className="radio">{rating.description}</label>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>    
+                                    <div className="field">
+                                        <label className="label">Summary</label>
+                                        <div className="control">
+                                            <textarea className="textarea" name="summary" placeholder="Enter summary" onChange={handleChange} onBlur={handleBlur} value={values.summary}></textarea>
+                                        </div>
+                                    </div>
+                                    <button 
+                                        type="submit" 
+                                        className={this.state.submitting ? "button is-link is-loading" : "button is-link"}
+                                        disabled={isSubmitting}>
+                                        Save
+                                    </button>
+                                    <Link to="/manage-books">
+                                        <button className="button cancel-button">
+                                            Cancel
+                                        </button>
+                                    </Link>
                                 </form>
                             )}
                         </Formik>
@@ -299,4 +258,4 @@ const mapStateToProps = state => ({
     error: state.books.error
 });
 
-export default connect(mapStateToProps, {createBook, fetchBooks, clearError, fetchCategories, fetchRatings})(AddBook);
+export default connect(mapStateToProps, {createBook, fetchBooks, clearError, fetchCategories, fetchRatings})(withRouter(AddBook));

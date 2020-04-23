@@ -53,14 +53,6 @@
   margin-top: 20px;
 }
 
-#back-button {
-  margin-bottom: 15px;
-}
-
-  #back-button > svg {
-    margin-right: 5px;
-  }
-
 @media only screen and (max-width: 600px) {
   .custom-radio {
     line-height: initial;

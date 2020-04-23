@@ -127,7 +127,7 @@ class ManageBooks extends React.Component {
                             <div className="notification is-danger">{this.state.error}</div>
                         }
                         <div style={{ 'marginBottom': '25px' }}>   
-                            <Link to={'/book-form'}>
+                            <Link to={'/search-form'}>
                                 <button className="button is-outlined">
                                     <FontAwesomeIcon icon={faPlus} size="lg" />
                                 </button>

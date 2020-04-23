@@ -13,6 +13,7 @@ import ManageCategories from './components/manage-categories/manage-categories';
 import ManageRatings from './components/manage-ratings/manage-ratings';
 import ManageUsers from './components/manage-users/manage-users';
 import UpdateUser from './components/update-user/update-user';
+import SearchForm from './components/add-book/search-form';
 import AddBook from './components/add-book/add-book';
 import UpdateBook from './components/update-book/update-book';
 import CategoryForm from './components/category-form/category-form';
@@ -111,6 +112,7 @@ class App extends React.Component {
                       <Route exact path="/update-password" component={UpdatePassword} />
                       <Route exact path="/update-email" component={UpdateEmail} />
                       <Route exact path="/delete-account" component={DeleteAccount} />
+                      <Route exact path="/search-form" component={SearchForm} />
                       <Route exact path="/book-form" component={AddBook} />
                       <Route exact path="/book-form/:id" component={UpdateBook} />
                       <Route exact path="/category-form" component={CategoryForm} />
