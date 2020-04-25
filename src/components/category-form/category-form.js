@@ -2,10 +2,9 @@ import React from 'react';
 import Loading from '../loading/loading';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
-import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { createCategory, updateCategory, fetchCategories, clearError } from '../../actions/category-actions';
+import { getCategory, createCategory, updateCategory } from '../../actions/category-actions';
 
 class CategoryForm extends React.Component {
 
@@ -24,40 +23,22 @@ class CategoryForm extends React.Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        var userId = localStorage.getItem('userId');
-        this.props.fetchCategories(userId);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if(this.state.loading && Array.isArray(nextProps.categories)) {
+        if(this.state.categoryId) {
+            var token = localStorage.getItem('token');
+            getCategory(this.state.categoryId, token)
+                .then(response => {
+                    this.setState({
+                        category: response,
+                        loading: false
+                    })
+                })
+                .catch(error => {
+                    this.handleError(error);
+                });
+        } else {
             this.setState({
-                category: this.state.categoryId ? nextProps.categories.find(b => b.id === this.state.categoryId) : null,
                 loading: false
             });
-            return;
-        }
-
-        if(nextProps.error) {
-            this.setState({
-                error: nextProps.error,
-                loading: false,
-                submitting: false
-            });
-            this.props.clearError();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else if(this.state.submitting && nextProps.category) {
-            if(this.props.match.params.id){
-                var oldCategory = this.props.categories.find(b => b.id === nextProps.category.id);
-                var i = this.props.categories.indexOf(oldCategory);
-                this.props.categories[i] = nextProps.category;
-            } else {
-                this.props.categories.push(nextProps.category);
-            }
-            this.setState({
-                submitting: false,
-                success: true
-            });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
     }
 
@@ -76,11 +57,48 @@ class CategoryForm extends React.Component {
         
         var token = localStorage.getItem('token');
         if(!this.props.match.params.id) {
-            this.props.createCategory(category, token);
+            this.createCategory(category, token);
         } else {
             category.id = this.state.category.id;
-            this.props.updateCategory(category, token);
+            this.updateCategory(category, token);
         }
+    }
+
+    createCategory = (category, token) => {
+        createCategory(category, token)
+            .then(() => {
+                this.handleSuccess();
+            })
+            .catch(error => {
+                this.handleError(error);
+            });
+    }
+
+    updateCategory = (category, token) => {
+        updateCategory(category, token)
+            .then(() => {
+                this.handleSuccess();
+            })
+            .catch(error => {
+                this.handleError(error);
+            });
+    }
+
+    handleError = (error) => {
+        this.setState({
+            error: error,
+            loading: false,
+            submitting: false
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    handleSuccess = () => {
+        this.setState({
+            submitting: false,
+            success: true
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     render() {
@@ -157,10 +175,4 @@ class CategoryForm extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
-    categories: state.categories.items,
-    category: state.categories.item,
-    error: state.categories.error
-});
-
-export default connect(mapStateToProps, {createCategory, updateCategory, fetchCategories, clearError})(CategoryForm);
+export default CategoryForm;

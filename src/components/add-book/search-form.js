@@ -33,13 +33,13 @@ class SearchForm extends React.Component {
 
         var token = localStorage.getItem('token');
         searchBooks(title, author, 3, token)
-            .then(function(response) {
+            .then(response => {
                 self.setState({
                     searchBooks: response,
                     searching: false
                 });
             })
-            .catch(function(error) {
+            .catch(error => {
                 self.setState({
                     error: error,
                     searching: false

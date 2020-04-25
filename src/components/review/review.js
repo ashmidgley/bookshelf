@@ -2,12 +2,11 @@ import React from 'react';
 import './review.css';
 import Loading from '../loading/loading';
 import moment from 'moment';
-import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
-import { fetchBooks } from '../../actions/book-actions';
-import { fetchCategories } from '../../actions/category-actions';
-import { fetchRatings } from '../../actions/rating-actions';
+import { getBook } from '../../actions/book-actions';
+import { getCategory } from '../../actions/category-actions';
+import { getRating } from '../../actions/rating-actions';
 
 class Review extends React.Component {
 
@@ -16,6 +15,8 @@ class Review extends React.Component {
         this.state = {
             bookId: parseInt(props.match.params.id),
             book: null,
+            category: null,
+            rating: null,
             paragraphs: null,
             loading: true,
             error: false
@@ -24,38 +25,40 @@ class Review extends React.Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        if(!this.props.books || !this.props.categories || !this.props.ratings) {
-            var id = localStorage.getItem('userId');
-            this.props.fetchBooks(id);
-            this.props.fetchCategories(id);
-            this.props.fetchRatings(id);
-        } else {
-            var book = this.props.books.find(b => b.id === this.state.bookId);
-            this.setState({
-                book: book,
-                paragraphs: book.summary ? book.summary.split('\n') : null,
-                loading: false
+        var token = localStorage.getItem('token');
+        getBook(this.state.bookId, token)
+            .then(response => {
+                var book = response;
+                getCategory(book.categoryId, token)
+                    .then(response => {
+                        var category = response;
+                        getRating(book.ratingId, token)
+                            .then(response => {
+                                var rating = response;
+                                this.handleSuccess(book, category, rating);
+                            })
+                    })
+            })
+            .catch(error => {
+                this.handleError(error);
             });
-        }
     }
 
-    componentWillReceiveProps(nextProps) {
-        if(this.state.loading && Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings)) {
-            var book = nextProps.books.find(b => b.id === this.state.bookId);
-            this.setState({
-                book: book,
-                paragraphs: book.summary ? book.summary.split('\n') : null,
-                loading: false
-            });
-            return;
-        }
-        
-        if(nextProps.bookError || nextProps.categoryError || nextProps.ratingError) {
-            this.setState({
-                error: true,
-                loading: false
-            });
-        }
+    handleSuccess = (book, category, rating) => {
+        this.setState({
+            book: book,
+            category: category,
+            rating: rating,
+            paragraphs: book.summary ? book.summary.split('\n') : null,
+            loading: false
+        });
+    }
+
+    handleError = () => {
+        this.setState({
+            error: true,
+            loading: false
+        });
     }
 
     render() {
@@ -113,12 +116,7 @@ class Review extends React.Component {
                                     <div>
                                         <p className="heading">Category</p>
                                         <p className="review-subtitle">
-                                            {
-                                                this.props.categories.find(c => c.id === this.state.book.categoryId) ?
-                                                this.props.categories.find(c => c.id === this.state.book.categoryId).code
-                                                :
-                                                '-'
-                                            }
+                                            {this.state.category ? this.state.category.code : '-'}
                                         </p>
                                     </div>
                                 </div>
@@ -132,12 +130,7 @@ class Review extends React.Component {
                                     <div>
                                         <p className="heading">Rating</p>
                                         <p className="review-subtitle">
-                                            {
-                                                this.props.ratings.find(r => r.id === this.state.book.ratingId) ? 
-                                                this.props.ratings.find(r => r.id === this.state.book.ratingId).code 
-                                                :
-                                                '-'
-                                            }
+                                            {this.state.rating ? this.state.rating.code : '-'}
                                         </p>
                                     </div>
                                 </div>
@@ -149,14 +142,5 @@ class Review extends React.Component {
         );
     }
 }
-  
-const mapStateToProps = state => ({
-    books: state.books.items,
-    categories: state.categories.items,
-    ratings: state.ratings.items,
-    bookError: state.books.error,
-    categoryError: state.categories.error,
-    ratingError: state.ratings.error
-});
 
-export default connect(mapStateToProps, {fetchBooks, fetchCategories, fetchRatings})(Review);
+export default Review;

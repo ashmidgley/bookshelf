@@ -2,10 +2,9 @@ import React from 'react';
 import Loading from '../loading/loading';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
-import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { createRating, updateRating, fetchRatings, clearError } from '../../actions/rating-actions';
+import { getRating, createRating, updateRating } from '../../actions/rating-actions';
 
 class RatingForm extends React.Component {
 
@@ -24,40 +23,22 @@ class RatingForm extends React.Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        var userId = localStorage.getItem('userId');
-        this.props.fetchRatings(userId);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if(this.state.loading && Array.isArray(nextProps.ratings)) {
+        if(this.state.ratingId) {
+            var token = localStorage.getItem('token');
+            getRating(this.state.ratingId, token)
+                .then(response => {
+                    this.setState({
+                        rating: response,
+                        loading: false
+                    })
+                })
+                .catch(error => {
+                    this.handleError(error);
+                });
+        } else {
             this.setState({
-                rating: this.state.ratingId ? nextProps.ratings.find(b => b.id === this.state.ratingId) : null,
                 loading: false
-            });
-            return;
-        }
-
-        if(nextProps.error) {
-            this.setState({
-                error: nextProps.error,
-                loading: false,
-                submitting: false
-            });
-            this.props.clearError();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else if(this.state.submitting && nextProps.rating) {
-            if(this.props.match.params.id){
-                var oldRating = this.props.ratings.find(b => b.id === nextProps.rating.id);
-                var i = this.props.ratings.indexOf(oldRating);
-                this.props.ratings[i] = nextProps.rating;
-            } else {
-                this.props.ratings.push(nextProps.rating);
-            }
-            this.setState({
-                submitting: false,
-                success: true
-            });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            })
         }
     }
 
@@ -76,11 +57,40 @@ class RatingForm extends React.Component {
         
         var token = localStorage.getItem('token');
         if(!this.props.match.params.id) {
-            this.props.createRating(rating, token);
+            createRating(rating, token)
+                .then(() => {
+                    this.handleSuccess();
+                })
+                .catch(error => {
+                    this.handleError(error);
+                });
         } else {
             rating.id = this.state.rating.id;
-            this.props.updateRating(rating, token);
+            updateRating(rating, token)
+                .then(() => {
+                    this.handleSuccess();
+                })
+                .catch(error => {
+                    this.handleError(error);
+                });
         }
+    }
+
+    handleSuccess = () => {
+        this.setState({
+            submitting: false,
+            success: true
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    handleError = (error) => {
+        this.setState({
+            error: error,
+            loading: false,
+            submitting: false
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     render() {
@@ -155,10 +165,4 @@ class RatingForm extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
-    ratings: state.ratings.items,
-    rating: state.ratings.item,
-    error: state.ratings.error
-});
-
-export default connect(mapStateToProps, {createRating, updateRating, fetchRatings, clearError})(RatingForm);
+export default RatingForm;

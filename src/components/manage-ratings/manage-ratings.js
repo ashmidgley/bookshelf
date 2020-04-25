@@ -2,18 +2,18 @@ import React from 'react';
 import Modal from 'react-modal';
 import Loading from '../loading/loading';
 import { Link }from 'react-router-dom';
-import { connect } from 'react-redux';
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { customStyles } from '../../helpers/custom-modal';
-import { fetchRatings, removeRating, clearError } from '../../actions/rating-actions';
+import { fetchRatings, removeRating } from '../../actions/rating-actions';
 
 class ManageRatings extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
+            ratings: null,
             selectedRatingId: null,
             modalIsOpen: false,
             loading: true,
@@ -26,38 +26,53 @@ class ManageRatings extends React.Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         var userId = localStorage.getItem('userId');
-        this.props.fetchRatings(userId);
+        fetchRatings(userId)
+            .then(response => {
+                this.setState({
+                    ratings: response,
+                    loading: false
+                });
+            })
+            .catch(error => {
+                this.handleError(error);
+            });
     }
 
-    componentWillReceiveProps(nextProps) {
-        if(this.state.loading && Array.isArray(nextProps.ratings)) {
-            this.setState({
-                loading: false
-            });
-            return;
-        }
+    handleSubmit = (event) => {
+        event.preventDefault();
+        this.setState({
+            submitting: true,
+            success: false,
+            error: null
+        });
 
-        if(nextProps.error) {
-            this.setState({
-                error: nextProps.error,
-                modalIsOpen: false,
-                loading: false,
-                submitting: false
+        var token = localStorage.getItem('token');
+        removeRating(this.state.selectedRatingId, token)
+            .then(response => {
+                var oldRating = this.state.ratings.find(b => b.id === response.id);
+                var index = this.state.ratings.indexOf(oldRating);
+                this.state.ratings.splice(index, 1);
+                this.setState({
+                    modalIsOpen: false,
+                    submitting: false,
+                    success: true,
+                    selectedRatingId: null
+                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            })
+            .catch(error => {
+                this.handleError(error);
             });
-            this.props.clearError();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else if(this.state.submitting && nextProps.removedRating) {
-            var oldRating = this.props.ratings.find(b => b.id === nextProps.removedRating.id);
-            var i = this.props.ratings.indexOf(oldRating);
-            this.props.ratings.splice(i, 1);
-            this.setState({
-                modalIsOpen: false,
-                submitting: false,
-                success: true,
-                selectedRatingId: null
-            });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+    }
+
+    handleError = (error) => {
+        this.setState({
+            error: error,
+            modalIsOpen: false,
+            loading: false,
+            submitting: false
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     openModal = (id) => {
@@ -72,18 +87,6 @@ class ManageRatings extends React.Component {
         this.setState({
             modalIsOpen: false
         });
-    }
-
-    handleSubmit = (event) => {
-        event.preventDefault();
-        this.setState({
-            submitting: true,
-            success: false,
-            error: null
-        });
-
-        var token = localStorage.getItem('token');
-        this.props.removeRating(this.state.selectedRatingId, token);
     }
 
     render() {
@@ -116,7 +119,7 @@ class ManageRatings extends React.Component {
                         </Modal>
                         <div>
                             {
-                                this.state.success && this.props.ratings && this.props.ratings.length &&
+                                this.state.success && this.state.ratings && this.state.ratings.length &&
                                 <div className="notification is-success">Successfully removed entry.</div>
                             }
                             {
@@ -131,7 +134,7 @@ class ManageRatings extends React.Component {
                                 </Link>
                             </div>
                             {
-                                !this.props.ratings || !this.props.ratings.length ?
+                                !this.state.ratings || !this.state.ratings.length ?
                                 <div className="notification is-link">
                                     No ratings to display.
                                 </div>
@@ -147,7 +150,8 @@ class ManageRatings extends React.Component {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {this.props.ratings.map(rating =>
+                                            {
+                                                this.state.ratings.map(rating =>
                                                 <tr key={rating.id}>
                                                     <td>{rating.description}</td>
                                                     <td>{rating.code}</td>
@@ -177,10 +181,4 @@ class ManageRatings extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
-    ratings: state.ratings.items,
-    removedRating: state.ratings.item,
-    error: state.ratings.error
-});
-
-export default connect(mapStateToProps, {fetchRatings, removeRating, clearError})(ManageRatings);
+export default ManageRatings;

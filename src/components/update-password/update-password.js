@@ -1,11 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
-import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
 import { validatePasswordLength } from '../../helpers/field-validator';
-import { updatePassword, clearError } from '../../actions/user-actions';
+import { updatePassword } from '../../actions/user-actions';
 
 class UpdatePassword extends React.Component {
 
@@ -22,23 +21,6 @@ class UpdatePassword extends React.Component {
         window.scrollTo(0, 0);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.error) {
-            this.setState({
-                error: nextProps.error,
-                submitting: false
-            });
-            this.props.clearError();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else if(this.state.submitting && nextProps.updatedUser) {
-            this.setState({
-                success: true,
-                submitting: false
-            });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    }
-
     submitEntry(values) {
         this.setState({
             submitting: true,
@@ -52,7 +34,25 @@ class UpdatePassword extends React.Component {
             password: values.password
         };
 
-        this.props.updatePassword(data, token);
+        updatePassword(data, token)
+            .then(() => {
+                this.setState({
+                    success: true,
+                    submitting: false
+                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            })
+            .catch(error => {
+                this.handleError(error);
+            })
+    }
+
+    handleError = (error) => {
+        this.setState({
+            error: error,
+            submitting: false
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     render() {
@@ -119,9 +119,4 @@ class UpdatePassword extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
-    updatedUser: state.user.updatedUser,
-    error: state.user.error
-});
-
-export default connect(mapStateToProps, {updatePassword, clearError})(UpdatePassword);
+export default UpdatePassword;

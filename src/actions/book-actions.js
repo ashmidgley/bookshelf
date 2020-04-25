@@ -1,34 +1,32 @@
-import { FETCH_BOOKS, NEW_BOOK, UPDATE_BOOK, REMOVE_BOOK, CLEAR_BOOKS, BOOK_ERROR, CLEAR_ERROR } from './types';
-import { createConfig } from '../helpers/action-helper';
-import moment from 'moment';
 import axios from 'axios';
+import moment from 'moment';
+import { createConfig } from '../helpers/action-helper';
 
-let url = process.env.REACT_APP_API_URL + '/books';
+let bookUrl = process.env.REACT_APP_API_URL + '/books';
 
-export const fetchBooks = (userId) => dispatch => {
-  axios.get(url + `/user/${userId}`)
-    .then(response => {
-      dispatch({
-        type: FETCH_BOOKS,
-        payload: response.data.sort((a, b) => moment(b.finishedOn).valueOf() - moment(a.finishedOn).valueOf())
-      })
-    })
-    .catch(error => {
-      console.error(error);
-      dispatch({
-        type: BOOK_ERROR,
-        error: error.response ? error.response.data : error.message
-      })
-    })
+export const fetchBooks = (userId) => {
+  var url = `${bookUrl}/user/${userId}`;
+  return new Promise(
+    (resolve, reject) => {
+      axios.get(url)
+        .then(response => {
+          var data = response.data.sort((a, b) => moment(b.finishedOn).valueOf() - moment(a.finishedOn).valueOf());
+          resolve(data);
+        })
+        .catch(error => {
+          console.error(error);
+          var message = error.response ? error.response.data : error.message;
+          reject(message);
+        })
+    });
 };
 
-export const searchBooks = (title, author, maxResults, token) => {
+export const getBook = (id, token) => {
+  var url = `${bookUrl}/${id}`;
   var config = createConfig(token);
-  var data = { title, author, maxResults };
-
   return new Promise(
-    function (resolve, reject) {
-      axios.post(url + '/search', data, config)
+    (resolve, reject) => {
+      axios.get(url, config)
         .then(response => {
           resolve(response.data);
         })
@@ -36,72 +34,71 @@ export const searchBooks = (title, author, maxResults, token) => {
           console.error(error);
           reject(error.message);
         })
-    }
-  );
+  });
 }
 
-export const createBook = (postData, token) => dispatch => {
+export const searchBooks = (title, author, maxResults, token) => {
+  var url = `${bookUrl}/search`;
+  var data = { title, author, maxResults };
   var config = createConfig(token);
-  axios.post(url, postData, config)
-    .then(response => {
-      dispatch({
-        type: NEW_BOOK,
-        payload: response.data
-      })
-    })
-    .catch(error => {
-      console.error(error);
-      dispatch({
-        type: BOOK_ERROR,
-        error: error.response ? error.response.data : error.message
-      })
-    })
-};
-
-export const updateBook = (postData, token) => dispatch => {
-  var config = createConfig(token);
-  axios.put(url, postData, config)
-    .then(response => {
-      dispatch({
-        type: UPDATE_BOOK,
-        payload: response.data
-      })
-    })
-    .catch(error => {
-      console.error(error);
-      dispatch({
-        type: BOOK_ERROR,
-        error: error.response ? error.response.data : error.message
-      })
-    })
-};
-
-export const removeBook = (id, token) => dispatch => {
-  var config = createConfig(token);
-  axios.delete(url + '/' + id, config)
-    .then(response => {
-      dispatch({
-        type: REMOVE_BOOK,
-        payload: response.data
-      })
-    })
-    .catch(error => {
-      console.error(error);
-      dispatch({
-        type: BOOK_ERROR,
-        error: error.response ? error.response.data : error.message
-      })
-    })
-};
-
-export const clearBooks = () => dispatch => {
-  dispatch({
-    type: CLEAR_BOOKS
-  })
+  return new Promise(
+    (resolve, reject) => {
+      axios.post(url, data, config)
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(error => {
+          console.error(error);
+          reject(error.message);
+        })
+  });
 }
 
-export const clearError = () => dispatch => {
-  dispatch({
-    type: CLEAR_ERROR
-  })
-}
+export const createBook = (postData, token) => {
+  var config = createConfig(token);
+  return new Promise(
+    (resolve, reject) => {
+        axios.post(bookUrl, postData, config)
+          .then(response => {
+            resolve(response.data);
+          })
+          .catch(error => {
+            console.error(error);
+            var message = error.response ? error.response.data : error.message;
+            reject(message);
+          })
+    });
+};
+
+export const updateBook = (postData, token) => {
+  var config = createConfig(token);
+  return new Promise(
+    (resolve, reject) => {
+      axios.put(bookUrl, postData, config)
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(error => {
+          console.error(error);
+          var message = error.response ? error.response.data : error.message;
+          reject(message);
+        })
+  });
+};
+
+export const removeBook = (id, token) => {
+  var url = `${bookUrl}/${id}`;
+  var config = createConfig(token);
+  return new Promise(
+    (resolve, reject) => {
+      axios.delete(url, config)
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(error => {
+          console.error(error);
+          var message = error.response ? error.response.data : error.message;
+          reject(message);
+        })
+  });
+};

@@ -7,12 +7,10 @@ export const createConfig = (token) => {
     return config;
   }
 
-export const persistToken = (token, expiryDate, user) => {
+export const persistToken = (token, expiryDate, userId) => {
   localStorage.setItem('token', token);
   localStorage.setItem('expiryDate', expiryDate);
-  localStorage.setItem('userId', user.id);
-  localStorage.setItem('userEmail', user.email);
-  localStorage.setItem('userIsAdmin', user.isAdmin);
+  localStorage.setItem('userId', userId);
 }
 
 export const parseJwt = (token) => {
@@ -33,4 +31,10 @@ export const createUserPayload = (token) => {
   };
 
   return { token, expiryDate, user };
+}
+
+export const tokenExpired = (expiryDate) => {
+  var expiry = new Date(parseFloat(expiryDate) * 1000);
+  var current = new Date();
+  return expiry < current;
 }

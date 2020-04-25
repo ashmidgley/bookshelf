@@ -2,18 +2,18 @@ import React from 'react';
 import Modal from 'react-modal';
 import Loading from '../loading/loading';
 import { Link }from 'react-router-dom';
-import { connect } from 'react-redux';
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { customStyles } from '../../helpers/custom-modal';
-import { fetchCategories, removeCategory, clearError } from '../../actions/category-actions';
+import { fetchCategories, removeCategory } from '../../actions/category-actions';
 
 class ManageCategories extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
+            categories: null,
             selectedCategoryId: null,
             modalIsOpen: false,
             loading: true,
@@ -26,38 +26,53 @@ class ManageCategories extends React.Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         var userId = localStorage.getItem('userId');
-        this.props.fetchCategories(userId);
+        fetchCategories(userId)
+            .then(response => {
+                this.setState({
+                    categories: response,
+                    loading: false
+                });
+            })
+            .catch(error => {
+                this.handleError(error);
+            });
     }
 
-    componentWillReceiveProps(nextProps) {
-        if(this.state.loading && Array.isArray(nextProps.categories)) {
-            this.setState({
-                loading: false
-            });
-            return;
-        }
+    handleSubmit = (event) => {
+        event.preventDefault();
+        this.setState({
+            submitting: true,
+            success: false,
+            error: null
+        });
 
-        if(nextProps.error) {
-            this.setState({
-                error: nextProps.error,
-                modalIsOpen: false,
-                loading: false,
-                submitting: false
+        var token = localStorage.getItem('token');
+        removeCategory(this.state.selectedCategoryId, token)
+            .then(response => {
+                var oldCategory = this.state.categories.find(b => b.id === response.id);
+                var index = this.state.categories.indexOf(oldCategory);
+                this.state.categories.splice(index, 1); 
+                this.setState({
+                    selectedCategoryId: null,
+                    modalIsOpen: false,
+                    submitting: false,
+                    success: true
+                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            })
+            .catch(error => {
+                this.handleError(error);
             });
-            this.props.clearError();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else if(this.state.submitting && nextProps.removedCategory) {
-            var oldCategory = this.props.categories.find(b => b.id === nextProps.removedCategory.id);
-            var i = this.props.categories.indexOf(oldCategory);
-            this.props.categories.splice(i, 1);
-            this.setState({
-                selectedCategoryId: null,
-                modalIsOpen: false,
-                submitting: false,
-                success: true
-            });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+    }
+
+    handleError = (error) => {
+        this.setState({
+            error: error,
+            modalIsOpen: false,
+            loading: false,
+            submitting: false
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     openModal = (id) => {
@@ -72,18 +87,6 @@ class ManageCategories extends React.Component {
         this.setState({
             modalIsOpen: false
         });
-    }
-
-    handleSubmit = (event) => {
-        event.preventDefault();
-        this.setState({
-            submitting: true,
-            success: false,
-            error: null
-        });
-
-        var token = localStorage.getItem('token');
-        this.props.removeCategory(this.state.selectedCategoryId, token);
     }
 
     render() {
@@ -116,7 +119,7 @@ class ManageCategories extends React.Component {
                         </Modal>
                         <div>
                             {
-                                this.state.success && this.props.categories && this.props.categories.length &&
+                                this.state.success && this.state.categories && this.state.categories.length &&
                                 <div className="notification is-success">Successfully removed entry.</div>
                             }
                             {
@@ -131,7 +134,7 @@ class ManageCategories extends React.Component {
                                 </Link>
                             </div>
                             {
-                                !this.props.categories || !this.props.categories.length ?
+                                !this.state.categories || !this.state.categories.length ?
                                 <div className="notification is-link">
                                     No categories to display.
                                 </div>
@@ -147,7 +150,8 @@ class ManageCategories extends React.Component {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {this.props.categories.map(category =>
+                                            {
+                                                this.state.categories.map(category =>
                                                 <tr key={category.id}>
                                                     <td>{category.description}</td>
                                                     <td>{category.code}</td>
@@ -177,10 +181,4 @@ class ManageCategories extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
-    categories: state.categories.items,
-    removedCategory: state.categories.item,
-    error: state.categories.error
-});
-
-export default connect(mapStateToProps, {fetchCategories, removeCategory, clearError})(ManageCategories);
+export default ManageCategories;

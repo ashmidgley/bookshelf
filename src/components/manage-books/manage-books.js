@@ -2,18 +2,18 @@ import React from 'react';
 import Modal from 'react-modal';
 import Loading from '../loading/loading';
 import { Link }from 'react-router-dom';
-import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { customStyles } from '../../helpers/custom-modal';
-import { fetchBooks, removeBook, clearError } from '../../actions/book-actions';
+import { fetchBooks, removeBook } from '../../actions/book-actions';
 
 class ManageBooks extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
+            books: null,
             selectedBookId: null,
             modalIsOpen: false,
             loading: true,
@@ -26,38 +26,53 @@ class ManageBooks extends React.Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         var userId = localStorage.getItem('userId');
-        this.props.fetchBooks(userId);
+        fetchBooks(userId)
+            .then(response => {
+                this.setState({
+                    books: response,
+                    loading: false
+                });
+            })
+            .catch(error => {
+                this.handleError(error);
+            });
     }
 
-    componentWillReceiveProps(nextProps) {
-        if(this.state.loading && Array.isArray(nextProps.books)) {
-            this.setState({
-                loading: false
-            });
-            return;
-        }
+    handleSubmit = (event) => {
+        event.preventDefault();
+        this.setState({
+            submitting: true,
+            success: false,
+            error: null
+        });
 
-        if(nextProps.error) {
-            this.setState({
-                error: nextProps.error,
-                modalIsOpen: false,
-                loading: false,
-                submitting: false
+        var token = localStorage.getItem('token');
+        removeBook(this.state.selectedBookId, token)
+            .then(response => {
+                var oldBook = this.state.books.find(b => b.id === response.id);
+                var index = this.state.books.indexOf(oldBook);
+                this.state.books.splice(index, 1);
+                this.setState({
+                    modalIsOpen: false,
+                    submitting: false,
+                    success: true,
+                    selectedBookId: null
+                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            })
+            .catch(error => {
+                this.handleError(error);
             });
-            this.props.clearError();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else if(this.state.submitting && nextProps.removedBook) {
-            var oldBook = this.props.books.find(b => b.id === nextProps.removedBook.id);
-            var i = this.props.books.indexOf(oldBook);
-            this.props.books.splice(i, 1);
-            this.setState({
-                modalIsOpen: false,
-                submitting: false,
-                success: true,
-                selectedBookId: null
-            });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+    }
+
+    handleError = (error) => {
+        this.setState({
+            error: error,
+            modalIsOpen: false,
+            loading: false,
+            submitting: false
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     openModal = (id) => {
@@ -72,18 +87,6 @@ class ManageBooks extends React.Component {
         this.setState({
             modalIsOpen: false
         });
-    }
-
-    handleSubmit = (event) => {
-        event.preventDefault();
-        this.setState({
-            submitting: true,
-            success: false,
-            error: null
-        });
-
-        var token = localStorage.getItem('token');
-        this.props.removeBook(this.state.selectedBookId, token);
     }
 
     render() {
@@ -119,7 +122,7 @@ class ManageBooks extends React.Component {
                             </form>
                         </Modal>
                         {
-                            this.state.success && this.props.books.length &&
+                            this.state.success && this.state.books.length &&
                             <div className="notification is-success">Successfully removed entry.</div>
                         }
                         {
@@ -134,7 +137,7 @@ class ManageBooks extends React.Component {
                             </Link>
                         </div>
                         {
-                            !this.props.books || !this.props.books.length ?
+                            !this.state.books || !this.state.books.length ?
                             <div className="notification is-link">
                                 No books to display.
                             </div>
@@ -150,7 +153,8 @@ class ManageBooks extends React.Component {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {this.props.books.map(book =>
+                                        {
+                                            this.state.books.map(book =>
                                             <tr key={book.id}>
                                                 <td>{book.title}</td>
                                                 <td>{book.author}</td>
@@ -173,10 +177,4 @@ class ManageBooks extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
-    books: state.books.items,
-    removedBook: state.books.item,
-    error: state.books.error
-});
-
-export default connect(mapStateToProps, {fetchBooks, removeBook, clearError})(ManageBooks);
+export default ManageBooks;

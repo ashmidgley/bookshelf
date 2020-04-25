@@ -1,11 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
 import { validateEmail } from '../../helpers/field-validator';
-import { sendResetToken, clearError, clearResetTokenSent } from '../../actions/email-actions';
+import { sendResetToken } from '../../actions/email-actions';
 
 class ForgotPassword extends React.Component {
 
@@ -19,24 +18,6 @@ class ForgotPassword extends React.Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.error) {
-            this.setState({
-                error: nextProps.error,
-                submitting: false
-            });
-            this.props.clearError();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else if(this.state.submitting && nextProps.resetTokenSent) {
-            this.setState({
-                submitting: false,
-                submitted: true
-            });
-            this.props.clearResetTokenSent();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    }
-
     submitEntry(values) {
         this.setState({
             email: values.email,
@@ -44,7 +25,29 @@ class ForgotPassword extends React.Component {
             submitting: true
         });
 
-        this.props.sendResetToken(values.email);
+        sendResetToken(values.email)
+            .then(() => {
+                this.handleSuccess();
+            })
+            .catch(error => {
+                this.handleError(error);
+            });
+    }
+
+    handleSuccess = () => {
+        this.setState({
+            submitting: false,
+            submitted: true
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    handleError = (error) => {
+        this.setState({
+            error: error,
+            submitting: false
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     render() {
@@ -114,9 +117,4 @@ class ForgotPassword extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
-    resetTokenSent: state.email.resetTokenSent,
-    error: state.email.error
-});
-
-export default connect(mapStateToProps, {sendResetToken, clearError, clearResetTokenSent})(ForgotPassword);
+export default ForgotPassword;

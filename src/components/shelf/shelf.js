@@ -2,7 +2,6 @@ import React from 'react';
 import './shelf.css'
 import Loading from '../loading/loading';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { fetchBooks } from '../../actions/book-actions';
 import { fetchCategories } from '../../actions/category-actions';
@@ -13,10 +12,12 @@ class Shelf extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-            userId: parseInt(this.props.match.params.id),
+            userId: parseInt(props.match.params.id),
             storageId: parseInt(localStorage.getItem('userId')),
             columnClass: 'column is-one-third child',
             books: null,
+            categories: null,
+            ratings: null,
             years: null,
             categoryMenu: null,
             ratingMenu: null,
@@ -26,6 +27,63 @@ class Shelf extends React.Component {
             loading: true,
             error: false
         }
+    }
+
+    componentDidMount() {
+        if(this.props.match.params.id != this.state.userId) {
+            window.location.reload(false);
+            return;
+        }
+
+        window.scrollTo(0, 0);
+        this.checkDimensions();
+        window.addEventListener("resize", this.checkDimensions);
+
+        fetchBooks(this.state.userId)
+            .then(response => {
+                var books = response;
+                fetchCategories(this.state.userId)
+                    .then(response => {
+                        var categories = response;
+                        fetchRatings(this.state.userId)
+                            .then(response => {
+                                var ratings = response;
+                                this.handleSuccess(books, categories, ratings);
+                            })
+                    })
+            })
+            .catch(() => {
+                this.handleError();
+            })
+    }
+
+    checkDimensions = () => {
+        var newVal = 'column is-one-third child';
+        if(window.innerWidth > 1000 && window.innerWidth < 1200) {
+            newVal = 'column is-one-quarter child';
+        } else if(window.innerWidth > 1200) {
+            newVal = 'column is-2';
+        }
+        this.setState({columnClass: newVal}); 
+    }
+
+    handleSuccess = (books, categories, ratings) => {
+        this.setState({
+            books: books,
+            categories: categories,
+            ratings: ratings,
+            years: this.getYears(books),
+            categoryMenu: this.getMenu(categories.length + 1),
+            ratingMenu: this.getMenu(ratings.length + 1),
+            loading: false
+        });
+    }
+    
+    handleError = () => {
+        this.setState({
+            error: true,
+            loading: false
+        });
     }
 
     getYears(books) {
@@ -41,51 +99,8 @@ class Shelf extends React.Component {
         return menu;
     }
 
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.match.params.id != this.state.userId) {
-            window.location.reload(false);
-        }
-
-        if(this.state.loading && Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings)) {
-            this.setState({
-                books: nextProps.books,
-                years: this.getYears(nextProps.books),
-                categoryMenu: this.getMenu(nextProps.categories.length+1),
-                ratingMenu: this.getMenu(nextProps.ratings.length+1),
-                loading: false
-            });
-            return;
-        }
-        
-        if(nextProps.bookError || nextProps.categoryError || nextProps.ratingError) {
-            this.setState({
-                error: true,
-                loading: false
-            });
-        }
-      }
-
-    componentDidMount() {
-        window.scrollTo(0, 0);
-        this.props.fetchBooks(this.state.userId);
-        this.props.fetchCategories(this.state.userId);
-        this.props.fetchRatings(this.state.userId);
-        this.checkDimensions();
-        window.addEventListener("resize", this.checkDimensions);
-    }
-
     componentWillUnmount() {
         window.removeEventListener("resize", this.checkDimensions);
-    }
-
-    checkDimensions = () => {
-        var newVal = 'column is-one-third child';
-        if(window.innerWidth > 1000 && window.innerWidth < 1200) {
-            newVal = 'column is-one-quarter child';
-        } else if(window.innerWidth > 1200) {
-            newVal = 'column is-2';
-        }
-        this.setState({columnClass: newVal}); 
     }
 
     searchSubmit = (e) => {
@@ -105,7 +120,7 @@ class Shelf extends React.Component {
 
      categorySelected(category) {
         var menu = this.state.categoryMenu.fill(false);
-        menu[this.props.categories.indexOf(category)+1] = true;
+        menu[this.state.categories.indexOf(category)+1] = true;
         this.setState({
             selectedCategory: category.id,
             categoryMenu: menu
@@ -123,7 +138,7 @@ class Shelf extends React.Component {
 
      ratingSelected(rating) {
         var menu = this.state.ratingMenu.fill(false);
-        menu[this.props.ratings.indexOf(rating)+1] = true;
+        menu[this.state.ratings.indexOf(rating)+1] = true;
         this.setState({
             selectedRating: rating.id,
             ratingMenu: menu
@@ -146,7 +161,7 @@ class Shelf extends React.Component {
             );
         }
 
-        var books = this.props.books;
+        var books = this.state.books;
         if(this.state.searchQuery) books = books.filter(b => b.title.toLowerCase().includes(this.state.searchQuery) || b.author.toLowerCase().includes(this.state.searchQuery));
         if(this.state.selectedCategory) books =  books.filter(b => b.categoryId === this.state.selectedCategory);
         if(this.state.selectedRating) books = books.filter(b => b.ratingId === this.state.selectedRating);
@@ -172,10 +187,10 @@ class Shelf extends React.Component {
                                 style={{'padding':'0 23px'}}>
                             </button>
                             {
-                                this.props.categories &&
-                                this.props.categories.map(category =>
+                                this.state.categories &&
+                                this.state.categories.map(category =>
                                 <button 
-                                    className={this.state.categoryMenu[this.props.categories.indexOf(category)+1] ? "button selected" : "button"}
+                                    className={this.state.categoryMenu[this.state.categories.indexOf(category)+1] ? "button selected" : "button"}
                                     key={category.id}
                                     onClick={() => this.categorySelected(category)}>
                                     <span role="img" aria-label="Category emoji">{category.code}</span>
@@ -189,10 +204,10 @@ class Shelf extends React.Component {
                                 style={{'padding':'0 23px'}}>
                             </button>
                             {
-                                this.props.ratings &&
-                                this.props.ratings.map(rating =>
+                                this.state.ratings &&
+                                this.state.ratings.map(rating =>
                                 <button 
-                                    className={this.state.ratingMenu[this.props.ratings.indexOf(rating)+1] ? "button selected" : "button"}
+                                    className={this.state.ratingMenu[this.state.ratings.indexOf(rating)+1] ? "button selected" : "button"}
                                     key={rating.id}
                                     onClick={() => this.ratingSelected(rating)}>
                                     <span role="img" aria-label="Rating emoji">{rating.code}</span>
@@ -209,7 +224,7 @@ class Shelf extends React.Component {
                     :
                     <div>
                         {
-                            this.props.books.length === 0 &&
+                            this.state.books.length === 0 &&
                             <div className="notification is-link shelf-notification">
                                 No books to display.&nbsp;
                                 {
@@ -254,14 +269,5 @@ class Shelf extends React.Component {
         )
     }
 }
-  
-const mapStateToProps = state => ({
-    books: state.books.items,
-    categories: state.categories.items,
-    ratings: state.ratings.items,
-    bookError: state.books.error,
-    categoryError: state.categories.error,
-    ratingError: state.ratings.error
-});
 
-export default connect(mapStateToProps, {fetchBooks, fetchCategories, fetchRatings})(Shelf);
+export default Shelf;

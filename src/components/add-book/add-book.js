@@ -4,10 +4,9 @@ import moment from 'moment';
 import Loading from '../loading/loading';
 import { withRouter, Link } from 'react-router-dom';
 import { Formik } from 'formik';
-import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { createBook, fetchBooks, clearError } from '../../actions/book-actions';
+import { createBook } from '../../actions/book-actions';
 import { fetchCategories } from '../../actions/category-actions';
 import { fetchRatings } from '../../actions/rating-actions';
 import { validImage } from '../../helpers/image-helper';
@@ -19,6 +18,8 @@ class AddBook extends React.Component {
         super(props);
         this.state = {
             book: null,
+            categories: null,
+            ratings: null,
             submitting: false,
             loading: true,
             success: false,
@@ -28,11 +29,6 @@ class AddBook extends React.Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        var userId = localStorage.getItem('userId');
-        this.props.fetchBooks(userId);
-        this.props.fetchCategories(userId);
-        this.props.fetchRatings(userId);
-
         if(!this.props.location.state) {
             this.props.history.push('/search-form');
         } else {
@@ -40,32 +36,33 @@ class AddBook extends React.Component {
                 book: this.props.location.state.book
             });
         }
+
+        var userId = localStorage.getItem('userId');
+        fetchCategories(userId)
+            .then(response => {
+                var categories = response;
+                fetchRatings(userId)
+                    .then(response => {
+                        var ratings = response;
+                        this.setState({
+                            categories: categories,
+                            ratings: ratings,
+                            loading: false
+                        })
+                    })
+            })
+            .catch(error => {
+                this.handleError(error);
+            });
     }
 
-    componentWillReceiveProps(nextProps) {
-        if(this.state.loading && Array.isArray(nextProps.books) && Array.isArray(nextProps.categories) && Array.isArray(nextProps.ratings)) {
-            this.setState({
-                loading: false
-            });
-            return;
-        } 
-
-        if(nextProps.error) {
-            this.setState({
-                error: nextProps.error,
-                submitting: false,
-                loading: false
-            });
-            this.props.clearError();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else if (this.state.submitting && nextProps.book) {
-            this.props.books.unshift(nextProps.book);
-            this.setState({
-                submitting: false,
-                success: true
-            });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+    handleError = (error) => {
+        this.setState({
+            error: error,
+            submitting: false,
+            loading: false
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     submitEntry(values) {
@@ -88,7 +85,18 @@ class AddBook extends React.Component {
         };
         
         var token = localStorage.getItem('token');
-        this.props.createBook(newBook, token);
+        createBook(newBook, token)
+            .then(response => {
+                this.setState({
+                    book: response,
+                    submitting: false,
+                    success: true
+                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            })
+            .catch(error => {
+                this.handleError(error);
+            });
     }
 
     render() {
@@ -110,7 +118,7 @@ class AddBook extends React.Component {
                         {
                             this.state.success &&
                             <div className="notification is-success">
-                                Successfully created new book. <Link to={`/review/${this.props.book.id}`}>View?</Link>
+                                Successfully created new book. <Link to={`/review/${this.state.book.id}`}>View?</Link>
                             </div>
                         }
                         {
@@ -126,8 +134,8 @@ class AddBook extends React.Component {
                                     author: this.state.book.author,
                                     finishedOn: moment().format('YYYY-MM-DD'),
                                     pageCount: this.state.book.pageCount,
-                                    categoryId: this.props.categories && this.props.categories.length ? this.props.categories[0].id : null,
-                                    ratingId: this.props.ratings && this.props.ratings.length ? this.props.ratings[0].id : null,
+                                    categoryId: this.state.categories && this.state.categories.length ? this.state.categories[0].id : null,
+                                    ratingId: this.state.ratings && this.state.ratings.length ? this.state.ratings[0].id : null,
                                     summary: this.state.book.summary
                                 }
                             }
@@ -201,8 +209,8 @@ class AddBook extends React.Component {
                                         <label className="label">Category</label>
                                         <div className="control radio-container">
                                             {
-                                                this.props.categories &&
-                                                this.props.categories.map(category =>
+                                                this.state.categories &&
+                                                this.state.categories.map(category =>
                                                 <div key={category.id}> 
                                                     <input type="radio" name="categoryId" id={category.id} value={values.categoryId} checked={values.categoryId === category.id} onChange={() => {setFieldValue('categoryId', category.id)}} onBlur={handleBlur} />
                                                     <label className="radio">{category.description}</label>
@@ -214,8 +222,8 @@ class AddBook extends React.Component {
                                         <label className="label">Rating</label>
                                         <div className="control radio-container">
                                             {
-                                                this.props.ratings &&
-                                                this.props.ratings.map(rating =>
+                                                this.state.ratings &&
+                                                this.state.ratings.map(rating =>
                                                 <div key={rating.id}> 
                                                     <input type="radio" name="ratingId" id={rating.id} value={values.ratingId} checked={values.ratingId === rating.id} onChange={() => {setFieldValue('ratingId', rating.id)}} onBlur={handleBlur} />
                                                     <label className="radio">{rating.description}</label>
@@ -250,12 +258,4 @@ class AddBook extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
-    books: state.books.items,
-    book: state.books.item,
-    categories: state.categories.items,
-    ratings: state.ratings.items,
-    error: state.books.error
-});
-
-export default connect(mapStateToProps, {createBook, fetchBooks, clearError, fetchCategories, fetchRatings})(withRouter(AddBook));
+export default withRouter(AddBook);

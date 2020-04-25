@@ -2,12 +2,10 @@ import React from 'react';
 import Loading from '../loading/loading';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
-import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
 import { validatePasswordLength } from '../../helpers/field-validator';
-import { resetTokenValid, updatePasswordUsingToken, clearToken } from '../../actions/auth-actions';
-import { clearError } from '../../actions/user-actions';
+import { resetTokenValid, updatePasswordUsingToken } from '../../actions/auth-actions';
 
 class ResetPassword extends React.Component {
 
@@ -24,34 +22,23 @@ class ResetPassword extends React.Component {
     componentDidMount() {
         var userId = this.props.match.params.userId;
         var resetToken = this.props.match.params.resetToken;
-        this.props.resetTokenValid(userId, resetToken);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.error) {
-            this.setState({
-                error: nextProps.error,
-                loading: false,
-                submitting: false
+        resetTokenValid(userId, resetToken)
+            .then(response => {
+                var tokenValid = response;
+                if (tokenValid === true) {
+                    this.setState({
+                        loading: false
+                    });
+                } else {
+                    this.setState({
+                        error: 'The password reset token does not match or has expired. Please request another and try again.',
+                        loading: false
+                    });
+                }
+            })
+            .catch(error => {
+                this.handleError(error);
             });
-            this.props.clearError();
-        } else if (nextProps.tokenValid === true) {
-            this.setState({
-                loading: false
-            });
-            this.props.clearToken();
-        } else if(nextProps.tokenValid === false) {
-            this.setState({
-                error: 'The password reset token does not match or has expired. Please request another and try again.',
-                loading: false
-            });
-            this.props.clearToken();
-        } else if(this.state.submitting && nextProps.updatedUser) {
-            this.setState({
-                success: true,
-                submitting: false
-            });
-        }
     }
 
     submitEntry(values) {
@@ -67,7 +54,24 @@ class ResetPassword extends React.Component {
             password: values.password
         };
 
-        this.props.updatePasswordUsingToken(data);
+        updatePasswordUsingToken(data)
+            .then(() => {
+                this.setState({
+                    success: true,
+                    submitting: false
+                });
+            })
+            .catch(error => {
+                this.handleError(error);
+            });
+    }
+
+    handleError = (error) => {
+        this.setState({
+            error: error,
+            loading: false,
+            submitting: false
+        });
     }
 
     render() {
@@ -145,10 +149,4 @@ class ResetPassword extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
-    updatedUser: state.user.updatedUser,
-    tokenValid: state.user.resetTokenValid,
-    error: state.user.error
-});
-
-export default connect(mapStateToProps, {updatePasswordUsingToken, resetTokenValid, clearError, clearToken})(ResetPassword);
+export default ResetPassword;
