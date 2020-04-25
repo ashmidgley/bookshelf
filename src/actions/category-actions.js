@@ -1,88 +1,86 @@
-import { FETCH_CATEGORIES, NEW_CATEGORY, UPDATE_CATEGORY, REMOVE_CATEGORY, CLEAR_CATEGORIES, CATEGORY_ERROR, CLEAR_ERROR } from './types';
-import { createConfig } from '../helpers/action-helper';
 import axios from 'axios';
+import { createConfig } from '../helpers/action-helper';
 
-let url = process.env.REACT_APP_API_URL + '/categories';
+let categoryUrl = process.env.REACT_APP_API_URL + '/categories';
 
-export const fetchCategories = (userId) => dispatch => {
-  axios.get(url + `/user/${userId}`)
-  .then(response => {
-    dispatch({
-      type: FETCH_CATEGORIES,
-      payload: response.data
-    })
-  })
-  .catch(error => {
-    console.error(error);
-    dispatch({
-      type: CATEGORY_ERROR,
-      error: error.response ? error.response.data : error.message
-    })
-  })
+export const fetchCategories = (userId) => {
+  var url = `${categoryUrl}/user/${userId}`
+  return new Promise(
+    (resolve, reject) => {
+      axios.get(url)
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(error => {
+          console.error(error);
+          var message = error.response ? error.response.data : error.message;
+          reject(message);
+        })
+  });
 };
 
-export const createCategory = (postData, token) => dispatch => {
+export const getCategory = (id, token) => {
+  var url = `${categoryUrl}/${id}`;
   var config = createConfig(token);
-  axios.post(url, postData, config)
-    .then(response => {
-      dispatch({
-        type: NEW_CATEGORY,
-        payload: response.data
-      })
-    })
-    .catch(error => {
-      console.error(error);
-      dispatch({
-        type: CATEGORY_ERROR,
-        error: error.response ? error.response.data : error.message
-      })
-    })
-};
-
-export const updateCategory = (postData, token) => dispatch => {
-  var config = createConfig(token);
-  axios.put(url, postData, config)
-    .then(response => {
-      dispatch({
-        type: UPDATE_CATEGORY,
-        payload: response.data
-      })
-    })
-    .catch(error => {
-      console.error(error);
-      dispatch({
-        type: CATEGORY_ERROR,
-        error: error.response ? error.response.data : error.message
-      })
-    })
-};
-
-export const removeCategory = (id, token) => dispatch => {
-  var config = createConfig(token);
-  axios.delete(url + '/' + id, config)
-    .then(response => {
-      dispatch({
-        type: REMOVE_CATEGORY,
-        payload: response.data
-      })
-    })
-    .catch(error => {
-      console.error(error);
-      dispatch({
-        type: CATEGORY_ERROR,
-        error: error.response ? error.response.data : error.message
-      })
-    })
-};
-
-export const clearCategories = () => dispatch => {
-  dispatch({
-    type: CLEAR_CATEGORIES
-  })
+  return new Promise(
+    (resolve, reject) => {
+      axios.get(url, config)
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(error => {
+          console.error(error);
+          var message = error.response ? error.response.data : error.message;
+          reject(message);
+        })
+  });
 }
 
-export const clearError = () => dispatch => {
-  dispatch({
-    type: CLEAR_ERROR
-  })
-}
+export const createCategory = (postData, token) => {
+  var config = createConfig(token);
+  return new Promise(
+    (resolve, reject) => {
+      axios.post(categoryUrl, postData, config)
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(error => {
+          console.error(error);
+          var message = error.response ? error.response.data : error.message;
+          reject(message);
+        })
+  });
+};
+
+export const updateCategory = (postData, token) => {
+  var config = createConfig(token);
+  return new Promise(
+    (resolve, reject) => {
+      axios.put(categoryUrl, postData, config)
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(error => {
+          console.error(error);
+          var message = error.response ? error.response.data : error.message;
+          reject(message);
+        })
+  });
+};
+
+export const removeCategory = (id, token) => {
+  var url = `${categoryUrl}/${id}`;
+  var config = createConfig(token);
+  return new Promise(
+    (resolve, reject) => {
+      axios.delete(url, config)
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(error => {
+          console.error(error);
+          var message = error.response ? error.response.data : error.message;
+          reject(message);
+        })
+  });
+};

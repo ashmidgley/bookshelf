@@ -1,12 +1,10 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { validateEmail, validatePasswordLength } from '../../helpers/field-validator';
 import { register } from '../../actions/auth-actions';
-import { clearError } from '../../actions/user-actions';
 
 class Register extends React.Component {
 
@@ -18,33 +16,38 @@ class Register extends React.Component {
         };
     }
 
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.error) {
-            this.setState({
-                error: nextProps.error,
-                submitting: false
-            });
-            this.props.clearError();
-        } else if(this.state.submitting && nextProps.token && nextProps.user) {
-            this.setState({ 
-                submitting: false
-            });
-            this.props.history.push(`/shelf/${nextProps.user.id}`);
-        }
-    }
-
-    register(values) {
+    submitEntry(values) {
         this.setState({
             error: null,
             submitting: true
         });
 
-        var register = {
+        var user = {
             email: values.email,
             password: values.password
         }; 
         
-        this.props.register(register);
+        register(user)
+            .then(response => {
+                this.handleSuccess(response);
+            })
+            .catch(error => {
+                this.handleError(error);
+            });
+    }
+
+    handleSuccess = (user) => {
+        this.setState({ 
+            submitting: false
+        });
+        this.props.history.push(`/shelf/${user.id}`);
+    }
+
+    handleError = (error) => {
+        this.setState({
+            error: error,
+            submitting: false
+        });
     }
 
     render() {
@@ -85,7 +88,7 @@ class Register extends React.Component {
                                                 return errors;
                                             }}
                                             onSubmit={(values, { setSubmitting }) => {
-                                                this.register(values);
+                                                this.submitEntry(values);
                                                 setSubmitting(false);
                                             }}>{({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
                                                 <form className="form" onSubmit={handleSubmit}>
@@ -146,10 +149,4 @@ class Register extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
-    token: state.user.token,
-    user: state.user.user,
-    error: state.user.error
-});
-
-export default connect(mapStateToProps, {register, clearError})(withRouter(Register));
+export default withRouter(Register);

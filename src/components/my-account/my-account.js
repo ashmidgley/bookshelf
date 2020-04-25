@@ -1,19 +1,40 @@
 import React from 'react';
 import './my-account.css';
-import { Link } from 'react-router-dom';
+import Loading from '../loading/loading';
+import { withRouter, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
+import { getCurrentUser } from '../../actions/user-actions';
 
 class MyAccount extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            email: localStorage.getItem('userEmail'),
+            user: null,
             shelfPath: this.getShelfPath(),
-            copyText: null
+            copyText: null,
+            loading: true,
+            error: null
         };
+    }
+
+    componentDidMount() {
+        var token = localStorage.getItem('token');
+        getCurrentUser(token)
+            .then(response => {
+                this.setState({
+                    user: response,
+                    loading: false
+                })
+            })
+            .catch(error => {
+                this.setState({
+                    error: error,
+                    loading: false
+                })
+            });
     }
 
     getShelfPath() {
@@ -42,6 +63,12 @@ class MyAccount extends React.Component {
     }
 
     render() {
+        if(this.state.loading) {
+            return (
+                <Loading />
+            );
+        }
+
         return (
             <div className="column is-8 is-offset-2 form-container"> 
                 <Helmet>
@@ -54,13 +81,17 @@ class MyAccount extends React.Component {
                                 <FontAwesomeIcon icon={faMask} className="mask-icon" size="lg"/>
                             </div>
                         </div>
+                        {
+                            this.state.error && 
+                            <div className="notification is-danger">{this.state.error}</div>
+                        }
                         <form className="form">
                             <div className="field">
                                 <label className="label">Email</label>
                                 <div className="columns is-mobile my-account-columns">
                                     <div className="column">
                                         <div className="control">
-                                            <input className='input' type="text" value={this.state.email} readOnly />
+                                            <input className='input' type="text" value={this.state.user.email} readOnly />
                                         </div>
                                     </div>
                                     <div className="column is-2">
@@ -118,4 +149,4 @@ class MyAccount extends React.Component {
     }
 }
 
-export default MyAccount;
+export default withRouter(MyAccount);

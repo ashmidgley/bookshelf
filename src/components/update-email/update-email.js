@@ -1,11 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
-import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
 import { validateEmail } from '../../helpers/field-validator';
-import { updateEmail, setUser, clearError } from '../../actions/user-actions';
+import { updateEmail } from '../../actions/user-actions';
 
 class UpdateEmail extends React.Component {
 
@@ -22,30 +21,6 @@ class UpdateEmail extends React.Component {
         window.scrollTo(0, 0);
     }
 
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.error) {
-            this.setState({
-                submitting: false,
-                error: nextProps.error
-            });
-            this.props.clearError();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else if(this.state.submitting && nextProps.updatedUser) {
-            localStorage.setItem('userEmail', nextProps.updatedUser.email);
-            var data = { 
-                token: localStorage.getItem('token'),
-                expiryDate: localStorage.getItem('expiryDate'), 
-                user: nextProps.updatedUser
-            };
-            this.props.setUser(data);
-            this.setState({
-                submitting: false,
-                success: true
-            });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    }
-
     submitEntry(values) {
         this.setState({
             submitting: true,
@@ -59,7 +34,25 @@ class UpdateEmail extends React.Component {
             email: values.email
         };
 
-        this.props.updateEmail(data, token);
+        updateEmail(data, token)
+            .then(() => {
+                this.setState({
+                    submitting: false,
+                    success: true
+                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            })
+            .catch(error => {
+                this.handleError(error);
+            });
+    }
+
+    handleError = (error) => {
+        this.setState({
+            submitting: false,
+            error: error
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     render() {
@@ -126,10 +119,4 @@ class UpdateEmail extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
-    user: state.user.user,
-    updatedUser: state.user.updatedUser,
-    error: state.user.error
-});
-
-export default connect(mapStateToProps, {updateEmail, setUser, clearError})(UpdateEmail);
+export default UpdateEmail;

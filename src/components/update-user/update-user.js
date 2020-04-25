@@ -4,11 +4,10 @@ import moment from 'moment';
 import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Formik } from 'formik';
-import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { validateEmail } from '../../helpers/field-validator';
-import { fetchUsers, updateUser, clearError } from '../../actions/user-actions';
+import { getUser, updateUser } from '../../actions/user-actions';
 
 class UpdateUser extends React.Component {
     
@@ -26,44 +25,17 @@ class UpdateUser extends React.Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        if(!this.props.users) {
-            var token = localStorage.getItem('token');
-            this.props.fetchUsers(token);
-        } else {
-            this.setState({
-                user: this.props.users.find(x => x.id === this.state.userId),
-                loading: false
+        var token = localStorage.getItem('token');
+        getUser(this.state.userId, token)
+            .then(response => {
+                this.setState({
+                    user: response,
+                    loading: false
+                });
+            })
+            .catch(error => {
+                this.handleError(error);
             });
-        }
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if(this.state.loading && !this.props.users && nextProps.users) {
-            this.setState({
-                user: nextProps.users.find(x => x.id === this.state.userId),
-                loading: false
-            });
-            return;
-        }
-
-        if(nextProps.error) {
-            this.setState({
-                error: nextProps.error,
-                submitting: false,
-                loading: false
-            });
-            this.props.clearError();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else if (this.state.submitting && nextProps.updatedUser) {
-            var oldUser = this.props.users.find(b => b.id === nextProps.updatedUser.id);
-            var index = this.props.users.indexOf(oldUser);
-            this.props.users[index] = nextProps.updatedUser;
-            this.setState({
-                submitting: false,
-                success: true
-            });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
     }
 
     updateUser(values) {
@@ -82,7 +54,26 @@ class UpdateUser extends React.Component {
         }
 
         var token = localStorage.getItem('token');
-        this.props.updateUser(values, token);
+        updateUser(values, token)
+            .then(() => {
+                this.setState({
+                    submitting: false,
+                    success: true
+                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            })
+            .catch(error => {
+                this.handleError(error);
+            })
+    }
+
+    handleError = (error) => {
+        this.setState({
+            error: error,
+            submitting: false,
+            loading: false
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     
     render() {
@@ -194,10 +185,4 @@ class UpdateUser extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
-    users: state.user.users,
-    updatedUser: state.user.updatedUser,
-    error: state.user.error
-});
-
-export default connect(mapStateToProps, {fetchUsers, updateUser, clearError})(withRouter(UpdateUser));
+export default withRouter(UpdateUser);

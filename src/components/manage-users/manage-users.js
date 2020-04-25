@@ -1,19 +1,19 @@
 import React from 'react';
 import Modal from 'react-modal';
 import Loading from '../loading/loading';
-import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { customStyles } from '../../helpers/custom-modal';
-import { fetchUsers, deleteUser, clearError } from '../../actions/user-actions';
+import { getCurrentUser, fetchUsers, deleteUser } from '../../actions/user-actions';
 
 class ManageUsers extends React.Component {
 
     constructor(props){
         super(props);
         this.state = {
+            users: null,
             selectedUserId: null,
             modalIsOpen: false,
             loading: true,
@@ -24,49 +24,61 @@ class ManageUsers extends React.Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        if(localStorage.getItem('userIsAdmin') !== 'true') {
-            this.props.history.push('/');
-            return;
-        }
-
-        if(!this.props.users) {
-            var token = localStorage.getItem('token');
-            this.props.fetchUsers(token);
-        } else {
-            this.setState({
-                loading: false
+        var token = localStorage.getItem('token');
+        getCurrentUser(token)
+            .then(response => {
+                var user = response;
+                if(user.isAdmin) {
+                    fetchUsers(token)
+                        .then(response => {
+                            this.setState({
+                                users: response,
+                                loading: false
+                            });
+                        })
+                } else {
+                    this.props.history.push('/');
+                }
+            })
+            .catch(error => {
+                this.handleError(error);
             });
-        }
     }
 
-    componentWillReceiveProps(nextProps) {
-        if(this.state.loading && Array.isArray(nextProps.users)) {
-            this.setState({
-                loading: false
-            });
-            return;
-        }
+    handleSubmit = (event) => {
+        event.preventDefault();
+        this.setState({
+            submitting: true,
+            error: null,
+            success: false
+        });
 
-        if(nextProps.error) {
-            this.setState({
-                error: nextProps.error,
-                modalIsOpen: false,
-                loading: false,
-                submitting: false
+        var token = localStorage.getItem('token');
+        deleteUser(this.state.selectedUserId, token)
+            .then(response => {
+                var oldUser = this.state.users.find(b => b.id === response.id);
+                var index = this.state.users.indexOf(oldUser);
+                this.state.users.splice(index, 1);
+                this.setState({
+                    modalIsOpen: false,
+                    submitting: false,
+                    success: true
+                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            })
+            .catch(error => {
+                this.handleError(error);
             });
-            this.props.clearError();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        } else if (this.state.submitting && nextProps.deletedUser) {
-            var deletedUser = this.props.users.find(b => b.id === nextProps.deletedUser.id);
-            var index = this.props.users.indexOf(deletedUser);
-            this.props.users.splice(index, 1);
-            this.setState({
-                modalIsOpen: false,
-                submitting: false,
-                success: true
-            });
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+    }
+
+    handleError = (error) => {
+        this.setState({
+            error: error,
+            modalIsOpen: false,
+            loading: false,
+            submitting: false
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     openModal = (id) => {
@@ -80,18 +92,6 @@ class ManageUsers extends React.Component {
         this.setState({
             modalIsOpen: false
         });
-    }
-
-    handleSubmit = (event) => {
-        event.preventDefault();
-        this.setState({
-            submitting: true,
-            error: null,
-            success: false
-        });
-
-        var token = localStorage.getItem('token');
-        this.props.deleteUser(this.state.selectedUserId, token);
     }
 
     render() {
@@ -149,8 +149,8 @@ class ManageUsers extends React.Component {
                                     </thead>
                                     <tbody>
                                         {
-                                            this.props.users &&
-                                            this.props.users.map(user =>
+                                            this.state.users &&
+                                            this.state.users.map(user =>
                                             <tr key={user.id}>
                                                 <td>{user.id}</td>
                                                 <td>{user.email}</td>
@@ -178,11 +178,4 @@ class ManageUsers extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
-    users: state.user.users,
-    deletedUser: state.user.deletedUser,
-    token: state.user.token,
-    error: state.user.error
-});
-
-export default connect(mapStateToProps, {fetchUsers, deleteUser, clearError})(ManageUsers);
+export default ManageUsers;

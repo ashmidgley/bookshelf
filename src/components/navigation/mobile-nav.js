@@ -1,18 +1,17 @@
 import React from 'react';
 import './mobile-nav.css';
 import { withRouter, NavLink, Link } from 'react-router-dom';
-import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faAddressCard } from '@fortawesome/free-solid-svg-icons';
-import { clearUser } from '../../actions/user-actions';
-import { clearBooks } from '../../actions/book-actions';
-import { clearCategories } from '../../actions/category-actions';
-import { clearRatings } from '../../actions/rating-actions';
+import { getCurrentUser, clearUser } from '../../actions/user-actions';
+import { tokenExpired } from '../../helpers/action-helper';
+import { validAnonymousPath } from '../../helpers/route-helper';
 
 class MobileNav extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            user: null,
             optionsVisible: false,
             initialOpen: false
         };
@@ -20,6 +19,33 @@ class MobileNav extends React.Component {
 
     componentDidMount() {
         document.addEventListener('mousedown', this.handleClickOutsideBurger);
+
+        var token = localStorage.getItem('token');
+        var expiryDate = localStorage.getItem('expiryDate');
+        if(!token || !expiryDate || tokenExpired(expiryDate)) {
+            clearUser();
+            if(!validAnonymousPath(window.location.pathname)) {
+                this.props.history.push('/login');
+            }
+        } else {
+            this.getUser(token);
+        }
+    }
+
+    componentDidUpdate() {
+        var token = localStorage.getItem('token');
+        if(!this.state.user && token) {
+            this.getUser(token);
+        }
+    }
+
+    getUser = (token) => {
+        getCurrentUser(token)
+            .then(response => {
+                this.setState({
+                    user: response
+                });
+            })
     }
   
     componentWillUnmount() {
@@ -52,13 +78,11 @@ class MobileNav extends React.Component {
     }
       
     logout = () => {
-        this.props.clearUser();
-        this.props.clearBooks();
-        this.props.clearCategories();
-        this.props.clearRatings();
+        clearUser();
         this.props.history.push('/');
 
         this.setState({
+            user: null,
             optionsVisible: false
         });
     }
@@ -74,11 +98,11 @@ class MobileNav extends React.Component {
                             <span id="burger"></span>
                             <span id="burger"></span>
                         </a>
-                        <Link id="mobile-nav-icon" to={this.props.user ? `/shelf/${this.props.user.id}` : '/'} className="navbar-item">
+                        <Link id="mobile-nav-icon" to={this.state.user ? `/shelf/${this.state.user.id}` : '/'} className="navbar-item">
                             <img src="/bookshelf.png" alt="Small bookshelf" />
                         </Link>
                         {
-                            this.props.user ?
+                            this.state.user ?
                             <Link id="mobile-plus" className="user-menu-actions" to="/search-form">
                                 <FontAwesomeIcon icon={faPlus} size="lg" color="#f5f5f7" />
                             </Link>
@@ -95,7 +119,7 @@ class MobileNav extends React.Component {
                         <div 
                             className={!this.state.initialOpen ? "navbar-end" : this.state.optionsVisible ? "navbar-end fade-in-options" : "navbar-end fade-out-options"}>
                             {
-                                !this.props.user ?
+                                !this.state.user ?
                                 <div className="mobile-options">
                                     <NavLink className="navbar-item" onClick={this.toggleBurger} to="/register">
                                         Register
@@ -106,7 +130,7 @@ class MobileNav extends React.Component {
                                 </div>
                                 :
                                 <div className="mobile-options">
-                                    <NavLink className="navbar-item" onClick={this.toggleBurger} to={`/shelf/${this.props.user.id}`}>
+                                    <NavLink className="navbar-item" onClick={this.toggleBurger} to={`/shelf/${this.state.user.id}`}>
                                         Bookshelf
                                     </NavLink>
                                     <NavLink className="navbar-item" onClick={this.toggleBurger} to="/manage-books">
@@ -134,10 +158,5 @@ class MobileNav extends React.Component {
         );
     }
 }
-
-const mapStateToProps = state => ({
-    token: state.user.token,
-    user: state.user.user
-});
   
-export default connect(mapStateToProps, {clearUser, clearBooks, clearCategories, clearRatings})(withRouter(MobileNav));
+export default withRouter(MobileNav);

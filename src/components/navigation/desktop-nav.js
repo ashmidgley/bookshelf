@@ -2,23 +2,50 @@ import React from 'react';
 import './desktop-nav.css';
 import { withRouter, NavLink, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faAngleUp, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { connect } from 'react-redux';
-import { clearUser } from '../../actions/user-actions';
-import { clearBooks } from '../../actions/book-actions';
-import { clearCategories } from '../../actions/category-actions';
-import { clearRatings } from '../../actions/rating-actions';
+import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
+import { getCurrentUser, clearUser } from '../../actions/user-actions';
+import { tokenExpired } from '../../helpers/action-helper';
+import { validAnonymousPath } from '../../helpers/route-helper';
 
 class DesktopNav extends React.Component {
+    
     constructor(props) {
         super(props);
         this.state = {
+            user: null,
             dropdownVisible: false
         };
     }
 
     componentDidMount() {
         document.addEventListener('mousedown', this.handleClickOutsideDropdown);
+
+        var token = localStorage.getItem('token');
+        var expiryDate = localStorage.getItem('expiryDate');
+        if(!token || !expiryDate || tokenExpired(expiryDate)) {
+            clearUser();
+            if(!validAnonymousPath(window.location.pathname)) {
+                this.props.history.push('/login');
+            }
+        } else {
+            this.getUser(token);
+        }
+    }
+
+    componentDidUpdate() {
+        var token = localStorage.getItem('token');
+        if(!this.state.user && token) {
+            this.getUser(token);
+        }
+    }
+
+    getUser = (token) => {
+        getCurrentUser(token)
+            .then(response => {
+                this.setState({
+                    user: response
+                });
+            })
     }
 
     componentWillUnmount() {
@@ -44,13 +71,11 @@ class DesktopNav extends React.Component {
     }
     
     logout = () => {
-        this.props.clearUser();
-        this.props.clearBooks();
-        this.props.clearCategories();
-        this.props.clearRatings();
+        clearUser();
         this.props.history.push('/');
 
         this.setState({
+            user: null,
             dropdownVisible: false
         });
     }
@@ -60,14 +85,14 @@ class DesktopNav extends React.Component {
             <nav id="desktop-nav" className="navbar">
                 <div className="container">
                     <div className="navbar-brand">
-                        <Link className="navbar-item" to={this.props.user ? `/shelf/${this.props.user.id}` : '/'}>
+                        <Link className="navbar-item" to={this.state.user ? `/shelf/${this.state.user.id}` : '/'}>
                             <img src="/bookshelf.png" alt="Small bookshelf" />
                         </Link>
                     </div>
                     <div className="navbar-menu">
                         <div className="navbar-end">
                             {
-                                !this.props.user ?
+                                !this.state.user ?
                                 <div className="navbar-item">
                                     <div className="buttons">
                                         <Link onClick={this.toggleBurger} className="button is-outlined" to="/register">
@@ -83,7 +108,7 @@ class DesktopNav extends React.Component {
                                     <div className={this.state.dropdownVisible ? "dropdown is-right is-active" : "dropdown is-right"}>
                                         <div className="dropdown-trigger">
                                         <button id="dropdown" onClick={this.toggleDropdown} className="button user-menu-actions desktop-nav-button">
-                                            <span id="dropdown">{this.props.user.email}</span>
+                                            <span id="dropdown">{this.state.user.email}</span>
                                             <span id="dropdown" className="icon is-small">
                                                 {
                                                     this.state.dropdownVisible ? 
@@ -96,7 +121,7 @@ class DesktopNav extends React.Component {
                                         </div>
                                         <div ref={this.setDropdownRef} className="dropdown-menu">
                                             <div className="dropdown-content">
-                                                <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to={`/shelf/${this.props.user.id}`}>
+                                                <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to={`/shelf/${this.state.user.id}`}>
                                                     Bookshelf
                                                 </NavLink>
                                                 <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/manage-books">
@@ -128,9 +153,4 @@ class DesktopNav extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
-    token: state.user.token,
-    user: state.user.user
-});
-
-export default connect(mapStateToProps, {clearUser, clearBooks, clearCategories, clearRatings})(withRouter(DesktopNav));
+export default withRouter(DesktopNav);

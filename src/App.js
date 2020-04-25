@@ -1,8 +1,7 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { setUser, clearUser } from './actions/user-actions';
+import { clearUser } from './actions/user-actions';
 
 import Home from './components/home/home';
 import Shelf from './components/shelf/shelf';
@@ -31,52 +30,10 @@ import ResetPassword from './components/reset-password/reset-password';
 
 class App extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      redirectToLogin: false
-    };
-  }
-
   componentDidMount() {
     if(process.env.REACT_APP_ERROR) {
-      this.props.clearUser();
-      return;
+      clearUser();
     }
-
-    var token = localStorage.getItem('token');
-    var expiryDate = localStorage.getItem('expiryDate');
-    if(!token || !expiryDate || this.tokenExpired(expiryDate)) {
-      this.props.clearUser();
-      if(!this.validAnonymousPath(window.location.pathname)) {
-        this.setState({
-          redirectToLogin: true
-        });
-      }
-    } else {
-      this.refreshUser(token, expiryDate);
-    }
-  }
-
-  tokenExpired(expiryDate) {
-    var expiry = new Date(parseFloat(expiryDate) * 1000);
-    var current = new Date();
-    return expiry < current;
-  }
-
-  validAnonymousPath(pathname) {
-    return pathname === '/' || pathname === '/forgot-password' || pathname.includes('shelf') || pathname.includes('reset-password');
-  }
-
-  refreshUser(token, expiryDate) {
-    var user = {
-      id: localStorage.getItem('userId'),
-      email: localStorage.getItem('userEmail'),
-      isAdmin: localStorage.getItem('userIsAdmin')
-    };
-    
-    var data = { token, expiryDate, user };
-    this.props.setUser(data);
   }
 
   render() {
@@ -86,10 +43,6 @@ class App extends React.Component {
             <div className="screen-content">
               <Navigation />
                 <div className="container app-container">
-                  {
-                    this.state.redirectToLogin &&
-                    <Redirect to="/login"/>
-                  }
                   {
                     process.env.REACT_APP_ERROR ?
                     <div>
@@ -133,4 +86,4 @@ class App extends React.Component {
   }
 }
 
-export default connect(null, {setUser, clearUser})(App);
+export default App;

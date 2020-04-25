@@ -1,13 +1,9 @@
 import React from 'react';
-import { Link } from "react-router-dom";
-import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
-import { deleteUser, clearUser, clearError } from '../../actions/user-actions';
-import { clearBooks } from '../../actions/book-actions';
-import { clearCategories } from '../../actions/category-actions';
-import { clearRatings } from '../../actions/rating-actions';
+import { deleteUser } from '../../actions/user-actions';
 
 class DeleteAccount extends React.Component {
 
@@ -16,31 +12,11 @@ class DeleteAccount extends React.Component {
         this.state = {
             submitting: false,
             error: null
-        }
+        };
     }
 
     componentDidMount() {
         window.scrollTo(0, 0);
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if(nextProps.error) {
-            this.setState({
-                error: nextProps.error,
-                submitting: false
-            });
-            this.props.clearError();
-        } else if(this.state.submitting && nextProps.deletedUser) {
-            this.setState({
-                submitting: false
-            });
-            
-            this.props.clearUser();
-            this.props.clearBooks();
-            this.props.clearCategories();
-            this.props.clearRatings();
-            this.props.history.push('/');
-        }
     }
 
     handleSubmit = (event) => {
@@ -51,7 +27,28 @@ class DeleteAccount extends React.Component {
 
         var token = localStorage.getItem('token');
         var userId = localStorage.getItem('userId');
-        this.props.deleteUser(userId, token);
+
+        deleteUser(userId, token)
+            .then(() => {
+                this.handleSuccess();
+            })
+            .catch(error => {
+                this.handleError(error);
+            })
+    }
+
+    handleSuccess = () => {
+        this.setState({
+            submitting: false
+        });
+        this.props.history.push('/');
+    }
+
+    handleError = (error) => {
+        this.setState({
+            error: error,
+            submitting: false
+        });
     }
 
     render() {
@@ -89,9 +86,4 @@ class DeleteAccount extends React.Component {
     }
 }
 
-const mapStateToProps = state => ({
-    deletedUser: state.user.deletedUser,
-    error: state.user.error
-});
-
-export default connect(mapStateToProps, {deleteUser, clearUser, clearError, clearBooks, clearCategories, clearRatings})(withRouter(DeleteAccount));
+export default withRouter(DeleteAccount);
