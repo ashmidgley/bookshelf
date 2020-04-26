@@ -23,10 +23,12 @@ class DesktopNav extends React.Component {
         var token = localStorage.getItem('token');
         var expiryDate = localStorage.getItem('expiryDate');
         if(!token || !expiryDate || tokenExpired(expiryDate)) {
-            clearUser();
-            if(!validAnonymousPath(window.location.pathname)) {
-                this.props.history.push('/login');
-            }
+            clearUser()
+                .then(() => {
+                    if(!validAnonymousPath(window.location.pathname)) {
+                        this.props.history.push('/login');
+                    }
+                });
         } else {
             this.getUser(token);
         }
@@ -36,6 +38,10 @@ class DesktopNav extends React.Component {
         var token = localStorage.getItem('token');
         if(!this.state.user && token) {
             this.getUser(token);
+        } else if(this.state.user && !token) {
+            this.setState({
+                user: null
+            });
         }
     }
 
@@ -71,13 +77,14 @@ class DesktopNav extends React.Component {
     }
     
     logout = () => {
-        clearUser();
-        this.props.history.push('/');
-
-        this.setState({
-            user: null,
-            dropdownVisible: false
-        });
+        clearUser()
+            .then(() => {
+                this.setState({
+                    user: null,
+                    dropdownVisible: false
+                });
+                this.props.history.push('/');
+            });
     }
 
     render() {

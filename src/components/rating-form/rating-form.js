@@ -111,7 +111,9 @@ class RatingForm extends React.Component {
                     </div>
                     {
                         this.state.success &&
-                        <div className="notification is-success">Successfully {this.state.action.toLowerCase()}d rating.</div>
+                        <div className="notification is-success">
+                            Successfully {this.state.action.toLowerCase()}d rating. <Link to="/manage-ratings">View?</Link>
+                        </div>
                     }
                     {
                         this.state.error && 

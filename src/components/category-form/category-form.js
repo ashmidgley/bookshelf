@@ -120,7 +120,7 @@ class CategoryForm extends React.Component {
                     {
                         this.state.success && 
                         <div className="notification is-success">
-                            Successfully {this.state.action.toLowerCase()}d category.
+                            Successfully {this.state.action.toLowerCase()}d category. <Link to="/manage-categories">View?</Link>
                         </div>
                     }
                     {

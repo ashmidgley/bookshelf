@@ -30,11 +30,6 @@ class Shelf extends React.Component {
     }
 
     componentDidMount() {
-        if(this.props.match.params.id != this.state.userId) {
-            window.location.reload(false);
-            return;
-        }
-
         window.scrollTo(0, 0);
         this.checkDimensions();
         window.addEventListener("resize", this.checkDimensions);
@@ -101,6 +96,13 @@ class Shelf extends React.Component {
 
     componentWillUnmount() {
         window.removeEventListener("resize", this.checkDimensions);
+    }
+
+    componentDidUpdate() {
+        var id = parseInt(this.props.match.params.id);
+        if(id !== this.state.userId) {
+            window.location.reload(false);
+        }
     }
 
     searchSubmit = (e) => {

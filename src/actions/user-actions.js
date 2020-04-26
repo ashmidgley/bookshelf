@@ -121,7 +121,11 @@ export const deleteUser = (userId, token) => {
 }
 
 export const clearUser = () => {
-  localStorage.removeItem('token');
-  localStorage.removeItem('expiryDate');
-  localStorage.removeItem('userId');
+  return new Promise(
+    (resolve) => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('expiryDate');
+      localStorage.removeItem('userId');
+      resolve();
+  });
 }
