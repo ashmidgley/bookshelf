@@ -99,7 +99,7 @@ class MobileNav extends React.Component {
                             <span id="burger"></span>
                         </a>
                         <Link id="mobile-nav-icon" to={this.state.user ? `/shelf/${this.state.user.id}` : '/'} className="navbar-item">
-                            <img src="/bookshelf.png" alt="Small bookshelf" />
+                            <img src="/images/bookshelf.png" alt="Small bookshelf" />
                         </Link>
                         {
                             this.state.user ?

@@ -86,7 +86,7 @@ class DesktopNav extends React.Component {
                 <div className="container">
                     <div className="navbar-brand">
                         <Link className="navbar-item" to={this.state.user ? `/shelf/${this.state.user.id}` : '/'}>
-                            <img src="/bookshelf.png" alt="Small bookshelf" />
+                            <img src="/images/bookshelf.png" alt="Small bookshelf" />
                         </Link>
                     </div>
                     <div className="navbar-menu">
