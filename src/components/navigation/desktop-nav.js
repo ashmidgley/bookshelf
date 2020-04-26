@@ -4,7 +4,7 @@ import { withRouter, NavLink, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { getCurrentUser, clearUser } from '../../actions/user-actions';
-import { tokenExpired } from '../../helpers/action-helper';
+import { tokenExpired } from '../../helpers/auth-helper';
 import { validAnonymousPath } from '../../helpers/route-helper';
 
 class DesktopNav extends React.Component {
@@ -23,10 +23,12 @@ class DesktopNav extends React.Component {
         var token = localStorage.getItem('token');
         var expiryDate = localStorage.getItem('expiryDate');
         if(!token || !expiryDate || tokenExpired(expiryDate)) {
-            clearUser();
-            if(!validAnonymousPath(window.location.pathname)) {
-                this.props.history.push('/login');
-            }
+            clearUser()
+                .then(() => {
+                    if(!validAnonymousPath(window.location.pathname)) {
+                        this.props.history.push('/login');
+                    }
+                });
         } else {
             this.getUser(token);
         }
@@ -36,6 +38,10 @@ class DesktopNav extends React.Component {
         var token = localStorage.getItem('token');
         if(!this.state.user && token) {
             this.getUser(token);
+        } else if(this.state.user && !token) {
+            this.setState({
+                user: null
+            });
         }
     }
 
@@ -71,13 +77,14 @@ class DesktopNav extends React.Component {
     }
     
     logout = () => {
-        clearUser();
-        this.props.history.push('/');
-
-        this.setState({
-            user: null,
-            dropdownVisible: false
-        });
+        clearUser()
+            .then(() => {
+                this.setState({
+                    user: null,
+                    dropdownVisible: false
+                });
+                this.props.history.push('/');
+            });
     }
 
     render() {
@@ -86,7 +93,7 @@ class DesktopNav extends React.Component {
                 <div className="container">
                     <div className="navbar-brand">
                         <Link className="navbar-item" to={this.state.user ? `/shelf/${this.state.user.id}` : '/'}>
-                            <img src="/bookshelf.png" alt="Small bookshelf" />
+                            <img src="/images/bookshelf.png" alt="Small bookshelf" />
                         </Link>
                     </div>
                     <div className="navbar-menu">

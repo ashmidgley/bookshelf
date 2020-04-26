@@ -28,7 +28,8 @@ class SearchForm extends React.Component {
         self.setState({
             searching: true,
             searchBooks: null,
-            selectedBook: null
+            selectedBook: null,
+            error: null
         });
 
         var token = localStorage.getItem('token');
@@ -140,7 +141,7 @@ class SearchForm extends React.Component {
                                                                 <p>{book.author}</p>
                                                             </div>
                                                             <div id="search-image-column" className="column is-1">
-                                                                <img src={book.imageUrl} />
+                                                                <img src={book.imageUrl} alt="Book cover" />
                                                             </div>
                                                         </button>
                                                     )}

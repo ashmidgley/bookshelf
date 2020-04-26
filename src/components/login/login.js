@@ -45,7 +45,7 @@ class Login extends React.Component {
 
     handleError = (error) => {
         this.setState({
-            error: error.message,
+            error: error,
             submitting: false
         });
     }

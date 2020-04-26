@@ -7,7 +7,7 @@ class NoMatch extends React.Component {
     render() {
         return (
             <div className="not-found-container">
-                <img src="/not-found.png" alt="404 Not Found error"/>
+                <img src="/images/not-found.png" alt="404 Not Found error"/>
                 <p>Page not found. Return <Link to="/">home</Link>?</p>
             </div> 
         )

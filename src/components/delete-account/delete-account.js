@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
 import { deleteUser } from '../../actions/user-actions';
+import { clearUser } from '../../actions/user-actions';
 
 class DeleteAccount extends React.Component {
 
@@ -41,7 +42,11 @@ class DeleteAccount extends React.Component {
         this.setState({
             submitting: false
         });
-        this.props.history.push('/');
+        
+        clearUser()
+            .then(() => {
+                this.props.history.push('/');
+            });
     }
 
     handleError = (error) => {

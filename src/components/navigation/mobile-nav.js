@@ -4,7 +4,7 @@ import { withRouter, NavLink, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faAddressCard } from '@fortawesome/free-solid-svg-icons';
 import { getCurrentUser, clearUser } from '../../actions/user-actions';
-import { tokenExpired } from '../../helpers/action-helper';
+import { tokenExpired } from '../../helpers/auth-helper';
 import { validAnonymousPath } from '../../helpers/route-helper';
 
 class MobileNav extends React.Component {
@@ -23,10 +23,12 @@ class MobileNav extends React.Component {
         var token = localStorage.getItem('token');
         var expiryDate = localStorage.getItem('expiryDate');
         if(!token || !expiryDate || tokenExpired(expiryDate)) {
-            clearUser();
-            if(!validAnonymousPath(window.location.pathname)) {
-                this.props.history.push('/login');
-            }
+            clearUser()
+                .then(() => {
+                    if(!validAnonymousPath(window.location.pathname)) {
+                        this.props.history.push('/login');
+                    }
+                });
         } else {
             this.getUser(token);
         }
@@ -36,6 +38,10 @@ class MobileNav extends React.Component {
         var token = localStorage.getItem('token');
         if(!this.state.user && token) {
             this.getUser(token);
+        } else if(this.state.user && !token) {
+            this.setState({
+                user: null
+            });
         }
     }
 
@@ -78,13 +84,14 @@ class MobileNav extends React.Component {
     }
       
     logout = () => {
-        clearUser();
-        this.props.history.push('/');
-
-        this.setState({
-            user: null,
-            optionsVisible: false
-        });
+        clearUser()
+            .then(() => {
+                this.setState({
+                    user: null,
+                    optionsVisible: false
+                });
+                this.props.history.push('/');
+            });
     }
 
     render() {
@@ -99,7 +106,7 @@ class MobileNav extends React.Component {
                             <span id="burger"></span>
                         </a>
                         <Link id="mobile-nav-icon" to={this.state.user ? `/shelf/${this.state.user.id}` : '/'} className="navbar-item">
-                            <img src="/bookshelf.png" alt="Small bookshelf" />
+                            <img src="/images/bookshelf.png" alt="Small bookshelf" />
                         </Link>
                         {
                             this.state.user ?

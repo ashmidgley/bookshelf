@@ -91,7 +91,8 @@ class MyAccount extends React.Component {
                                 <div className="columns is-mobile my-account-columns">
                                     <div className="column">
                                         <div className="control">
-                                            <input className='input' type="text" value={this.state.user.email} readOnly />
+                                            <input className='input' type="text" readOnly 
+                                                value={this.state.user ? this.state.user.email : ''} />
                                         </div>
                                     </div>
                                     <div className="column is-2">
