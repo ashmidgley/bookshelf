@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { persistToken, createUserPayload } from '../helpers/action-helper';
+import { createUserPayload } from '../helpers/action-helper';
+import { persistToken } from '../helpers/auth-helper';
 
 let authUrl = process.env.REACT_APP_API_URL + '/auth';
 

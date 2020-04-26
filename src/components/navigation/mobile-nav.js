@@ -4,7 +4,7 @@ import { withRouter, NavLink, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faAddressCard } from '@fortawesome/free-solid-svg-icons';
 import { getCurrentUser, clearUser } from '../../actions/user-actions';
-import { tokenExpired } from '../../helpers/action-helper';
+import { tokenExpired } from '../../helpers/auth-helper';
 import { validAnonymousPath } from '../../helpers/route-helper';
 
 class MobileNav extends React.Component {
