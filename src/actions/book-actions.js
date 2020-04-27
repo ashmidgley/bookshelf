@@ -21,12 +21,11 @@ export const fetchBooks = (userId) => {
     });
 };
 
-export const getBook = (id, token) => {
+export const getBook = (id) => {
   var url = `${bookUrl}/${id}`;
-  var config = createConfig(token);
   return new Promise(
     (resolve, reject) => {
-      axios.get(url, config)
+      axios.get(url)
         .then(response => {
           resolve(response.data);
         })

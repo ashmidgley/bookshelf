@@ -24,8 +24,7 @@ class CategoryForm extends React.Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         if(this.state.categoryId) {
-            var token = localStorage.getItem('token');
-            getCategory(this.state.categoryId, token)
+            getCategory(this.state.categoryId)
                 .then(response => {
                     this.setState({
                         category: response,

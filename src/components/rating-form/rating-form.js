@@ -24,8 +24,7 @@ class RatingForm extends React.Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         if(this.state.ratingId) {
-            var token = localStorage.getItem('token');
-            getRating(this.state.ratingId, token)
+            getRating(this.state.ratingId)
                 .then(response => {
                     this.setState({
                         rating: response,

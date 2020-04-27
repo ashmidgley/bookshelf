@@ -19,12 +19,11 @@ export const fetchRatings = (userId) => {
   });
 };
 
-export const getRating = (id, token) => {
+export const getRating = (id) => {
   var url = `${ratingUrl}/${id}`;
-  var config = createConfig(token);
   return new Promise(
     (resolve, reject) => {
-      axios.get(url, config)
+      axios.get(url)
         .then(response => {
           resolve(response.data);
         })
