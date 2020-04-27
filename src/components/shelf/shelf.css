@@ -81,7 +81,6 @@
     margin-top: -30px;
 }
 
-/* Mobile */
 @media only screen and (max-width: 600px) {
     .shelf-container {
         padding-top: 0;
@@ -100,7 +99,6 @@
         border-radius: 0;
         transition: none;
         box-shadow: none;
-        height: 150px;
         width: 100%;
         object-fit: cover;
     }
@@ -125,15 +123,8 @@
     .shelf-tile {
         margin-bottom: 0;
     }
-
-    /* .shelf-menu-items {
-        margin-top: 6px;
-        margin-bottom: 25px;
-        border-radius: 0;
-    } */
 }
 
-/* Between mobile and desktop */
 @media only screen and (min-width: 769px) and (max-width: 1005px) {
     .year-toggle-container {
         margin-left: 20px;
