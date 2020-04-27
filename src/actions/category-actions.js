@@ -19,12 +19,11 @@ export const fetchCategories = (userId) => {
   });
 };
 
-export const getCategory = (id, token) => {
+export const getCategory = (id) => {
   var url = `${categoryUrl}/${id}`;
-  var config = createConfig(token);
   return new Promise(
     (resolve, reject) => {
-      axios.get(url, config)
+      axios.get(url)
         .then(response => {
           resolve(response.data);
         })

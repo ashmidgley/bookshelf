@@ -30,9 +30,8 @@ class UpdateBook extends React.Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        var token = localStorage.getItem('token');
         var userId = localStorage.getItem('userId');
-        getBook(this.state.bookId, token)
+        getBook(this.state.bookId)
             .then(response => {
                 var book = response;
                 fetchCategories(userId)

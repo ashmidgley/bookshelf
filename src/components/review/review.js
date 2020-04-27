@@ -25,14 +25,13 @@ class Review extends React.Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        var token = localStorage.getItem('token');
-        getBook(this.state.bookId, token)
+        getBook(this.state.bookId)
             .then(response => {
                 var book = response;
-                getCategory(book.categoryId, token)
+                getCategory(book.categoryId)
                     .then(response => {
                         var category = response;
-                        getRating(book.ratingId, token)
+                        getRating(book.ratingId)
                             .then(response => {
                                 var rating = response;
                                 this.handleSuccess(book, category, rating);
