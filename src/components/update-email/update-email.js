@@ -1,10 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
 import { validateEmail } from '../../helpers/field-validator';
-import { updateEmail } from '../../actions/user-actions';
+import { updateEmail, clearUser } from '../../actions/user-actions';
 
 class UpdateEmail extends React.Component {
 
@@ -12,7 +12,6 @@ class UpdateEmail extends React.Component {
         super(props);
         this.state = {
             submitting: false,
-            success: false,
             error: null
         }
     }
@@ -35,11 +34,13 @@ class UpdateEmail extends React.Component {
 
         updateEmail(data, token)
             .then(() => {
-                this.setState({
-                    submitting: false,
-                    success: true
-                });
-                window.scrollTo({ top: 0, behavior: 'smooth' });
+                clearUser()
+                    .then(() => {
+                        this.setState({
+                            submitting: false
+                        });
+                        this.props.history.push('/login');
+                    });
             })
             .catch(error => {
                 this.handleError(error);
@@ -64,10 +65,6 @@ class UpdateEmail extends React.Component {
                             <FontAwesomeIcon icon={faMask} className="mask-icon" size="lg"/>
                         </div>
                     </div>
-                    {
-                        this.state.success &&
-                        <div className="notification is-success">Successfully updated email.</div>
-                    }
                     <Formik
                         initialValues=
                         {
@@ -118,4 +115,4 @@ class UpdateEmail extends React.Component {
     }
 }
 
-export default UpdateEmail;
+export default withRouter(UpdateEmail);
