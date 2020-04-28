@@ -12,12 +12,6 @@ export const createConfig = (token) => {
 export const createUserPayload = (token) => {
   var payload = parseJwt(token);
   var expiryDate = payload.exp;
-
-  var user = {
-    id: parseInt(payload.Id),
-    email: payload.Email,
-    isAdmin: payload.IsAdmin === 'True'
-  };
-
-  return { token, expiryDate, user };
+  var id = parseInt(payload.Id);
+  return { token, expiryDate, id };
 }

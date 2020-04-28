@@ -30,7 +30,6 @@ class UpdateEmail extends React.Component {
 
         var token = localStorage.getItem('token');
         var data = {
-            id: parseInt(localStorage.getItem('userId')),
             email: values.email
         };
 

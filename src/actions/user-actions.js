@@ -34,23 +34,6 @@ export const getUser = (id, token) => {
           reject(message);
         });
   });
-} 
-
-export const getCurrentUser = (token) => {
-  var url = `${userUrl}/current`;
-  var config = createConfig(token);
-  return new Promise(
-    (resolve, reject) => {
-      axios.get(url, config)
-        .then(response => {
-          resolve(response.data);
-        })
-        .catch(error => {
-          console.error(error);
-          var message = error.response ? error.response.data : error.message;
-          reject(message);
-        });
-  });
 }
 
 export const updateUser = (user, token) => {
@@ -125,7 +108,6 @@ export const clearUser = () => {
     (resolve) => {
       localStorage.removeItem('token');
       localStorage.removeItem('expiryDate');
-      localStorage.removeItem('userId');
       resolve();
   });
 }

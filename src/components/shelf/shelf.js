@@ -6,6 +6,7 @@ import { Helmet } from 'react-helmet';
 import { fetchBooks } from '../../actions/book-actions';
 import { fetchCategories } from '../../actions/category-actions';
 import { fetchRatings } from '../../actions/rating-actions';
+import { parseUser } from '../../helpers/auth-helper';
 
 class Shelf extends React.Component {
 
@@ -13,7 +14,7 @@ class Shelf extends React.Component {
         super(props);
         this.state = {
             userId: parseInt(props.match.params.id),
-            storageId: parseInt(localStorage.getItem('userId')),
+            storageId: null,
             columnClass: 'column is-one-third child',
             books: null,
             categories: null,
@@ -34,6 +35,18 @@ class Shelf extends React.Component {
         this.checkDimensions();
         window.addEventListener("resize", this.checkDimensions);
 
+        var token = localStorage.getItem("token");
+        if(token) {
+            var user = parseUser(token);
+            this.setState({
+                storageId: user.id
+            });
+        }
+        
+        this.getShelfData();
+    }
+
+    getShelfData() {
         fetchBooks(this.state.userId)
             .then(response => {
                 var books = response;

@@ -36,11 +36,11 @@ class Register extends React.Component {
             });
     }
 
-    handleSuccess = (user) => {
+    handleSuccess = (userId) => {
         this.setState({ 
             submitting: false
         });
-        this.props.history.push(`/shelf/${user.id}`);
+        this.props.history.push(`/shelf/${userId}`);
     }
 
     handleError = (error) => {

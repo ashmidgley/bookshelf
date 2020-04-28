@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { customStyles } from '../../helpers/custom-modal';
-import { fetchRatings, removeRating } from '../../actions/rating-actions';
+import { fetchCurrentUserRatings, removeRating } from '../../actions/rating-actions';
 
 class ManageRatings extends React.Component {
 
@@ -25,8 +25,8 @@ class ManageRatings extends React.Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        var userId = localStorage.getItem('userId');
-        fetchRatings(userId)
+        var token = localStorage.getItem("token");
+        fetchCurrentUserRatings(token)
             .then(response => {
                 this.setState({
                     ratings: response,

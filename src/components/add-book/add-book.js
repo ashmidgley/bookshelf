@@ -7,8 +7,8 @@ import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { createBook } from '../../actions/book-actions';
-import { fetchCategories } from '../../actions/category-actions';
-import { fetchRatings } from '../../actions/rating-actions';
+import { fetchCurrentUserCategories } from '../../actions/category-actions';
+import { fetchCurrentUserRatings } from '../../actions/rating-actions';
 import { validImage } from '../../helpers/image-helper';
 
 class AddBook extends React.Component {
@@ -37,11 +37,11 @@ class AddBook extends React.Component {
             });
         }
 
-        var userId = localStorage.getItem('userId');
-        fetchCategories(userId)
+        var token = localStorage.getItem("token");
+        fetchCurrentUserCategories(token)
             .then(response => {
                 var categories = response;
-                fetchRatings(userId)
+                fetchCurrentUserRatings(token)
                     .then(response => {
                         var ratings = response;
                         this.setState({
@@ -73,7 +73,6 @@ class AddBook extends React.Component {
         });
 
         var newBook = {
-            userId: parseInt(localStorage.getItem('userId')),
             title: values.title,
             author: values.author,
             imageUrl: values.imageUrl,

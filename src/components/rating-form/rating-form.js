@@ -49,30 +49,38 @@ class RatingForm extends React.Component {
         });
         
         var rating = {
-            userId: parseInt(localStorage.getItem('userId')),
             description: values.description,
             code: values.code
         };
         
         var token = localStorage.getItem('token');
         if(!this.props.match.params.id) {
-            createRating(rating, token)
-                .then(() => {
-                    this.handleSuccess();
-                })
-                .catch(error => {
-                    this.handleError(error);
-                });
+            this.createRating(rating, token);
         } else {
             rating.id = this.state.rating.id;
-            updateRating(rating, token)
-                .then(() => {
-                    this.handleSuccess();
-                })
-                .catch(error => {
-                    this.handleError(error);
-                });
+            rating.userId = this.state.rating.userId;
+            this.updateRating(rating, token);
         }
+    }
+
+    createRating(rating, token) {
+        createRating(rating, token)
+            .then(() => {
+                this.handleSuccess();
+            })
+            .catch(error => {
+                this.handleError(error);
+            });
+    }
+
+    updateRating(rating, token) {
+        updateRating(rating, token)
+            .then(() => {
+                this.handleSuccess();
+            })
+            .catch(error => {
+                this.handleError(error);
+            });
     }
 
     handleSuccess = () => {

@@ -19,6 +19,23 @@ export const fetchRatings = (userId) => {
   });
 };
 
+export const fetchCurrentUserRatings = (token) => {
+  var url = `${ratingUrl}/user`;
+  var config = createConfig(token);
+  return new Promise(
+    (resolve, reject) => {
+      axios.get(url, config)
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(error => {
+          console.error(error);
+          var message = error.response ? error.response.data : error.message;
+          reject(message);
+        })
+  });
+};
+
 export const getRating = (id) => {
   var url = `${ratingUrl}/${id}`;
   return new Promise(

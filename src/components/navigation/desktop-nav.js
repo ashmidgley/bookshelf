@@ -3,8 +3,8 @@ import './desktop-nav.css';
 import { withRouter, NavLink, Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
-import { getCurrentUser, clearUser } from '../../actions/user-actions';
-import { tokenExpired } from '../../helpers/auth-helper';
+import { clearUser } from '../../actions/user-actions';
+import { tokenExpired, parseUser } from '../../helpers/auth-helper';
 import { validAnonymousPath } from '../../helpers/route-helper';
 
 class DesktopNav extends React.Component {
@@ -30,28 +30,23 @@ class DesktopNav extends React.Component {
                     }
                 });
         } else {
-            this.getUser(token);
+            this.setState({
+                user: parseUser(token)
+            });
         }
     }
 
     componentDidUpdate() {
         var token = localStorage.getItem('token');
         if(!this.state.user && token) {
-            this.getUser(token);
+            this.setState({
+                user: parseUser(token)
+            });
         } else if(this.state.user && !token) {
             this.setState({
                 user: null
             });
         }
-    }
-
-    getUser = (token) => {
-        getCurrentUser(token)
-            .then(response => {
-                this.setState({
-                    user: response
-                });
-            })
     }
 
     componentWillUnmount() {
