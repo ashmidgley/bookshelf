@@ -49,7 +49,6 @@ class CategoryForm extends React.Component {
         });
 
         var category = {
-            userId: parseInt(localStorage.getItem('userId')),
             description: values.description,
             code: values.code
         };
@@ -59,11 +58,12 @@ class CategoryForm extends React.Component {
             this.createCategory(category, token);
         } else {
             category.id = this.state.category.id;
+            category.userId = this.state.category.userId;
             this.updateCategory(category, token);
         }
     }
 
-    createCategory = (category, token) => {
+    createCategory(category, token) {
         createCategory(category, token)
             .then(() => {
                 this.handleSuccess();
@@ -73,7 +73,7 @@ class CategoryForm extends React.Component {
             });
     }
 
-    updateCategory = (category, token) => {
+    updateCategory(category, token) {
         updateCategory(category, token)
             .then(() => {
                 this.handleSuccess();

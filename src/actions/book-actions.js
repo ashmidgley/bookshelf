@@ -21,6 +21,24 @@ export const fetchBooks = (userId) => {
     });
 };
 
+export const fetchCurrentUserBooks = (token) => {
+  var url = `${bookUrl}/user`;
+  var config = createConfig(token);
+  return new Promise(
+    (resolve, reject) => {
+      axios.get(url, config)
+        .then(response => {
+          var data = response.data.sort((a, b) => moment(b.finishedOn).valueOf() - moment(a.finishedOn).valueOf());
+          resolve(data);
+        })
+        .catch(error => {
+          console.error(error);
+          var message = error.response ? error.response.data : error.message;
+          reject(message);
+        })
+    });
+};
+
 export const getBook = (id) => {
   var url = `${bookUrl}/${id}`;
   return new Promise(

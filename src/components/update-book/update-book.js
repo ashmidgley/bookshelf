@@ -7,8 +7,8 @@ import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { getBook, updateBook } from '../../actions/book-actions';
-import { fetchCategories } from '../../actions/category-actions';
-import { fetchRatings } from '../../actions/rating-actions';
+import { fetchCurrentUserCategories } from '../../actions/category-actions';
+import { fetchCurrentUserRatings } from '../../actions/rating-actions';
 import { validImage } from '../../helpers/image-helper';
 
 class UpdateBook extends React.Component {
@@ -30,14 +30,14 @@ class UpdateBook extends React.Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        var userId = localStorage.getItem('userId');
+        var token = localStorage.getItem("token");
         getBook(this.state.bookId)
             .then(response => {
                 var book = response;
-                fetchCategories(userId)
+                fetchCurrentUserCategories(token)
                     .then(response => {
                         var categories = response;
-                        fetchRatings(userId)
+                        fetchCurrentUserRatings(token)
                             .then(response => {
                                 var ratings = response;
                                 this.setState({
@@ -63,7 +63,7 @@ class UpdateBook extends React.Component {
 
         var book = {
             id: this.state.book.id,
-            userId: parseInt(localStorage.getItem('userId')),
+            userId: this.state.book.userId,
             categoryId: values.categoryId,
             ratingId: values.ratingId,
             imageUrl: values.imageUrl,

@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { customStyles } from '../../helpers/custom-modal';
-import { fetchCategories, removeCategory } from '../../actions/category-actions';
+import { fetchCurrentUserCategories, removeCategory } from '../../actions/category-actions';
 
 class ManageCategories extends React.Component {
 
@@ -25,8 +25,8 @@ class ManageCategories extends React.Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        var userId = localStorage.getItem('userId');
-        fetchCategories(userId)
+        var token = localStorage.getItem("token");
+        fetchCurrentUserCategories(token)
             .then(response => {
                 this.setState({
                     categories: response,

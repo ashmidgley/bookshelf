@@ -11,8 +11,8 @@ export const login = (login) => {
             axios.post(url, login)
                 .then(response => {
                     var payload = createUserPayload(response.data);
-                    persistToken(payload.token, payload.expiryDate, payload.user.id);
-                    resolve(payload.user);
+                    persistToken(payload.token, payload.expiryDate);
+                    resolve(payload.id);
                 })
                 .catch(error => {
                     console.error(error);
@@ -29,8 +29,8 @@ export const register = (register) => {
         axios.post(url, register)
             .then(response => {
                 var payload = createUserPayload(response.data);
-                persistToken(payload.token, payload.expiryDate, payload.user.id);
-                resolve(payload.user);
+                persistToken(payload.token, payload.expiryDate);
+                resolve(payload.id);
             })
             .catch(error => {
                 console.error(error);

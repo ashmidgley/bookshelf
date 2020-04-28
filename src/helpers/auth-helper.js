@@ -5,10 +5,19 @@ export const parseJwt = (token) => {
     return JSON.parse(jsonPayload);
 };
 
-export const persistToken = (token, expiryDate, userId) => {
+export const parseUser = (token) => {
+    var data = parseJwt(token);
+    var user = {
+        id: parseInt(data.Id),
+        email: data.Email,
+        isAdmin: data.IsAdmin === 'True'
+    };
+    return user;
+}
+
+export const persistToken = (token, expiryDate) => {
     localStorage.setItem('token', token);
     localStorage.setItem('expiryDate', expiryDate);
-    localStorage.setItem('userId', userId);
 }
 
 export const tokenExpired = (expiryDate) => {

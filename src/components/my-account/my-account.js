@@ -5,7 +5,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
-import { getCurrentUser } from '../../actions/user-actions';
+import { parseUser } from '../../helpers/auth-helper';
 
 class MyAccount extends React.Component {
 
@@ -13,7 +13,7 @@ class MyAccount extends React.Component {
         super(props);
         this.state = {
             user: null,
-            shelfPath: this.getShelfPath(),
+            shelfPath: null,
             copyText: null,
             loading: true,
             error: null
@@ -22,26 +22,14 @@ class MyAccount extends React.Component {
 
     componentDidMount() {
         var token = localStorage.getItem('token');
-        getCurrentUser(token)
-            .then(response => {
-                this.setState({
-                    user: response,
-                    loading: false
-                })
-            })
-            .catch(error => {
-                this.setState({
-                    error: error,
-                    loading: false
-                })
-            });
+        var user = parseUser(token);
+        this.setState({
+            user: user,
+            shelfPath: `${window.location.protocol}//${window.location.host}/shelf/${user.id}`,
+            loading: false
+        });
     }
 
-    getShelfPath() {
-        var userId = localStorage.getItem('userId');
-        return `${window.location.protocol}//${window.location.host}/shelf/${userId}`;
-    }
-    
     copyToClipboard = (e) => {
         e.preventDefault();
         this.shelfPath.select();

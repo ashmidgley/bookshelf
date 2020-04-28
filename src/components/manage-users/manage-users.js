@@ -6,7 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { customStyles } from '../../helpers/custom-modal';
-import { getCurrentUser, fetchUsers, deleteUser } from '../../actions/user-actions';
+import { fetchUsers, deleteUser } from '../../actions/user-actions';
+import { parseUser } from '../../helpers/auth-helper';
 
 class ManageUsers extends React.Component {
 
@@ -25,24 +26,18 @@ class ManageUsers extends React.Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         var token = localStorage.getItem('token');
-        getCurrentUser(token)
-            .then(response => {
-                var user = response;
-                if(user.isAdmin) {
-                    fetchUsers(token)
-                        .then(response => {
-                            this.setState({
-                                users: response,
-                                loading: false
-                            });
-                        })
-                } else {
-                    this.props.history.push('/');
-                }
-            })
-            .catch(error => {
-                this.handleError(error);
-            });
+        var user = parseUser(token);
+        if(user.isAdmin) {
+            fetchUsers(token)
+                .then(response => {
+                    this.setState({
+                        users: response,
+                        loading: false
+                    });
+                })
+        } else {
+            this.props.history.push('/');
+        }
     }
 
     handleSubmit = (event) => {

@@ -4,10 +4,27 @@ import { createConfig } from '../helpers/action-helper';
 let categoryUrl = process.env.REACT_APP_API_URL + '/categories';
 
 export const fetchCategories = (userId) => {
-  var url = `${categoryUrl}/user/${userId}`
+  var url = `${categoryUrl}/user/${userId}`;
   return new Promise(
     (resolve, reject) => {
       axios.get(url)
+        .then(response => {
+          resolve(response.data);
+        })
+        .catch(error => {
+          console.error(error);
+          var message = error.response ? error.response.data : error.message;
+          reject(message);
+        })
+  });
+};
+
+export const fetchCurrentUserCategories = (token) => {
+  var url = `${categoryUrl}/user`;
+  var config = createConfig(token);
+  return new Promise(
+    (resolve, reject) => {
+      axios.get(url, config)
         .then(response => {
           resolve(response.data);
         })

@@ -6,7 +6,7 @@ import { Helmet } from 'react-helmet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { customStyles } from '../../helpers/custom-modal';
-import { fetchBooks, removeBook } from '../../actions/book-actions';
+import { fetchCurrentUserBooks, removeBook } from '../../actions/book-actions';
 
 class ManageBooks extends React.Component {
 
@@ -25,8 +25,8 @@ class ManageBooks extends React.Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        var userId = localStorage.getItem('userId');
-        fetchBooks(userId)
+        var token = localStorage.getItem("token");
+        fetchCurrentUserBooks(token)
             .then(response => {
                 this.setState({
                     books: response,

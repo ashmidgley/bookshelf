@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
-import { deleteUser } from '../../actions/user-actions';
-import { clearUser } from '../../actions/user-actions';
+import { clearUser, deleteUser } from '../../actions/user-actions';
+import { parseUser } from '../../helpers/auth-helper';
 
 class DeleteAccount extends React.Component {
 
@@ -27,9 +27,8 @@ class DeleteAccount extends React.Component {
         });
 
         var token = localStorage.getItem('token');
-        var userId = localStorage.getItem('userId');
-
-        deleteUser(userId, token)
+        var user = parseUser(token);
+        deleteUser(user.id, token)
             .then(() => {
                 this.handleSuccess();
             })

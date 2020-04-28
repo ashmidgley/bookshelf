@@ -29,8 +29,7 @@ class UpdatePassword extends React.Component {
         });
 
         var token = localStorage.getItem('token');
-        var data = { 
-            id: parseInt(localStorage.getItem('userId')),
+        var data = {
             password: values.password
         };
 
