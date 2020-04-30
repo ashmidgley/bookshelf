@@ -31,23 +31,42 @@ class UpdateBook extends React.Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         var token = localStorage.getItem("token");
-        getBook(this.state.bookId)
+        this.getBook(this.state.bookId);
+        this.getCategories(token);
+        this.getRatings(token);
+    }
+
+    getBook = (id) => {
+        getBook(id)
             .then(response => {
-                var book = response;
-                fetchCurrentUserCategories(token)
-                    .then(response => {
-                        var categories = response;
-                        fetchCurrentUserRatings(token)
-                            .then(response => {
-                                var ratings = response;
-                                this.setState({
-                                    book: book,
-                                    categories: categories,
-                                    ratings: ratings,
-                                    loading: false
-                                });
-                            })
-                    })
+                this.setState({
+                    book: response,
+                    loading: false
+                });
+            })
+            .catch(error => {
+                this.handleError(error);
+            });
+    }
+
+    getCategories = (token) => {
+        fetchCurrentUserCategories(token)
+            .then(response => {
+                this.setState({
+                    categories: response
+                });
+            })
+            .catch(error => {
+                this.handleError(error);
+            });
+    }
+
+    getRatings = (token) => {
+        fetchCurrentUserRatings(token)
+            .then(response => {
+                this.setState({
+                    ratings: response
+                });
             })
             .catch(error => {
                 this.handleError(error);
@@ -75,6 +94,10 @@ class UpdateBook extends React.Component {
         };
         
         var token = localStorage.getItem('token');
+        this.updateBook(book, token);
+    }
+
+    updateBook = (book, token) => {
         updateBook(book, token)
             .then(() => {
                 this.setState({

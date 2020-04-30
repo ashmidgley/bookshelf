@@ -25,7 +25,11 @@ class ForgotPassword extends React.Component {
             submitting: true
         });
 
-        sendResetToken(values.email)
+        this.sendResetToken(values.email);
+    }
+
+    sendResetToken(email) {
+        sendResetToken(email)
             .then(() => {
                 this.handleSuccess();
             })

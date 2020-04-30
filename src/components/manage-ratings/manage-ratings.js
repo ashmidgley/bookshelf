@@ -26,6 +26,10 @@ class ManageRatings extends React.Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         var token = localStorage.getItem("token");
+        this.fetchRatings(token);
+    }
+
+    fetchRatings = (token) => {
         fetchCurrentUserRatings(token)
             .then(response => {
                 this.setState({
@@ -47,7 +51,11 @@ class ManageRatings extends React.Component {
         });
 
         var token = localStorage.getItem('token');
-        removeRating(this.state.selectedRatingId, token)
+        this.removeRating(this.state.selectedRatingId, token);
+    }
+
+    removeRating = (ratingId, token) => {
+        removeRating(ratingId, token)
             .then(response => {
                 var oldRating = this.state.ratings.find(b => b.id === response.id);
                 var index = this.state.ratings.indexOf(oldRating);

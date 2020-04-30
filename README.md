@@ -1,5 +1,5 @@
 # Bookshelf
-Midway through last year I found myself between jobs and reading more than usual. I was after a cool way to keep an eye on the stuff I was reading but none of the available options really took my fancy. [This](https://bookshelf.co.nz) is my crack at something a bit smaller and simpler. You can share your shelf with others, customize the categories/ratings that you add books to and manage your account.<br/><br/><br />
+Midway through last year I found myself between jobs and reading more than usual so I started building [this](https://bookshelf.co.nz) to keep an eye on the stuff I had read. You can share your shelf with others, customize the categories/ratings that you add books to and manage your account.<br/><br/><br />
 
 ![alt Mobile](public/images/mobile.png?raw=true "Mobile")<br/><br/><br/>
 ![alt Desktop](public/images/desktop.png?raw=true "Desktop")<br/><br/><br/>
@@ -24,4 +24,3 @@ I also wrote a couple of scripts that could be useful if you're working with the
  - [Build and release API](https://github.com/ashmidgley/bookshelf-api/blob/master/Bookshelf.Core/release.sh)
  - [Backup database](https://gist.github.com/ashmidgley/694046e24c5218bfd6eca94c01e8151c)
  - [Restore database](https://gist.github.com/ashmidgley/00a9d9a1a460838fa073675a51388c4a)
- - [Other database commands](https://gist.github.com/ashmidgley/7cb251c87a29beaaede1909024bee650)

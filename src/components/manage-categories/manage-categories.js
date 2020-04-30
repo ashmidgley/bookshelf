@@ -26,6 +26,10 @@ class ManageCategories extends React.Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         var token = localStorage.getItem("token");
+        this.fetchCategories(token);
+    }
+
+    fetchCategories = (token) => {
         fetchCurrentUserCategories(token)
             .then(response => {
                 this.setState({
@@ -47,7 +51,11 @@ class ManageCategories extends React.Component {
         });
 
         var token = localStorage.getItem('token');
-        removeCategory(this.state.selectedCategoryId, token)
+        this.removeCategory(this.state.selectedCategoryId, token);
+    }
+
+    removeCategory = (categoryId, token) => {
+        removeCategory(categoryId, token)
             .then(response => {
                 var oldCategory = this.state.categories.find(b => b.id === response.id);
                 var index = this.state.categories.indexOf(oldCategory);

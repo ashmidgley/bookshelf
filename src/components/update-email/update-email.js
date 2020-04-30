@@ -32,6 +32,10 @@ class UpdateEmail extends React.Component {
             email: values.email
         };
 
+        this.updateEmail(data, token);
+    }
+
+    updateEmail = (data, token) => {
         updateEmail(data, token)
             .then(() => {
                 clearUser()

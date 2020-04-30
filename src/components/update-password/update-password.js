@@ -33,6 +33,10 @@ class UpdatePassword extends React.Component {
             password: values.password
         };
 
+        this.updatePassword(data, token);
+    }
+
+    updatePassword = (data, token) => {
         updatePassword(data, token)
             .then(() => {
                 this.setState({
@@ -43,7 +47,7 @@ class UpdatePassword extends React.Component {
             })
             .catch(error => {
                 this.handleError(error);
-            })
+            });
     }
 
     handleError = (error) => {

@@ -28,16 +28,23 @@ class ManageUsers extends React.Component {
         var token = localStorage.getItem('token');
         var user = parseUser(token);
         if(user.isAdmin) {
-            fetchUsers(token)
-                .then(response => {
-                    this.setState({
-                        users: response,
-                        loading: false
-                    });
-                })
+            this.fetchUsers(token);
         } else {
             this.props.history.push('/');
         }
+    }
+
+    fetchUsers = (token) => {
+        fetchUsers(token)
+            .then(response => {
+                this.setState({
+                    users: response,
+                    loading: false
+                });
+            })
+            .catch(error => {
+                this.handleError(error);
+            });
     }
 
     handleSubmit = (event) => {
@@ -49,7 +56,11 @@ class ManageUsers extends React.Component {
         });
 
         var token = localStorage.getItem('token');
-        deleteUser(this.state.selectedUserId, token)
+        this.deleteUser(this.state.selectedUserId, token);
+    }
+
+    deleteUser = (userId, token) => {
+        deleteUser(userId, token)
             .then(response => {
                 var oldUser = this.state.users.find(b => b.id === response.id);
                 var index = this.state.users.indexOf(oldUser);

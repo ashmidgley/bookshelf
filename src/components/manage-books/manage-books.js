@@ -26,6 +26,10 @@ class ManageBooks extends React.Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         var token = localStorage.getItem("token");
+        this.fetchBooks(token);
+    }
+
+    fetchBooks = (token) => {
         fetchCurrentUserBooks(token)
             .then(response => {
                 this.setState({
@@ -47,7 +51,11 @@ class ManageBooks extends React.Component {
         });
 
         var token = localStorage.getItem('token');
-        removeBook(this.state.selectedBookId, token)
+        this.removeBook(this.state.selectedBookId, token);
+    }
+
+    removeBook = (bookId, token) => {
+        removeBook(bookId, token)
             .then(response => {
                 var oldBook = this.state.books.find(b => b.id === response.id);
                 var index = this.state.books.indexOf(oldBook);

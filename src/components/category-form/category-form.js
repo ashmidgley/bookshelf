@@ -24,21 +24,25 @@ class CategoryForm extends React.Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         if(this.state.categoryId) {
-            getCategory(this.state.categoryId)
-                .then(response => {
-                    this.setState({
-                        category: response,
-                        loading: false
-                    })
-                })
-                .catch(error => {
-                    this.handleError(error);
-                });
+            this.getCategory(this.state.categoryId);
         } else {
             this.setState({
                 loading: false
             });
         }
+    }
+
+    getCategory = (categoryId) => {
+        getCategory(categoryId)
+            .then(response => {
+                this.setState({
+                    category: response,
+                    loading: false
+                })
+            })
+            .catch(error => {
+                this.handleError(error);
+            });
     }
 
     submitEntry(values) {
