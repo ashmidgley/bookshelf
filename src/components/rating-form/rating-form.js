@@ -24,21 +24,25 @@ class RatingForm extends React.Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         if(this.state.ratingId) {
-            getRating(this.state.ratingId)
-                .then(response => {
-                    this.setState({
-                        rating: response,
-                        loading: false
-                    })
-                })
-                .catch(error => {
-                    this.handleError(error);
-                });
+            this.getRating(this.state.ratingId);
         } else {
             this.setState({
                 loading: false
-            })
+            });
         }
+    }
+
+    getRating = (ratingId) => {
+        getRating(ratingId)
+            .then(response => {
+                this.setState({
+                    rating: response,
+                    loading: false
+                })
+            })
+            .catch(error => {
+                this.handleError(error);
+            });
     }
 
     submitEntry(values) {

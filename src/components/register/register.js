@@ -27,6 +27,10 @@ class Register extends React.Component {
             password: values.password
         }; 
         
+        this.register(user);
+    }
+
+    register(user) {
         register(user)
             .then(response => {
                 this.handleSuccess(response);

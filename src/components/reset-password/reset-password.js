@@ -22,6 +22,10 @@ class ResetPassword extends React.Component {
     componentDidMount() {
         var userId = this.props.match.params.userId;
         var resetToken = this.props.match.params.resetToken;
+        this.resetTokenValid(userId, resetToken);
+    }
+
+    resetTokenValid = (userId, resetToken) => {
         resetTokenValid(userId, resetToken)
             .then(response => {
                 var tokenValid = response;
@@ -54,6 +58,10 @@ class ResetPassword extends React.Component {
             password: values.password
         };
 
+        this.updatePasswordUsingToken(data);
+    }
+
+    updatePasswordUsingToken = (data) => {
         updatePasswordUsingToken(data)
             .then(() => {
                 this.setState({

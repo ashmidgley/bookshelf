@@ -25,32 +25,47 @@ class Review extends React.Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
-        getBook(this.state.bookId)
+        this.getBook(this.state.bookId);
+    }
+
+    getBook = (id) => {
+        getBook(id)
             .then(response => {
-                var book = response;
-                getCategory(book.categoryId)
-                    .then(response => {
-                        var category = response;
-                        getRating(book.ratingId)
-                            .then(response => {
-                                var rating = response;
-                                this.handleSuccess(book, category, rating);
-                            })
-                    })
+                this.getCategory(response.categoryId);
+                this.getRating(response.ratingId);
+                this.setState({
+                    book: response,
+                    paragraphs: response.summary ? response.summary.split('\n') : null,
+                    loading: false
+                });
             })
             .catch(error => {
                 this.handleError(error);
             });
     }
 
-    handleSuccess = (book, category, rating) => {
-        this.setState({
-            book: book,
-            category: category,
-            rating: rating,
-            paragraphs: book.summary ? book.summary.split('\n') : null,
-            loading: false
-        });
+    getCategory = (id) => {
+        getCategory(id)
+            .then(response => {
+                this.setState({
+                    category: response
+                });
+            })
+            .catch(error => {
+                this.handleError(error);
+            });
+    }
+
+    getRating = (id) => {
+        getRating(id)
+            .then(response => {
+                this.setState({
+                    rating: response
+                });
+            })
+            .catch(error => {
+                this.handleError(error);
+            });
     }
 
     handleError = () => {

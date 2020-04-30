@@ -26,7 +26,11 @@ class UpdateUser extends React.Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         var token = localStorage.getItem('token');
-        getUser(this.state.userId, token)
+        this.getUser(this.state.userId, token);
+    }
+
+    getUser = (id, token) => {
+        getUser(id, token)
             .then(response => {
                 this.setState({
                     user: response,
@@ -38,7 +42,7 @@ class UpdateUser extends React.Component {
             });
     }
 
-    updateUser(values) {
+    submitEntry(values) {
         this.setState({
             submitting: true,
             success: false,
@@ -54,6 +58,10 @@ class UpdateUser extends React.Component {
         }
 
         var token = localStorage.getItem('token');
+        this.updateUser(values, token);
+    }
+
+    updateUser = (values, token) => {
         updateUser(values, token)
             .then(() => {
                 this.setState({
@@ -64,7 +72,7 @@ class UpdateUser extends React.Component {
             })
             .catch(error => {
                 this.handleError(error);
-            })
+            });
     }
 
     handleError = (error) => {
@@ -120,7 +128,7 @@ class UpdateUser extends React.Component {
                             return errors;
                         }}
                         onSubmit={(values, { setSubmitting }) => {
-                            this.updateUser(values);
+                            this.submitEntry(values);
                             setSubmitting(false);
                         }}>{({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting, setFieldValue }) => (
                             <form className="form" onSubmit={handleSubmit}>

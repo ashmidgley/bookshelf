@@ -38,18 +38,29 @@ class AddBook extends React.Component {
         }
 
         var token = localStorage.getItem("token");
+        this.fetchCategories(token);
+        this.fetchRatings(token);
+    }
+
+    fetchCategories = (token) => {
         fetchCurrentUserCategories(token)
             .then(response => {
-                var categories = response;
-                fetchCurrentUserRatings(token)
-                    .then(response => {
-                        var ratings = response;
-                        this.setState({
-                            categories: categories,
-                            ratings: ratings,
-                            loading: false
-                        })
-                    })
+                this.setState({
+                    categories: response
+                });
+            })
+            .catch(error => {
+                this.handleError(error);
+            });
+    }
+
+    fetchRatings = (token) => {
+        fetchCurrentUserRatings(token)
+            .then(response => {
+                this.setState({
+                    ratings: response,
+                    loading: false
+                });
             })
             .catch(error => {
                 this.handleError(error);
@@ -84,7 +95,11 @@ class AddBook extends React.Component {
         };
         
         var token = localStorage.getItem('token');
-        createBook(newBook, token)
+        this.createBook(newBook, token);
+    }
+
+    createBook = (book, token) => {
+        createBook(book, token)
             .then(response => {
                 this.setState({
                     book: response,

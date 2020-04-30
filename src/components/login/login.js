@@ -27,6 +27,10 @@ class Login extends React.Component {
             password: values.password
         };
         
+        this.login(user);
+    }
+
+    login(user) {
         login(user)
             .then(response => {
                 this.handleSuccess(response);

@@ -28,13 +28,17 @@ class DeleteAccount extends React.Component {
 
         var token = localStorage.getItem('token');
         var user = parseUser(token);
-        deleteUser(user.id, token)
+        this.deleteUser(user.id, token);
+    }
+
+    deleteUser(userId, token) {
+        deleteUser(userId, token)
             .then(() => {
                 this.handleSuccess();
             })
             .catch(error => {
                 this.handleError(error);
-            })
+            });
     }
 
     handleSuccess = () => {

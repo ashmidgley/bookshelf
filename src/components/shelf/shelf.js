@@ -47,22 +47,49 @@ class Shelf extends React.Component {
     }
 
     getShelfData() {
+        this.fetchBooks();
+        this.fetchCategories();
+        this.fetchRatings();
+    }
+
+    fetchBooks = () => {
         fetchBooks(this.state.userId)
-            .then(response => {
-                var books = response;
-                fetchCategories(this.state.userId)
-                    .then(response => {
-                        var categories = response;
-                        fetchRatings(this.state.userId)
-                            .then(response => {
-                                var ratings = response;
-                                this.handleSuccess(books, categories, ratings);
-                            })
-                    })
+            .then(response => { 
+                this.setState({
+                    books: response,
+                    years: this.getYears(response),
+                    loading: false
+                });
             })
-            .catch(() => {
+            .catch(() => { 
                 this.handleError();
+            });
+    }
+
+    fetchCategories = () => {
+        fetchCategories(this.state.userId)
+            .then(response => { 
+                this.setState({
+                    categories: response,
+                    categoryMenu: this.getMenu(response.length + 1)
+                });
             })
+            .catch(() => { 
+                this.handleError();
+            });
+    }
+
+    fetchRatings = () => {
+        fetchRatings(this.state.userId)
+            .then(response => { 
+                this.setState({
+                    ratings: response,
+                    ratingMenu: this.getMenu(response.length + 1)
+                });
+            })
+            .catch(() => { 
+                this.handleError();
+            });
     }
 
     checkDimensions = () => {
@@ -75,18 +102,6 @@ class Shelf extends React.Component {
         this.setState({columnClass: newVal}); 
     }
 
-    handleSuccess = (books, categories, ratings) => {
-        this.setState({
-            books: books,
-            categories: categories,
-            ratings: ratings,
-            years: this.getYears(books),
-            categoryMenu: this.getMenu(categories.length + 1),
-            ratingMenu: this.getMenu(ratings.length + 1),
-            loading: false
-        });
-    }
-    
     handleError = () => {
         this.setState({
             error: true,
