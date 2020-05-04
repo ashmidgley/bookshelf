@@ -7,6 +7,7 @@ Midway through last year I found myself between jobs and reading more than usual
 ## Wiki
 
 The frontend was built with [React](https://reactjs.org/) and the backend is a [.NET Core Web API](https://docs.microsoft.com/en-us/aspnet/core/web-api/?view=aspnetcore-3.1). All the book data is pulled from the [Google Books API](https://developers.google.com/books). Below are some of the articles that helped me out along the way.
+ - [How do I wait for the response of a http request in JavaScript?](https://scotch.io/tutorials/javascript-promises-for-dummies)
  - [How do you securely store passwords in a database?](https://medium.com/@mehanix/lets-talk-security-salted-password-hashing-in-c-5460be5c3aae)
  - [What happens when a user forgets their password?](https://stackoverflow.com/questions/1102781/best-way-for-a-forgot-password-implementation)
  - [How do you implement JWT authentication in .NET Core?](https://medium.com/@mmoshikoo/jwt-authentication-using-c-54e0c71f21b0)
@@ -15,9 +16,8 @@ The frontend was built with [React](https://reactjs.org/) and the backend is a [
  - [How do you install/setup Nginx on a Linux server?](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-18-04)
  - [How do you setup SSL certificates for Nginx?](https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-18-04)
  - [Is my SSL certificate in good nick?](https://www.ssllabs.com/ssltest/)
- - [How do you run scheduled jobs using cron?](https://www.digitalocean.com/community/tutorials/how-to-use-cron-to-automate-tasks-ubuntu-1804)
  - [How do you transfer files from a remote server to your local machine?](https://www.digitalocean.com/community/tutorials/how-to-use-sftp-to-securely-transfer-files-with-a-remote-server)
- - [How do you automate backups to a DigitalOcean space?](https://www.digitalocean.com/community/tutorials/how-to-automate-backups-digitalocean-spaces)
+ - [How do you automate database backups to a DigitalOcean space?](https://www.digitalocean.com/community/tutorials/how-to-automate-backups-digitalocean-spaces)
 
 I also wrote a couple of scripts that could be useful if you're working with the same setup.
  - [Build and release frontend](https://github.com/ashmidgley/bookshelf/blob/master/release.sh)
