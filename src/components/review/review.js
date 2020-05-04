@@ -51,9 +51,6 @@ class Review extends React.Component {
                     category: response
                 });
             })
-            .catch(error => {
-                this.handleError(error);
-            });
     }
 
     getRating = (id) => {
@@ -63,9 +60,6 @@ class Review extends React.Component {
                     rating: response
                 });
             })
-            .catch(error => {
-                this.handleError(error);
-            });
     }
 
     handleError = () => {
