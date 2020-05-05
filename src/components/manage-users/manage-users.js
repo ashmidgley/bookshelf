@@ -26,6 +26,11 @@ class ManageUsers extends React.Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         var token = localStorage.getItem('token');
+        if(!token) {
+            this.props.history.push('/login');
+            return;
+        }
+
         var user = parseUser(token);
         if(user.isAdmin) {
             this.fetchUsers(token);
