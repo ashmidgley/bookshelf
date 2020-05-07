@@ -128,7 +128,7 @@ class Shelf extends React.Component {
 
     componentDidUpdate() {
         var id = parseInt(this.props.match.params.id);
-        if(id !== this.state.userId) {
+        if(!isNaN(id) && id !== this.state.userId) {
             window.location.reload(false);
         }
     }
