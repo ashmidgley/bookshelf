@@ -45,9 +45,13 @@ class AddBook extends React.Component {
     fetchCategories = (token) => {
         fetchCurrentUserCategories(token)
             .then(response => {
-                this.setState({
-                    categories: response
-                });
+                if(response.length == 0) {
+                    this.handleError('You must have at least one category to add a book.');
+                } else {
+                    this.setState({
+                        categories: response
+                    });
+                }
             })
             .catch(error => {
                 this.handleError(error);
@@ -57,10 +61,14 @@ class AddBook extends React.Component {
     fetchRatings = (token) => {
         fetchCurrentUserRatings(token)
             .then(response => {
-                this.setState({
-                    ratings: response,
-                    loading: false
-                });
+                if(response.length == 0) {
+                    this.handleError('You must have at least one rating to add a book.');
+                } else {
+                    this.setState({
+                        ratings: response,
+                        loading: false
+                    });
+                }
             })
             .catch(error => {
                 this.handleError(error);
@@ -77,6 +85,11 @@ class AddBook extends React.Component {
     }
 
     submitEntry(values) {
+        if(!this.state.categories || !this.state.ratings) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
+
         this.setState({
             submitting: true,
             success: false,
