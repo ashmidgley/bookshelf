@@ -45,9 +45,13 @@ class AddBook extends React.Component {
     fetchCategories = (token) => {
         fetchCurrentUserCategories(token)
             .then(response => {
-                this.setState({
-                    categories: response
-                });
+                if(response.length == 0) {
+                    this.handleError('You must have at least one category to add a book.');
+                } else {
+                    this.setState({
+                        categories: response
+                    });
+                }
             })
             .catch(error => {
                 this.handleError(error);
@@ -57,10 +61,14 @@ class AddBook extends React.Component {
     fetchRatings = (token) => {
         fetchCurrentUserRatings(token)
             .then(response => {
-                this.setState({
-                    ratings: response,
-                    loading: false
-                });
+                if(response.length == 0) {
+                    this.handleError('You must have at least one rating to add a book.');
+                } else {
+                    this.setState({
+                        ratings: response,
+                        loading: false
+                    });
+                }
             })
             .catch(error => {
                 this.handleError(error);
@@ -77,6 +85,11 @@ class AddBook extends React.Component {
     }
 
     submitEntry(values) {
+        if(!this.state.categories || !this.state.ratings) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            return;
+        }
+
         this.setState({
             submitting: true,
             success: false,
@@ -89,8 +102,8 @@ class AddBook extends React.Component {
             imageUrl: values.imageUrl,
             finishedOn: values.finishedOn === "" ? moment().format('YYYY-MM-DD') : values.finishedOn,
             pageCount: values.pageCount,
-            categoryId: values.categoryId,
-            ratingId: values.ratingId,
+            categoryId: values.categoryId == null ? this.state.categories[0].id : values.categoryId,
+            ratingId: values.ratingId == null ? this.state.ratings[0].id : values.ratingId,
             summary: values.summary
         };
         
