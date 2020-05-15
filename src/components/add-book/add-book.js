@@ -89,8 +89,8 @@ class AddBook extends React.Component {
             imageUrl: values.imageUrl,
             finishedOn: values.finishedOn === "" ? moment().format('YYYY-MM-DD') : values.finishedOn,
             pageCount: values.pageCount,
-            categoryId: values.categoryId,
-            ratingId: values.ratingId,
+            categoryId: values.categoryId == null ? this.state.categories[0].id : values.categoryId,
+            ratingId: values.ratingId == null ? this.state.ratings[0].id : values.ratingId,
             summary: values.summary
         };
         
