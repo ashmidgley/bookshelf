@@ -27,6 +27,14 @@ class AddBook extends React.Component {
         };
     }
 
+    componentDidUpdate() {
+        if(this.state.loading && this.state.categories && this.state.ratings) {
+            this.setState({
+                loading: false
+            });
+        }
+    }
+
     componentDidMount() {
         window.scrollTo(0, 0);
         if(!this.props.location.state) {
@@ -65,8 +73,7 @@ class AddBook extends React.Component {
                     this.handleError('You must have at least one rating to add a book.');
                 } else {
                     this.setState({
-                        ratings: response,
-                        loading: false
+                        ratings: response
                     });
                 }
             })
@@ -102,8 +109,8 @@ class AddBook extends React.Component {
             imageUrl: values.imageUrl,
             finishedOn: values.finishedOn === "" ? moment().format('YYYY-MM-DD') : values.finishedOn,
             pageCount: values.pageCount,
-            categoryId: values.categoryId == null ? this.state.categories[0].id : values.categoryId,
-            ratingId: values.ratingId == null ? this.state.ratings[0].id : values.ratingId,
+            categoryId: values.categoryId,
+            ratingId: values.ratingId,
             summary: values.summary
         };
         
