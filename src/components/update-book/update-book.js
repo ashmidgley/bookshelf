@@ -28,6 +28,14 @@ class UpdateBook extends React.Component {
         };
     }
 
+    componentDidUpdate() {
+        if(this.state.loading && this.state.book && this.state.categories && this.state.ratings) {
+            this.setState({
+                loading: false 
+            });
+        }
+    }
+
     componentDidMount() {
         window.scrollTo(0, 0);
         var token = localStorage.getItem("token");
@@ -40,8 +48,7 @@ class UpdateBook extends React.Component {
         getBook(id)
             .then(response => {
                 this.setState({
-                    book: response,
-                    loading: false
+                    book: response
                 });
             })
             .catch(error => {
