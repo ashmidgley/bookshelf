@@ -1,5 +1,5 @@
 # Bookshelf
-Midway through last year I found myself between jobs and reading more than usual so I started building [this](https://bookshelf.co.nz) to keep an eye on the stuff I had read. You can share your shelf with others, customize the categories/ratings that you add books to and manage your account.<br/><br/><br />
+Midway through last year I found myself between jobs and reading more than usual. I started building [this](https://bookshelf.co.nz) to keep an eye on the stuff I had read. You can customize the categories/ratings that you add books to and share your shelf with others.<br/><br/><br />
 
 ![alt Mobile](public/images/mobile.png?raw=true "Mobile")<br/><br/><br/>
 ![alt Desktop](public/images/desktop.png?raw=true "Desktop")<br/><br/><br/>
