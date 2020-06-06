@@ -3,8 +3,7 @@ import { createConfig } from '../helpers/action-helper';
 
 let searchUrl = process.env.REACT_APP_API_URL + '/search';
 
-export const searchBooks = (title, author, maxResults, token) => {
-    var data = { title, author, maxResults };
+export const searchBooks = (data, token) => {
     var config = createConfig(token);
     return new Promise(
       (resolve, reject) => {
@@ -19,8 +18,7 @@ export const searchBooks = (title, author, maxResults, token) => {
     });
 }
 
-export const searchBooksByTitle = (title, maxResults, token) => {
-    var data = { title, maxResults };
+export const searchBooksByTitle = (data, token) => {
     var url = `${searchUrl}/title`
     var config = createConfig(token);
     return new Promise(
@@ -36,8 +34,7 @@ export const searchBooksByTitle = (title, maxResults, token) => {
     });
 }
 
-export const searchBooksByAuthor = (author, maxResults, token) => {
-    var data = { author, maxResults };
+export const searchBooksByAuthor = (data, token) => {
     var url = `${searchUrl}/author`
     var config = createConfig(token);
     return new Promise(
