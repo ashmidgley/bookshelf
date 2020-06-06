@@ -17,6 +17,7 @@ class SearchForm extends React.Component {
             selectedBook: null,
             titleChecked: true,
             authorChecked: true,
+            maxResults: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
             error: null
         };
     }
@@ -25,7 +26,7 @@ class SearchForm extends React.Component {
         window.scrollTo(0, 0);
     }
 
-    submitSearch = (title, author) => {
+    submitSearch = (values) => {
         this.setState({
             searching: true,
             searchBooks: null,
@@ -33,14 +34,14 @@ class SearchForm extends React.Component {
             error: null
         });
 
-        var maxResults = 3;
+        var maxResults = parseInt(values.maxResults);
         var token = localStorage.getItem('token');
         if(!this.state.authorChecked) {
-            this.searchBooksByTitle(title, maxResults, token);
+            this.searchBooksByTitle(values.searchTitle, maxResults, token);
         } else if(!this.state.titleChecked) {
-            this.searchBooksByAuthor(author, maxResults, token);
+            this.searchBooksByAuthor(values.searchAuthor, maxResults, token);
         } else {
-            this.searchBooks(title, author, maxResults, token);
+            this.searchBooks(values.searchTitle, values.searchAuthor, maxResults, token);
         }
     };
 
@@ -161,6 +162,7 @@ class SearchForm extends React.Component {
                                 {
                                     searchTitle: '',
                                     searchAuthor: '',
+                                    maxResults: 3,
                                     book: null
                                 }
                             }
@@ -183,6 +185,7 @@ class SearchForm extends React.Component {
                                                     type="checkbox"
                                                     checked={this.state.titleChecked}
                                                     onClick={this.titleChecked}
+                                                    readOnly
                                                 />
                                             </div>
                                         </div>
@@ -194,16 +197,24 @@ class SearchForm extends React.Component {
                                                     type="checkbox"
                                                     checked={this.state.authorChecked}
                                                     onClick={this.authorChecked}
+                                                    readOnly
                                                 />
                                             </div>
                                         </div>
                                         <div>
                                             <button 
                                                 className={this.state.searching ? "button is-link is-loading" : "button is-link"}
-                                                onClick={() => this.submitSearch(values.searchTitle, values.searchAuthor)}
+                                                onClick={() => this.submitSearch(values)}
                                                 disabled={this.searchDisabled(values.searchTitle, values.searchAuthor)}>
                                                 Search
                                             </button>
+                                            <div id='max-results-dropdown' className='select'>
+                                                <select value={values.maxResults} name='maxResults' onChange={handleChange}>
+                                                    {this.state.maxResults.map(result =>
+                                                        <option key={result}>{result}</option>
+                                                    )}
+                                                </select>
+                                            </div>
                                         </div>
                                         {
                                             this.state.searchBooks && this.state.searchBooks.length === 0 &&
@@ -221,7 +232,7 @@ class SearchForm extends React.Component {
                                                             onClick={() => {setFieldValue('book', book)}}
                                                             className={values.book && book === values.book ? "columns is-mobile custom-radio custom-radio-selected" : "columns is-mobile custom-radio"}> 
                                                             <div className="column is-1">
-                                                                <input className="custom-radio-input" type="radio" name="book" checked={values.book === book} onBlur={handleBlur} />
+                                                                <input className="custom-radio-input" type="radio" name="book" checked={values.book === book} onBlur={handleBlur} readOnly />
                                                             </div>
                                                             <div className="column is-10 has-text-centered">
                                                                 <p className="is-size-6">{book.title}</p>
