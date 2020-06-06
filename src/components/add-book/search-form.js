@@ -17,6 +17,7 @@ class SearchForm extends React.Component {
             selectedBook: null,
             titleChecked: true,
             authorChecked: true,
+            orderBy: ['Relevance', 'Newest'],
             maxResults: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
             error: null
         };
@@ -37,16 +38,32 @@ class SearchForm extends React.Component {
         var maxResults = parseInt(values.maxResults);
         var token = localStorage.getItem('token');
         if(!this.state.authorChecked) {
-            this.searchBooksByTitle(values.searchTitle, maxResults, token);
+            var data = { 
+                title: values.searchTitle,
+                orderBy: values.orderBy,
+                maxResults 
+            };
+            this.searchBooksByTitle(data, token);
         } else if(!this.state.titleChecked) {
-            this.searchBooksByAuthor(values.searchAuthor, maxResults, token);
+            var data = { 
+                author: values.searchAuthor,
+                orderBy: values.orderBy,
+                maxResults
+            };
+            this.searchBooksByAuthor(data, token);
         } else {
-            this.searchBooks(values.searchTitle, values.searchAuthor, maxResults, token);
+            var data = { 
+                title: values.searchTitle,
+                author: values.searchAuthor,
+                orderBy: values.orderBy,
+                maxResults
+            };
+            this.searchBooks(data, token);
         }
     };
 
-    searchBooksByTitle = (title, maxResults, token) => {
-        searchBooksByTitle(title, maxResults, token)
+    searchBooksByTitle = (data, token) => {
+        searchBooksByTitle(data, token)
             .then(response => {
                 this.handleSuccess(response);
             })
@@ -55,8 +72,8 @@ class SearchForm extends React.Component {
             });
     }
 
-    searchBooksByAuthor = (author, maxResults, token) => {
-        searchBooksByAuthor(author, maxResults, token)
+    searchBooksByAuthor = (data, token) => {
+        searchBooksByAuthor(data, token)
             .then(response => {
                 this.handleSuccess(response);
             })
@@ -65,8 +82,8 @@ class SearchForm extends React.Component {
             });
     }
 
-    searchBooks = (title, author, maxResults, token) => {
-        searchBooks(title, author, maxResults, token)
+    searchBooks = (data, token) => {
+        searchBooks(data, token)
                 .then(response => {
                     this.handleSuccess(response);
                 })
@@ -162,6 +179,7 @@ class SearchForm extends React.Component {
                                 {
                                     searchTitle: '',
                                     searchAuthor: '',
+                                    orderBy: this.state.orderBy[0],
                                     maxResults: 3,
                                     book: null
                                 }
@@ -208,7 +226,14 @@ class SearchForm extends React.Component {
                                                 disabled={this.searchDisabled(values.searchTitle, values.searchAuthor)}>
                                                 Search
                                             </button>
-                                            <div id='max-results-dropdown' className='select'>
+                                            <div className='select search-dropdown'>
+                                                <select value={values.orderBy} name='orderBy' onChange={handleChange}>
+                                                    {this.state.orderBy.map(result =>
+                                                        <option key={result}>{result}</option>
+                                                    )}
+                                                </select>
+                                            </div>
+                                            <div className='select search-dropdown'>
                                                 <select value={values.maxResults} name='maxResults' onChange={handleChange}>
                                                     {this.state.maxResults.map(result =>
                                                         <option key={result}>{result}</option>
