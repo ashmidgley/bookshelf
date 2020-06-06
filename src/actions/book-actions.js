@@ -54,23 +54,6 @@ export const getBook = (id) => {
   });
 }
 
-export const searchBooks = (title, author, maxResults, token) => {
-  var url = `${bookUrl}/search`;
-  var data = { title, author, maxResults };
-  var config = createConfig(token);
-  return new Promise(
-    (resolve, reject) => {
-      axios.post(url, data, config)
-        .then(response => {
-          resolve(response.data);
-        })
-        .catch(error => {
-          console.error(error);
-          reject(error.message);
-        })
-  });
-}
-
 export const createBook = (postData, token) => {
   var config = createConfig(token);
   return new Promise(
