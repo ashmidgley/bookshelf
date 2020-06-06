@@ -5,7 +5,7 @@ import { Redirect } from 'react-router-dom';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { searchBooks} from '../../actions/book-actions';
+import { searchBooks, searchBooksByTitle, searchBooksByAuthor } from '../../actions/search-actions';
 
 class SearchForm extends React.Component {
 
@@ -15,6 +15,8 @@ class SearchForm extends React.Component {
             searchBooks: null,
             searching: false,
             selectedBook: null,
+            titleChecked: true,
+            authorChecked: true,
             error: null
         };
     }
@@ -23,36 +25,97 @@ class SearchForm extends React.Component {
         window.scrollTo(0, 0);
     }
 
-    searchBooks = (title, author) => {
-        let self = this;
-        self.setState({
+    submitSearch = (title, author) => {
+        this.setState({
             searching: true,
             searchBooks: null,
             selectedBook: null,
             error: null
         });
 
+        var maxResults = 3;
         var token = localStorage.getItem('token');
-        searchBooks(title, author, 3, token)
+        if(!this.state.authorChecked) {
+            this.searchBooksByTitle(title, maxResults, token);
+        } else if(!this.state.titleChecked) {
+            this.searchBooksByAuthor(author, maxResults, token);
+        } else {
+            this.searchBooks(title, author, maxResults, token);
+        }
+    };
+
+    searchBooksByTitle = (title, maxResults, token) => {
+        searchBooksByTitle(title, maxResults, token)
             .then(response => {
-                self.setState({
-                    searchBooks: response,
-                    searching: false
-                });
+                this.handleSuccess(response);
             })
             .catch(error => {
-                self.setState({
-                    error: error,
-                    searching: false
-                })
+                this.handleError(error);
             });
-    };
+    }
+
+    searchBooksByAuthor = (author, maxResults, token) => {
+        searchBooksByAuthor(author, maxResults, token)
+            .then(response => {
+                this.handleSuccess(response);
+            })
+            .catch(error => {
+                this.handleError(error);
+            });
+    }
+
+    searchBooks = (title, author, maxResults, token) => {
+        searchBooks(title, author, maxResults, token)
+                .then(response => {
+                    this.handleSuccess(response);
+                })
+                .catch(error => {
+                    this.handleError(error);
+                });
+    }
+
+    handleSuccess = (response) => {
+        this.setState({
+            searchBooks: response,
+            searching: false
+        });
+    }
+
+    handleError = (error) => {
+        this.setState({
+            error: error,
+            searching: false
+        })
+    }
 
     bookSelected = (book) => {
        this.setState({
             selectedBook: book
        })
     }
+
+    titleChecked = () => {
+        this.setState(prevState => ({
+            titleChecked: !prevState.titleChecked
+        }));
+    }
+
+    authorChecked = () => {
+        this.setState(prevState => ({
+            authorChecked: !prevState.authorChecked
+        }));
+    }
+
+    searchDisabled = (title, author) => {
+        if((!this.state.titleChecked && !this.state.authorChecked)
+            || (this.state.titleChecked && title == '')
+            || (this.state.authorChecked && author == '')) {
+            return true;
+        }
+
+        return false;
+    }
+    
 
     render() {
         if(this.state.loading) {
@@ -89,9 +152,9 @@ class SearchForm extends React.Component {
                             }
                             validate={values => {
                                 let errors = {};
-                                if (!values.searchTitle)
+                                if (this.state.titleChecked && !values.searchTitle)
                                     errors.searchTitle = 'Required';
-                                if (!values.searchAuthor)
+                                if (this.state.authorChecked && !values.searchAuthor)
                                     errors.searchAuthor = 'Required';
                                 return errors;
                             }}
@@ -101,20 +164,30 @@ class SearchForm extends React.Component {
                                         <div className="field">
                                             <label className="label">Title</label>
                                             <div className="control">
-                                                <input className={errors.searchTitle && touched.searchTitle ? 'input is-danger' : 'input'} type="text" name="searchTitle" placeholder="Enter title" onChange={handleChange} onBlur={handleBlur} value={values.searchTitle} />
+                                                <input className={errors.searchTitle && touched.searchTitle ? 'input is-danger' : 'input'} type="text" name="searchTitle" placeholder="Enter title" onChange={handleChange} onBlur={handleBlur} value={values.searchTitle} disabled={!this.state.titleChecked} />
+                                                <input
+                                                    type="checkbox"
+                                                    checked={this.state.titleChecked}
+                                                    onClick={this.titleChecked}
+                                                />
                                             </div>
                                         </div>
                                         <div className="field">
                                             <label className="label">Author</label>
                                             <div className="control">
-                                                <input className={errors.searchAuthor && touched.searchAuthor ? 'input is-danger' : 'input'} type="text" name="searchAuthor" placeholder="Enter author" onChange={handleChange} onBlur={handleBlur} value={values.searchAuthor} />
+                                                <input className={errors.searchAuthor && touched.searchAuthor ? 'input is-danger' : 'input'} type="text" name="searchAuthor" placeholder="Enter author" onChange={handleChange} onBlur={handleBlur} value={values.searchAuthor} disabled={!this.state.authorChecked} />
+                                                <input
+                                                    type="checkbox"
+                                                    checked={this.state.authorChecked}
+                                                    onClick={this.authorChecked}
+                                                />
                                             </div>
                                         </div>
                                         <div>
                                             <button 
                                                 className={this.state.searching ? "button is-link is-loading" : "button is-link"}
-                                                onClick={() => this.searchBooks(values.searchTitle, values.searchAuthor)}
-                                                disabled={!values.searchTitle || !values.searchAuthor}>
+                                                onClick={() => this.submitSearch(values.searchTitle, values.searchAuthor)}
+                                                disabled={this.searchDisabled(values.searchTitle, values.searchAuthor)}>
                                                 Search
                                             </button>
                                         </div>
