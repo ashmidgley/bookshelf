@@ -37,13 +37,23 @@ class AddBook extends React.Component {
 
     componentDidMount() {
         window.scrollTo(0, 0);
+        
+        var book;
         if(!this.props.location.state) {
-            this.props.history.push('/search-form');
+            book = {
+                title: '',
+                author: '',
+                imageUrl: '',
+                pageCount: 0,
+                summary: ''
+            };
         } else {
-            this.setState({
-                book: this.props.location.state.book
-            });
+            book = this.props.location.state.book;   
         }
+
+        this.setState({
+            book: book
+        });
 
         var token = localStorage.getItem("token");
         this.fetchCategories(token);

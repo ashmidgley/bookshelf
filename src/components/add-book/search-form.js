@@ -1,7 +1,7 @@
 import React from 'react';
 import './search-form.css';
 import Loading from '../loading/loading';
-import { Redirect } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Formik } from 'formik';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -141,6 +141,20 @@ class SearchForm extends React.Component {
                             this.state.selectedBook &&
                             <Redirect to={{ pathname: '/book-form', state: { book: this.state.selectedBook }}}/>
                         }
+                        <h1 className="title is-4 has-text-centered">
+                            Add Manually
+                        </h1>
+                        <div id='add-manually'>
+                            <Link to={'/book-form'}>
+                                <button className="button is-outlined">
+                                    <FontAwesomeIcon icon={faPlus} />
+                                </button>
+                            </Link>
+                        </div>
+                        <hr />
+                        <h1 className="title is-4 has-text-centered">
+                            Search
+                        </h1>
                         <Formik
                             initialValues=
                             {
