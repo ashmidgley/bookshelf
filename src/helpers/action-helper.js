@@ -24,6 +24,8 @@ export const getErrorMessage = (error) => {
   switch(error.response.status) {
     case 400:
       return error.response.data;
+    case 405:
+      return "Method Not Allowed. Please confirm you have set the correct API URL in the configuration file.";
     case 500:
       return error.response.statusText;
     case 502:
