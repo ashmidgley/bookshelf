@@ -24,6 +24,8 @@ export const getErrorMessage = (error) => {
   switch(error.response.status) {
     case 400:
       return error.response.data;
+    case 405:
+      return "Request failed due to Method Not Allowed response";
     case 500:
       return error.response.statusText;
     case 502:
