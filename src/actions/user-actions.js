@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { createConfig } from '../helpers/action-helper';
+import { createConfig, getErrorMessage } from '../helpers/action-helper';
 
 let userUrl = process.env.REACT_APP_API_URL + '/users';
 
@@ -13,7 +13,7 @@ export const fetchUsers = (token) => {
         })
         .catch(error => {
           console.error(error);
-          var message = error.response ? error.response.data : error.message;
+          var message = getErrorMessage(error);
           reject(message);
         });
   });
@@ -30,7 +30,7 @@ export const getUser = (id, token) => {
         })
         .catch(error => {
           console.error(error);
-          var message = error.response ? error.response.data : error.message;
+          var message = getErrorMessage(error);
           reject(message);
         });
   });
@@ -46,7 +46,7 @@ export const updateUser = (user, token) => {
         })
         .catch(error => {
           console.error(error);
-          var message = error.response ? error.response.data : error.message;
+          var message = getErrorMessage(error);
           reject(message);
         });
   });
@@ -63,7 +63,7 @@ export const updateEmail = (data, token) => {
         })
         .catch(error => {
           console.error(error);
-          var message = error.response ? error.response.data : error.message;
+          var message = getErrorMessage(error);
           reject(message);
         });
   });
@@ -80,7 +80,7 @@ export const updatePassword = (data, token) => {
         })
         .catch(error => {
           console.error(error);
-          var message = error.response ? error.response.data : error.message;
+          var message = getErrorMessage(error);
           reject(message);
         });
   });
@@ -97,7 +97,7 @@ export const deleteUser = (userId, token) => {
         })
         .catch(error => {
           console.error(error);
-          var message = error.response ? error.response.data : error.message;
+          var message = getErrorMessage(error);
           reject(message);
         });
   });

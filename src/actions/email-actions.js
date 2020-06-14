@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getErrorMessage } from '../helpers/action-helper';
 
 let emailUrl = process.env.REACT_APP_API_URL + '/emails';
 
@@ -13,7 +14,7 @@ export const sendResetToken = (email) => {
         })
         .catch(error => {
           console.error(error);
-          var message = error.response ? error.response.data : error.message;
+          var message = getErrorMessage(error);
           reject(message);
         });
   });

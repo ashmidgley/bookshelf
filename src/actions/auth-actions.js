@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { createUserPayload } from '../helpers/action-helper';
+import { createUserPayload, getErrorMessage } from '../helpers/action-helper';
 import { persistToken } from '../helpers/auth-helper';
 
 let authUrl = process.env.REACT_APP_API_URL + '/auth';
@@ -16,7 +16,7 @@ export const login = (login) => {
                 })
                 .catch(error => {
                     console.error(error);
-                    var message = error.response ? error.response.data : error.message;
+                    var message = getErrorMessage(error);
                     reject(message);
                 })
     });
@@ -34,7 +34,7 @@ export const register = (register) => {
             })
             .catch(error => {
                 console.error(error);
-                var message = error.response ? error.response.data : error.message;
+                var message = getErrorMessage(error);
                 reject(message);
             })
     });
@@ -50,7 +50,7 @@ export const resetTokenValid = (userId, token) => {
                 })
                 .catch(error => {
                     console.error(error);
-                    var message = error.response ? error.response.data : error.message;
+                    var message = getErrorMessage(error);
                     reject(message);
                 });
     });
@@ -65,7 +65,7 @@ export const updatePasswordUsingToken = (data) => {
                 })
                 .catch(error => {
                     console.error(error);
-                    var message = error.response ? error.response.data : error.message;
+                    var message = getErrorMessage(error);
                     reject(message);
                 });
     });

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import moment from 'moment';
-import { createConfig } from '../helpers/action-helper';
+import { createConfig, getErrorMessage } from '../helpers/action-helper';
 
 let bookUrl = process.env.REACT_APP_API_URL + '/books';
 
@@ -15,7 +15,7 @@ export const fetchBooks = (userId) => {
         })
         .catch(error => {
           console.error(error);
-          var message = error.response ? error.response.data : error.message;
+          var message = getErrorMessage(error);
           reject(message);
         })
     });
@@ -33,7 +33,7 @@ export const fetchCurrentUserBooks = (token) => {
         })
         .catch(error => {
           console.error(error);
-          var message = error.response ? error.response.data : error.message;
+          var message = getErrorMessage(error);
           reject(message);
         })
     });
@@ -49,7 +49,8 @@ export const getBook = (id) => {
         })
         .catch(error => {
           console.error(error);
-          reject(error.message);
+          var message = getErrorMessage(error);
+          reject(message);
         })
   });
 }
@@ -64,7 +65,7 @@ export const createBook = (postData, token) => {
           })
           .catch(error => {
             console.error(error);
-            var message = error.response ? error.response.data : error.message;
+            var message = getErrorMessage(error);
             reject(message);
           })
     });
@@ -80,7 +81,7 @@ export const updateBook = (postData, token) => {
         })
         .catch(error => {
           console.error(error);
-          var message = error.response ? error.response.data : error.message;
+          var message = getErrorMessage(error);
           reject(message);
         })
   });
@@ -97,7 +98,7 @@ export const removeBook = (id, token) => {
         })
         .catch(error => {
           console.error(error);
-          var message = error.response ? error.response.data : error.message;
+          var message = getErrorMessage(error);
           reject(message);
         })
   });
