@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { createConfig } from '../helpers/action-helper';
+import { createConfig, getErrorMessage } from '../helpers/action-helper';
 
 let searchUrl = process.env.REACT_APP_API_URL + '/search';
 
@@ -13,7 +13,8 @@ export const searchBooks = (data, token) => {
           })
           .catch(error => {
             console.error(error);
-            reject(error.message);
+            var message = getErrorMessage(error);
+            reject(message);
           })
     });
 }
@@ -29,7 +30,8 @@ export const searchBooksByTitle = (data, token) => {
           })
           .catch(error => {
             console.error(error);
-            reject(error.message);
+            var message = getErrorMessage(error);
+            reject(message);
           })
     });
 }
@@ -45,7 +47,8 @@ export const searchBooksByAuthor = (data, token) => {
           })
           .catch(error => {
             console.error(error);
-            reject(error.message);
+            var message = getErrorMessage(error);
+            reject(message);
           })
     });
 }

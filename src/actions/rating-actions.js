@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { createConfig } from '../helpers/action-helper';
+import { createConfig, getErrorMessage } from '../helpers/action-helper';
 
 let ratingUrl = process.env.REACT_APP_API_URL + '/ratings';
 
@@ -13,7 +13,7 @@ export const fetchRatings = (userId) => {
         })
         .catch(error => {
           console.error(error);
-          var message = error.response ? error.response.data : error.message;
+          var message = getErrorMessage(error);
           reject(message);
         })
   });
@@ -30,7 +30,7 @@ export const fetchCurrentUserRatings = (token) => {
         })
         .catch(error => {
           console.error(error);
-          var message = error.response ? error.response.data : error.message;
+          var message = getErrorMessage(error);
           reject(message);
         })
   });
@@ -46,7 +46,7 @@ export const getRating = (id) => {
         })
         .catch(error => {
           console.error(error);
-          var message = error.response ? error.response.data : error.message;
+          var message = getErrorMessage(error);
           reject(message);
         })
   });
@@ -62,7 +62,7 @@ export const createRating = (postData, token) => {
         })
         .catch(error => {
           console.error(error);
-          var message = error.response ? error.response.data : error.message;
+          var message = getErrorMessage(error);
           reject(message);
         })
   });
@@ -78,7 +78,7 @@ export const updateRating = (postData, token) => {
         })
         .catch(error => {
           console.error(error);
-          var message = error.response ? error.response.data : error.message;
+          var message = getErrorMessage(error);
           reject(message);
         })
   });
@@ -95,7 +95,7 @@ export const removeRating = (id, token) => {
         })
         .catch(error => {
           console.error(error);
-          var message = error.response ? error.response.data : error.message;
+          var message = getErrorMessage(error);
           reject(message);
         })
   });
