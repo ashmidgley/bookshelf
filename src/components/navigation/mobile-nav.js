@@ -94,12 +94,12 @@ class MobileNav extends React.Component {
             <nav id="mobile-nav" className="navbar">
                 <div className="container">
                     <div className="navbar-brand" style={{'zIndex': '20'}}>
-                        <a id="nav-icon3" className={this.state.optionsVisible ? "open" : null} onClick={this.toggleBurger}>
+                        <button id="nav-icon3" className={this.state.optionsVisible ? "open" : null} onClick={this.toggleBurger}>
                             <span id="burger"></span>
                             <span id="burger"></span>
                             <span id="burger"></span>
                             <span id="burger"></span>
-                        </a>
+                        </button>
                         <Link id="mobile-nav-icon" to={this.state.user ? `/shelf/${this.state.user.id}` : '/'} className="navbar-item">
                             <img src="/images/bookshelf.png" alt="Small bookshelf" />
                         </Link>
@@ -148,9 +148,9 @@ class MobileNav extends React.Component {
                                     <NavLink className="navbar-item" onClick={this.toggleBurger} to="/my-account">
                                         My Account
                                     </NavLink>
-                                    <a onClick={this.logout} className="navbar-item" href="#">
+                                    <button id="mobile-logout" className="navbar-item logout-button" onClick={this.logout}>
                                         Logout
-                                    </a>
+                                    </button>
                                 </div>
                             }
                         </div>

@@ -63,7 +63,7 @@ class AddBook extends React.Component {
     fetchCategories = (token) => {
         fetchCurrentUserCategories(token)
             .then(response => {
-                if(response.length == 0) {
+                if(response.length === 0) {
                     this.handleError('You must have at least one category to add a book.');
                 } else {
                     this.setState({
@@ -79,7 +79,7 @@ class AddBook extends React.Component {
     fetchRatings = (token) => {
         fetchCurrentUserRatings(token)
             .then(response => {
-                if(response.length == 0) {
+                if(response.length === 0) {
                     this.handleError('You must have at least one rating to add a book.');
                 } else {
                     this.setState({
