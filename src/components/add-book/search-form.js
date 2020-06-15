@@ -38,27 +38,27 @@ class SearchForm extends React.Component {
         var maxResults = parseInt(values.maxResults);
         var token = localStorage.getItem('token');
         if(!this.state.authorChecked) {
-            var data = { 
+            var searchByTitle = { 
                 title: values.searchTitle,
                 orderBy: values.orderBy,
                 maxResults 
             };
-            this.searchBooksByTitle(data, token);
+            this.searchBooksByTitle(searchByTitle, token);
         } else if(!this.state.titleChecked) {
-            var data = { 
+            var searchByAuthor = { 
                 author: values.searchAuthor,
                 orderBy: values.orderBy,
                 maxResults
             };
-            this.searchBooksByAuthor(data, token);
+            this.searchBooksByAuthor(searchByAuthor, token);
         } else {
-            var data = { 
+            var search = {
                 title: values.searchTitle,
                 author: values.searchAuthor,
                 orderBy: values.orderBy,
                 maxResults
             };
-            this.searchBooks(data, token);
+            this.searchBooks(search, token);
         }
     };
 
@@ -126,8 +126,8 @@ class SearchForm extends React.Component {
 
     searchDisabled = (title, author) => {
         if((!this.state.titleChecked && !this.state.authorChecked)
-            || (this.state.titleChecked && title == '')
-            || (this.state.authorChecked && author == '')) {
+            || (this.state.titleChecked && title === '')
+            || (this.state.authorChecked && author === '')) {
             return true;
         }
 

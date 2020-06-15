@@ -139,9 +139,9 @@ class DesktopNav extends React.Component {
                                                 <NavLink onClick={this.toggleDropdown} className="dropdown-item" activeClassName="is-active" to="/my-account">
                                                     My Account
                                                 </NavLink>
-                                                <a onClick={this.logout} href="#" className="dropdown-item">
+                                                <button id="desktop-logout" className="dropdown-item" onClick={this.logout}>
                                                     Logout
-                                                </a>
+                                                </button>
                                             </div>
                                         </div>  
                                     </div>
