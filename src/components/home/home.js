@@ -19,11 +19,6 @@ class Home extends React.Component {
                         </div>
                     </div>
                 </section>
-                <img id="fight-club" src="/images/fight-club.png" alt="Fight Club cover" />
-                <img id="the-martian" src="/images/the-martian.png" alt="The Martian cover" />
-                <img id="neither-here-nor-there" src="/images/neither-here-nor-there.png" alt="Neither Here Nor There cover" />
-                <img id="elon-musk" src="/images/elon-musk.png" alt="Elon Musk cover" />
-                <img id="leonardo-da-vinci" src="/images/leonardo-da-vinci.png" alt="Leonardo Da Vinci cover" />
             </div>
         );
     }

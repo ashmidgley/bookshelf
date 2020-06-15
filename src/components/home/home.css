@@ -6,124 +6,34 @@
     width: 75%;
     border-radius: 100%;
     padding: 50px;
-    /* background: linear-gradient(to top, rgba(196,225,127,1) 0%, rgba(196,225,127,1) 12%, rgba(247,253,202,1) 12%, rgba(247,253,202,1) 25%, rgba(250,208,113,1) 25%, rgba(250,208,113,1) 39%, rgba(240,118,107,1) 39%, rgba(240,118,107,1) 52%, rgba(219,157,190,1) 52%, rgba(219,157,190,1) 65%, rgba(196,156,223,1) 65%, rgba(196,156,223,1) 78%, rgba(101,153,226,1) 78%, rgba(101,153,226,1) 89%, rgba(97,194,228,1) 89%, rgba(97,194,228,1) 100%); */
     background: linear-gradient(230deg,#a24bcf,#4b79cf,#4bc5cf);
     background-size: 200% 200%;
-    -webkit-animation: backgroundColorShift 10s ease infinite;
-    -moz-animation: backgroundColorShift 10s ease infinite;
-    animation: backgroundColorShift 10s ease infinite;
+    -webkit-animation: colorShift 10s ease infinite;
+    -moz-animation: colorShift 10s ease infinite;
+    animation: colorShift 10s ease infinite;
 }
 
-@-webkit-keyframes backgroundColorShift {
+@-webkit-keyframes colorShift {
     0% { background-position: 0% 50% }
     50% { background-position: 100% 50% }
     100% { background-position: 0% 50% }
 }
 
-@-moz-keyframes backgroundColorShift {
+@-moz-keyframes colorShift {
     0% { background-position: 0% 50% }
     50% { background-position: 100% 50% }
     100% { background-position: 0% 50% }
 }
 
-@keyframes backgroundColorShift {
+@keyframes colorShift {
     0% { background-position: 0% 50% }
     50% { background-position: 100% 50% }
     100% { background-position: 0% 50% }
-}
-
-#fight-club, #leonardo-da-vinci, #the-martian, #elon-musk, #neither-here-nor-there {
-    position: absolute;
-    height: 250px;
-    display: none;
-}
-
-#fight-club {
-    left: 0;
-    top: 15%;
-    transform: rotateZ(30deg);
-}
-
-#leonardo-da-vinci {
-    height: 230px;
-    left: 10%;
-    bottom: 0;
-    transform: rotateZ(-20deg);
-}
-
-#the-martian {
-    left: 70%;
-    bottom: -6%;
-    transform: rotateZ(20deg);
-}
-
-#elon-musk {
-    right: -75px;
-    top: 20%;
-    transform: rotateZ(-100deg);
-}
-
-#neither-here-nor-there {
-    right: -75px;
-    top: 14%;
-    transform: rotateZ(-80deg);
-}
-
-@media screen and (min-width: 1024px) {
-    #fight-club {
-        left: -12%;
-    }
-
-    #elon-musk, #neither-here-nor-there {
-        right: -18%;
-    }
-}
-
-@media screen and (min-width: 1216px) {
-    #fight-club {
-        left: -6%;
-    }
-
-    #elon-musk, #neither-here-nor-there {
-        right: -12%;
-    }
 }
 
 @media only screen and (max-width: 600px) {
     #bookshelf-icon {
         padding: 20px;
         width: 90%;
-    }
-
-    #fight-club, #leonardo-da-vinci, #the-martian, #elon-musk, #neither-here-nor-there {
-        height: 150px;
-        display: initial;
-    }
-
-    #the-martian {
-        display: none;
-    }
-
-    #fight-club {
-        top: 5%;
-    }
-
-    #leonardo-da-vinci {
-        left: 0;
-        right: 0;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    #elon-musk, #neither-here-nor-there {
-        right: -50px;
-    }
-
-    #neither-here-nor-there {
-        top: 4%;
-    }
-
-    #elon-musk {
-        top: 10%;
     }
 }
