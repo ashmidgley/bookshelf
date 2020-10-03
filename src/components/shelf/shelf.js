@@ -222,9 +222,9 @@ class Shelf extends React.Component {
                             </button>
                             {
                                 this.state.categories &&
-                                this.state.categories.map(category =>
+                                this.state.categories.map((category, index) =>
                                 <button 
-                                    className={this.state.categoryMenu[this.state.categories.indexOf(category)+1] ? "button selected" : "button"}
+                                    className={this.state.categoryMenu[index+1] ? "button selected" : "button"}
                                     key={category.id}
                                     onClick={() => this.categorySelected(category)}>
                                     <span role="img" aria-label="Category emoji">{category.code}</span>
@@ -239,9 +239,9 @@ class Shelf extends React.Component {
                             </button>
                             {
                                 this.state.ratings &&
-                                this.state.ratings.map(rating =>
+                                this.state.ratings.map((rating, index) =>
                                 <button 
-                                    className={this.state.ratingMenu[this.state.ratings.indexOf(rating)+1] ? "button selected" : "button"}
+                                    className={this.state.ratingMenu[index+1] ? "button selected" : "button"}
                                     key={rating.id}
                                     onClick={() => this.ratingSelected(rating)}>
                                     <span role="img" aria-label="Rating emoji">{rating.code}</span>
@@ -268,8 +268,8 @@ class Shelf extends React.Component {
                             </div>
                         }
                         <div>
-                            {this.state.years.map(year =>
-                                <div key={year.value} className={this.state.years.indexOf(year) > 0 ? "child-toggle" : ""}>
+                            {this.state.years.map((year, index) =>
+                                <div key={index} className={index > 0 ? "child-toggle" : ""}>
                                     {
                                         books.some(x => x.year === year.value) &&
                                         <div className="year-toggle-container">

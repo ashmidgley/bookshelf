@@ -251,9 +251,9 @@ class SearchForm extends React.Component {
                                             this.state.searchBooks && this.state.searchBooks.length > 0 &&
                                             <div>
                                                 <div id="search-books-container">
-                                                    {this.state.searchBooks.map(book =>
+                                                    {this.state.searchBooks.map((book, index) =>
                                                         <button
-                                                            key={this.state.searchBooks.indexOf(book)}
+                                                            key={index}
                                                             onClick={() => {setFieldValue('book', book)}}
                                                             className={values.book && book === values.book ? "columns is-mobile custom-radio custom-radio-selected" : "columns is-mobile custom-radio"}> 
                                                             <div className="column is-1">

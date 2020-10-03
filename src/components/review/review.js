@@ -110,8 +110,8 @@ class Review extends React.Component {
                             <hr />
                             {
                                 this.state.paragraphs ?
-                                this.state.paragraphs.map(paragraph =>
-                                    <p className="summary-text">{paragraph}</p>
+                                this.state.paragraphs.map((paragraph, index) =>
+                                    <p key={index} className="summary-text">{paragraph}</p>
                                 )
                                 :
                                 <div className="notification">
