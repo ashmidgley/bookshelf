@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import { Formik } from 'formik';
+import { Helmet } from 'react-helmet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLock } from '@fortawesome/free-solid-svg-icons';
 import { validateEmail, validatePasswordLength } from '../../helpers/field-validator';
@@ -57,6 +58,13 @@ class Login extends React.Component {
     render() {
         return (
             <section className="section hero is-fullheight mobile-auth">
+                <Helmet>
+                    <title>Login - Bookshelf</title>
+                    <meta
+                        name="description"
+                        content="Log into Bookshelf to start keeping track of the books you've been reading."
+                    />
+                </Helmet>
                 <div className="hero-body mobile-auth">
                     <div className="container">
                         <div className="columns is-centered">

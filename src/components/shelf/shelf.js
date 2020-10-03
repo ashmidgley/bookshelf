@@ -199,7 +199,11 @@ class Shelf extends React.Component {
         return (
             <div className="shelf-container">
                 <Helmet>
-                    <title>Bookshelf - A free platform to keep track of your reads</title>
+                    <title>Bookshelf - An online shelf to keep track of your reads</title>
+                    <meta
+                        name="description"
+                        content={this.state.books.slice(0, 10).map(x => x.title).join(", ")}
+                    />
                 </Helmet>
                 <div className="shelf-menu-items columns card hide-mobile">
                     <div className="columns">
