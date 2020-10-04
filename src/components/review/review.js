@@ -2,6 +2,7 @@ import React from 'react';
 import './review.css';
 import Loading from '../loading/loading';
 import moment from 'moment';
+import { Helmet } from 'react-helmet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookOpen } from '@fortawesome/free-solid-svg-icons';
 import { getBook } from '../../actions/book-actions';
@@ -78,6 +79,13 @@ class Review extends React.Component {
 
         return (
             <div className="column is-8 is-offset-2 form-container">
+                <Helmet>
+                    <title>{this.state.book ? `${this.state.book.title} - Bookshelf` : "Review - Bookshelf"}</title>
+                    <meta
+                        name="description"
+                        content={this.state.book && this.state.book.summary.substring(0, 100)}
+                    />
+                </Helmet>
                 <div className="card custom-card">
                     <div className="card-content">
                         <div className="media">

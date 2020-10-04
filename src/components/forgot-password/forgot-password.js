@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask } from '@fortawesome/free-solid-svg-icons';
 import { validateEmail } from '../../helpers/field-validator';
 import { sendResetToken } from '../../actions/email-actions';
+import { Helmet } from 'react-helmet';
 
 class ForgotPassword extends React.Component {
 
@@ -56,7 +57,14 @@ class ForgotPassword extends React.Component {
 
     render() {
         return (
-            <div className="column is-8 is-offset-2 form-container"> 
+            <div className="column is-8 is-offset-2 form-container">
+                <Helmet>
+                    <title>Forgot Password - Bookshelf</title>
+                    <meta
+                        name="description"
+                        content="Forgot your password and can't log in? Enter your email and we'll send you a reset link."
+                    />
+                </Helmet>
                 <div className="card custom-card">
                     <div className="card-content">
                     <div className="media">
