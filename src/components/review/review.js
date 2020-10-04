@@ -83,7 +83,7 @@ class Review extends React.Component {
                     <title>{this.state.book ? `${this.state.book.title} - Bookshelf` : "Review - Bookshelf"}</title>
                     <meta
                         name="description"
-                        content={this.state.book && this.state.book.summary.substring(0, 100)}
+                        content={this.state.book && this.state.book.summary && this.state.book.summary.substring(0, 100)}
                     />
                 </Helmet>
                 <div className="card custom-card">
