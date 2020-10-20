@@ -4,7 +4,7 @@ import Loading from '../loading/loading';
 import { Link }from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faPlus, faCaretLeft, faCaretRight } from '@fortawesome/free-solid-svg-icons';
 import { customStyles } from '../../helpers/custom-modal';
 import { fetchCurrentUserBooks, removeBook } from '../../actions/book-actions';
 
@@ -14,6 +14,8 @@ class ManageBooks extends React.Component {
         super(props);
         this.state = {
             books: null,
+            hasMore: null,
+            page: null,
             selectedBookId: null,
             modalIsOpen: false,
             loading: true,
@@ -26,14 +28,16 @@ class ManageBooks extends React.Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         var token = localStorage.getItem("token");
-        this.fetchBooks(token);
+        this.fetchBooks(token, 0);
     }
 
-    fetchBooks = (token) => {
-        fetchCurrentUserBooks(token)
+    fetchBooks = (token, page) => {
+        fetchCurrentUserBooks(token, page)
             .then(response => {
                 this.setState({
-                    books: response,
+                    books: response.books,
+                    hasMore: response.hasMore,
+                    page: page,
                     loading: false
                 });
             })
@@ -95,6 +99,16 @@ class ManageBooks extends React.Component {
         this.setState({
             modalIsOpen: false
         });
+    }
+
+    pageLeft = () => {
+        var token = localStorage.getItem("token");
+        this.fetchBooks(token, this.state.page - 1);
+    }
+
+    pageRight = () => {
+        var token = localStorage.getItem("token");
+        this.fetchBooks(token, this.state.page + 1);
     }
 
     render() {
@@ -176,6 +190,14 @@ class ManageBooks extends React.Component {
                                         )}
                                     </tbody>
                                 </table>
+                                <div>
+                                    <button onClick={this.pageLeft} className="button mr-10" disabled={this.state.page === 0}>                     
+                                        <FontAwesomeIcon icon={faCaretLeft} size="lg"/>
+                                    </button>
+                                    <button onClick={this.pageRight} className="button" disabled={!this.state.hasMore}>
+                                        <FontAwesomeIcon icon={faCaretRight} size="lg"/>
+                                    </button>
+                                </div>
                             </div>
                         }
                     </div>

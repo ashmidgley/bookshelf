@@ -1,17 +1,15 @@
 import axios from 'axios';
-import moment from 'moment';
 import { createConfig, getErrorMessage } from '../helpers/action-helper';
 
 let bookUrl = process.env.REACT_APP_API_URL + '/books';
 
-export const fetchBooks = (userId) => {
-  var url = `${bookUrl}/user/${userId}`;
+export const fetchBooks = (userId, page) => {
+  var url = `${bookUrl}/user/${userId}/${page}`;
   return new Promise(
     (resolve, reject) => {
       axios.get(url)
         .then(response => {
-          var data = response.data.sort((a, b) => moment(b.finishedOn).valueOf() - moment(a.finishedOn).valueOf());
-          resolve(data);
+          resolve(response.data);
         })
         .catch(error => {
           console.error(error);
@@ -21,15 +19,14 @@ export const fetchBooks = (userId) => {
     });
 };
 
-export const fetchCurrentUserBooks = (token) => {
-  var url = `${bookUrl}/user`;
+export const fetchCurrentUserBooks = (token, page) => {
+  var url = `${bookUrl}/user/${page}`;
   var config = createConfig(token);
   return new Promise(
     (resolve, reject) => {
       axios.get(url, config)
         .then(response => {
-          var data = response.data.sort((a, b) => moment(b.finishedOn).valueOf() - moment(a.finishedOn).valueOf());
-          resolve(data);
+          resolve(response.data);
         })
         .catch(error => {
           console.error(error);
