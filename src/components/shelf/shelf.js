@@ -25,8 +25,6 @@ class Shelf extends React.Component {
             categoryMenu: null,
             ratingMenu: null,
             searchQuery: null,
-            selectedCategory: null,
-            selectedRating: null,
             loading: true,
             error: false
         }
@@ -148,8 +146,7 @@ class Shelf extends React.Component {
         var menu = this.state.categoryMenu.fill(false);
         menu[0] = true;
         this.setState({
-            categoryMenu: menu,
-            selectedCategory: null
+            categoryMenu: menu
         });
 
         const queryOptions = {
@@ -164,7 +161,6 @@ class Shelf extends React.Component {
         var menu = this.state.categoryMenu.fill(false);
         menu[this.state.categories.indexOf(category)+1] = true;
         this.setState({
-            selectedCategory: category.id,
             categoryMenu: menu
         });
 
@@ -180,8 +176,7 @@ class Shelf extends React.Component {
         var menu = this.state.ratingMenu.fill(false);
         menu[0] = true;
         this.setState({
-            ratingMenu: menu,
-            selectedRating: null
+            ratingMenu: menu
         });
 
         const queryOptions = {
@@ -196,7 +191,6 @@ class Shelf extends React.Component {
         var menu = this.state.ratingMenu.fill(false);
         menu[this.state.ratings.indexOf(rating)+1] = true;
         this.setState({
-            selectedRating: rating.id,
             ratingMenu: menu
         });
 
