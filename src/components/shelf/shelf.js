@@ -16,7 +16,9 @@ class Shelf extends React.Component {
             userId: parseInt(props.match.params.id),
             storageId: null,
             columnClass: 'column is-one-third child',
-            books: null,
+            books: [],
+            hasMore: null,
+            page: null,
             categories: null,
             ratings: null,
             years: null,
@@ -47,17 +49,20 @@ class Shelf extends React.Component {
     }
 
     getShelfData() {
-        this.fetchBooks();
+        this.fetchBooks(0);
         this.fetchCategories();
         this.fetchRatings();
     }
 
-    fetchBooks = () => {
-        fetchBooks(this.state.userId)
+    fetchBooks = (page) => {
+        fetchBooks(this.state.userId, page)
             .then(response => { 
+                const books = this.state.books.concat(response.books);
                 this.setState({
-                    books: response,
-                    years: this.getYears(response),
+                    books: books,
+                    hasMore: response.hasMore,
+                    years: this.getYears(books),
+                    page: page,
                     loading: false
                 });
             })
@@ -184,6 +189,10 @@ class Shelf extends React.Component {
         });
     }
 
+    viewMore = () => {
+        this.fetchBooks(this.state.page + 1);
+    }
+
     render() {
         if(this.state.loading) {
             return (
@@ -296,6 +305,14 @@ class Shelf extends React.Component {
                                     </div>
                                 </div>
                             )}
+                            {
+                                this.state.hasMore &&
+                                <div id="more" className="has-text-centered">
+                                    <a href="#more" onClick={this.viewMore}>
+                                        View more...
+                                    </a>
+                                </div>
+                            }
                         </div>
                     </div>
                 }
