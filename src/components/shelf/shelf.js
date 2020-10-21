@@ -24,7 +24,6 @@ class Shelf extends React.Component {
             years: null,
             categoryMenu: null,
             ratingMenu: null,
-            searchQuery: null,
             loading: true,
             error: false
         }
@@ -137,9 +136,12 @@ class Shelf extends React.Component {
     }
 
     searchSubmit = (e) => {
-        this.setState({
-            searchQuery: e.target.value.toLowerCase()
-        });
+        const queryOptions = {
+            ...this.state.queryOptions,
+            search: e.target.value.toLowerCase(),
+            page: 0
+        };
+        this.fetchBooks(queryOptions);
     }
 
     displayAllCategories = () => {
