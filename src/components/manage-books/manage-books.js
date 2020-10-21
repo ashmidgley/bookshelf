@@ -28,16 +28,16 @@ class ManageBooks extends React.Component {
     componentDidMount() {
         window.scrollTo(0, 0);
         var token = localStorage.getItem("token");
-        this.fetchBooks(token, 0);
+        this.fetchBooks(token, { page: 0 });
     }
 
-    fetchBooks = (token, page) => {
-        fetchCurrentUserBooks(token, page)
+    fetchBooks = (token, queryOptions) => {
+        fetchCurrentUserBooks(token, queryOptions)
             .then(response => {
                 this.setState({
                     books: response.books,
                     hasMore: response.hasMore,
-                    page: page,
+                    page: queryOptions.page,
                     loading: false
                 });
             })
@@ -103,12 +103,12 @@ class ManageBooks extends React.Component {
 
     pageLeft = () => {
         var token = localStorage.getItem("token");
-        this.fetchBooks(token, this.state.page - 1);
+        this.fetchBooks(token, { page: this.state.page - 1 });
     }
 
     pageRight = () => {
         var token = localStorage.getItem("token");
-        this.fetchBooks(token, this.state.page + 1);
+        this.fetchBooks(token, { page: this.state.page + 1 });
     }
 
     render() {

@@ -16,9 +16,9 @@ class Shelf extends React.Component {
             userId: parseInt(props.match.params.id),
             storageId: null,
             columnClass: 'column is-one-third child',
-            books: [],
+            books: null,
             hasMore: null,
-            page: null,
+            queryOptions: null,
             categories: null,
             ratings: null,
             years: null,
@@ -49,20 +49,20 @@ class Shelf extends React.Component {
     }
 
     getShelfData() {
-        this.fetchBooks(0);
+        this.fetchBooks({ page: 0 });
         this.fetchCategories();
         this.fetchRatings();
     }
 
-    fetchBooks = (page) => {
-        fetchBooks(this.state.userId, page)
-            .then(response => { 
-                const books = this.state.books.concat(response.books);
+    fetchBooks = (queryOptions, viewMore = false) => {
+        fetchBooks(this.state.userId, queryOptions)
+            .then(response => {
+                const books = viewMore ? this.state.books.concat(response.books) : response.books;
                 this.setState({
                     books: books,
                     hasMore: response.hasMore,
                     years: this.getYears(books),
-                    page: page,
+                    queryOptions: queryOptions,
                     loading: false
                 });
             })
@@ -151,6 +151,13 @@ class Shelf extends React.Component {
             categoryMenu: menu,
             selectedCategory: null
         });
+
+        const queryOptions = {
+            ...this.state.queryOptions,
+            category: null,
+            page: 0
+        };
+        this.fetchBooks(queryOptions);
      }
 
      categorySelected(category) {
@@ -160,6 +167,13 @@ class Shelf extends React.Component {
             selectedCategory: category.id,
             categoryMenu: menu
         });
+
+        const queryOptions = {
+            ...this.state.queryOptions,
+            category: category.id,
+            page: 0
+        };
+        this.fetchBooks(queryOptions);
      }
 
      displayAllRatings = () => {
@@ -169,6 +183,13 @@ class Shelf extends React.Component {
             ratingMenu: menu,
             selectedRating: null
         });
+
+        const queryOptions = {
+            ...this.state.queryOptions,
+            rating: null,
+            page: 0
+        };
+        this.fetchBooks(queryOptions);
      }
 
      ratingSelected(rating) {
@@ -178,6 +199,13 @@ class Shelf extends React.Component {
             selectedRating: rating.id,
             ratingMenu: menu
         });
+
+        const queryOptions = {
+            ...this.state.queryOptions,
+            rating: rating.id,
+            page: 0
+        };
+        this.fetchBooks(queryOptions);
     }
 
     toggleYear(value) {
@@ -190,7 +218,11 @@ class Shelf extends React.Component {
     }
 
     viewMore = () => {
-        this.fetchBooks(this.state.page + 1);
+        const queryOptions = {
+            ...this.state.queryOptions,
+            page: this.state.queryOptions.page + 1
+        };
+        this.fetchBooks(queryOptions, true);
     }
 
     render() {
@@ -199,11 +231,6 @@ class Shelf extends React.Component {
                 <Loading />
             );
         }
-
-        var books = this.state.books;
-        if(this.state.searchQuery) books = books.filter(b => b.title.toLowerCase().includes(this.state.searchQuery) || b.author.toLowerCase().includes(this.state.searchQuery));
-        if(this.state.selectedCategory) books =  books.filter(b => b.categoryId === this.state.selectedCategory);
-        if(this.state.selectedRating) books = books.filter(b => b.ratingId === this.state.selectedRating);
 
         return (
             <div className="shelf-container">
@@ -280,7 +307,7 @@ class Shelf extends React.Component {
                             {this.state.years.map((year, index) =>
                                 <div key={index} className={index > 0 ? "child-toggle" : ""}>
                                     {
-                                        books.some(x => x.year === year.value) &&
+                                        this.state.books.some(x => x.year === year.value) &&
                                         <div className="year-toggle-container">
                                             <button className="button is-link" onClick={() => this.toggleYear(year.value)}>
                                                 {year.value}
@@ -293,8 +320,8 @@ class Shelf extends React.Component {
                                         </div>
                                     }
                                     <div className="columns is-multiline is-mobile shelf-tiles">
-                                        {books.filter(book => book.year === year.value && year.show).map(book =>
-                                            <div key={book.id} className={this.state.columnClass}>
+                                        {this.state.books.filter(book => book.year === year.value && year.show).map((book, index) =>
+                                            <div key={index} className={this.state.columnClass}>
                                                 <div className="shelf-tile">
                                                     <Link to={`/review/${book.id}`} className="tile-link">
                                                         <img src={book.imageUrl} className="tile-image" alt="Shelf tile" />

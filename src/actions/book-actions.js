@@ -3,11 +3,11 @@ import { createConfig, getErrorMessage } from '../helpers/action-helper';
 
 let bookUrl = process.env.REACT_APP_API_URL + '/books';
 
-export const fetchBooks = (userId, page) => {
-  var url = `${bookUrl}/user/${userId}/${page}`;
+export const fetchBooks = (userId, options) => {
+  var url = `${bookUrl}/user/${userId}`;
   return new Promise(
     (resolve, reject) => {
-      axios.get(url)
+      axios.post(url, options)
         .then(response => {
           resolve(response.data);
         })
@@ -19,12 +19,12 @@ export const fetchBooks = (userId, page) => {
     });
 };
 
-export const fetchCurrentUserBooks = (token, page) => {
-  var url = `${bookUrl}/user/${page}`;
+export const fetchCurrentUserBooks = (token, options) => {
+  var url = `${bookUrl}/user`;
   var config = createConfig(token);
   return new Promise(
     (resolve, reject) => {
-      axios.get(url, config)
+      axios.post(url, options, config)
         .then(response => {
           resolve(response.data);
         })
