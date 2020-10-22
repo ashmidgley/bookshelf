@@ -81,6 +81,10 @@
     margin-top: -30px;
 }
 
+#more {
+    margin-bottom: 20px;
+}
+
 @media only screen and (max-width: 600px) {
     .shelf-container {
         padding-top: 0;

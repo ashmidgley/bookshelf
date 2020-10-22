@@ -7,6 +7,7 @@ import { fetchBooks } from '../../actions/book-actions';
 import { fetchCategories } from '../../actions/category-actions';
 import { fetchRatings } from '../../actions/rating-actions';
 import { parseUser } from '../../helpers/auth-helper';
+import _ from 'lodash';
 
 class Shelf extends React.Component {
 
@@ -16,15 +17,14 @@ class Shelf extends React.Component {
             userId: parseInt(props.match.params.id),
             storageId: null,
             columnClass: 'column is-one-third child',
+            queryOptions: null,
             books: null,
+            hasMore: null,
             categories: null,
             ratings: null,
             years: null,
             categoryMenu: null,
             ratingMenu: null,
-            searchQuery: null,
-            selectedCategory: null,
-            selectedRating: null,
             loading: true,
             error: false
         }
@@ -47,17 +47,20 @@ class Shelf extends React.Component {
     }
 
     getShelfData() {
-        this.fetchBooks();
+        this.fetchBooks({ page: 0 });
         this.fetchCategories();
         this.fetchRatings();
     }
 
-    fetchBooks = () => {
-        fetchBooks(this.state.userId)
-            .then(response => { 
+    fetchBooks = (queryOptions, viewMore = false) => {
+        fetchBooks(this.state.userId, queryOptions)
+            .then(response => {
+                const books = viewMore ? this.state.books.concat(response.books) : response.books;
                 this.setState({
-                    books: response,
-                    years: this.getYears(response),
+                    books: books,
+                    hasMore: response.hasMore,
+                    years: this.getYears(books),
+                    queryOptions: queryOptions,
                     loading: false
                 });
             })
@@ -134,45 +137,80 @@ class Shelf extends React.Component {
     }
 
     searchSubmit = (e) => {
-        this.setState({
-            searchQuery: e.target.value.toLowerCase()
-        });
+        e.persist();
+
+        if (!this.debouncedFn) {
+            this.debouncedFn =  _.debounce(() => {
+                const queryOptions = {
+                    ...this.state.queryOptions,
+                    search: e.target.value.toLowerCase(),
+                    page: 0
+                };
+                this.fetchBooks(queryOptions);
+            }, 1000);
+        }
+          
+        this.debouncedFn();
     }
 
     displayAllCategories = () => {
         var menu = this.state.categoryMenu.fill(false);
         menu[0] = true;
         this.setState({
-            categoryMenu: menu,
-            selectedCategory: null
+            categoryMenu: menu
         });
+
+        const queryOptions = {
+            ...this.state.queryOptions,
+            category: null,
+            page: 0
+        };
+        this.fetchBooks(queryOptions);
      }
 
      categorySelected(category) {
         var menu = this.state.categoryMenu.fill(false);
         menu[this.state.categories.indexOf(category)+1] = true;
         this.setState({
-            selectedCategory: category.id,
             categoryMenu: menu
         });
+
+        const queryOptions = {
+            ...this.state.queryOptions,
+            category: category.id,
+            page: 0
+        };
+        this.fetchBooks(queryOptions);
      }
 
      displayAllRatings = () => {
         var menu = this.state.ratingMenu.fill(false);
         menu[0] = true;
         this.setState({
-            ratingMenu: menu,
-            selectedRating: null
+            ratingMenu: menu
         });
+
+        const queryOptions = {
+            ...this.state.queryOptions,
+            rating: null,
+            page: 0
+        };
+        this.fetchBooks(queryOptions);
      }
 
      ratingSelected(rating) {
         var menu = this.state.ratingMenu.fill(false);
         menu[this.state.ratings.indexOf(rating)+1] = true;
         this.setState({
-            selectedRating: rating.id,
             ratingMenu: menu
         });
+
+        const queryOptions = {
+            ...this.state.queryOptions,
+            rating: rating.id,
+            page: 0
+        };
+        this.fetchBooks(queryOptions);
     }
 
     toggleYear(value) {
@@ -184,17 +222,20 @@ class Shelf extends React.Component {
         });
     }
 
+    viewMore = () => {
+        const queryOptions = {
+            ...this.state.queryOptions,
+            page: this.state.queryOptions.page + 1
+        };
+        this.fetchBooks(queryOptions, true);
+    }
+
     render() {
         if(this.state.loading) {
             return (
                 <Loading />
             );
         }
-
-        var books = this.state.books;
-        if(this.state.searchQuery) books = books.filter(b => b.title.toLowerCase().includes(this.state.searchQuery) || b.author.toLowerCase().includes(this.state.searchQuery));
-        if(this.state.selectedCategory) books =  books.filter(b => b.categoryId === this.state.selectedCategory);
-        if(this.state.selectedRating) books = books.filter(b => b.ratingId === this.state.selectedRating);
 
         return (
             <div className="shelf-container">
@@ -271,7 +312,7 @@ class Shelf extends React.Component {
                             {this.state.years.map((year, index) =>
                                 <div key={index} className={index > 0 ? "child-toggle" : ""}>
                                     {
-                                        books.some(x => x.year === year.value) &&
+                                        this.state.books.some(x => x.year === year.value) &&
                                         <div className="year-toggle-container">
                                             <button className="button is-link" onClick={() => this.toggleYear(year.value)}>
                                                 {year.value}
@@ -284,8 +325,8 @@ class Shelf extends React.Component {
                                         </div>
                                     }
                                     <div className="columns is-multiline is-mobile shelf-tiles">
-                                        {books.filter(book => book.year === year.value && year.show).map(book =>
-                                            <div key={book.id} className={this.state.columnClass}>
+                                        {this.state.books.filter(book => book.year === year.value && year.show).map((book, index) =>
+                                            <div key={index} className={this.state.columnClass}>
                                                 <div className="shelf-tile">
                                                     <Link to={`/review/${book.id}`} className="tile-link">
                                                         <img src={book.imageUrl} className="tile-image" alt="Shelf tile" />
@@ -296,6 +337,14 @@ class Shelf extends React.Component {
                                     </div>
                                 </div>
                             )}
+                            {
+                                this.state.hasMore &&
+                                <div id="more" className="has-text-centered">
+                                    <a href="#more" onClick={this.viewMore}>
+                                        View more...
+                                    </a>
+                                </div>
+                            }
                         </div>
                     </div>
                 }
