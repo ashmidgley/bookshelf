@@ -7,6 +7,7 @@ import { fetchBooks } from '../../actions/book-actions';
 import { fetchCategories } from '../../actions/category-actions';
 import { fetchRatings } from '../../actions/rating-actions';
 import { parseUser } from '../../helpers/auth-helper';
+import _ from 'lodash';
 
 class Shelf extends React.Component {
 
@@ -136,12 +137,20 @@ class Shelf extends React.Component {
     }
 
     searchSubmit = (e) => {
-        const queryOptions = {
-            ...this.state.queryOptions,
-            search: e.target.value.toLowerCase(),
-            page: 0
-        };
-        this.fetchBooks(queryOptions);
+        e.persist();
+
+        if (!this.debouncedFn) {
+            this.debouncedFn =  _.debounce(() => {
+                const queryOptions = {
+                    ...this.state.queryOptions,
+                    search: e.target.value.toLowerCase(),
+                    page: 0
+                };
+                this.fetchBooks(queryOptions);
+            }, 1000);
+        }
+          
+        this.debouncedFn();
     }
 
     displayAllCategories = () => {
