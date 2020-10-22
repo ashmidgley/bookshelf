@@ -1,4 +1,4 @@
-import { parseJwt } from './auth-helper';
+import jwt_decode from "jwt-decode";
 
 export const createConfig = (token) => {
   var config = {
@@ -10,7 +10,7 @@ export const createConfig = (token) => {
 }
 
 export const createUserPayload = (token) => {
-  var payload = parseJwt(token);
+  var payload = jwt_decode(token);
   var expiryDate = payload.exp;
   var id = parseInt(payload.Id);
   return { token, expiryDate, id };
