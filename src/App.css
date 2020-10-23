@@ -91,6 +91,10 @@
   margin-right: 10px;
 }
 
+.mb-20 {
+  margin-bottom: 20px;
+}
+
 @media only screen and (max-width: 600px) {
   .custom-label, .custom-label:not(:last-child) {
     margin-top: 25px;
