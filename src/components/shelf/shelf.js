@@ -1,6 +1,7 @@
 import React from 'react';
 import './shelf.css'
 import Loading from '../loading/loading';
+import InfiniteScroll from 'react-infinite-scroller';
 import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import { fetchBooks } from '../../actions/book-actions';
@@ -222,7 +223,7 @@ class Shelf extends React.Component {
         });
     }
 
-    viewMore = () => {
+    loadMore = () => {
         const queryOptions = {
             ...this.state.queryOptions,
             page: this.state.queryOptions.page + 1
@@ -308,44 +309,43 @@ class Shelf extends React.Component {
                                 }
                             </div>
                         }
-                        <div>
-                            {this.state.years.map((year, index) =>
-                                <div key={index} className={index > 0 ? "child-toggle" : ""}>
-                                    {
-                                        this.state.books.some(x => x.year === year.value) &&
-                                        <div className="year-toggle-container">
-                                            <button className="button is-link" onClick={() => this.toggleYear(year.value)}>
-                                                {year.value}
-                                                {year.show ?
-                                                    <i className="fa fa-sort-down shelf-year-dropdown"></i>
-                                                    :
-                                                    <i className="fa fa-sort-up shelf-year-dropdown"></i>
-                                                }
-                                            </button>
-                                        </div>
-                                    }
-                                    <div className="columns is-multiline is-mobile shelf-tiles">
-                                        {this.state.books.filter(book => book.year === year.value && year.show).map((book, index) =>
-                                            <div key={index} className={this.state.columnClass}>
-                                                <div className="shelf-tile">
-                                                    <Link to={`/review/${book.id}`} className="tile-link">
-                                                        <img src={book.imageUrl} className="tile-image" alt="Shelf tile" />
-                                                    </Link>
-                                                </div>
+                        <InfiniteScroll
+                            pageStart={0}
+                            loadMore={this.loadMore}
+                            hasMore={this.state.hasMore}
+                            loader={<div key={0} className="has-text-centered mb-20">Loading ...</div>}
+                        >
+                           <div>
+                                {this.state.years.map((year, index) =>
+                                    <div key={index} className={index > 0 ? "child-toggle" : ""}>
+                                        {
+                                            this.state.books.some(x => x.year === year.value) &&
+                                            <div className="year-toggle-container">
+                                                <button className="button is-link" onClick={() => this.toggleYear(year.value)}>
+                                                    {year.value}
+                                                    {year.show ?
+                                                        <i className="fa fa-sort-down shelf-year-dropdown"></i>
+                                                        :
+                                                        <i className="fa fa-sort-up shelf-year-dropdown"></i>
+                                                    }
+                                                </button>
                                             </div>
-                                        )}
+                                        }
+                                        <div className="columns is-multiline is-mobile shelf-tiles">
+                                            {this.state.books.filter(book => book.year === year.value && year.show).map((book, index) =>
+                                                <div key={index} className={this.state.columnClass}>
+                                                    <div className="shelf-tile">
+                                                        <Link to={`/review/${book.id}`} className="tile-link">
+                                                            <img src={book.imageUrl} className="tile-image" alt="Shelf tile" />
+                                                        </Link>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
-                                </div>
-                            )}
-                            {
-                                this.state.hasMore &&
-                                <div id="more" className="has-text-centered">
-                                    <a href="#more" onClick={this.viewMore}>
-                                        View more...
-                                    </a>
-                                </div>
-                            }
-                        </div>
+                                )}
+                            </div>
+                        </InfiniteScroll>
                     </div>
                 }
             </div>
