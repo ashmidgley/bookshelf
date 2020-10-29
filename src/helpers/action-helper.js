@@ -3,25 +3,25 @@ import jwt_decode from "jwt-decode";
 export const createConfig = (token) => {
   var config = {
     headers: {
-      'Authorization': 'Bearer ' + token
-    }
+      Authorization: "Bearer " + token,
+    },
   };
   return config;
-}
+};
 
 export const createUserPayload = (token) => {
   var payload = jwt_decode(token);
   var expiryDate = payload.exp;
   var id = parseInt(payload.Id);
   return { token, expiryDate, id };
-}
+};
 
 export const getErrorMessage = (error) => {
-  if(!error.response) {
+  if (!error.response) {
     return error.message;
   }
-  
-  switch(error.response.status) {
+
+  switch (error.response.status) {
     case 400:
       return error.response.data;
     case 405:
@@ -35,4 +35,4 @@ export const getErrorMessage = (error) => {
     default:
       return "An unexpected error occurred. Please refresh the page and try again.";
   }
-}
+};

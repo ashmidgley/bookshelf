@@ -1,7 +1,7 @@
 .radio-container .radio {
-    margin-left: 3px;
+  margin-left: 3px;
 }
 
 .radio-container > input:not(:first-child) {
-    margin-left: 10px;
+  margin-left: 10px;
 }

@@ -1,49 +1,49 @@
 #search-books-container {
-    margin: 30px 15px;
+  margin: 30px 15px;
 }
-  #search-books-container > button {
-    width: 100%;
-  }
+#search-books-container > button {
+  width: 100%;
+}
 
-  #search-books-container > button:focus {
-    outline: 0;
-  }
+#search-books-container > button:focus {
+  outline: 0;
+}
 
-  #search-books-container .column {
-      margin-top: auto;
-      margin-bottom: auto;
-  }
+#search-books-container .column {
+  margin-top: auto;
+  margin-bottom: auto;
+}
 
 #search-image-column {
-    padding: 0;
+  padding: 0;
 }
 
-  #search-image-column > img {
-    border-radius: 3px;
-  }
+#search-image-column > img {
+  border-radius: 3px;
+}
 
 .custom-radio {
-    background-color: #fff;
-    border: 1px solid #dbdbdb;
-    color: #363636;
-    border-radius: 5px;
-    padding: 10px;
-    margin-top: 0;
-    margin-left: 0;
-    margin-right: 0;
-  }
+  background-color: #fff;
+  border: 1px solid #dbdbdb;
+  color: #363636;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
 
-    .custom-radio:hover {
-      cursor: pointer;
-      border-color: #b5b5b5;
-      color: #363636;
-    }
-  
-  .custom-radio-selected {
-    background-color: #6ac58a;
-    border-color: #6ac58a;
-    color: white !important;
-  }
+.custom-radio:hover {
+  cursor: pointer;
+  border-color: #b5b5b5;
+  color: #363636;
+}
+
+.custom-radio-selected {
+  background-color: #6ac58a;
+  border-color: #6ac58a;
+  color: white !important;
+}
 
 .custom-radio-input {
   vertical-align: initial;
