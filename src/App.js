@@ -1,10 +1,10 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter, Redirect } from "react-router-dom";
-import { clearUser } from "./actions/user-actions";
+import { clearUser } from "./users/user.service";
 import Routes from "./routes";
-import Footer from "./components/footer/footer";
-import Navigation from "./components/navigation/navigation";
+import Footer from "./shared/footer/footer";
+import Navigation from "./shared/navigation/navigation";
 
 class App extends React.Component {
   componentDidMount() {
