@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,20 +8,16 @@ import { sendResetToken } from "../../shared/email.service";
 import { Helmet } from "react-helmet";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = React.useState();
-  const [submitting, setSubmitting] = React.useState(false);
-  const [submitted, setSubmitted] = React.useState(false);
-  const [error, setError] = React.useState();
+  const [email, setEmail] = useState();
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState();
 
   const submitEntry = (values) => {
     setEmail(values.email);
     setError(null);
     setSubmitting(true);
-    sendToken(values.email);
-  };
-
-  const sendToken = (email) => {
-    sendResetToken(email)
+    sendResetToken(values.email)
       .then(() => {
         handleSuccess();
       })

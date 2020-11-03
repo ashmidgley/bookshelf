@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { withRouter, Link } from "react-router-dom";
 import { Formik } from "formik";
@@ -12,8 +12,8 @@ import {
 import { register } from "../../shared/auth.service";
 
 const Register = ({ history }) => {
-  const [submitting, setSubmitting] = React.useState(false);
-  const [error, setError] = React.useState();
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState();
 
   const submitEntry = (values) => {
     setError(null);
@@ -24,10 +24,6 @@ const Register = ({ history }) => {
       password: values.password,
     };
 
-    registerUser(user);
-  };
-
-  const registerUser = (user) => {
     register(user)
       .then((response) => {
         handleSuccess(response);
