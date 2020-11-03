@@ -6,9 +6,9 @@ import moment from "moment";
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBookOpen } from "@fortawesome/free-solid-svg-icons";
-import { getBook } from "../../books/book.service";
-import { getCategory } from "../../categories/category.service";
-import { getRating } from "../../ratings/rating.service";
+import { getBook } from "../../shared/book.service";
+import { getCategory } from "../../shared/category.service";
+import { getRating } from "../../shared/rating.service";
 
 class Review extends React.Component {
   constructor(props) {

@@ -4,7 +4,7 @@ import { Formik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMask } from "@fortawesome/free-solid-svg-icons";
 import { validatePasswordLength } from "../../shared/field-validator";
-import { updatePassword } from "../user.service";
+import { updatePassword } from "../../shared/user.service";
 
 class UpdatePassword extends React.Component {
   constructor(props) {

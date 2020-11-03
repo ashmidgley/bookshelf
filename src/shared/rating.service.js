@@ -1,44 +1,11 @@
 import axios from "axios";
-import { createConfig } from "../auth/token.service";
-import { getErrorMessage } from "../shared/utils.service";
+import { createConfig } from "./token.service";
+import { getErrorMessage } from "./utils.service";
 
-let bookUrl = process.env.REACT_APP_API_URL + "/books";
+let ratingUrl = process.env.REACT_APP_API_URL + "/ratings";
 
-export const fetchBooks = (userId, options) => {
-  var url = `${bookUrl}/user/${userId}`;
-  return new Promise((resolve, reject) => {
-    axios
-      .post(url, options)
-      .then((response) => {
-        resolve(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-        var message = getErrorMessage(error);
-        reject(message);
-      });
-  });
-};
-
-export const fetchCurrentUserBooks = (token, options) => {
-  var url = `${bookUrl}/user`;
-  var config = createConfig(token);
-  return new Promise((resolve, reject) => {
-    axios
-      .post(url, options, config)
-      .then((response) => {
-        resolve(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-        var message = getErrorMessage(error);
-        reject(message);
-      });
-  });
-};
-
-export const getBook = (id) => {
-  var url = `${bookUrl}/${id}`;
+export const fetchRatings = (userId) => {
+  var url = `${ratingUrl}/user/${userId}`;
   return new Promise((resolve, reject) => {
     axios
       .get(url)
@@ -53,11 +20,12 @@ export const getBook = (id) => {
   });
 };
 
-export const createBook = (postData, token) => {
+export const fetchCurrentUserRatings = (token) => {
+  var url = `${ratingUrl}/user`;
   var config = createConfig(token);
   return new Promise((resolve, reject) => {
     axios
-      .post(bookUrl, postData, config)
+      .get(url, config)
       .then((response) => {
         resolve(response.data);
       })
@@ -69,11 +37,11 @@ export const createBook = (postData, token) => {
   });
 };
 
-export const updateBook = (postData, token) => {
-  var config = createConfig(token);
+export const getRating = (id) => {
+  var url = `${ratingUrl}/${id}`;
   return new Promise((resolve, reject) => {
     axios
-      .put(bookUrl, postData, config)
+      .get(url)
       .then((response) => {
         resolve(response.data);
       })
@@ -85,8 +53,40 @@ export const updateBook = (postData, token) => {
   });
 };
 
-export const removeBook = (id, token) => {
-  var url = `${bookUrl}/${id}`;
+export const createRating = (postData, token) => {
+  var config = createConfig(token);
+  return new Promise((resolve, reject) => {
+    axios
+      .post(ratingUrl, postData, config)
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+        var message = getErrorMessage(error);
+        reject(message);
+      });
+  });
+};
+
+export const updateRating = (postData, token) => {
+  var config = createConfig(token);
+  return new Promise((resolve, reject) => {
+    axios
+      .put(ratingUrl, postData, config)
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+        var message = getErrorMessage(error);
+        reject(message);
+      });
+  });
+};
+
+export const removeRating = (id, token) => {
+  var url = `${ratingUrl}/${id}`;
   var config = createConfig(token);
   return new Promise((resolve, reject) => {
     axios

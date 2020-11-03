@@ -4,7 +4,7 @@ import { Formik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMask } from "@fortawesome/free-solid-svg-icons";
 import { validateEmail } from "../../shared/field-validator";
-import { sendResetToken } from "../email.service";
+import { sendResetToken } from "../../shared/email.service";
 import { Helmet } from "react-helmet";
 
 const ForgotPassword = () => {

@@ -1,6 +1,6 @@
 import axios from "axios";
-import { createConfig } from "../auth/token.service";
-import { getErrorMessage } from "../shared/utils.service";
+import { createConfig } from "./token.service";
+import { getErrorMessage } from "./utils.service";
 
 let searchUrl = process.env.REACT_APP_API_URL + "/search";
 

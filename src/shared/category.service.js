@@ -1,11 +1,11 @@
 import axios from "axios";
-import { createConfig } from "../auth/token.service";
-import { getErrorMessage } from "../shared/utils.service";
+import { createConfig } from "./token.service";
+import { getErrorMessage } from "./utils.service";
 
-let ratingUrl = process.env.REACT_APP_API_URL + "/ratings";
+let categoryUrl = process.env.REACT_APP_API_URL + "/categories";
 
-export const fetchRatings = (userId) => {
-  var url = `${ratingUrl}/user/${userId}`;
+export const fetchCategories = (userId) => {
+  var url = `${categoryUrl}/user/${userId}`;
   return new Promise((resolve, reject) => {
     axios
       .get(url)
@@ -20,8 +20,8 @@ export const fetchRatings = (userId) => {
   });
 };
 
-export const fetchCurrentUserRatings = (token) => {
-  var url = `${ratingUrl}/user`;
+export const fetchCurrentUserCategories = (token) => {
+  var url = `${categoryUrl}/user`;
   var config = createConfig(token);
   return new Promise((resolve, reject) => {
     axios
@@ -37,8 +37,8 @@ export const fetchCurrentUserRatings = (token) => {
   });
 };
 
-export const getRating = (id) => {
-  var url = `${ratingUrl}/${id}`;
+export const getCategory = (id) => {
+  var url = `${categoryUrl}/${id}`;
   return new Promise((resolve, reject) => {
     axios
       .get(url)
@@ -53,11 +53,11 @@ export const getRating = (id) => {
   });
 };
 
-export const createRating = (postData, token) => {
+export const createCategory = (postData, token) => {
   var config = createConfig(token);
   return new Promise((resolve, reject) => {
     axios
-      .post(ratingUrl, postData, config)
+      .post(categoryUrl, postData, config)
       .then((response) => {
         resolve(response.data);
       })
@@ -69,11 +69,11 @@ export const createRating = (postData, token) => {
   });
 };
 
-export const updateRating = (postData, token) => {
+export const updateCategory = (postData, token) => {
   var config = createConfig(token);
   return new Promise((resolve, reject) => {
     axios
-      .put(ratingUrl, postData, config)
+      .put(categoryUrl, postData, config)
       .then((response) => {
         resolve(response.data);
       })
@@ -85,8 +85,8 @@ export const updateRating = (postData, token) => {
   });
 };
 
-export const removeRating = (id, token) => {
-  var url = `${ratingUrl}/${id}`;
+export const removeCategory = (id, token) => {
+  var url = `${categoryUrl}/${id}`;
   var config = createConfig(token);
   return new Promise((resolve, reject) => {
     axios

@@ -1,14 +1,14 @@
 import axios from "axios";
-import { createConfig } from "../auth/token.service";
-import { getErrorMessage } from "../shared/utils.service";
+import { createConfig } from "./token.service";
+import { getErrorMessage } from "./utils.service";
 
-let categoryUrl = process.env.REACT_APP_API_URL + "/categories";
+let userUrl = process.env.REACT_APP_API_URL + "/users";
 
-export const fetchCategories = (userId) => {
-  var url = `${categoryUrl}/user/${userId}`;
+export const fetchUsers = (token) => {
+  var config = createConfig(token);
   return new Promise((resolve, reject) => {
     axios
-      .get(url)
+      .get(userUrl, config)
       .then((response) => {
         resolve(response.data);
       })
@@ -20,8 +20,8 @@ export const fetchCategories = (userId) => {
   });
 };
 
-export const fetchCurrentUserCategories = (token) => {
-  var url = `${categoryUrl}/user`;
+export const getUser = (id, token) => {
+  var url = `${userUrl}/${id}`;
   var config = createConfig(token);
   return new Promise((resolve, reject) => {
     axios
@@ -37,27 +37,11 @@ export const fetchCurrentUserCategories = (token) => {
   });
 };
 
-export const getCategory = (id) => {
-  var url = `${categoryUrl}/${id}`;
-  return new Promise((resolve, reject) => {
-    axios
-      .get(url)
-      .then((response) => {
-        resolve(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-        var message = getErrorMessage(error);
-        reject(message);
-      });
-  });
-};
-
-export const createCategory = (postData, token) => {
+export const updateUser = (user, token) => {
   var config = createConfig(token);
   return new Promise((resolve, reject) => {
     axios
-      .post(categoryUrl, postData, config)
+      .put(userUrl, user, config)
       .then((response) => {
         resolve(response.data);
       })
@@ -69,11 +53,12 @@ export const createCategory = (postData, token) => {
   });
 };
 
-export const updateCategory = (postData, token) => {
+export const updateEmail = (data, token) => {
+  var url = `${userUrl}/email`;
   var config = createConfig(token);
   return new Promise((resolve, reject) => {
     axios
-      .put(categoryUrl, postData, config)
+      .put(url, data, config)
       .then((response) => {
         resolve(response.data);
       })
@@ -85,8 +70,25 @@ export const updateCategory = (postData, token) => {
   });
 };
 
-export const removeCategory = (id, token) => {
-  var url = `${categoryUrl}/${id}`;
+export const updatePassword = (data, token) => {
+  var url = `${userUrl}/password`;
+  var config = createConfig(token);
+  return new Promise((resolve, reject) => {
+    axios
+      .put(url, data, config)
+      .then((response) => {
+        resolve(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+        var message = getErrorMessage(error);
+        reject(message);
+      });
+  });
+};
+
+export const deleteUser = (userId, token) => {
+  var url = `${userUrl}/${userId}`;
   var config = createConfig(token);
   return new Promise((resolve, reject) => {
     axios
@@ -99,5 +101,13 @@ export const removeCategory = (id, token) => {
         var message = getErrorMessage(error);
         reject(message);
       });
+  });
+};
+
+export const clearUser = () => {
+  return new Promise((resolve) => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("expiryDate");
+    resolve();
   });
 };

@@ -9,7 +9,7 @@ import {
   searchBooks,
   searchBooksByTitle,
   searchBooksByAuthor,
-} from "../search.service";
+} from "../../shared/search.service";
 
 class SearchForm extends React.Component {
   constructor(props) {

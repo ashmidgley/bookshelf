@@ -11,7 +11,7 @@ import {
   faCaretRight,
 } from "@fortawesome/free-solid-svg-icons";
 import { customStyles } from "../../shared/custom-modal";
-import { fetchCurrentUserBooks, removeBook } from "../../books/book.service";
+import { fetchCurrentUserBooks, removeBook } from "../../shared/book.service";
 
 class ManageBooks extends React.Component {
   constructor(props) {

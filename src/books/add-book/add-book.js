@@ -7,10 +7,10 @@ import { withRouter, Link } from "react-router-dom";
 import { Formik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { createBook } from "../book.service";
-import { fetchCurrentUserCategories } from "../../categories/category.service";
-import { fetchCurrentUserRatings } from "../../ratings/rating.service";
-import { validImage } from "../image-validator";
+import { createBook } from "../../shared/book.service";
+import { fetchCurrentUserCategories } from "../../shared/category.service";
+import { fetchCurrentUserRatings } from "../../shared/rating.service";
+import { validImage } from "../../shared/image-validator";
 
 class AddBook extends React.Component {
   constructor(props) {

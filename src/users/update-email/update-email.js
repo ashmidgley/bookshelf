@@ -5,7 +5,7 @@ import { Formik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMask } from "@fortawesome/free-solid-svg-icons";
 import { validateEmail } from "../../shared/field-validator";
-import { updateEmail, clearUser } from "../user.service";
+import { updateEmail, clearUser } from "../../shared/user.service";
 
 class UpdateEmail extends React.Component {
   constructor(props) {

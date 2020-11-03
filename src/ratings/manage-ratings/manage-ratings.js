@@ -6,7 +6,10 @@ import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { customStyles } from "../../shared/custom-modal";
-import { fetchCurrentUserRatings, removeRating } from "../rating.service";
+import {
+  fetchCurrentUserRatings,
+  removeRating,
+} from "../../shared/rating.service";
 
 class ManageRatings extends React.Component {
   constructor(props) {

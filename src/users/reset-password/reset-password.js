@@ -9,7 +9,7 @@ import { validatePasswordLength } from "../../shared/field-validator";
 import {
   resetTokenValid,
   updatePasswordUsingToken,
-} from "../../auth/auth.service";
+} from "../../shared/auth.service";
 
 class ResetPassword extends React.Component {
   constructor(props) {

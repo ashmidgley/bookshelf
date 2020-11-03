@@ -1,14 +1,14 @@
 import axios from "axios";
-import { createConfig } from "../auth/token.service";
-import { getErrorMessage } from "../shared/utils.service";
+import { createConfig } from "./token.service";
+import { getErrorMessage } from "./utils.service";
 
-let userUrl = process.env.REACT_APP_API_URL + "/users";
+let bookUrl = process.env.REACT_APP_API_URL + "/books";
 
-export const fetchUsers = (token) => {
-  var config = createConfig(token);
+export const fetchBooks = (userId, options) => {
+  var url = `${bookUrl}/user/${userId}`;
   return new Promise((resolve, reject) => {
     axios
-      .get(userUrl, config)
+      .post(url, options)
       .then((response) => {
         resolve(response.data);
       })
@@ -20,12 +20,12 @@ export const fetchUsers = (token) => {
   });
 };
 
-export const getUser = (id, token) => {
-  var url = `${userUrl}/${id}`;
+export const fetchCurrentUserBooks = (token, options) => {
+  var url = `${bookUrl}/user`;
   var config = createConfig(token);
   return new Promise((resolve, reject) => {
     axios
-      .get(url, config)
+      .post(url, options, config)
       .then((response) => {
         resolve(response.data);
       })
@@ -37,11 +37,11 @@ export const getUser = (id, token) => {
   });
 };
 
-export const updateUser = (user, token) => {
-  var config = createConfig(token);
+export const getBook = (id) => {
+  var url = `${bookUrl}/${id}`;
   return new Promise((resolve, reject) => {
     axios
-      .put(userUrl, user, config)
+      .get(url)
       .then((response) => {
         resolve(response.data);
       })
@@ -53,12 +53,11 @@ export const updateUser = (user, token) => {
   });
 };
 
-export const updateEmail = (data, token) => {
-  var url = `${userUrl}/email`;
+export const createBook = (postData, token) => {
   var config = createConfig(token);
   return new Promise((resolve, reject) => {
     axios
-      .put(url, data, config)
+      .post(bookUrl, postData, config)
       .then((response) => {
         resolve(response.data);
       })
@@ -70,12 +69,11 @@ export const updateEmail = (data, token) => {
   });
 };
 
-export const updatePassword = (data, token) => {
-  var url = `${userUrl}/password`;
+export const updateBook = (postData, token) => {
   var config = createConfig(token);
   return new Promise((resolve, reject) => {
     axios
-      .put(url, data, config)
+      .put(bookUrl, postData, config)
       .then((response) => {
         resolve(response.data);
       })
@@ -87,8 +85,8 @@ export const updatePassword = (data, token) => {
   });
 };
 
-export const deleteUser = (userId, token) => {
-  var url = `${userUrl}/${userId}`;
+export const removeBook = (id, token) => {
+  var url = `${bookUrl}/${id}`;
   var config = createConfig(token);
   return new Promise((resolve, reject) => {
     axios
@@ -101,13 +99,5 @@ export const deleteUser = (userId, token) => {
         var message = getErrorMessage(error);
         reject(message);
       });
-  });
-};
-
-export const clearUser = () => {
-  return new Promise((resolve) => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("expiryDate");
-    resolve();
   });
 };

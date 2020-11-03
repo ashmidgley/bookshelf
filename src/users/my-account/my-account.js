@@ -5,7 +5,7 @@ import { withRouter, Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMask } from "@fortawesome/free-solid-svg-icons";
-import { parseUser } from "../../auth/token.service";
+import { parseUser } from "../../shared/token.service";
 
 class MyAccount extends React.Component {
   constructor(props) {

@@ -4,9 +4,9 @@ import "./desktop-nav.css";
 import { withRouter, NavLink, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
-import { clearUser } from "../../users/user.service";
-import { tokenExpired, parseUser } from "../../auth/token.service";
-import { validAnonymousPath } from "../utils.service";
+import { clearUser } from "../../shared/user.service";
+import { tokenExpired, parseUser } from "../../shared/token.service";
+import { validAnonymousPath } from "../../shared/utils.service";
 
 class DesktopNav extends React.Component {
   constructor(props) {

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getErrorMessage } from "../shared/utils.service";
+import { getErrorMessage } from "./utils.service";
 import { persistToken, createUserPayload } from "./token.service";
 
 let authUrl = process.env.REACT_APP_API_URL + "/auth";

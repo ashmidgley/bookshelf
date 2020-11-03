@@ -9,7 +9,7 @@ import {
   validateEmail,
   validatePasswordLength,
 } from "../../shared/field-validator";
-import { login } from "../auth.service";
+import { login } from "../../shared/auth.service";
 
 const Login = ({ history }) => {
   const [submitting, setSubmitting] = React.useState(false);

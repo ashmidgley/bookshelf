@@ -9,7 +9,7 @@ import {
   validateEmail,
   validatePasswordLength,
 } from "../../shared/field-validator";
-import { register } from "../auth.service";
+import { register } from "../../shared/auth.service";
 
 const Register = ({ history }) => {
   const [submitting, setSubmitting] = React.useState(false);

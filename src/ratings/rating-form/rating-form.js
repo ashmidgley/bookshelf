@@ -5,7 +5,11 @@ import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { getRating, createRating, updateRating } from "../rating.service";
+import {
+  getRating,
+  createRating,
+  updateRating,
+} from "../../shared/rating.service";
 
 class RatingForm extends React.Component {
   constructor(props) {

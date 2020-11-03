@@ -7,8 +7,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { customStyles } from "../../shared/custom-modal";
-import { fetchUsers, deleteUser } from "../user.service";
-import { parseUser } from "../../auth/token.service";
+import { fetchUsers, deleteUser } from "../../shared/user.service";
+import { parseUser } from "../../shared/token.service";
 
 class ManageUsers extends React.Component {
   constructor(props) {

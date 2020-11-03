@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import { BrowserRouter, Redirect } from "react-router-dom";
-import { clearUser } from "./users/user.service";
+import { clearUser } from "./shared/user.service";
 import Routes from "./routes";
 import Footer from "./shared/footer/footer";
 import Navigation from "./shared/navigation/navigation";

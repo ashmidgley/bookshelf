@@ -9,7 +9,7 @@ import {
   getCategory,
   createCategory,
   updateCategory,
-} from "../category.service";
+} from "../../shared/category.service";
 
 class CategoryForm extends React.Component {
   constructor(props) {

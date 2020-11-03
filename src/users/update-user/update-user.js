@@ -8,7 +8,7 @@ import { Formik } from "formik";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { validateEmail } from "../../shared/field-validator";
-import { getUser, updateUser } from "../user.service";
+import { getUser, updateUser } from "../../shared/user.service";
 
 class UpdateUser extends React.Component {
   constructor(props) {

@@ -9,7 +9,7 @@ import { customStyles } from "../../shared/custom-modal";
 import {
   fetchCurrentUserCategories,
   removeCategory,
-} from "../category.service";
+} from "../../shared/category.service";
 
 class ManageCategories extends React.Component {
   constructor(props) {

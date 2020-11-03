@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getErrorMessage } from "../shared/utils.service";
+import { getErrorMessage } from "./utils.service";
 
 let emailUrl = process.env.REACT_APP_API_URL + "/emails";
 

@@ -5,10 +5,10 @@ import Loading from "../../shared/loading/loading";
 import InfiniteScroll from "react-infinite-scroller";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import { fetchBooks } from "../../books/book.service";
-import { fetchCategories } from "../../categories/category.service";
-import { fetchRatings } from "../../ratings/rating.service";
-import { parseUser } from "../../auth/token.service";
+import { fetchBooks } from "../../shared/book.service";
+import { fetchCategories } from "../../shared/category.service";
+import { fetchRatings } from "../../shared/rating.service";
+import { parseUser } from "../../shared/token.service";
 import _ from "lodash";
 
 class Shelf extends React.Component {

@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import { withRouter } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMask } from "@fortawesome/free-solid-svg-icons";
-import { clearUser, deleteUser } from "../user.service";
-import { parseUser } from "../../auth/token.service";
+import { clearUser, deleteUser } from "../../shared/user.service";
+import { parseUser } from "../../shared/token.service";
 
 class DeleteAccount extends React.Component {
   constructor(props) {
