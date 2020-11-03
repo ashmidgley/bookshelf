@@ -50,9 +50,11 @@ const AddBook = ({ location }) => {
           setCategories(categories);
           setRatings(ratings);
         }
+        setLoading(false);
       },
       (error) => {
         handleError(error);
+        setLoading(false);
       }
     );
   }, [location.state]);
@@ -60,7 +62,6 @@ const AddBook = ({ location }) => {
   const handleError = (error) => {
     setError(error);
     setSubmitting(false);
-    setLoading(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
