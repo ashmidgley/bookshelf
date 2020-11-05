@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import Loading from "../../shared/loading/loading";
 import { Link } from "react-router-dom";
@@ -13,241 +13,209 @@ import {
 import { customStyles } from "../../shared/custom-modal";
 import { fetchCurrentUserBooks, removeBook } from "../../shared/book.service";
 
-class ManageBooks extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      books: null,
-      hasMore: null,
-      page: null,
-      selectedBookId: null,
-      modalIsOpen: false,
-      loading: true,
-      submitting: false,
-      success: false,
-      error: null,
-    };
+const ManageBooks = () => {
+  const [books, setBooks] = useState();
+  const [hasMore, setHasMore] = useState();
+  const [page, setPage] = useState();
+  const [selectedBookId, setSelectedBookId] = useState();
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState();
 
-    this.fetchBooks = this.fetchBooks.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.removeBook = this.removeBook.bind(this);
-    this.handleError = this.handleError.bind(this);
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    this.pageLeft = this.pageLeft.bind(this);
-    this.pageRight = this.pageRight.bind(this);
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     window.scrollTo(0, 0);
     var token = localStorage.getItem("token");
-    this.fetchBooks(token, { page: 0 });
-  }
+    fetchBooks(token, { page: 0 });
+  }, []);
 
-  fetchBooks(token, queryOptions) {
+  const fetchBooks = (token, queryOptions) => {
     fetchCurrentUserBooks(token, queryOptions)
       .then((response) => {
-        this.setState({
-          books: response.books,
-          hasMore: response.hasMore,
-          page: queryOptions.page,
-          loading: false,
-        });
+        setBooks(response.books);
+        setHasMore(response.hasMore);
+        setPage(queryOptions.page);
+        setLoading(false);
       })
       .catch((error) => {
-        this.handleError(error);
+        handleError(error);
       });
-  }
+  };
 
-  handleSubmit(event) {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    this.setState({
-      submitting: true,
-      success: false,
-      error: null,
-    });
+    setSubmitting(true);
+    setSuccess(false);
+    setError(null);
 
     var token = localStorage.getItem("token");
-    this.removeBook(this.state.selectedBookId, token);
-  }
-
-  removeBook(bookId, token) {
-    removeBook(bookId, token)
+    removeBook(selectedBookId, token)
       .then((response) => {
-        var oldBook = this.state.books.find((b) => b.id === response.id);
-        var index = this.state.books.indexOf(oldBook);
-        this.state.books.splice(index, 1);
-        this.setState({
-          modalIsOpen: false,
-          submitting: false,
-          success: true,
-          selectedBookId: null,
-        });
+        var oldBook = books.find((b) => b.id === response.id);
+        var index = books.indexOf(oldBook);
+        setBooks(books.splice(index, 1));
+        setModalIsOpen(false);
+        setSubmitting(false);
+        setSuccess(true);
+        setSelectedBookId(null);
         window.scrollTo({ top: 0, behavior: "smooth" });
       })
       .catch((error) => {
-        this.handleError(error);
+        handleError(error);
       });
-  }
+  };
 
-  handleError(error) {
-    this.setState({
-      error: error,
-      modalIsOpen: false,
-      loading: false,
-      submitting: false,
-    });
+  const handleError = (error) => {
+    setError(error);
+    setModalIsOpen(false);
+    setLoading(false);
+    setSubmitting(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }
+  };
 
-  openModal(id) {
-    this.setState({
-      selectedBookId: id,
-      modalIsOpen: true,
-      success: false,
-    });
-  }
+  const openModal = (id) => {
+    setSelectedBookId(id);
+    setModalIsOpen(true);
+    setSuccess(false);
+  };
 
-  closeModal() {
-    this.setState({
-      modalIsOpen: false,
-    });
-  }
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
 
-  pageLeft() {
+  const pageLeft = () => {
     var token = localStorage.getItem("token");
-    this.fetchBooks(token, { page: this.state.page - 1 });
-  }
+    fetchBooks(token, { page: page - 1 });
+  };
 
-  pageRight() {
+  const pageRight = () => {
     var token = localStorage.getItem("token");
-    this.fetchBooks(token, { page: this.state.page + 1 });
-  }
+    fetchBooks(token, { page: page + 1 });
+  };
 
-  render() {
-    if (this.state.loading) {
-      return <Loading />;
-    }
-
-    return (
-      <div className="column is-8 is-offset-2 form-container">
-        <Helmet>
-          <title>Manage Books - Bookshelf</title>
-        </Helmet>
-        <div className="card form-card">
-          <div className="card-content">
-            <div className="media">
-              <div className="image-header-container">
-                <FontAwesomeIcon icon={faEye} className="eye-icon" size="lg" />
-              </div>
-            </div>
-            <Modal
-              isOpen={this.state.modalIsOpen}
-              onRequestClose={this.closeModal}
-              style={customStyles}
-            >
-              <form onSubmit={this.handleSubmit}>
-                <div>Are you sure you would like to delete this book?</div>
-                <div className="modal-actions">
-                  <button
-                    className={
-                      this.state.submitting
-                        ? "button is-link is-loading"
-                        : "button is-link"
-                    }
-                    type="submit"
-                  >
-                    Confirm
-                  </button>
-                  <button
-                    id="cancel"
-                    className="button"
-                    onClick={this.closeModal}
-                  >
-                    Cancel
-                  </button>
+  return (
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="column is-8 is-offset-2 form-container">
+          <Helmet>
+            <title>Manage Books - Bookshelf</title>
+          </Helmet>
+          <div className="card form-card">
+            <div className="card-content">
+              <div className="media">
+                <div className="image-header-container">
+                  <FontAwesomeIcon
+                    icon={faEye}
+                    className="eye-icon"
+                    size="lg"
+                  />
                 </div>
-              </form>
-            </Modal>
-            {this.state.success && this.state.books.length && (
-              <div className="notification is-success">
-                Successfully removed entry.
               </div>
-            )}
-            {this.state.error && (
-              <div className="notification is-danger">{this.state.error}</div>
-            )}
-            <div style={{ marginBottom: "25px" }}>
-              <Link to={"/search-form"}>
-                <button className="button is-outlined">
-                  <FontAwesomeIcon icon={faPlus} size="lg" />
-                </button>
-              </Link>
-            </div>
-            {!this.state.books || !this.state.books.length ? (
-              <div className="notification is-link">No books to display.</div>
-            ) : (
-              <div className="form-table">
-                <table className="table is-fullwidth is-bordered">
-                  <thead>
-                    <tr>
-                      <th>Title</th>
-                      <th>Author</th>
-                      <th></th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.state.books.map((book) => (
-                      <tr key={book.id}>
-                        <td>{book.title}</td>
-                        <td>{book.author}</td>
-                        <td className="has-text-centered">
-                          <Link to={"/book-form/" + book.id}>
-                            <button
-                              className="button is-outlined"
-                              disabled={this.state.submitting}
-                            >
-                              Edit
-                            </button>
-                          </Link>
-                        </td>
-                        <td className="has-text-centered">
-                          <button
-                            onClick={() => this.openModal(book.id)}
-                            className="button is-outlined"
-                            disabled={this.state.submitting}
-                          >
-                            Delete
-                          </button>
-                        </td>
+              <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                style={customStyles}
+              >
+                <form onSubmit={handleSubmit}>
+                  <div>Are you sure you would like to delete this book?</div>
+                  <div className="modal-actions">
+                    <button
+                      className={
+                        submitting
+                          ? "button is-link is-loading"
+                          : "button is-link"
+                      }
+                      type="submit"
+                    >
+                      Confirm
+                    </button>
+                    <button id="cancel" className="button" onClick={closeModal}>
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </Modal>
+              {success && books.length && (
+                <div className="notification is-success">
+                  Successfully removed entry.
+                </div>
+              )}
+              {error && <div className="notification is-danger">{error}</div>}
+              <div style={{ marginBottom: "25px" }}>
+                <Link to={"/search-form"}>
+                  <button className="button is-outlined">
+                    <FontAwesomeIcon icon={faPlus} size="lg" />
+                  </button>
+                </Link>
+              </div>
+              {!books || !books.length ? (
+                <div className="notification is-link">No books to display.</div>
+              ) : (
+                <div className="form-table">
+                  <table className="table is-fullwidth is-bordered">
+                    <thead>
+                      <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th></th>
+                        <th></th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-                <div>
-                  <button
-                    onClick={this.pageLeft}
-                    className="button mr-10"
-                    disabled={this.state.page === 0}
-                  >
-                    <FontAwesomeIcon icon={faCaretLeft} size="lg" />
-                  </button>
-                  <button
-                    onClick={this.pageRight}
-                    className="button"
-                    disabled={!this.state.hasMore}
-                  >
-                    <FontAwesomeIcon icon={faCaretRight} size="lg" />
-                  </button>
+                    </thead>
+                    <tbody>
+                      {books.map((book) => (
+                        <tr key={book.id}>
+                          <td>{book.title}</td>
+                          <td>{book.author}</td>
+                          <td className="has-text-centered">
+                            <Link to={"/book-form/" + book.id}>
+                              <button
+                                className="button is-outlined"
+                                disabled={submitting}
+                              >
+                                Edit
+                              </button>
+                            </Link>
+                          </td>
+                          <td className="has-text-centered">
+                            <button
+                              onClick={() => openModal(book.id)}
+                              className="button is-outlined"
+                              disabled={submitting}
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <div>
+                    <button
+                      onClick={pageLeft}
+                      className="button mr-10"
+                      disabled={page === 0}
+                    >
+                      <FontAwesomeIcon icon={faCaretLeft} size="lg" />
+                    </button>
+                    <button
+                      onClick={pageRight}
+                      className="button"
+                      disabled={!hasMore}
+                    >
+                      <FontAwesomeIcon icon={faCaretRight} size="lg" />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    );
-  }
-}
+      )}
+    </>
+  );
+};
 
 export default ManageBooks;
