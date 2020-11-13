@@ -200,7 +200,7 @@ const CategoryForm = ({ match }) => {
 CategoryForm.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      id: PropTypes.string.isRequired,
+      id: PropTypes.string,
     }),
   }),
 };
