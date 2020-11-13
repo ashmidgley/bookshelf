@@ -36,7 +36,7 @@ const AddBook = ({ location }) => {
       setBook(location.state.book);
     }
 
-    var token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     combineLatest([
       fetchCurrentUserCategories(token),
       fetchCurrentUserRatings(token),
@@ -66,16 +66,11 @@ const AddBook = ({ location }) => {
   };
 
   const submitEntry = (values) => {
-    if (!categories || !ratings) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
-
     setSubmitting(true);
     setSuccess(false);
     setError(null);
 
-    var newBook = {
+    const newBook = {
       title: values.title,
       author: values.author,
       imageUrl: values.imageUrl,
@@ -89,7 +84,7 @@ const AddBook = ({ location }) => {
       summary: values.summary,
     };
 
-    var token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     createBook(newBook, token)
       .then((response) => {
         setBook(response);

@@ -54,7 +54,8 @@ const ManageBooks = () => {
       .then((response) => {
         var oldBook = books.find((b) => b.id === response.id);
         var index = books.indexOf(oldBook);
-        setBooks(books.splice(index, 1));
+        books.splice(index, 1);
+
         setModalIsOpen(false);
         setSubmitting(false);
         setSuccess(true);
