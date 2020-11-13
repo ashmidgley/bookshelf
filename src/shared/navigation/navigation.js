@@ -1,39 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import DesktopNav from "../desktop-nav/desktop-nav";
 import MobileNav from "../mobile-nav/mobile-nav";
 
-class Navigation extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      width: window.innerWidth,
+const Navigation = () => {
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    checkDimensions();
+    window.addEventListener("resize", checkDimensions);
+
+    return () => {
+      window.removeEventListener("resize", checkDimensions);
     };
+  }, []);
 
-    this.checkDimensions = this.checkDimensions.bind(this);
-  }
+  const checkDimensions = () => {
+    setWidth(window.innerWidth);
+  };
 
-  componentDidMount() {
-    this.checkDimensions();
-    window.addEventListener("resize", this.checkDimensions);
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.checkDimensions);
-  }
-
-  checkDimensions() {
-    this.setState({
-      width: window.innerWidth,
-    });
-  }
-
-  render() {
-    return (
-      <div className="hero-head">
-        {this.state.width <= 600 ? <MobileNav /> : <DesktopNav />}
-      </div>
-    );
-  }
-}
+  return (
+    <div className="hero-head">
+      {width <= 600 ? <MobileNav /> : <DesktopNav />}
+    </div>
+  );
+};
 
 export default Navigation;
