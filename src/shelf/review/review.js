@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import "./review.css";
 import Loading from "../../shared/loading/loading";
@@ -10,169 +10,134 @@ import { getBook } from "../../shared/book.service";
 import { getCategory } from "../../shared/category.service";
 import { getRating } from "../../shared/rating.service";
 
-class Review extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      bookId: parseInt(props.match.params.id),
-      book: null,
-      category: null,
-      rating: null,
-      paragraphs: null,
-      loading: true,
-      error: false,
-    };
+const Review = ({ match }) => {
+  const [book, setBook] = useState();
+  const [category, setCategory] = useState();
+  const [rating, setRating] = useState();
+  const [paragraphs, setParagraphs] = useState();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-    this.getBook = this.getBook.bind(this);
-    this.getCategory = this.getCategory.bind(this);
-    this.getRating = this.getRating.bind(this);
-    this.handleError = this.handleError.bind(this);
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     window.scrollTo(0, 0);
-    this.getBook(this.state.bookId);
-  }
+    const bookId = parseInt(match.params.id);
 
-  getBook(id) {
-    getBook(id)
+    getBook(bookId)
       .then((response) => {
-        this.getCategory(response.categoryId);
-        this.getRating(response.ratingId);
-        this.setState({
-          book: response,
-          paragraphs: response.summary ? response.summary.split("\n") : null,
-          loading: false,
+        setBook(response);
+        setParagraphs(response.summary ? response.summary.split("\n") : null);
+        setLoading(false);
+
+        getCategory(response.categoryId).then((response) => {
+          setCategory(response);
+        });
+
+        getRating(response.ratingId).then((response) => {
+          setRating(response);
         });
       })
       .catch((error) => {
-        this.handleError(error);
+        handleError(error);
       });
-  }
+  }, []);
 
-  getCategory(id) {
-    getCategory(id).then((response) => {
-      this.setState({
-        category: response,
-      });
-    });
-  }
+  const handleError = () => {
+    setError(true);
+    setLoading(false);
+  };
 
-  getRating(id) {
-    getRating(id).then((response) => {
-      this.setState({
-        rating: response,
-      });
-    });
-  }
-
-  handleError() {
-    this.setState({
-      error: true,
-      loading: false,
-    });
-  }
-
-  render() {
-    if (this.state.loading) {
-      return <Loading />;
-    }
-
-    return (
-      <div className="column is-8 is-offset-2 form-container">
-        <Helmet>
-          <title>
-            {this.state.book
-              ? `${this.state.book.title} - Bookshelf`
-              : "Review - Bookshelf"}
-          </title>
-          <meta
-            name="description"
-            content={
-              this.state.book &&
-              this.state.book.summary &&
-              this.state.book.summary.substring(0, 100)
-            }
-          />
-        </Helmet>
-        <div className="card custom-card">
-          <div className="card-content">
-            <div className="media">
-              <div className="image-header-container">
-                <FontAwesomeIcon
-                  icon={faBookOpen}
-                  className="book-open-icon"
-                  size="lg"
-                />
+  return (
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="column is-8 is-offset-2 form-container">
+          <Helmet>
+            <title>
+              {book ? `${book.title} - Bookshelf` : "Review - Bookshelf"}
+            </title>
+            <meta
+              name="description"
+              content={book && book.summary && book.summary.substring(0, 100)}
+            />
+          </Helmet>
+          <div className="card custom-card">
+            <div className="card-content">
+              <div className="media">
+                <div className="image-header-container">
+                  <FontAwesomeIcon
+                    icon={faBookOpen}
+                    className="book-open-icon"
+                    size="lg"
+                  />
+                </div>
+                <div
+                  id="review-media-content"
+                  className="container has-text-centered"
+                >
+                  {error ? (
+                    <div className="notification is-danger">
+                      Error pulling user data. Please refresh and try again.
+                    </div>
+                  ) : (
+                    <div>
+                      <p className="title">{book.title}</p>
+                      <p className="subtitle is-6">By {book.author}</p>
+                      <div className="tags has-addons level-item">
+                        <span id="tag-secondary" className="tag is-rounded">
+                          {moment(book.finishedOn).format("Do MMMM")}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
-              <div
-                id="review-media-content"
-                className="container has-text-centered"
-              >
-                {this.state.error ? (
-                  <div className="notification is-danger">
-                    Error pulling user data. Please refresh and try again.
-                  </div>
+            </div>
+            {!error && (
+              <div id="review-content" className="has-text-centered">
+                <hr />
+                {paragraphs ? (
+                  paragraphs.map((paragraph, index) => (
+                    <p key={index} className="summary-text">
+                      {paragraph}
+                    </p>
+                  ))
                 ) : (
-                  <div>
-                    <p className="title">{this.state.book.title}</p>
-                    <p className="subtitle is-6">By {this.state.book.author}</p>
-                    <div className="tags has-addons level-item">
-                      <span id="tag-secondary" className="tag is-rounded">
-                        {moment(this.state.book.finishedOn).format("Do MMMM")}
-                      </span>
+                  <div className="notification">No summary to display.</div>
+                )}
+                <hr />
+                <nav className="level is-mobile">
+                  <div className="level-item has-text-centered">
+                    <div>
+                      <p className="heading">Category</p>
+                      <p className="review-subtitle">
+                        {category ? category.code : "-"}
+                      </p>
                     </div>
                   </div>
-                )}
+                  <div className="level-item has-text-centered">
+                    <div>
+                      <p className="heading">Pages</p>
+                      <p className="review-subtitle">{book.pageCount}</p>
+                    </div>
+                  </div>
+                  <div className="level-item has-text-centered">
+                    <div>
+                      <p className="heading">Rating</p>
+                      <p className="review-subtitle">
+                        {rating ? rating.code : "-"}
+                      </p>
+                    </div>
+                  </div>
+                </nav>
               </div>
-            </div>
+            )}
           </div>
-          {!this.state.error && (
-            <div id="review-content" className="has-text-centered">
-              <hr />
-              {this.state.paragraphs ? (
-                this.state.paragraphs.map((paragraph, index) => (
-                  <p key={index} className="summary-text">
-                    {paragraph}
-                  </p>
-                ))
-              ) : (
-                <div className="notification">No summary to display.</div>
-              )}
-              <hr />
-              <nav className="level is-mobile">
-                <div className="level-item has-text-centered">
-                  <div>
-                    <p className="heading">Category</p>
-                    <p className="review-subtitle">
-                      {this.state.category ? this.state.category.code : "-"}
-                    </p>
-                  </div>
-                </div>
-                <div className="level-item has-text-centered">
-                  <div>
-                    <p className="heading">Pages</p>
-                    <p className="review-subtitle">
-                      {this.state.book.pageCount}
-                    </p>
-                  </div>
-                </div>
-                <div className="level-item has-text-centered">
-                  <div>
-                    <p className="heading">Rating</p>
-                    <p className="review-subtitle">
-                      {this.state.rating ? this.state.rating.code : "-"}
-                    </p>
-                  </div>
-                </div>
-              </nav>
-            </div>
-          )}
         </div>
-      </div>
-    );
-  }
-}
+      )}
+    </>
+  );
+};
 
 Review.propTypes = {
   match: PropTypes.shape({

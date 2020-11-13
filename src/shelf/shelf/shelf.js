@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import "./shelf.css";
 import Loading from "../../shared/loading/loading";
@@ -11,397 +11,362 @@ import { fetchRatings } from "../../shared/rating.service";
 import { parseUser } from "../../shared/token.service";
 import _ from "lodash";
 
-class Shelf extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      userId: parseInt(props.match.params.id),
-      storageId: null,
-      columnClass: "column is-one-third child",
-      queryOptions: null,
-      books: null,
-      hasMore: null,
-      categories: null,
-      ratings: null,
-      years: null,
-      categoryMenu: null,
-      ratingMenu: null,
-      loading: true,
-      error: false,
-    };
+const Shelf = ({ match }) => {
+  const { paramsId } = match.params.id;
 
-    this.fetchBooks = this.fetchBooks.bind(this);
-    this.fetchCategories = this.fetchCategories.bind(this);
-    this.fetchRatings = this.fetchRatings.bind(this);
-    this.checkDimensions = this.checkDimensions.bind(this);
-    this.handleError = this.handleError.bind(this);
-    this.searchSubmit = this.searchSubmit.bind(this);
-    this.displayAllCategories = this.displayAllCategories.bind(this);
-    this.displayAllRatings = this.displayAllRatings.bind(this);
-    this.loadMore = this.loadMore.bind(this);
-  }
+  const [userId, setUserId] = useState();
+  const [storageId, setStorageId] = useState();
+  const [columnClass, setColumnClass] = useState("column is-one-third child");
+  const [queryOptions, setQueryOptions] = useState();
+  const [books, setBooks] = useState();
+  const [hasMore, setHasMore] = useState();
+  const [categories, setCategories] = useState();
+  const [ratings, setRatings] = useState();
+  const [years, setYears] = useState();
+  const [categoryMenu, setCategoryMenu] = useState();
+  const [ratingMenu, setRatingMenu] = useState();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
-  componentDidMount() {
+  useEffect(() => {
     window.scrollTo(0, 0);
-    this.checkDimensions();
-    window.addEventListener("resize", this.checkDimensions);
+    checkDimensions();
+    window.addEventListener("resize", checkDimensions);
 
-    var token = localStorage.getItem("token");
+    const id = parseInt(match.params.id);
+    setUserId(id);
+
+    const token = localStorage.getItem("token");
     if (token) {
-      var user = parseUser(token);
-      this.setState({
-        storageId: user.id,
-      });
+      const user = parseUser(token);
+      setStorageId(user.id);
     }
 
-    this.getShelfData();
-  }
+    getBooks(id, { page: 0 });
 
-  getShelfData() {
-    this.fetchBooks({ page: 0 });
-    this.fetchCategories();
-    this.fetchRatings();
-  }
-
-  fetchBooks(queryOptions, viewMore = false) {
-    fetchBooks(this.state.userId, queryOptions)
+    fetchCategories(id)
       .then((response) => {
-        const books = viewMore
-          ? this.state.books.concat(response.books)
-          : response.books;
-        this.setState({
-          books: books,
-          hasMore: response.hasMore,
-          years: this.getYears(books),
-          queryOptions: queryOptions,
-          loading: false,
-        });
+        setCategories(response);
+        setCategoryMenu(getMenu(response.length + 1));
       })
       .catch(() => {
-        this.handleError();
+        handleError();
       });
-  }
 
-  fetchCategories() {
-    fetchCategories(this.state.userId)
+    fetchRatings(id)
       .then((response) => {
-        this.setState({
-          categories: response,
-          categoryMenu: this.getMenu(response.length + 1),
-        });
+        setRatings(response);
+        setRatingMenu(getMenu(response.length + 1));
       })
       .catch(() => {
-        this.handleError();
+        handleError();
       });
-  }
 
-  fetchRatings() {
-    fetchRatings(this.state.userId)
+    return () => {
+      window.removeEventListener("resize", checkDimensions);
+    };
+  }, []);
+
+  useEffect(() => {
+    const id = parseInt(paramsId);
+    if (!isNaN(id) && id !== userId) {
+      window.location.reload(false);
+    }
+  }, [paramsId]);
+
+  const getBooks = (id, options, viewMore = false) => {
+    fetchBooks(id, options)
       .then((response) => {
-        this.setState({
-          ratings: response,
-          ratingMenu: this.getMenu(response.length + 1),
-        });
+        const result = viewMore ? books.concat(response.books) : response.books;
+
+        setBooks(result);
+        setHasMore(response.hasMore);
+        setYears(getYears(result));
+        setQueryOptions(options);
+        setLoading(false);
       })
       .catch(() => {
-        this.handleError();
+        handleError();
       });
-  }
+  };
 
-  checkDimensions() {
-    var newVal = "column is-one-third child";
+  const checkDimensions = () => {
+    let newVal = "column is-one-third child";
     if (window.innerWidth > 1000 && window.innerWidth < 1200) {
       newVal = "column is-one-quarter child";
     } else if (window.innerWidth > 1200) {
       newVal = "column is-2";
     }
-    this.setState({ columnClass: newVal });
-  }
+    setColumnClass(newVal);
+  };
 
-  handleError() {
-    this.setState({
-      error: true,
-      loading: false,
-    });
-  }
+  const handleError = () => {
+    setError(true);
+    setLoading(false);
+  };
 
-  getYears(books) {
-    var distinctYears = [...new Set(books.map((item) => item.year))];
-    var years = [];
-    distinctYears.forEach((year) => years.push({ value: year, show: true }));
-    return years;
-  }
+  const getYears = (response) => {
+    const distinctYears = [...new Set(response.map((item) => item.year))];
+    let result = [];
+    distinctYears.forEach((year) => result.push({ value: year, show: true }));
+    return result;
+  };
 
-  getMenu(length) {
-    var menu = new Array(length).fill(false);
+  const getMenu = (length) => {
+    let menu = new Array(length).fill(false);
     menu[0] = true;
     return menu;
-  }
+  };
 
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.checkDimensions);
-  }
-
-  componentDidUpdate() {
-    var id = parseInt(this.props.match.params.id);
-    if (!isNaN(id) && id !== this.state.userId) {
-      window.location.reload(false);
-    }
-  }
-
-  searchSubmit(e) {
+  const searchSubmit = (e) => {
     e.persist();
+    debouncedFn(e.target.value.toLowerCase());
+  };
 
-    if (!this.debouncedFn) {
-      this.debouncedFn = _.debounce(() => {
-        const queryOptions = {
-          ...this.state.queryOptions,
-          search: e.target.value.toLowerCase(),
-          page: 0,
-        };
-        this.fetchBooks(queryOptions);
-      }, 1000);
-    }
+  const debouncedFn = _.debounce((text) => {
+    const options = {
+      ...queryOptions,
+      search: text,
+      page: 0,
+    };
 
-    this.debouncedFn();
-  }
+    getBooks(userId, options);
+  }, 1000);
 
-  displayAllCategories() {
-    var menu = this.state.categoryMenu.fill(false);
+  const displayAllCategories = () => {
+    var menu = categoryMenu.fill(false);
     menu[0] = true;
-    this.setState({
-      categoryMenu: menu,
-    });
+    setCategoryMenu(menu);
 
-    const queryOptions = {
-      ...this.state.queryOptions,
+    const options = {
+      ...queryOptions,
       category: null,
       page: 0,
     };
-    this.fetchBooks(queryOptions);
-  }
 
-  categorySelected(category) {
-    var menu = this.state.categoryMenu.fill(false);
-    menu[this.state.categories.indexOf(category) + 1] = true;
-    this.setState({
-      categoryMenu: menu,
-    });
+    getBooks(userId, options);
+  };
 
-    const queryOptions = {
-      ...this.state.queryOptions,
+  const categorySelected = (category) => {
+    var menu = categoryMenu.fill(false);
+    menu[categories.indexOf(category) + 1] = true;
+    setCategoryMenu(menu);
+
+    const options = {
+      ...queryOptions,
       category: category.id,
       page: 0,
     };
-    this.fetchBooks(queryOptions);
-  }
 
-  displayAllRatings() {
-    var menu = this.state.ratingMenu.fill(false);
+    getBooks(userId, options);
+  };
+
+  const displayAllRatings = () => {
+    var menu = ratingMenu.fill(false);
     menu[0] = true;
-    this.setState({
-      ratingMenu: menu,
-    });
+    setRatingMenu(menu);
 
-    const queryOptions = {
-      ...this.state.queryOptions,
+    const options = {
+      ...queryOptions,
       rating: null,
       page: 0,
     };
-    this.fetchBooks(queryOptions);
-  }
 
-  ratingSelected(rating) {
-    var menu = this.state.ratingMenu.fill(false);
-    menu[this.state.ratings.indexOf(rating) + 1] = true;
-    this.setState({
-      ratingMenu: menu,
-    });
+    getBooks(userId, options);
+  };
 
-    const queryOptions = {
-      ...this.state.queryOptions,
+  const ratingSelected = (rating) => {
+    var menu = ratingMenu.fill(false);
+    menu[ratings.indexOf(rating) + 1] = true;
+    setRatingMenu(menu);
+
+    const options = {
+      ...queryOptions,
       rating: rating.id,
       page: 0,
     };
-    this.fetchBooks(queryOptions);
-  }
 
-  toggleYear(value) {
-    var years = this.state.years;
-    var index = years.map((year) => year.value).indexOf(value);
-    years[index].show = !years[index].show;
-    this.setState({
-      years: years,
-    });
-  }
+    getBooks(userId, options);
+  };
 
-  loadMore() {
-    const queryOptions = {
-      ...this.state.queryOptions,
-      page: this.state.queryOptions.page + 1,
+  const toggleYear = (value) => {
+    let result = years;
+    const index = years.map((year) => year.value).indexOf(value);
+    result[index].show = !result[index].show;
+    setYears(result);
+  };
+
+  const loadMore = () => {
+    const options = {
+      ...queryOptions,
+      page: queryOptions.page + 1,
     };
-    this.fetchBooks(queryOptions, true);
-  }
 
-  render() {
-    if (this.state.loading) {
-      return <Loading />;
-    }
+    getBooks(userId, options, true);
+  };
 
-    return (
-      <div className="shelf-container">
-        <Helmet>
-          <title>Bookshelf - An online shelf to keep track of your reads</title>
-          <meta
-            name="description"
-            content={
-              this.state.books &&
-              this.state.books
-                .slice(0, 10)
-                .map((x) => x.title)
-                .join(", ")
-            }
-          />
-        </Helmet>
-        <div className="shelf-menu-items columns card hide-mobile">
-          <div className="columns">
-            <div className="column is-three-fifths">
-              <input
-                className="input"
-                type="text"
-                placeholder="Search by title or author..."
-                onChange={this.searchSubmit}
-                disabled={this.state.error}
-              />
-            </div>
-            <div className="column is-one-fifth hide-mobile">
-              <button
-                className={
-                  this.state.categoryMenu && this.state.categoryMenu[0]
-                    ? "button selected"
-                    : "button"
-                }
-                onClick={this.displayAllCategories}
-                style={{ padding: "0 23px" }}
-              ></button>
-              {this.state.categories &&
-                this.state.categories.map((category, index) => (
-                  <button
-                    className={
-                      this.state.categoryMenu[index + 1]
-                        ? "button selected"
-                        : "button"
-                    }
-                    key={category.id}
-                    onClick={() => this.categorySelected(category)}
-                  >
-                    <span role="img" aria-label="Category emoji">
-                      {category.code}
-                    </span>
-                  </button>
-                ))}
-            </div>
-            <div className="column is-one-fifth hide-mobile">
-              <button
-                className={
-                  this.state.ratingMenu && this.state.ratingMenu[0]
-                    ? "button selected"
-                    : "button"
-                }
-                onClick={this.displayAllRatings}
-                style={{ padding: "0 23px" }}
-              ></button>
-              {this.state.ratings &&
-                this.state.ratings.map((rating, index) => (
-                  <button
-                    className={
-                      this.state.ratingMenu[index + 1]
-                        ? "button selected"
-                        : "button"
-                    }
-                    key={rating.id}
-                    onClick={() => this.ratingSelected(rating)}
-                  >
-                    <span role="img" aria-label="Rating emoji">
-                      {rating.code}
-                    </span>
-                  </button>
-                ))}
-            </div>
-          </div>
-        </div>
-        {this.state.error ? (
-          <div className="notification is-danger">
-            Error pulling user data. Please refresh and try again.
-          </div>
-        ) : (
-          <div>
-            {this.state.books.length === 0 && (
-              <div className="notification is-link shelf-notification">
-                No books to display.&nbsp;
-                {this.state.storageId === this.state.userId && (
-                  <Link to="/search-form">Add one?</Link>
-                )}
-              </div>
-            )}
-            <InfiniteScroll
-              pageStart={0}
-              loadMore={this.loadMore}
-              hasMore={this.state.hasMore}
-              loader={
-                <div key={0} className="has-text-centered mb-20">
-                  Loading ...
-                </div>
+  return (
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="shelf-container">
+          <Helmet>
+            <title>
+              Bookshelf - An online shelf to keep track of your reads
+            </title>
+            <meta
+              name="description"
+              content={
+                books &&
+                books
+                  .slice(0, 10)
+                  .map((x) => x.title)
+                  .join(", ")
               }
-            >
-              <div>
-                {this.state.years.map((year, index) => (
-                  <div key={index} className={index > 0 ? "child-toggle" : ""}>
-                    {this.state.books.some((x) => x.year === year.value) && (
-                      <div className="year-toggle-container">
-                        <button
-                          className="button is-link"
-                          onClick={() => this.toggleYear(year.value)}
-                        >
-                          {year.value}
-                          {year.show ? (
-                            <i className="fa fa-sort-down shelf-year-dropdown"></i>
-                          ) : (
-                            <i className="fa fa-sort-up shelf-year-dropdown"></i>
-                          )}
-                        </button>
-                      </div>
-                    )}
-                    <div className="columns is-multiline is-mobile shelf-tiles">
-                      {this.state.books
-                        .filter((book) => book.year === year.value && year.show)
-                        .map((book, index) => (
-                          <div key={index} className={this.state.columnClass}>
-                            <div className="shelf-tile">
-                              <Link
-                                to={`/review/${book.id}`}
-                                className="tile-link"
-                              >
-                                <img
-                                  src={book.imageUrl}
-                                  className="tile-image"
-                                  alt="Shelf tile"
-                                />
-                              </Link>
-                            </div>
-                          </div>
-                        ))}
-                    </div>
-                  </div>
-                ))}
+            />
+          </Helmet>
+          <div className="shelf-menu-items columns card hide-mobile">
+            <div className="columns">
+              <div className="column is-three-fifths">
+                <input
+                  className="input"
+                  type="text"
+                  placeholder="Search by title or author..."
+                  onChange={searchSubmit}
+                  disabled={error}
+                />
               </div>
-            </InfiniteScroll>
+              <div className="column is-one-fifth hide-mobile">
+                <button
+                  className={
+                    categoryMenu && categoryMenu[0]
+                      ? "button selected"
+                      : "button"
+                  }
+                  onClick={displayAllCategories}
+                  style={{ padding: "0 23px" }}
+                ></button>
+                {categories &&
+                  categoryMenu &&
+                  categories.map((category, index) => (
+                    <button
+                      className={
+                        categoryMenu[index + 1] ? "button selected" : "button"
+                      }
+                      key={category.id}
+                      onClick={() => categorySelected(category)}
+                    >
+                      <span role="img" aria-label="Category emoji">
+                        {category.code}
+                      </span>
+                    </button>
+                  ))}
+              </div>
+              <div className="column is-one-fifth hide-mobile">
+                <button
+                  className={
+                    ratingMenu && ratingMenu[0] ? "button selected" : "button"
+                  }
+                  onClick={displayAllRatings}
+                  style={{ padding: "0 23px" }}
+                ></button>
+                {ratings &&
+                  ratingMenu &&
+                  ratings.map((rating, index) => (
+                    <button
+                      className={
+                        ratingMenu[index + 1] ? "button selected" : "button"
+                      }
+                      key={rating.id}
+                      onClick={() => ratingSelected(rating)}
+                    >
+                      <span role="img" aria-label="Rating emoji">
+                        {rating.code}
+                      </span>
+                    </button>
+                  ))}
+              </div>
+            </div>
           </div>
-        )}
-      </div>
-    );
-  }
-}
+          {error ? (
+            <div className="notification is-danger">
+              Error pulling user data. Please refresh and try again.
+            </div>
+          ) : (
+            <div>
+              {books.length === 0 && (
+                <div className="notification is-link shelf-notification">
+                  No books to display.&nbsp;
+                  {storageId === userId && (
+                    <Link to="/search-form">Add one?</Link>
+                  )}
+                </div>
+              )}
+              <InfiniteScroll
+                pageStart={0}
+                loadMore={loadMore}
+                hasMore={hasMore}
+                loader={
+                  <div key={0} className="has-text-centered mb-20">
+                    Loading ...
+                  </div>
+                }
+              >
+                <div>
+                  {years.map((year, index) => (
+                    <div
+                      key={index}
+                      className={index > 0 ? "child-toggle" : ""}
+                    >
+                      {books.some((x) => x.year === year.value) && (
+                        <div className="year-toggle-container">
+                          <button
+                            className="button is-link"
+                            onClick={() => toggleYear(year.value)}
+                          >
+                            {year.value}
+                            {year.show ? (
+                              <i className="fa fa-sort-down shelf-year-dropdown"></i>
+                            ) : (
+                              <i className="fa fa-sort-up shelf-year-dropdown"></i>
+                            )}
+                          </button>
+                        </div>
+                      )}
+                      <div className="columns is-multiline is-mobile shelf-tiles">
+                        {books
+                          .filter(
+                            (book) => book.year === year.value && year.show
+                          )
+                          .map((book, index) => (
+                            <div key={index} className={columnClass}>
+                              <div className="shelf-tile">
+                                <Link
+                                  to={`/review/${book.id}`}
+                                  className="tile-link"
+                                >
+                                  <img
+                                    src={book.imageUrl}
+                                    className="tile-image"
+                                    alt="Shelf tile"
+                                  />
+                                </Link>
+                              </div>
+                            </div>
+                          ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </InfiniteScroll>
+            </div>
+          )}
+        </div>
+      )}
+    </>
+  );
+};
 
 Shelf.propTypes = {
   match: PropTypes.shape({
