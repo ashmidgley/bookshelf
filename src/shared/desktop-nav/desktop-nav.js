@@ -9,8 +9,6 @@ import { tokenExpired, parseUser } from "../../shared/token.service";
 import { validAnonymousPath } from "../../shared/utils.service";
 
 const DesktopNav = ({ history }) => {
-  const { token } = localStorage.getItem("token");
-
   const [user, setUser] = useState();
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [dropdownRef, setDropdownRef] = useState();
@@ -36,12 +34,13 @@ const DesktopNav = ({ history }) => {
   }, []);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     if (!user && token) {
       setUser(parseUser(token));
     } else if (user && !token) {
       setUser(null);
     }
-  }, [token]);
+  });
 
   const handleClickOutsideDropdown = (event) => {
     if (

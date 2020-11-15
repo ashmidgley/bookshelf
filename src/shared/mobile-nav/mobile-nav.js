@@ -35,13 +35,13 @@ const MobileNav = ({ history }) => {
   }, []);
 
   useEffect(() => {
-    var token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     if (!user && token) {
       setUser(parseUser(token));
     } else if (user && !token) {
       setUser(null);
     }
-  }, [localStorage.getItem("token")]);
+  });
 
   const handleClickOutsideBurger = (event) => {
     if (

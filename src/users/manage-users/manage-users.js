@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Modal from "react-modal";
 import Loading from "../../shared/loading/loading";
@@ -10,209 +10,176 @@ import { customStyles } from "../../shared/custom-modal";
 import { fetchUsers, deleteUser } from "../../shared/user.service";
 import { parseUser } from "../../shared/token.service";
 
-class ManageUsers extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      users: null,
-      selectedUserId: null,
-      modalIsOpen: false,
-      loading: true,
-      success: false,
-      error: null,
-    };
+const ManageUsers = ({ history }) => {
+  const [users, setUsers] = useState();
+  const [selectedUserId, setSelectedUserId] = useState();
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState();
 
-    this.fetchUsers = this.fetchUsers.bind(this);
-    this.deleteUser = this.deleteUser.bind(this);
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleError = this.handleError.bind(this);
-  }
-
-  componentDidMount() {
+  useEffect(() => {
     window.scrollTo(0, 0);
-    var token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
     if (!token) {
-      this.props.history.push("/login");
+      history.push("/login");
       return;
     }
 
-    var user = parseUser(token);
+    const user = parseUser(token);
     if (user.isAdmin) {
-      this.fetchUsers(token);
+      fetchUsers(token)
+        .then((response) => {
+          setUsers(response);
+          setLoading(false);
+        })
+        .catch((error) => {
+          handleError(error);
+        });
     } else {
-      this.props.history.push("/");
+      history.push("/");
     }
-  }
+  }, []);
 
-  fetchUsers(token) {
-    fetchUsers(token)
-      .then((response) => {
-        this.setState({
-          users: response,
-          loading: false,
-        });
-      })
-      .catch((error) => {
-        this.handleError(error);
-      });
-  }
-
-  handleSubmit(event) {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    this.setState({
-      submitting: true,
-      error: null,
-      success: false,
-    });
+    setSubmitting(true);
+    setError(null);
+    setSuccess(false);
 
-    var token = localStorage.getItem("token");
-    this.deleteUser(this.state.selectedUserId, token);
-  }
-
-  deleteUser(userId, token) {
-    deleteUser(userId, token)
+    const token = localStorage.getItem("token");
+    deleteUser(selectedUserId, token)
       .then((response) => {
-        var oldUser = this.state.users.find((b) => b.id === response.id);
-        var index = this.state.users.indexOf(oldUser);
-        this.state.users.splice(index, 1);
-        this.setState({
-          modalIsOpen: false,
-          submitting: false,
-          success: true,
-        });
+        const oldUser = users.find((b) => b.id === response.id);
+        const index = users.indexOf(oldUser);
+        users.splice(index, 1);
+        setModalIsOpen(false);
+        setSubmitting(false);
+        setSuccess(true);
         window.scrollTo({ top: 0, behavior: "smooth" });
       })
       .catch((error) => {
-        this.handleError(error);
+        handleError(error);
       });
-  }
+  };
 
-  handleError(error) {
-    this.setState({
-      error: error,
-      modalIsOpen: false,
-      loading: false,
-      submitting: false,
-    });
+  const handleError = (error) => {
+    setError(error);
+    setModalIsOpen(false);
+    setLoading(false);
+    setSubmitting(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }
+  };
 
-  openModal(id) {
-    this.setState({
-      selectedUserId: id,
-      modalIsOpen: true,
-    });
-  }
+  const openModal = (id) => {
+    setSelectedUserId(id);
+    setModalIsOpen(true);
+  };
 
-  closeModal() {
-    this.setState({
-      modalIsOpen: false,
-    });
-  }
+  const closeModal = () => {
+    setModalIsOpen(false);
+  };
 
-  render() {
-    if (this.state.loading) {
-      return <Loading />;
-    }
-
-    return (
-      <div className="column is-8 is-offset-2 form-container">
-        <Helmet>
-          <title>Manage Users - Bookshelf</title>
-        </Helmet>
-        <div className="card form-card">
-          <div className="card-content">
-            <div className="media">
-              <div className="image-header-container">
-                <FontAwesomeIcon icon={faEye} className="eye-icon" size="lg" />
+  return (
+    <>
+      {loading ? (
+        <Loading />
+      ) : (
+        <div className="column is-8 is-offset-2 form-container">
+          <Helmet>
+            <title>Manage Users - Bookshelf</title>
+          </Helmet>
+          <div className="card form-card">
+            <div className="card-content">
+              <div className="media">
+                <div className="image-header-container">
+                  <FontAwesomeIcon
+                    icon={faEye}
+                    className="eye-icon"
+                    size="lg"
+                  />
+                </div>
               </div>
-            </div>
-            <Modal
-              isOpen={this.state.modalIsOpen}
-              onRequestClose={this.closeModal}
-              style={customStyles}
-            >
-              <form onSubmit={this.handleSubmit}>
-                <div>Are you sure you would like to delete this user?</div>
-                <div className="modal-actions">
-                  <button
-                    className={
-                      this.state.submitting
-                        ? "button is-link is-loading"
-                        : "button is-link"
-                    }
-                    type="submit"
-                  >
-                    Confirm
-                  </button>
-                  <button
-                    id="cancel"
-                    className="button"
-                    onClick={this.closeModal}
-                  >
-                    Cancel
-                  </button>
+              <Modal
+                isOpen={modalIsOpen}
+                onRequestClose={closeModal}
+                style={customStyles}
+              >
+                <form onSubmit={handleSubmit}>
+                  <div>Are you sure you would like to delete this user?</div>
+                  <div className="modal-actions">
+                    <button
+                      className={
+                        submitting
+                          ? "button is-link is-loading"
+                          : "button is-link"
+                      }
+                      type="submit"
+                    >
+                      Confirm
+                    </button>
+                    <button id="cancel" className="button" onClick={closeModal}>
+                      Cancel
+                    </button>
+                  </div>
+                </form>
+              </Modal>
+              <div>
+                <h1 className="title">Users</h1>
+                {success && (
+                  <div className="notification is-success">
+                    Successfully removed entry.
+                  </div>
+                )}
+                {error && <div className="notification is-danger">{error}</div>}
+                <div className="form-table">
+                  <table className="table is-fullwidth is-bordered">
+                    <thead>
+                      <tr>
+                        <th>Id</th>
+                        <th>Email</th>
+                        <th>Admin</th>
+                        <th></th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {users &&
+                        users.map((user) => (
+                          <tr key={user.id}>
+                            <td>{user.id}</td>
+                            <td>{user.email}</td>
+                            <td>{user.isAdmin.toString()}</td>
+                            <td className="has-text-centered">
+                              <Link
+                                to={`/admin/manage-users/${user.id}`}
+                                className="button"
+                              >
+                                Edit
+                              </Link>
+                            </td>
+                            <td className="has-text-centered">
+                              <button
+                                onClick={() => openModal(user.id)}
+                                className="button"
+                              >
+                                Delete
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                    </tbody>
+                  </table>
                 </div>
-              </form>
-            </Modal>
-            <div>
-              <h1 className="title">Users</h1>
-              {this.state.success && (
-                <div className="notification is-success">
-                  Successfully removed entry.
-                </div>
-              )}
-              {this.state.error && (
-                <div className="notification is-danger">{this.state.error}</div>
-              )}
-              <div className="form-table">
-                <table className="table is-fullwidth is-bordered">
-                  <thead>
-                    <tr>
-                      <th>Id</th>
-                      <th>Email</th>
-                      <th>Admin</th>
-                      <th></th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.state.users &&
-                      this.state.users.map((user) => (
-                        <tr key={user.id}>
-                          <td>{user.id}</td>
-                          <td>{user.email}</td>
-                          <td>{user.isAdmin.toString()}</td>
-                          <td className="has-text-centered">
-                            <Link
-                              to={`/admin/manage-users/${user.id}`}
-                              className="button"
-                            >
-                              Edit
-                            </Link>
-                          </td>
-                          <td className="has-text-centered">
-                            <button
-                              onClick={() => this.openModal(user.id)}
-                              className="button"
-                            >
-                              Delete
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                  </tbody>
-                </table>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    );
-  }
-}
+      )}
+    </>
+  );
+};
 
 ManageUsers.propTypes = {
   history: PropTypes.shape({
