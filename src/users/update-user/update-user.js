@@ -11,7 +11,6 @@ import { validateEmail } from "../../shared/field-validator";
 import { getUser, updateUser } from "../../shared/user.service";
 
 const UpdateUser = ({ match }) => {
-  const [userId, setUserId] = useState();
   const [user, setUser] = useState();
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -19,10 +18,10 @@ const UpdateUser = ({ match }) => {
   const [error, setError] = useState();
 
   useEffect(() => {
-    setUserId(parseInt(match.params.id));
+    const id = parseInt(match.params.id);
     window.scrollTo(0, 0);
     const token = localStorage.getItem("token");
-    getUser(userId, token)
+    getUser(id, token)
       .then((response) => {
         setUser(response);
         setLoading(false);
@@ -30,7 +29,7 @@ const UpdateUser = ({ match }) => {
       .catch((error) => {
         handleError(error);
       });
-  }, []);
+  }, [match.params.id]);
 
   const submitEntry = (values) => {
     setSubmitting(true);
