@@ -4,7 +4,11 @@ import Modal from "react-modal";
 import Loading from "../../shared/loading/loading";
 import { Helmet } from "react-helmet";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
+import {
+  faEye,
+  faCaretLeft,
+  faCaretRight,
+} from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import { customStyles } from "../../shared/custom-modal";
 import { fetchUsers, deleteUser } from "../../shared/user.service";
@@ -12,6 +16,8 @@ import { parseUser } from "../../shared/token.service";
 
 const ManageUsers = ({ history }) => {
   const [users, setUsers] = useState();
+  const [hasMore, setHasMore] = useState();
+  const [page, setPage] = useState();
   const [selectedUserId, setSelectedUserId] = useState();
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -29,18 +35,24 @@ const ManageUsers = ({ history }) => {
 
     const user = parseUser(token);
     if (user.isAdmin) {
-      fetchUsers(token)
-        .then((response) => {
-          setUsers(response);
-          setLoading(false);
-        })
-        .catch((error) => {
-          handleError(error);
-        });
+      getUsers(token, { page: 0 });
     } else {
       history.push("/");
     }
   }, []);
+
+  const getUsers = (token, options) => {
+    fetchUsers(token, options)
+      .then((response) => {
+        setUsers(response.users);
+        setHasMore(response.hasMore);
+        setPage(options.page);
+        setLoading(false);
+      })
+      .catch((error) => {
+        handleError(error);
+      });
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -79,6 +91,16 @@ const ManageUsers = ({ history }) => {
 
   const closeModal = () => {
     setModalIsOpen(false);
+  };
+
+  const pageLeft = () => {
+    const token = localStorage.getItem("token");
+    getUsers(token, { page: page - 1 });
+  };
+
+  const pageRight = () => {
+    const token = localStorage.getItem("token");
+    getUsers(token, { page: page + 1 });
   };
 
   return (
@@ -171,6 +193,22 @@ const ManageUsers = ({ history }) => {
                         ))}
                     </tbody>
                   </table>
+                  <div>
+                    <button
+                      onClick={pageLeft}
+                      className="button mr-10"
+                      disabled={page === 0}
+                    >
+                      <FontAwesomeIcon icon={faCaretLeft} size="lg" />
+                    </button>
+                    <button
+                      onClick={pageRight}
+                      className="button"
+                      disabled={!hasMore}
+                    >
+                      <FontAwesomeIcon icon={faCaretRight} size="lg" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

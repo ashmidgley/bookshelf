@@ -4,11 +4,11 @@ import { getErrorMessage } from "./utils.service";
 
 let userUrl = process.env.REACT_APP_API_URL + "/users";
 
-export const fetchUsers = (token) => {
+export const fetchUsers = (token, options) => {
   var config = createConfig(token);
   return new Promise((resolve, reject) => {
     axios
-      .get(userUrl, config)
+      .post(userUrl, options, config)
       .then((response) => {
         resolve(response.data);
       })
