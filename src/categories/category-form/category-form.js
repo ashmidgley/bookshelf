@@ -36,7 +36,7 @@ const CategoryForm = ({ match }) => {
     } else {
       setLoading(false);
     }
-  }, []);
+  }, [match.params.id]);
 
   const submitEntry = (values) => {
     setSubmitting(true);

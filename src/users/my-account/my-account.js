@@ -31,12 +31,7 @@ const MyAccount = () => {
     e.target.focus();
 
     setCopyText("Copied to clipboard!");
-    setTimeout(
-      function () {
-        setCopyText(null);
-      }.bind(this),
-      2000
-    );
+    setTimeout(() => setCopyText(null), 2000);
   };
 
   return (

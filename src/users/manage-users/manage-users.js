@@ -39,6 +39,7 @@ const ManageUsers = ({ history }) => {
     } else {
       history.push("/");
     }
+    // eslint-disable-next-line
   }, []);
 
   const getUsers = (token, options) => {

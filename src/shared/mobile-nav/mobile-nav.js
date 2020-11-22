@@ -32,8 +32,10 @@ const MobileNav = ({ history }) => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutsideBurger);
     };
+    // eslint-disable-next-line
   }, []);
 
+  // eslint-disable-next-line
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!user && token) {

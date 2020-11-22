@@ -37,7 +37,7 @@ const RatingForm = ({ match }) => {
       setAction("Create");
       setLoading(false);
     }
-  }, []);
+  }, [match.params.id]);
 
   const submitEntry = (values) => {
     setSubmitting(true);

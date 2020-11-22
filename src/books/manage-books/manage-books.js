@@ -28,6 +28,7 @@ const ManageBooks = () => {
     window.scrollTo(0, 0);
     var token = localStorage.getItem("token");
     fetchBooks(token, { page: 0 });
+    // eslint-disable-next-line
   }, []);
 
   const fetchBooks = (token, queryOptions) => {

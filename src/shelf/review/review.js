@@ -39,7 +39,7 @@ const Review = ({ match }) => {
       .catch((error) => {
         handleError(error);
       });
-  }, []);
+  }, [match.params.id]);
 
   const handleError = () => {
     setError(true);

@@ -42,7 +42,7 @@ const UpdateBook = ({ match }) => {
         handleError(error);
       }
     );
-  }, []);
+  }, [match.params.id]);
 
   const submitEntry = (values) => {
     setSubmitting(true);

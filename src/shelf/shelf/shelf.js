@@ -65,6 +65,7 @@ const Shelf = ({ match }) => {
     return () => {
       window.removeEventListener("resize", checkDimensions);
     };
+    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -72,6 +73,7 @@ const Shelf = ({ match }) => {
     if (!isNaN(id) && id !== userId) {
       window.location.reload(false);
     }
+    // eslint-disable-next-line
   }, [paramsId]);
 
   const getBooks = (id, options, viewMore = false) => {

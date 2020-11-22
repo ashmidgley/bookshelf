@@ -35,7 +35,7 @@ const ResetPassword = ({ match }) => {
       .catch((error) => {
         handleError(error);
       });
-  }, []);
+  }, [match.params.resetToken, match.params.userId]);
 
   const submitEntry = (values) => {
     setSubmitting(true);
