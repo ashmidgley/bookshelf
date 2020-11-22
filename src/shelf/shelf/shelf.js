@@ -122,10 +122,10 @@ const Shelf = ({ match }) => {
 
   const searchSubmit = (e) => {
     e.persist();
-    debouncedFn(e.target.value.toLowerCase());
+    debouncedSearch(e.target.value.toLowerCase());
   };
 
-  const debouncedFn = _.debounce((text) => {
+  const debouncedSearch = _.debounce((text) => {
     const options = {
       ...queryOptions,
       search: text,
@@ -199,13 +199,17 @@ const Shelf = ({ match }) => {
   };
 
   const loadMore = () => {
+    debouncedLoad();
+  };
+
+  const debouncedLoad = _.debounce(() => {
     const options = {
       ...queryOptions,
       page: queryOptions.page + 1,
     };
 
     getBooks(userId, options, true);
-  };
+  }, 500);
 
   return (
     <>
