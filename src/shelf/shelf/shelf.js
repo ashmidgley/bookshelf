@@ -13,6 +13,7 @@ import _ from "lodash";
 
 const Shelf = ({ match }) => {
   const { paramsId } = match.params.id;
+  const entriesPerPage = 12;
 
   const [userId, setUserId] = useState();
   const [storageId, setStorageId] = useState();
@@ -42,7 +43,8 @@ const Shelf = ({ match }) => {
       setStorageId(user.id);
     }
 
-    getBooks(id, { page: 0 });
+    const options = { page: 0, entriesPerPage: entriesPerPage };
+    getBooks(id, options);
 
     fetchCategories(id)
       .then((response) => {
@@ -80,7 +82,6 @@ const Shelf = ({ match }) => {
     fetchBooks(id, options)
       .then((response) => {
         const result = viewMore ? books.concat(response.books) : response.books;
-
         setBooks(result);
         setHasMore(response.hasMore);
         setYears(getYears(result));
@@ -199,17 +200,17 @@ const Shelf = ({ match }) => {
   };
 
   const loadMore = () => {
-    debouncedLoad();
-  };
+    if ((queryOptions.page + 1) * entriesPerPage != books.length) {
+      return;
+    }
 
-  const debouncedLoad = _.debounce(() => {
     const options = {
       ...queryOptions,
       page: queryOptions.page + 1,
     };
 
     getBooks(userId, options, true);
-  }, 500);
+  };
 
   return (
     <>
