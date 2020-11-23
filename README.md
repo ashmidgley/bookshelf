@@ -1,6 +1,5 @@
 # Bookshelf
-
-An online shelf to keep track of your reads. Built with React and [.Net Core](https://github.com/ashmidgley/bookshelf-api).<br/><br/><br />
+Built with React and [.Net Core](https://github.com/ashmidgley/bookshelf-api).<br/><br/><br />
 
 ![alt Mobile](public/images/mobile.png?raw=true "Mobile")<br/><br/><br/>
 ![alt Desktop](public/images/desktop.png?raw=true "Desktop")<br/><br/><br/>
