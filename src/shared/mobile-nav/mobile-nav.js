@@ -92,7 +92,11 @@ const MobileNav = ({ history }) => {
             to={user ? `/shelf/${user.id}` : "/"}
             className="navbar-item"
           >
-            <img src="/images/bookshelf.png" alt="Small bookshelf" />
+            <img
+              src="/images/bookshelf.png"
+              alt="Small bookshelf"
+              loading="lazy"
+            />
           </Link>
           {user ? (
             <Link

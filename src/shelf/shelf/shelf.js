@@ -200,7 +200,7 @@ const Shelf = ({ match }) => {
   };
 
   const loadMore = () => {
-    if ((queryOptions.page + 1) * entriesPerPage != books.length) {
+    if ((queryOptions.page + 1) * entriesPerPage !== books.length) {
       return;
     }
 
@@ -357,6 +357,7 @@ const Shelf = ({ match }) => {
                                     src={book.imageUrl}
                                     className="tile-image"
                                     alt="Shelf tile"
+                                    loading="lazy"
                                   />
                                 </Link>
                               </div>

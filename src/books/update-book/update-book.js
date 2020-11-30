@@ -213,11 +213,13 @@ const UpdateBook = ({ match }) => {
                           alt={values.imageUrl}
                           width="96"
                           height="96"
+                          loading="lazy"
                         />
                       ) : (
                         <img
                           src={process.env.REACT_APP_TEMP_IMAGE}
                           alt="Placeholder"
+                          loading="lazy"
                         />
                       )}
                     </div>

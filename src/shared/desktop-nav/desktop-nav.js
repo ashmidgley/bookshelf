@@ -72,7 +72,11 @@ const DesktopNav = ({ history }) => {
       <div className="container">
         <div className="navbar-brand">
           <Link className="navbar-item" to={user ? `/shelf/${user.id}` : "/"}>
-            <img src="/images/bookshelf.png" alt="Small bookshelf" />
+            <img
+              src="/images/bookshelf.png"
+              alt="Small bookshelf"
+              loading="lazy"
+            />
           </Link>
         </div>
         <div className="navbar-menu">

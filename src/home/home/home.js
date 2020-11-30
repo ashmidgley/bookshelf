@@ -12,7 +12,12 @@ const Home = () => {
         <div className="hero-body">
           <div className="container has-text-centered">
             <div className="column is-6 is-offset-3">
-              <img id="bookshelf-icon" src="/images/logo.png" alt="Bookshelf" />
+              <img
+                id="bookshelf-icon"
+                src="/images/logo.png"
+                alt="Bookshelf"
+                loading="lazy"
+              />
             </div>
           </div>
         </div>

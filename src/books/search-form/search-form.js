@@ -295,7 +295,11 @@ const SearchForm = () => {
                               id="search-image-column"
                               className="column is-1"
                             >
-                              <img src={book.imageUrl} alt="Book cover" />
+                              <img
+                                src={book.imageUrl}
+                                alt="Book cover"
+                                loading="lazy"
+                              />
                             </div>
                           </button>
                         ))}

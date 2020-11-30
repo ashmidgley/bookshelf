@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const NoMatch = () => (
   <div className="not-found-container">
-    <img src="/images/not-found.png" alt="404 Not Found error" />
+    <img src="/images/not-found.png" alt="404 Not Found error" loading="lazy" />
     <p>
       Page not found. Return <Link to="/">home</Link>?
     </p>
