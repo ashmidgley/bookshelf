@@ -1,0 +1,57 @@
+#home-container {
+  animation: fadeIn 1.5s;
+}
+
+#bookshelf-icon {
+  width: 75%;
+  border-radius: 100%;
+  padding: 50px;
+  background: linear-gradient(230deg, #a24bcf, #4b79cf, #4bc5cf);
+  background-size: 200% 200%;
+  -webkit-animation: colorShift 10s ease infinite;
+  -moz-animation: colorShift 10s ease infinite;
+  animation: colorShift 10s ease infinite;
+}
+
+@-webkit-keyframes colorShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@-moz-keyframes colorShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes colorShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  #bookshelf-icon {
+    padding: 20px;
+    width: 90%;
+  }
+}

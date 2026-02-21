@@ -1,0 +1,7 @@
+language: csharp
+mono: none
+dotnet: 3.1 
+script:
+ - dotnet restore Bookshelf.Core/Bookshelf.Core.csproj
+ - dotnet restore Bookshelf.Tests/Bookshelf.Tests.csproj
+ - dotnet test Bookshelf.Tests/Bookshelf.Tests.csproj
