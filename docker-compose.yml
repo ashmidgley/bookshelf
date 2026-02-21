@@ -1,0 +1,63 @@
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+      MSSQL_SA_PASSWORD: "${MSSQL_SA_PASSWORD:-BookshelfStrongPassw0rd!}"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c ':> /dev/tcp/127.0.0.1/1433'"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: "http://+:8080"
+      ConnectionStrings__DefaultConnection: "Server=db,1433;Database=bookshelf;User Id=sa;Password=${MSSQL_SA_PASSWORD:-BookshelfStrongPassw0rd!};TrustServerCertificate=True"
+      Jwt__Key: "${JWT_KEY:-local-dev-jwt-key-change-me}"
+      Jwt__Issuer: "${JWT_ISSUER:-http://localhost:8080}"
+      GoogleBooks__Key: "${GOOGLE_BOOKS_KEY:-}"
+      GoogleBooks__Url: "${GOOGLE_BOOKS_URL:-https://www.googleapis.com/books/v1}"
+      GoogleBooks__DefaultCover: "${GOOGLE_BOOKS_DEFAULT_COVER:-https://via.placeholder.com/128x195?text=No+Cover}"
+      Email__SmtpServer: "${EMAIL_SMTP_SERVER:-smtp.example.com}"
+      Email__SmtpPort: "${EMAIL_SMTP_PORT:-25}"
+      Email__SmtpUsername: "${EMAIL_SMTP_USERNAME:-}"
+      Email__SmtpPassword: "${EMAIL_SMTP_PASSWORD:-}"
+      Email__SenderName: "${EMAIL_SENDER_NAME:-Bookshelf}"
+      Email__SenderAddress: "${EMAIL_SENDER_ADDRESS:-no-reply@example.com}"
+      Email__EmailTemplate: "${EMAIL_TEMPLATE}"
+      Email__SiteUrl: "${EMAIL_SITE_URL:-http://localhost:3000}"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+
+  ui:
+    build:
+      context: ./app/ui
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_API_URL: "/api"
+        REACT_APP_TEMP_IMAGE: "${REACT_APP_TEMP_IMAGE:-https://via.placeholder.com/128x195?text=No+Cover}"
+        REACT_APP_TRACKING_ID: "${REACT_APP_TRACKING_ID:-}"
+        REACT_APP_ERROR: "${REACT_APP_ERROR:-}"
+    depends_on:
+      - api
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+
+volumes:
+  sqlserver-data:

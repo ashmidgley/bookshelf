@@ -1,0 +1,9 @@
+FROM node:14-bullseye-slim
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN HUSKY=0 npm ci
+
+EXPOSE 3000
+
+CMD ["npm", "start"]

@@ -100,9 +100,19 @@ namespace Bookshelf.Core
                 await next.Invoke();
             });
 
-            app.UseHttpsRedirection();
+            if (!env.IsDevelopment())
+            {
+                app.UseHttpsRedirection();
+            }
 
             app.UseRouting();
+
+            app.UseCors(builder =>
+                builder
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin()
+            );
 
             app.UseAuthentication();
 
@@ -112,13 +122,6 @@ namespace Bookshelf.Core
             {
                 endpoints.MapControllers();
             });
-
-            app.UseCors(builder =>
-                builder
-                    .AllowAnyHeader()
-                    .AllowAnyMethod()
-                    .AllowAnyOrigin()
-            );
         }
     }
 }

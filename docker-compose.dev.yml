@@ -1,0 +1,37 @@
+services:
+  api:
+    build:
+      dockerfile: Dockerfile.dev
+    working_dir: /src/Bookshelf.Core
+    command: /bin/sh -c "dotnet restore Bookshelf.Core.csproj && dotnet watch run --urls http://0.0.0.0:8080"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "1"
+    volumes:
+      - ./api/Bookshelf.Core:/src/Bookshelf.Core
+      - api-nuget-cache:/root/.nuget/packages
+    ports: !override
+      - "8080:8080"
+
+  ui:
+    build:
+      dockerfile: Dockerfile.dev
+      args: !override {}
+    command: /bin/sh -c "if [ ! -d node_modules ] || [ -z \"$(ls -A node_modules 2>/dev/null)\" ]; then HUSKY=0 npm ci; fi && npm start"
+    environment:
+      REACT_APP_API_URL: "${REACT_APP_API_URL_DEV:-http://localhost:8080/api}"
+      REACT_APP_TEMP_IMAGE: "${REACT_APP_TEMP_IMAGE:-https://via.placeholder.com/128x195?text=No+Cover}"
+      REACT_APP_TRACKING_ID: "${REACT_APP_TRACKING_ID:-}"
+      REACT_APP_ERROR: "${REACT_APP_ERROR:-}"
+      CHOKIDAR_USEPOLLING: "true"
+      WATCHPACK_POLLING: "true"
+      HOST: "0.0.0.0"
+      PORT: "3000"
+    volumes:
+      - ./app/ui:/app
+      - ui-node-modules:/app/node_modules
+    ports: !override
+      - "3000:3000"
+
+volumes:
+  api-nuget-cache:
+  ui-node-modules:
