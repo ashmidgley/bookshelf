@@ -2,7 +2,7 @@
 
 ## Scan Summary
 
-### UI (`/Users/stu/dev/bookshelf/ui`)
+### UI (`/Users/stu/dev/bookshelf/app/ui`)
 - Stack: Create React App (`react-scripts` `3.4.4`) with React `16.13.1`.
 - Runtime config is env-driven in client code:
   - `REACT_APP_API_URL`
@@ -10,7 +10,7 @@
   - `REACT_APP_TRACKING_ID`
   - `REACT_APP_ERROR`
 - API calls are built from `REACT_APP_API_URL + "/<resource>"` in `src/shared/*service.js`.
-- Current committed `ui/.env` has blank values, so container runtime/build must supply these.
+- Current committed `app/ui/.env` has blank values, so container runtime/build must supply these.
 - No Docker assets currently exist (`Dockerfile`, `docker-compose.yml`, nginx config).
 
 ### API (`/Users/stu/dev/bookshelf/api`)
@@ -56,7 +56,7 @@ Run `ui`, `api`, and `db` locally with one command and predictable config.
 4. Keep migration-on-startup behavior, but rely on DB healthcheck + restart policy to avoid boot race failures.
 
 ### Phase 3: Containerize UI
-1. Add `/Users/stu/dev/bookshelf/ui/Dockerfile` (multi-stage):
+1. Add `/Users/stu/dev/bookshelf/app/ui/Dockerfile` (multi-stage):
    - Build stage: `node:14` (safer with CRA 3.x)
    - Runtime stage: `nginx:alpine`
 2. Build with `REACT_APP_API_URL=/api` and configure nginx reverse proxy `/api -> api:8080`.
@@ -82,9 +82,9 @@ Run `ui`, `api`, and `db` locally with one command and predictable config.
 - `/Users/stu/dev/bookshelf/.env.docker.example`
 - `/Users/stu/dev/bookshelf/api/Dockerfile`
 - `/Users/stu/dev/bookshelf/api/.dockerignore`
-- `/Users/stu/dev/bookshelf/ui/Dockerfile`
-- `/Users/stu/dev/bookshelf/ui/.dockerignore`
-- `/Users/stu/dev/bookshelf/ui/nginx.conf`
+- `/Users/stu/dev/bookshelf/app/ui/Dockerfile`
+- `/Users/stu/dev/bookshelf/app/ui/.dockerignore`
+- `/Users/stu/dev/bookshelf/app/ui/nginx.conf`
 
 ## Verification Checklist (After Implementation)
 1. `docker compose up --build` starts all three services.
