@@ -1,3 +1,4 @@
+using System;
 using Bookshelf.Core;
 using FakeItEasy;
 using NUnit.Framework;
@@ -8,8 +9,7 @@ namespace Bookshelf.Tests
     public class EmailServiceShould
     {
         [Test]
-        [Explicit]
-        public void SendEmail_OnCallToSend()
+        public void ThrowException_WhenApiKeyMissing_OnCallToSend()
         {
             var recipient = new EmailAddress
             {
@@ -32,15 +32,11 @@ namespace Bookshelf.Tests
             };
 
             var emailConfiguration = A.Fake<IEmailConfiguration>();
-            A.CallTo(() => emailConfiguration.SmtpServer).Returns("");
-            A.CallTo(() => emailConfiguration.SmtpPort).Returns(0);
-            A.CallTo(() => emailConfiguration.SmtpUsername).Returns("");
-            A.CallTo(() => emailConfiguration.SmtpPassword).Returns("");
+            A.CallTo(() => emailConfiguration.SendGridApiKey).Returns("");
 
             var service = new EmailService(emailConfiguration);
-            service.Send(message);
-            
-            Assert.Pass();
+
+            Assert.Throws<Exception>(() => service.Send(message));
         }
     }
 }

@@ -1,6 +1,8 @@
-using MailKit.Net.Smtp;
-using MimeKit;
-using MimeKit.Text;
+using System;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Text;
+using System.Text.Json;
 
 namespace Bookshelf.Core
 {
@@ -15,23 +17,55 @@ namespace Bookshelf.Core
 
         public void Send(EmailMessage emailMessage)
         {
-            var message = new MimeMessage();
-            message.Subject = emailMessage.Subject;
-            message.To.Add(new MailboxAddress(emailMessage.ToAddress.Name, emailMessage.ToAddress.Address));
-            message.From.Add(new MailboxAddress(emailMessage.FromAddress.Name, emailMessage.FromAddress.Address));
-            
-            message.Body = new TextPart(TextFormat.Html)
+            if (string.IsNullOrWhiteSpace(_emailConfiguration.SendGridApiKey))
             {
-                Text = emailMessage.Content
+                throw new Exception("SendGrid API key missing.");
+            }
+
+            var payload = new
+            {
+                personalizations = new[]
+                {
+                    new
+                    {
+                        to = new[]
+                        {
+                            new
+                            {
+                                email = emailMessage.ToAddress.Address,
+                                name = emailMessage.ToAddress.Name
+                            }
+                        }
+                    }
+                },
+                from = new
+                {
+                    email = emailMessage.FromAddress.Address,
+                    name = emailMessage.FromAddress.Name
+                },
+                subject = emailMessage.Subject,
+                content = new[]
+                {
+                    new
+                    {
+                        type = "text/html",
+                        value = emailMessage.Content
+                    }
+                }
             };
 
-            using (var emailClient = new SmtpClient())
+            using (var emailClient = new HttpClient())
+            using (var request = new HttpRequestMessage(HttpMethod.Post, "https://api.sendgrid.com/v3/mail/send"))
             {
-                emailClient.Connect(_emailConfiguration.SmtpServer, _emailConfiguration.SmtpPort, false);
-                emailClient.AuthenticationMechanisms.Remove("XOAUTH2");
-                emailClient.Authenticate(_emailConfiguration.SmtpUsername, _emailConfiguration.SmtpPassword);
-                emailClient.Send(message);
-                emailClient.Disconnect(true);
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", _emailConfiguration.SendGridApiKey);
+                request.Content = new StringContent(JsonSerializer.Serialize(payload), Encoding.UTF8, "application/json");
+
+                var response = emailClient.SendAsync(request).GetAwaiter().GetResult();
+                if (!response.IsSuccessStatusCode)
+                {
+                    var responseBody = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+                    throw new Exception($"SendGrid request failed with status code {(int)response.StatusCode}: {responseBody}");
+                }
             }
         }
     }
