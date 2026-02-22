@@ -1,0 +1,35 @@
+aws_region      = "us-east-1"
+project_name    = "bookshelf"
+environment     = "prod"
+instance_type   = "t3a.small"
+enable_ssh      = false
+allowed_ssh_cidr = "203.0.113.10/32"
+
+root_volume_size_gb = 40
+root_volume_type    = "gp3"
+
+domain_name          = "example.com"
+api_subdomain        = "api"
+create_route53_record = false
+route53_zone_id      = "Z0123456789ABCDEF"
+
+api_image = "ghcr.io/your-org/bookshelf-api:latest"
+
+db_sa_password = "REPLACE_ME_STRONG_PASSWORD"
+jwt_key        = "REPLACE_ME_LONG_RANDOM_KEY"
+jwt_issuer     = "https://api.example.com"
+
+google_books_key = ""
+sendgrid_api_key = ""
+
+email_sender_name    = "Bookshelf"
+email_sender_address = "no-reply@example.com"
+email_template       = "Click here to reset your password: {{resetToken}}"
+email_site_url       = "https://bookshelf.example.com"
+
+create_ssm_parameters = false
+ssm_parameter_prefix  = "/bookshelf/prod"
+
+tags = {
+  Owner = "stu"
+}

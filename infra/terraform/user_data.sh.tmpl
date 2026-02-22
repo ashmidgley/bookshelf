@@ -1,0 +1,109 @@
+#!/bin/bash
+set -euxo pipefail
+
+dnf update -y
+dnf install -y docker
+dnf install -y docker-compose-plugin || true
+
+systemctl enable --now docker
+usermod -aG docker ec2-user
+
+install -d -m 755 /srv/bookshelf
+install -d -m 755 /srv/bookshelf/sqlserver-data
+install -d -m 755 /srv/bookshelf/caddy-data
+install -d -m 755 /srv/bookshelf/caddy-config
+chown -R ec2-user:ec2-user /srv/bookshelf
+
+cat > /srv/bookshelf/.env <<'EOF'
+MSSQL_SA_PASSWORD=${db_sa_password}
+ASPNETCORE_ENVIRONMENT=Production
+ASPNETCORE_URLS=http://+:8080
+ConnectionStrings__DefaultConnection=Server=db,1433;Database=bookshelf;User Id=sa;Password=${db_sa_password};TrustServerCertificate=True
+JWT_KEY=${jwt_key}
+JWT_ISSUER=${jwt_issuer}
+Jwt__Key=${jwt_key}
+Jwt__Issuer=${jwt_issuer}
+GOOGLE_BOOKS_KEY=${google_books_key}
+GOOGLE_BOOKS_URL=https://www.googleapis.com/books/v1
+GOOGLE_BOOKS_DEFAULT_COVER=https://placehold.co/128x195/png?text=No+Cover
+SENDGRID_API_KEY=${sendgrid_api_key}
+GoogleBooks__Key=${google_books_key}
+GoogleBooks__Url=https://www.googleapis.com/books/v1
+GoogleBooks__DefaultCover=https://placehold.co/128x195/png?text=No+Cover
+EMAIL_SENDER_NAME=${email_sender_name}
+EMAIL_SENDER_ADDRESS=${email_sender_address}
+EMAIL_TEMPLATE=${email_template}
+EMAIL_SITE_URL=${email_site_url}
+Email__SendGridApiKey=${sendgrid_api_key}
+Email__SenderName=${email_sender_name}
+Email__SenderAddress=${email_sender_address}
+Email__EmailTemplate=${email_template}
+Email__SiteUrl=${email_site_url}
+EOF
+chmod 600 /srv/bookshelf/.env
+
+cat > /srv/bookshelf/Caddyfile <<'EOF'
+%{ if api_domain != "" ~}
+${api_domain} {
+    reverse_proxy api:8080
+}
+
+:80 {
+    reverse_proxy api:8080
+}
+%{ else ~}
+:80 {
+    reverse_proxy api:8080
+}
+%{ endif ~}
+EOF
+
+cat > /srv/bookshelf/docker-compose.yml <<'EOF'
+services:
+  reverse-proxy:
+    image: caddy:2.8-alpine
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /srv/bookshelf/Caddyfile:/etc/caddy/Caddyfile:ro
+      - /srv/bookshelf/caddy-data:/data
+      - /srv/bookshelf/caddy-config:/config
+
+  api:
+    image: ${api_image}
+    restart: unless-stopped
+    env_file:
+      - /srv/bookshelf/.env
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    restart: unless-stopped
+    env_file:
+      - /srv/bookshelf/.env
+    environment:
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Express"
+    volumes:
+      - /srv/bookshelf/sqlserver-data:/var/opt/mssql
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c ':> /dev/tcp/127.0.0.1/1433'"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+EOF
+
+if docker compose version >/dev/null 2>&1; then
+  docker compose -f /srv/bookshelf/docker-compose.yml up -d
+elif command -v docker-compose >/dev/null 2>&1; then
+  docker-compose -f /srv/bookshelf/docker-compose.yml up -d
+else
+  echo "Docker Compose not found. Start the stack manually after installing compose." >&2
+fi
