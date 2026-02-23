@@ -1,6 +1,7 @@
 import axios from "axios";
 import { createConfig } from "./token.service";
 import { getErrorMessage } from "./utils.service";
+import { resetAnalyticsUser } from "./analytics.service";
 
 let userUrl = process.env.REACT_APP_API_URL + "/users";
 
@@ -106,6 +107,7 @@ export const deleteUser = (userId, token) => {
 
 export const clearUser = () => {
   return new Promise((resolve) => {
+    resetAnalyticsUser();
     localStorage.removeItem("token");
     localStorage.removeItem("expiryDate");
     resolve();

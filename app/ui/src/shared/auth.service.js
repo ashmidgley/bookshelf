@@ -1,6 +1,7 @@
 import axios from "axios";
 import { getErrorMessage } from "./utils.service";
 import { persistToken, createUserPayload } from "./token.service";
+import { identifyUserWithToken } from "./analytics.service";
 
 let authUrl = process.env.REACT_APP_API_URL + "/auth";
 
@@ -12,6 +13,7 @@ export const login = (login) => {
       .then((response) => {
         var payload = createUserPayload(response.data);
         persistToken(payload.token, payload.expiryDate);
+        identifyUserWithToken(payload.token);
         resolve(payload.id);
       })
       .catch((error) => {
@@ -30,6 +32,7 @@ export const register = (register) => {
       .then((response) => {
         var payload = createUserPayload(response.data);
         persistToken(payload.token, payload.expiryDate);
+        identifyUserWithToken(payload.token);
         resolve(payload.id);
       })
       .catch((error) => {

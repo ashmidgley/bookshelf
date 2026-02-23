@@ -1,4 +1,5 @@
 # Bookshelf
+
 Built with React and [.Net Core](https://github.com/ashmidgley/bookshelf-api).<br/><br/><br />
 
 ![alt Mobile](public/images/mobile.png?raw=true "Mobile")<br/><br/><br/>
@@ -14,3 +15,12 @@ Useful articles:
 - [How do you implement JWT authentication in .NET Core?](https://medium.com/@mmoshikoo/jwt-authentication-using-c-54e0c71f21b0)
 - [How do you send emails in .NET Core?](https://dotnetcoretutorials.com/2017/11/02/using-mailkit-send-receive-email-asp-net-core/)
 - [What are security headers and how do I use them in .NET Core?](https://www.hanselman.com/blog/EasilyAddingSecurityHeadersToYourASPNETCoreWebAppAndGettingAnAGrade.aspx)
+
+## PostHog Analytics
+
+Client-side analytics is enabled when these environment variables are set:
+
+- `REACT_APP_POSTHOG_KEY`: PostHog project API key.
+- `REACT_APP_POSTHOG_HOST`: Optional PostHog host. Defaults to `https://us.i.posthog.com`.
+
+If `REACT_APP_POSTHOG_KEY` is not set, analytics is disabled.
