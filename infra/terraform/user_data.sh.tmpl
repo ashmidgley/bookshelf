@@ -3,7 +3,22 @@ set -euxo pipefail
 
 dnf update -y
 dnf install -y docker
-dnf install -y docker-compose-plugin || true
+dnf install -y amazon-ssm-agent || true
+systemctl enable --now amazon-ssm-agent || true
+
+if ! docker compose version >/dev/null 2>&1; then
+  dnf install -y docker-compose-plugin || true
+fi
+
+if ! docker compose version >/dev/null 2>&1 && ! command -v docker-compose >/dev/null 2>&1; then
+  dnf install -y docker-compose || true
+fi
+
+if ! docker compose version >/dev/null 2>&1 && ! command -v docker-compose >/dev/null 2>&1; then
+  arch="$(uname -m)"
+  curl -fsSL "https://github.com/docker/compose/releases/latest/download/docker-compose-linux-$${arch}" -o /usr/local/bin/docker-compose
+  chmod +x /usr/local/bin/docker-compose
+fi
 
 systemctl enable --now docker
 usermod -aG docker ec2-user
