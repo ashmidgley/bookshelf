@@ -1,8 +1,8 @@
 # Bookshelf: Local Docker Run Setup
 
 ## Layout
-- UI: `/Users/stu/dev/bookshelf/app/ui`
-- API: `/Users/stu/dev/bookshelf/api`
+- UI: `/Users/stu/dev/bookshelf/apps/ui`
+- API: `/Users/stu/dev/bookshelf/apps/api`
 - Compose: `/Users/stu/dev/bookshelf/docker-compose.yml`
 
 ## Service Summary
@@ -15,13 +15,13 @@
 - `/Users/stu/dev/bookshelf/docker-compose.yml`
 - `/Users/stu/dev/bookshelf/docker-compose.dev.yml`
 - `/Users/stu/dev/bookshelf/.env.docker.example`
-- `/Users/stu/dev/bookshelf/api/Dockerfile`
-- `/Users/stu/dev/bookshelf/api/Dockerfile.dev`
-- `/Users/stu/dev/bookshelf/api/.dockerignore`
-- `/Users/stu/dev/bookshelf/app/ui/Dockerfile`
-- `/Users/stu/dev/bookshelf/app/ui/Dockerfile.dev`
-- `/Users/stu/dev/bookshelf/app/ui/.dockerignore`
-- `/Users/stu/dev/bookshelf/app/ui/nginx.conf`
+- `/Users/stu/dev/bookshelf/apps/api/Dockerfile`
+- `/Users/stu/dev/bookshelf/apps/api/Dockerfile.dev`
+- `/Users/stu/dev/bookshelf/apps/api/.dockerignore`
+- `/Users/stu/dev/bookshelf/apps/ui/Dockerfile`
+- `/Users/stu/dev/bookshelf/apps/ui/Dockerfile.dev`
+- `/Users/stu/dev/bookshelf/apps/ui/.dockerignore`
+- `/Users/stu/dev/bookshelf/apps/ui/nginx.conf`
 
 ## API Runtime Adjustment
 - CORS middleware moved to run after `UseRouting()` and before auth.

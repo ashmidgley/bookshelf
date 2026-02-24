@@ -15,7 +15,7 @@ Options:
   -a, --account-id <id>       AWS account ID (default: from sts get-caller-identity)
   -n, --repository <name>     ECR repository name (default: bookshelf-api)
   -p, --project-name <name>   CodeBuild project name (default: bookshelf-api-image-build)
-  -s, --source-dir <path>     Source directory to package (default: ./api)
+  -s, --source-dir <path>     Source directory to package (default: ./apps/api)
   -h, --help                  Show this help
 
 Example:
@@ -38,7 +38,7 @@ REGION="${AWS_REGION:-}"
 ACCOUNT_ID=""
 REPOSITORY="bookshelf-api"
 PROJECT_NAME="bookshelf-api-image-build"
-SOURCE_DIR="${REPO_ROOT}/api"
+SOURCE_DIR="${REPO_ROOT}/apps/api"
 
 while [[ $# -gt 0 ]]; do
   case "$1" in

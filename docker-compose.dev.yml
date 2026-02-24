@@ -7,7 +7,7 @@ services:
     environment:
       DOTNET_USE_POLLING_FILE_WATCHER: "1"
     volumes:
-      - ./api/Bookshelf.Core:/src/Bookshelf.Core
+      - ./apps/api/Bookshelf.Core:/src/Bookshelf.Core
       - api-nuget-cache:/root/.nuget/packages
     ports: !override
       - "8080:8080"
@@ -26,7 +26,7 @@ services:
       HOST: "0.0.0.0"
       PORT: "3000"
     volumes:
-      - ./app/ui:/app
+      - ./apps/ui:/app
       - ui-node-modules:/app/node_modules
     ports: !override
       - "3000:3000"

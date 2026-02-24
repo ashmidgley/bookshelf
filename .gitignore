@@ -7,12 +7,12 @@
 .eslintcache
 
 # Monorepo paths
-app/ui/node_modules
-app/ui/.pnp
-app/ui/.pnp.js
-app/ui/coverage
-app/ui/build
-app/ui/.eslintcache
+apps/ui/node_modules
+apps/ui/.pnp
+apps/ui/.pnp.js
+apps/ui/coverage
+apps/ui/build
+apps/ui/.eslintcache
 
 # Local env files
 .env.docker
@@ -20,10 +20,10 @@ app/ui/.eslintcache
 .env.development.local
 .env.test.local
 .env.production.local
-app/ui/.env.local
-app/ui/.env.development.local
-app/ui/.env.test.local
-app/ui/.env.production.local
+apps/ui/.env.local
+apps/ui/.env.development.local
+apps/ui/.env.test.local
+apps/ui/.env.production.local
 
 # Misc
 .DS_Store
@@ -37,5 +37,6 @@ yarn-error.log*
 *.tfstate.*
 *.tfvars
 *.tfplan
+*tfplan
 override.tf
 override.tf.json

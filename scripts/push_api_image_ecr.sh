@@ -13,8 +13,8 @@ Options:
   -r, --region <region>       AWS region (default: AWS region from CLI config)
   -a, --account-id <id>       AWS account ID (default: from sts get-caller-identity)
   -n, --repository <name>     ECR repository name (default: bookshelf-api)
-  -c, --context <path>        Docker build context (default: ./api)
-  -f, --dockerfile <path>     Dockerfile path (default: ./api/Dockerfile)
+  -c, --context <path>        Docker build context (default: ./apps/api)
+  -f, --dockerfile <path>     Dockerfile path (default: ./apps/api/Dockerfile)
       --no-create-repo        Fail if the ECR repo does not exist
   -h, --help                  Show this help
 
@@ -39,8 +39,8 @@ VERSION="v0.0.1"
 REGION="${AWS_REGION:-}"
 ACCOUNT_ID=""
 REPOSITORY="bookshelf-api"
-BUILD_CONTEXT="${REPO_ROOT}/api"
-DOCKERFILE_PATH="${REPO_ROOT}/api/Dockerfile"
+BUILD_CONTEXT="${REPO_ROOT}/apps/api"
+DOCKERFILE_PATH="${REPO_ROOT}/apps/api/Dockerfile"
 CREATE_REPO="true"
 
 while [[ $# -gt 0 ]]; do
