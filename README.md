@@ -47,30 +47,30 @@ bookshelf/
 ## Local Run
 1. Create env file:
 ```bash
-cp /Users/stu/dev/bookshelf/.env.docker.example /Users/stu/dev/bookshelf/.env.docker
+cp .env.docker.example .env.docker
 ```
 
 2. Start full stack:
 ```bash
-docker compose --env-file /Users/stu/dev/bookshelf/.env.docker up --build
+docker compose --env-file .env.docker up --build
 ```
 
 3. Stop stack:
 ```bash
-docker compose --env-file /Users/stu/dev/bookshelf/.env.docker down
+docker compose --env-file .env.docker down
 ```
 
 4. Stop and remove DB volume:
 ```bash
-docker compose --env-file /Users/stu/dev/bookshelf/.env.docker down -v
+docker compose --env-file .env.docker down -v
 ```
 
 ## Dev Mode (Hot Reload)
 ```bash
 docker compose \
-  --env-file /Users/stu/dev/bookshelf/.env.docker \
-  -f /Users/stu/dev/bookshelf/docker-compose.yml \
-  -f /Users/stu/dev/bookshelf/docker-compose.dev.yml \
+  --env-file .env.docker \
+  -f docker-compose.yml \
+  -f docker-compose.dev.yml \
   up --build
 ```
 
