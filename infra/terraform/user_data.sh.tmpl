@@ -23,11 +23,25 @@ fi
 systemctl enable --now docker
 usermod -aG docker ec2-user
 
+api_image_uri="${api_image}"
+if [[ "$${api_image_uri}" =~ ^[0-9]+\.dkr\.ecr\.[a-z0-9-]+\.amazonaws\.com/ ]]; then
+  dnf install -y awscli
+  ecr_registry="$${api_image_uri%%/*}"
+  ecr_region="$(echo "$${ecr_registry}" | sed -E 's|^[0-9]+\.dkr\.ecr\.([a-z0-9-]+)\.amazonaws\.com$|\1|')"
+  if [[ -z "$${ecr_region}" ]]; then
+    ecr_region="${aws_region}"
+  fi
+  aws ecr get-login-password --region "$${ecr_region}" \
+    | docker login --username AWS --password-stdin "$${ecr_registry}"
+fi
+
 install -d -m 755 /srv/bookshelf
 install -d -m 755 /srv/bookshelf/sqlserver-data
 install -d -m 755 /srv/bookshelf/caddy-data
 install -d -m 755 /srv/bookshelf/caddy-config
 chown -R ec2-user:ec2-user /srv/bookshelf
+chown -R 10001:0 /srv/bookshelf/sqlserver-data
+chmod -R 770 /srv/bookshelf/sqlserver-data
 
 cat > /srv/bookshelf/.env <<'EOF'
 MSSQL_SA_PASSWORD=${db_sa_password}
@@ -116,8 +130,10 @@ services:
 EOF
 
 if docker compose version >/dev/null 2>&1; then
+  docker compose -f /srv/bookshelf/docker-compose.yml pull api || true
   docker compose -f /srv/bookshelf/docker-compose.yml up -d
 elif command -v docker-compose >/dev/null 2>&1; then
+  docker-compose -f /srv/bookshelf/docker-compose.yml pull api || true
   docker-compose -f /srv/bookshelf/docker-compose.yml up -d
 else
   echo "Docker Compose not found. Start the stack manually after installing compose." >&2

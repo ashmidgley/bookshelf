@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -120,6 +121,18 @@ namespace Bookshelf.Core
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGet("/", async context =>
+                {
+                    context.Response.ContentType = "text/plain";
+                    await context.Response.WriteAsync("pong");
+                });
+
+                endpoints.MapGet("/health", async context =>
+                {
+                    context.Response.ContentType = "text/plain";
+                    await context.Response.WriteAsync("pong");
+                });
+
                 endpoints.MapControllers();
             });
         }

@@ -16,11 +16,9 @@ Useful articles:
 - [How do you send emails in .NET Core?](https://dotnetcoretutorials.com/2017/11/02/using-mailkit-send-receive-email-asp-net-core/)
 - [What are security headers and how do I use them in .NET Core?](https://www.hanselman.com/blog/EasilyAddingSecurityHeadersToYourASPNETCoreWebAppAndGettingAnAGrade.aspx)
 
-## PostHog Analytics
+## Vercel Analytics
 
-Client-side analytics is enabled when these environment variables are set:
+Client-side analytics uses `@vercel/analytics`.
 
-- `REACT_APP_POSTHOG_KEY`: PostHog project API key.
-- `REACT_APP_POSTHOG_HOST`: Optional PostHog host. Defaults to `https://us.i.posthog.com`.
-
-If `REACT_APP_POSTHOG_KEY` is not set, analytics is disabled.
+- Enable Web Analytics for your project in the Vercel dashboard.
+- Analytics tracking is disabled automatically in development mode.
