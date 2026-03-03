@@ -23,6 +23,11 @@
   margin-top: 5px;
 }
 
+#footer-links {
+  font-size: 11px;
+  opacity: 0.85;
+}
+
 #footer-icon {
   color: #4a4a4a;
   font-size: 22px;

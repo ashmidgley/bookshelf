@@ -6,6 +6,7 @@ import { capturePageView, initAnalytics } from "./shared/analytics.service";
 import Routes from "./routes";
 import Footer from "./shared/footer/footer";
 import Navigation from "./shared/navigation/navigation";
+import RouteSeo from "./shared/route-seo";
 
 const AnalyticsRouteTrackerBase = ({ location }) => {
   useEffect(() => {
@@ -31,6 +32,7 @@ const App = () => {
     <BrowserRouter>
       <div>
         <AnalyticsRouteTracker />
+        <RouteSeo />
         <div className="screen-content">
           <Navigation />
           <div className="container app-container">

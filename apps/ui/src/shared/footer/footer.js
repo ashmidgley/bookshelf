@@ -19,6 +19,15 @@ const Footer = () => (
         Book data pulled from{" "}
         <a href="https://developers.google.com/books/">Google Books API.</a>
       </p>
+      <p id="footer-links">
+        <a href="https://ashmidgley.io" target="_blank" rel="noopener noreferrer">
+          ashmidgley.io
+        </a>
+        {" · "}
+        <a href="https://geobuff.io" target="_blank" rel="noopener noreferrer">
+          geobuff.io
+        </a>
+      </p>
       <a id="footer-icon" href="https://github.com/ashmidgley/bookshelf">
         <i className="fa fa-github-square"></i>
       </a>
