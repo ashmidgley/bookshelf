@@ -6,7 +6,12 @@ namespace Bookshelf.Core
 {
     public class SearchService : ISearchService
     {
-        private readonly HttpClient _client = new HttpClient();
+        private readonly HttpClient _client;
+
+        public SearchService(HttpClient client)
+        {
+            _client = client;
+        }
 
         public async Task<GoogleBookSearchDto> Search(string url)
         {

@@ -1,4 +1,6 @@
 using System;
+using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Bookshelf.Core
@@ -22,6 +24,13 @@ namespace Bookshelf.Core
             catch(NullReferenceException)
             {
                 // No books to deserialize from google books search.
+                return new GoogleBookSearchDto();
+            }
+            catch(Exception ex) when (ex is HttpRequestException || ex is TaskCanceledException || ex is JsonException)
+            {
+                // Google Books is unavailable, throttling, or returned an unparseable
+                // response (after retries are exhausted). Degrade to an empty result
+                // rather than surfacing an unhandled 500 to the client.
                 return new GoogleBookSearchDto();
             }
         }

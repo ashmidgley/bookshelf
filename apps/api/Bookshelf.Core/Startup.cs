@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System;
+using System.Net.Http;
+using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Polly;
+using Polly.Extensions.Http;
 
 namespace Bookshelf.Core
 {
@@ -51,7 +55,13 @@ namespace Bookshelf.Core
             
             // Services
             services.AddTransient<IEmailService, EmailService>();
-            services.AddTransient<ISearchService, SearchService>();
+
+            // Google Books is a flaky third party (intermittent 503 backendFailed),
+            // so retry transient failures with exponential backoff before giving up.
+            // A typed HttpClient also avoids the socket exhaustion of a per-instance
+            // 'new HttpClient()'.
+            services.AddHttpClient<ISearchService, SearchService>()
+                .AddPolicyHandler(GetSearchRetryPolicy());
 
             // Repositories
             services.AddTransient<IBookRepository, BookRepository>();
@@ -74,6 +84,16 @@ namespace Bookshelf.Core
             services.AddTransient<RatingValidator>();
             services.AddTransient<LoginDtoValidator>();
             services.AddTransient<UserDtoValidator>();
+        }
+
+        // Retries transient HTTP failures (5xx, 408, network errors) and 429 throttling
+        // from Google Books, backing off 400ms, 800ms, then 1600ms between attempts.
+        private static IAsyncPolicy<HttpResponseMessage> GetSearchRetryPolicy()
+        {
+            return HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .OrResult(response => (int)response.StatusCode == 429)
+                .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromMilliseconds(200 * Math.Pow(2, retryAttempt)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
