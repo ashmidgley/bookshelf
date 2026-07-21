@@ -169,6 +169,12 @@ resource "aws_instance" "bookshelf" {
     encrypted   = true
   }
 
+  # This is a long-lived, imported instance. Don't let a newer "most_recent"
+  # AL2023 AMI (or a user_data refresh) trigger a destroy/recreate of prod.
+  lifecycle {
+    ignore_changes = [ami, user_data]
+  }
+
   tags = merge(local.common_tags, {
     Name = "${local.name_prefix}-ec2"
   })
