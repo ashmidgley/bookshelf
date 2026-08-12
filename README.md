@@ -1,3 +1,5 @@
+
+
 # Bookshelf
 
 ## Project Structure
@@ -36,7 +38,7 @@ bookshelf/
   - API: ASP.NET Core 3.1 + EF Core in `apps/api`
 - Local stack runs with Docker Compose:
   - UI at `http://localhost:3000`
-  - API at `http://localhost:8080`
+  - API at `http://localhost:8080` (application routes are prefixed with `/api`)
   - SQL Server at `localhost:1433`
 - API includes health endpoints that return `pong`:
   - `GET /`
