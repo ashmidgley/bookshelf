@@ -199,3 +199,9 @@
     opacity: 0;
   }
 }
+
+.mobile-plus-button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}

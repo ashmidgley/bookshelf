@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
-import Home from "./home/home/home";
+import Landing from "./home/landing/landing";
 import Shelf from "./shelf/shelf/shelf";
 import Review from "./shelf/review/review";
 import ManageBooks from "./books/manage-books/manage-books";
@@ -25,7 +25,7 @@ import ResetPassword from "./users/reset-password/reset-password";
 
 const Routes = () => (
   <Switch>
-    <Route exact path="/" component={Home} />
+    <Route exact path="/" component={Landing} />
     <Route exact path="/login" component={Login} />
     <Route exact path="/forgot-password" component={ForgotPassword} />
     <Route

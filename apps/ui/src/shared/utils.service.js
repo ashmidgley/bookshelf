@@ -12,6 +12,8 @@ export const getErrorMessage = (error) => {
       return error.response.statusText;
     case 502:
       return "Request failed due to Bad Gateway";
+    case 503:
+      return error.response.data || "Service temporarily unavailable. Please try again in a moment.";
     case 504:
       return "Request failed due to Gateway Time-out";
     default:

@@ -1,38 +1,119 @@
-.footer {
-  padding-top: 17px;
-  padding-bottom: 15px;
+.site-footer {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 40px 24px 36px;
+  font-family: "Fraunces", Georgia, serif;
+  color: #8f7f64;
 }
 
-.footer a {
-  color: #4a4a4a;
+/* brass rule with a fleuron in the middle */
+.sf-rule {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: #c9a227;
+  margin-bottom: 26px;
 }
 
-.footer a:hover {
-  text-decoration: underline;
+.sf-rule::before,
+.sf-rule::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 162, 39, 0.45));
 }
 
-.footer p {
+.sf-rule::after {
+  background: linear-gradient(90deg, rgba(201, 162, 39, 0.45), transparent);
+}
+
+.sf-rule span {
+  font-family: "Apple Symbols", "Segoe UI Symbol", serif;
+  font-size: 18px;
+  line-height: 1;
+}
+
+.sf-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.sf-brand {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.sf-name {
+  font-size: 20px;
+  font-weight: 800;
+  font-style: italic;
+  color: #f1e6d2;
+}
+
+.sf-tagline {
+  font-size: 14px;
+  font-style: italic;
+}
+
+.sf-links {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.sf-links a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 14px;
+  color: #d8c9a8;
+  transition: color 0.15s ease;
+}
+
+.sf-links a:hover {
+  color: #f3d67a;
+}
+
+.sf-github {
+  flex-shrink: 0;
+}
+
+.sf-credits {
+  margin-top: 18px;
   font-size: 12px;
+  color: #7a6b52;
 }
 
-.footer p:not(:last-child) {
-  margin-bottom: 0;
+.sf-credits a {
+  color: #a8977a;
+  text-decoration: underline;
+  text-decoration-color: rgba(201, 162, 39, 0.35);
+  text-underline-offset: 2px;
 }
 
-.footer p:first-child {
-  margin-top: 5px;
+.sf-credits a:hover {
+  color: #f3d67a;
 }
 
-#footer-links {
-  font-size: 11px;
-  opacity: 0.85;
-}
+@media (max-width: 600px) {
+  .site-footer {
+    padding-bottom: 96px; /* clear the floating add button */
+    text-align: center;
+  }
 
-#footer-icon {
-  color: #4a4a4a;
-  font-size: 22px;
-}
+  .sf-inner,
+  .sf-brand {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
 
-#footer-icon:hover {
-  color: black;
+  .sf-links {
+    margin-top: 10px;
+  }
 }

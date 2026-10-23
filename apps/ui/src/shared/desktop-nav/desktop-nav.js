@@ -7,11 +7,13 @@ import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import { clearUser } from "../../shared/user.service";
 import { tokenExpired, parseUser } from "../../shared/token.service";
 import { validAnonymousPath } from "../../shared/utils.service";
+import { useQuickAdd } from "../../books/quick-add/quick-add-context";
 
 const DesktopNav = ({ history }) => {
   const [user, setUser] = useState();
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const [dropdownRef, setDropdownRef] = useState();
+  const { openQuickAdd } = useQuickAdd();
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutsideDropdown);
@@ -93,7 +95,16 @@ const DesktopNav = ({ history }) => {
                 </div>
               </div>
             ) : (
-              <div>
+              <div className="nav-user-actions">
+                <button
+                  className="nav-add-book"
+                  onClick={() => openQuickAdd()}
+                  title="Add a book (N)"
+                >
+                  <span className="nav-add-plus">+</span>
+                  Add book
+                  <kbd>N</kbd>
+                </button>
                 <div
                   className={
                     dropdownVisible

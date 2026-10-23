@@ -1,0 +1,165 @@
+/*
+ * Night Library: the app-wide skin (nav, cards, forms) that sits on top
+ * of Bulma. Page-specific styles live next to their components.
+ */
+body {
+  background: radial-gradient(
+      ellipse 900px 520px at 50% -80px,
+      rgba(255, 196, 92, 0.22),
+      transparent 70%
+    ),
+    radial-gradient(ellipse at 50% 120%, #0d0906, transparent 60%), #1b1410;
+  background-attachment: fixed;
+  color: #f1e6d2;
+  font-family: "Fraunces", Georgia, serif;
+}
+
+#desktop-nav,
+#desktop-nav .navbar-menu,
+#mobile-nav {
+  background: rgba(18, 12, 8, 0.85);
+  backdrop-filter: blur(8px);
+}
+
+#desktop-nav {
+  border-bottom: 1px solid rgba(201, 162, 39, 0.35);
+}
+
+.desktop-nav-button {
+  background: transparent;
+  color: #e9dcc2;
+  border-color: rgba(201, 162, 39, 0.4);
+  font-family: "Fraunces", Georgia, serif;
+}
+
+.nav-add-book {
+  background: linear-gradient(180deg, #e2bf55, #a8811a);
+  color: #2a190c;
+  font-family: "Fraunces", Georgia, serif;
+}
+
+.card {
+  background: #2a1d14;
+  color: #f1e6d2;
+  border: 1px solid rgba(201, 162, 39, 0.25);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.title,
+.label,
+.subtitle,
+.heading,
+.review-subtitle,
+strong {
+  color: #f1e6d2;
+  font-family: "Fraunces", Georgia, serif;
+}
+
+.input,
+.textarea,
+.select select {
+  background: #f4ead5;
+  border-color: #8a5a32;
+  color: #2a190c;
+}
+
+.button.is-link {
+  background: linear-gradient(180deg, #e2bf55, #a8811a);
+  color: #2a190c;
+  border: 0;
+}
+
+.image-header-container {
+  background: #c9a227;
+  border-color: #2a1d14;
+}
+
+.image-header-container svg {
+  color: #2a190c;
+}
+
+.card a {
+  color: #e2bf55;
+}
+
+hr {
+  background: rgba(201, 162, 39, 0.25);
+}
+
+.table {
+  background: transparent;
+  color: #f1e6d2;
+}
+
+.table th {
+  color: #e2bf55;
+}
+
+.table tr:hover {
+  background: rgba(201, 162, 39, 0.08);
+}
+
+/* Hover/focus states, which otherwise fall back to Bulma's or the nav's defaults. */
+.desktop-nav-button:hover,
+.desktop-nav-button:focus {
+  background: rgba(201, 162, 39, 0.1);
+  color: #f1e6d2;
+  border-color: rgba(201, 162, 39, 0.6);
+}
+
+.button.is-link:hover,
+.button.is-link:focus,
+.button.is-link:active {
+  background: linear-gradient(180deg, #ecc964, #b48b20);
+  color: #2a190c;
+}
+
+.input:focus,
+.textarea:focus,
+.select select:focus {
+  border-color: #c9a227;
+  box-shadow: 0 0 0 0.125em rgba(201, 162, 39, 0.3);
+}
+
+/* Card headers (login, register, manage pages) and Bulma's neutral buttons. */
+.header-background .card-header,
+.card.is-card-widget .card-header {
+  background: #5b1e1e;
+  box-shadow: none;
+}
+
+.card-header-title {
+  color: #f4ead5;
+  font-family: "Fraunces", Georgia, serif;
+  letter-spacing: 0.08em;
+}
+
+.button.is-dark {
+  background: linear-gradient(180deg, #e2bf55, #a8811a);
+  color: #2a190c;
+  border: 0;
+}
+
+.button.is-dark:hover,
+.button.is-dark:focus {
+  background: linear-gradient(180deg, #ecc964, #b48b20);
+  color: #2a190c;
+}
+
+.button:not(.is-link):not(.is-dark):not(.is-danger) {
+  background: transparent;
+  color: #f1e6d2;
+  border-color: rgba(201, 162, 39, 0.45);
+}
+
+.button:not(.is-link):not(.is-dark):not(.is-danger):hover {
+  background: rgba(201, 162, 39, 0.12);
+  color: #f1e6d2;
+  border-color: rgba(201, 162, 39, 0.7);
+}
+
+#desktop-nav .buttons .button.is-outlined {
+  background: linear-gradient(180deg, #e2bf55, #a8811a);
+  color: #2a190c;
+  border: 0;
+}

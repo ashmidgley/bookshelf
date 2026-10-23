@@ -7,12 +7,14 @@ import { faPlus, faAddressCard } from "@fortawesome/free-solid-svg-icons";
 import { clearUser } from "../../shared/user.service";
 import { tokenExpired, parseUser } from "../../shared/token.service";
 import { validAnonymousPath } from "../../shared/utils.service";
+import { useQuickAdd } from "../../books/quick-add/quick-add-context";
 
 const MobileNav = ({ history }) => {
   const [user, setUser] = useState();
   const [optionsVisible, setOptionsVisible] = useState(false);
   const [initialOpen, setInitialOpen] = useState(false);
   const [burgerRef, setBurgerRef] = useState();
+  const { openQuickAdd } = useQuickAdd();
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutsideBurger);
@@ -99,13 +101,14 @@ const MobileNav = ({ history }) => {
             />
           </Link>
           {user ? (
-            <Link
+            <button
               id="mobile-plus"
-              className="user-menu-actions"
-              to="/search-form"
+              className="user-menu-actions mobile-plus-button"
+              onClick={() => openQuickAdd()}
+              aria-label="Add a book"
             >
               <FontAwesomeIcon icon={faPlus} size="lg" color="#f5f5f7" />
-            </Link>
+            </button>
           ) : (
             <Link id="mobile-login" className="user-menu-actions" to="/login">
               <FontAwesomeIcon icon={faAddressCard} size="lg" color="#f5f5f7" />

@@ -1,0 +1,526 @@
+.lib {
+  --lib-ink: #f1e6d2;
+  --lib-dim: #b9a88a;
+  --lib-brass: #c9a227;
+  --lib-brass-hi: #f3d67a;
+  --lib-wood: #4a2e17;
+  --lib-wood-dark: #2a190c;
+  --lib-wood-hi: #8a5a32;
+  font-family: "Fraunces", Georgia, serif;
+  color: var(--lib-ink);
+  padding: 40px 0 120px;
+  position: relative;
+}
+
+/* ---- header ---- */
+.lib-header {
+  text-align: center;
+  margin-bottom: 34px;
+}
+
+.lib-exlibris {
+  font-size: 13px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--lib-brass);
+}
+
+.lib-title {
+  font-size: clamp(44px, 7vw, 84px);
+  font-weight: 800;
+  font-style: italic;
+  line-height: 1;
+  margin: 10px 0 4px;
+  color: var(--lib-ink);
+  text-shadow: 0 2px 30px rgba(243, 214, 122, 0.25);
+}
+
+.lib-flourish {
+  font-family: "Apple Symbols", "Segoe UI Symbol", serif;
+  color: var(--lib-brass);
+  font-size: 26px;
+  line-height: 1;
+}
+
+.lib-stats {
+  color: var(--lib-dim);
+  margin-top: 10px;
+  font-size: 17px;
+}
+
+.lib-stats span {
+  color: var(--lib-ink);
+  font-weight: 600;
+}
+
+.lib-cta {
+  margin-top: 22px;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 28px 14px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--lib-brass-hi);
+  background: linear-gradient(180deg, #e2bf55, #a8811a);
+  color: #2a190c;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset,
+    0 10px 30px rgba(201, 162, 39, 0.35);
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+
+.lib-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset,
+    0 16px 40px rgba(201, 162, 39, 0.5);
+}
+
+.lib-cta-plus {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #2a190c;
+  color: var(--lib-brass-hi);
+  display: grid;
+  place-items: center;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.lib-cta kbd {
+  font-family: "Space Mono", monospace;
+  font-size: 11px;
+  border: 1px solid rgba(42, 25, 12, 0.4);
+  border-radius: 4px;
+  padding: 0 5px;
+  background: rgba(255, 255, 255, 0.2);
+  color: #2a190c;
+}
+
+/* ---- catalogue / filters ---- */
+.lib-catalogue {
+  max-width: 780px;
+  margin: 0 auto 30px;
+}
+
+.lib-card {
+  position: relative;
+  background: #f4ead5;
+  background-image: repeating-linear-gradient(
+    transparent 0 27px,
+    rgba(70, 120, 200, 0.18) 27px 28px
+  );
+  border-radius: 4px;
+  padding: 18px 22px 14px 52px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+  transform: rotate(-0.6deg);
+}
+
+.lib-card::before {
+  content: "";
+  position: absolute;
+  left: 40px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(200, 60, 60, 0.45);
+}
+
+.lib-card-hole {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  margin-top: -7px;
+  border-radius: 50%;
+  background: #1b1410;
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.6);
+}
+
+.lib-search {
+  width: 100%;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-size: 20px;
+  color: #2a190c;
+}
+
+.lib-search::placeholder {
+  color: rgba(42, 25, 12, 0.45);
+}
+
+.lib-ribbons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.lib-ribbon-gap {
+  width: 16px;
+}
+
+.lib-ribbon {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px 10px;
+  border: 0;
+  background: #5b1e1e;
+  color: #f1e6d2;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 14px;
+  cursor: pointer;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 82%, 0 100%);
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+
+.lib-ribbon:hover {
+  transform: translateY(2px);
+}
+
+.lib-ribbon-on {
+  background: var(--lib-brass);
+  color: #2a190c;
+  transform: translateY(4px);
+}
+
+.lib-ribbon-emoji {
+  font-size: 15px;
+}
+
+.lib-clear {
+  border: 0;
+  background: transparent;
+  color: var(--lib-dim);
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.lib-note {
+  text-align: center;
+  font-style: italic;
+  color: #f0b4a0;
+  margin-bottom: 20px;
+}
+
+/* ---- the bookcase ---- */
+.lib-case {
+  background: linear-gradient(90deg, #24160b, #3a2412 8%, #3a2412 92%, #24160b);
+  border: 14px solid var(--lib-wood-dark);
+  border-image: linear-gradient(180deg, #5c3a1e, #2a190c) 1;
+  padding: 10px 26px 4px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), inset 0 0 60px rgba(0, 0, 0, 0.6);
+  transition: opacity 0.2s ease;
+}
+
+.lib-loading {
+  opacity: 0.5;
+}
+
+.lib-year {
+  padding-top: 16px;
+}
+
+.lib-plaque {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 4px 16px;
+  background: linear-gradient(180deg, #f3d67a, #b08a22);
+  color: #2a190c;
+  font-weight: 800;
+  font-size: 18px;
+  border-radius: 3px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  margin-left: 4px;
+}
+
+.lib-plaque-count {
+  font-weight: 400;
+  font-style: italic;
+  font-size: 13px;
+}
+
+/* Every 250px row gets a plank via a repeating gradient. */
+.lib-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0 22px;
+  padding: 0 10px;
+  min-height: 250px;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0 226px,
+    var(--lib-wood-hi) 226px 229px,
+    var(--lib-wood) 229px 244px,
+    var(--lib-wood-dark) 244px 250px
+  );
+}
+
+.lib-row > * {
+  height: 250px;
+  padding-bottom: 24px;
+}
+
+.lib-book {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  perspective: 700px;
+  color: inherit;
+}
+
+.lib-book-inner {
+  position: relative;
+  display: block;
+  transform-style: preserve-3d;
+  transform: rotateY(-22deg) rotateZ(var(--tilt, 0deg));
+  transform-origin: left bottom;
+  transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1.1);
+}
+
+.lib-cover {
+  display: block;
+  height: 180px;
+  width: auto;
+  max-width: 140px;
+  object-fit: cover;
+  border-radius: 1px 4px 4px 1px;
+  box-shadow: 6px 6px 14px rgba(0, 0, 0, 0.6);
+}
+
+.lib-spine {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 10px;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.45),
+    rgba(255, 255, 255, 0.12) 40%,
+    rgba(0, 0, 0, 0.2)
+  );
+  border-radius: 1px 0 0 1px;
+}
+
+.lib-book:hover .lib-book-inner,
+.lib-book:focus .lib-book-inner {
+  transform: rotateY(0deg) translateY(-14px) scale(1.04);
+}
+
+.lib-bookmark {
+  position: absolute;
+  top: 20px;
+  right: 8px;
+  padding: 8px 4px 12px;
+  background: #5b1e1e;
+  font-size: 14px;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.25s ease;
+}
+
+.lib-book:hover .lib-bookmark {
+  opacity: 1;
+  transform: none;
+}
+
+.lib-label {
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  transform: translate(-50%, 6px);
+  width: max-content;
+  max-width: 220px;
+  padding: 6px 10px;
+  background: #f4ead5;
+  color: #2a190c;
+  border-radius: 3px;
+  font-size: 13px;
+  line-height: 1.25;
+  text-align: center;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 5;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.lib-label em {
+  color: #6b4423;
+  font-size: 12px;
+}
+
+.lib-book:hover .lib-label {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* ghost slot that invites the next book */
+.lib-ghost {
+  display: flex;
+  align-items: flex-end;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  color: var(--lib-brass-hi);
+  font-family: "Fraunces", Georgia, serif;
+}
+
+.lib-ghost::before {
+  content: none;
+}
+
+.lib-ghost-plus,
+.lib-ghost-label {
+  pointer-events: none;
+}
+
+.lib-ghost {
+  position: relative;
+  width: 124px;
+}
+
+.lib-ghost .lib-ghost-plus {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 24px;
+  height: 180px;
+  border: 2px dashed rgba(243, 214, 122, 0.55);
+  border-radius: 2px 6px 6px 2px;
+  display: grid;
+  place-items: center;
+  font-size: 54px;
+  font-weight: 300;
+  background: rgba(243, 214, 122, 0.04);
+  transition: all 0.25s ease;
+  animation: lib-breathe 2.8s ease-in-out infinite;
+}
+
+.lib-ghost .lib-ghost-label {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 40px;
+  text-align: center;
+  font-size: 13px;
+  font-style: italic;
+}
+
+.lib-ghost:hover .lib-ghost-plus {
+  background: rgba(243, 214, 122, 0.14);
+  border-color: var(--lib-brass-hi);
+  transform: translateY(-8px);
+  animation: none;
+}
+
+.lib-ghost-big {
+  width: 160px;
+}
+
+.lib-empty-note {
+  display: flex;
+  align-items: center;
+  font-style: italic;
+  color: var(--lib-dim);
+}
+
+.lib-more {
+  text-align: center;
+  font-style: italic;
+  color: var(--lib-dim);
+  min-height: 30px;
+  padding: 10px;
+}
+
+.lib-fab {
+  display: none;
+}
+
+@keyframes lib-breathe {
+  0%,
+  100% {
+    box-shadow: 0 0 0 rgba(243, 214, 122, 0);
+  }
+  50% {
+    box-shadow: 0 0 26px rgba(243, 214, 122, 0.25);
+  }
+}
+
+@media (max-width: 600px) {
+  .lib {
+    padding: 70px 0 120px;
+  }
+
+  .lib-case {
+    border-width: 8px;
+    padding: 6px 8px 2px;
+  }
+
+  .lib-row {
+    gap: 0 12px;
+    min-height: 190px;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0 166px,
+      var(--lib-wood-hi) 166px 169px,
+      var(--lib-wood) 169px 184px,
+      var(--lib-wood-dark) 184px 190px
+    );
+  }
+
+  .lib-row > * {
+    height: 190px;
+  }
+
+  .lib-cover {
+    height: 130px;
+    max-width: 90px;
+  }
+
+  .lib-ghost {
+    width: 88px;
+  }
+
+  .lib-ghost .lib-ghost-plus {
+    height: 130px;
+  }
+
+  .lib-cta {
+    display: none;
+  }
+
+  .lib-fab {
+    display: grid;
+    place-items: center;
+    position: fixed;
+    right: 18px;
+    bottom: 18px;
+    z-index: 50;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 1px solid var(--lib-brass-hi);
+    background: linear-gradient(180deg, #e2bf55, #a8811a);
+    color: #2a190c;
+    font-size: 34px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+}

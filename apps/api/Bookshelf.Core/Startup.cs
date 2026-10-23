@@ -95,7 +95,7 @@ namespace Bookshelf.Core
         }
 
         // Retries transient HTTP failures (5xx, 408, network errors) and 429 throttling
-        // from the book search APIs, backing off 400ms, 800ms, then 1600ms between attempts.
+        // from the book search APIs, backing off 500ms, 1s, 2s, then 4s between attempts.
         private static IAsyncPolicy<HttpResponseMessage> GetSearchRetryPolicy()
         {
             return HttpPolicyExtensions

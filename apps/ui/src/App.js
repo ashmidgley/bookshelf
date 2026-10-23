@@ -7,6 +7,9 @@ import Routes from "./routes";
 import Footer from "./shared/footer/footer";
 import Navigation from "./shared/navigation/navigation";
 import RouteSeo from "./shared/route-seo";
+import "./theme/night-library.css";
+import { QuickAddProvider } from "./books/quick-add/quick-add-context";
+import QuickAdd from "./books/quick-add/quick-add";
 
 const AnalyticsRouteTrackerBase = ({ location }) => {
   useEffect(() => {
@@ -29,28 +32,31 @@ const App = () => {
   }, []);
 
   return (
-    <BrowserRouter>
-      <div>
-        <AnalyticsRouteTracker />
-        <RouteSeo />
-        <div className="screen-content">
-          <Navigation />
-          <div className="container app-container">
-            {process.env.REACT_APP_ERROR ? (
-              <div>
-                <div id="global-error" className="notification is-danger">
-                  {process.env.REACT_APP_ERROR}
-                </div>
-                <Redirect to="/" />
+    <QuickAddProvider>
+        <BrowserRouter>
+          <div>
+            <AnalyticsRouteTracker />
+            <RouteSeo />
+            <div className="screen-content">
+              <Navigation />
+              <div className="container app-container">
+                {process.env.REACT_APP_ERROR ? (
+                  <div>
+                    <div id="global-error" className="notification is-danger">
+                      {process.env.REACT_APP_ERROR}
+                    </div>
+                    <Redirect to="/" />
+                  </div>
+                ) : (
+                  <Routes></Routes>
+                )}
               </div>
-            ) : (
-              <Routes></Routes>
-            )}
+            </div>
+            <Footer />
+            <QuickAdd />
           </div>
-        </div>
-        <Footer />
-      </div>
-    </BrowserRouter>
+        </BrowserRouter>
+    </QuickAddProvider>
   );
 };
 

@@ -19,7 +19,7 @@ const SearchForm = () => {
   const [error, setError] = useState();
 
   const orderBy = ["Relevance", "Newest"];
-  const maxResults = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const maxResults = [5, 10, 20];
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -142,7 +142,7 @@ const SearchForm = () => {
               searchTitle: "",
               searchAuthor: "",
               orderBy: orderBy[0],
-              maxResults: 3,
+              maxResults: 10,
               book: null,
             }}
             validate={(values) => {
