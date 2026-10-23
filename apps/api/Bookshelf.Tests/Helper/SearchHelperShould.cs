@@ -2,6 +2,7 @@ using NUnit.Framework;
 using Bookshelf.Core;
 using FakeItEasy;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ namespace Bookshelf.Tests
             var queryHelper = A.Fake<IQueryHelper>();
             var searchMapper = A.Fake<ISearchMapper>();
             var searchRunner = A.Fake<ISearchRunner>();
-            var searchHelper = new SearchHelper(queryHelper, searchMapper, searchRunner);
+            var searchHelper = new SearchHelper(queryHelper, searchMapper, searchRunner, A.Fake<IOpenLibraryHelper>());
 
             var result = await searchHelper.SearchBooks(search);
 
@@ -48,7 +49,7 @@ namespace Bookshelf.Tests
             var queryHelper = A.Fake<IQueryHelper>();
             var searchMapper = A.Fake<ISearchMapper>();
             var searchRunner = A.Fake<ISearchRunner>();
-            var searchHelper = new SearchHelper(queryHelper, searchMapper, searchRunner);
+            var searchHelper = new SearchHelper(queryHelper, searchMapper, searchRunner, A.Fake<IOpenLibraryHelper>());
 
             var result = await searchHelper.SearchBooksByTitle(search);
 
@@ -71,7 +72,7 @@ namespace Bookshelf.Tests
             var queryHelper = A.Fake<IQueryHelper>();
             var searchMapper = A.Fake<ISearchMapper>();
             var searchRunner = A.Fake<ISearchRunner>();
-            var searchHelper = new SearchHelper(queryHelper, searchMapper, searchRunner);
+            var searchHelper = new SearchHelper(queryHelper, searchMapper, searchRunner, A.Fake<IOpenLibraryHelper>());
 
             var result = await searchHelper.SearchBooksByAuthor(search);
 
@@ -94,7 +95,7 @@ namespace Bookshelf.Tests
             var queryHelper = A.Fake<IQueryHelper>();
             var searchMapper = A.Fake<ISearchMapper>();
             var searchRunner = A.Fake<ISearchRunner>();
-            var searchHelper = new SearchHelper(queryHelper, searchMapper, searchRunner);
+            var searchHelper = new SearchHelper(queryHelper, searchMapper, searchRunner, A.Fake<IOpenLibraryHelper>());
 
             await searchHelper.SearchBooksByTitle(search);
 
@@ -118,7 +119,7 @@ namespace Bookshelf.Tests
             var searchRunner = A.Fake<ISearchRunner>();
             A.CallTo(() => searchRunner.PerformSearch(A<string>.Ignored)).Returns(WithItems());
             A.CallTo(() => searchMapper.MapBooks(A<GoogleBookSearchDto>.Ignored)).Returns(books);
-            var searchHelper = new SearchHelper(queryHelper, searchMapper, searchRunner);
+            var searchHelper = new SearchHelper(queryHelper, searchMapper, searchRunner, A.Fake<IOpenLibraryHelper>());
 
             var result = (await searchHelper.SearchBooksByTitle(search)).ToList();
 
@@ -137,7 +138,7 @@ namespace Bookshelf.Tests
             var searchRunner = A.Fake<ISearchRunner>();
             A.CallTo(() => searchRunner.PerformSearch(A<string>.Ignored))
                 .ReturnsNextFromSequence(new GoogleBookSearchDto(), retried);
-            var searchHelper = new SearchHelper(queryHelper, searchMapper, searchRunner);
+            var searchHelper = new SearchHelper(queryHelper, searchMapper, searchRunner, A.Fake<IOpenLibraryHelper>());
 
             await searchHelper.SearchBooksByTitle(search);
 
@@ -154,11 +155,95 @@ namespace Bookshelf.Tests
             var searchMapper = A.Fake<ISearchMapper>();
             var searchRunner = A.Fake<ISearchRunner>();
             A.CallTo(() => searchRunner.PerformSearch(A<string>.Ignored)).Returns(WithItems());
-            var searchHelper = new SearchHelper(queryHelper, searchMapper, searchRunner);
+            var searchHelper = new SearchHelper(queryHelper, searchMapper, searchRunner, A.Fake<IOpenLibraryHelper>());
 
             await searchHelper.SearchBooksByTitle(search);
 
             A.CallTo(() => searchRunner.PerformSearch(A<string>.Ignored)).MustHaveHappenedOnceExactly();
+        }
+
+        [Test]
+        public async Task NotFallBack_WhenGoogleReturnsBooks()
+        {
+            var search = new SearchTitleDto { Title = "Dune", OrderBy = "Relevance", MaxResults = 5 };
+
+            var searchMapper = A.Fake<ISearchMapper>();
+            var searchRunner = A.Fake<ISearchRunner>();
+            var openLibrary = A.Fake<IOpenLibraryHelper>();
+            A.CallTo(() => searchRunner.PerformSearch(A<string>.Ignored)).Returns(WithItems());
+            A.CallTo(() => searchMapper.MapBooks(A<GoogleBookSearchDto>.Ignored))
+                .Returns(new List<Book> { new Book { Title = "Dune", Author = "Frank Herbert" } });
+            var searchHelper = new SearchHelper(A.Fake<IQueryHelper>(), searchMapper, searchRunner, openLibrary);
+
+            await searchHelper.SearchBooksByTitle(search);
+
+            A.CallTo(() => openLibrary.Search(A<string>.Ignored, A<string>.Ignored, A<string>.Ignored, A<int>.Ignored)).MustNotHaveHappened();
+        }
+
+        [Test]
+        public async Task FallBackToOpenLibrary_WhenGoogleUnavailable()
+        {
+            var search = new SearchTitleDto { Title = "Dune", OrderBy = "Relevance", MaxResults = 5 };
+
+            var searchRunner = A.Fake<ISearchRunner>();
+            var openLibrary = A.Fake<IOpenLibraryHelper>();
+            A.CallTo(() => searchRunner.PerformSearch(A<string>.Ignored))
+                .Throws(new SearchUnavailableException(new HttpRequestException()));
+            A.CallTo(() => openLibrary.Search("Dune", null, A<string>.Ignored, SearchHelper.ResultPoolSize))
+                .Returns(new List<Book> { new Book { Title = "Dune", Author = "Frank Herbert" } });
+            var searchHelper = new SearchHelper(A.Fake<IQueryHelper>(), A.Fake<ISearchMapper>(), searchRunner, openLibrary);
+
+            var result = (await searchHelper.SearchBooksByTitle(search)).ToList();
+
+            Assert.That(result.Select(b => b.Title), Is.EqualTo(new[] { "Dune" }));
+        }
+
+        [Test]
+        public async Task FallBackToOpenLibrary_WhenGoogleFindsNothing()
+        {
+            var search = new SearchAuthorDto { Author = "Frank Herbert", OrderBy = "Newest", MaxResults = 5 };
+
+            var queryHelper = A.Fake<IQueryHelper>();
+            var openLibrary = A.Fake<IOpenLibraryHelper>();
+            A.CallTo(() => queryHelper.GetOrderBy("Newest")).Returns("newest");
+            A.CallTo(() => openLibrary.Search(null, "Frank Herbert", "newest", SearchHelper.ResultPoolSize))
+                .Returns(new List<Book> { new Book { Title = "Dune", Author = "Frank Herbert" } });
+            var searchHelper = new SearchHelper(queryHelper, A.Fake<ISearchMapper>(), A.Fake<ISearchRunner>(), openLibrary);
+
+            var result = (await searchHelper.SearchBooksByAuthor(search)).ToList();
+
+            Assert.That(result.Select(b => b.Title), Is.EqualTo(new[] { "Dune" }));
+        }
+
+        [Test]
+        public void ThrowUnavailable_WhenGoogleAndOpenLibraryUnavailable()
+        {
+            var search = new SearchTitleDto { Title = "Dune", OrderBy = "Relevance", MaxResults = 5 };
+
+            var searchRunner = A.Fake<ISearchRunner>();
+            var openLibrary = A.Fake<IOpenLibraryHelper>();
+            A.CallTo(() => searchRunner.PerformSearch(A<string>.Ignored))
+                .Throws(new SearchUnavailableException(new HttpRequestException()));
+            A.CallTo(() => openLibrary.Search(A<string>.Ignored, A<string>.Ignored, A<string>.Ignored, A<int>.Ignored))
+                .Throws(new SearchUnavailableException(new HttpRequestException()));
+            var searchHelper = new SearchHelper(A.Fake<IQueryHelper>(), A.Fake<ISearchMapper>(), searchRunner, openLibrary);
+
+            Assert.ThrowsAsync<SearchUnavailableException>(() => searchHelper.SearchBooksByTitle(search));
+        }
+
+        [Test]
+        public async Task ReturnNoBooks_WhenGoogleFindsNothingAndOpenLibraryUnavailable()
+        {
+            var search = new SearchTitleDto { Title = "Dune", OrderBy = "Relevance", MaxResults = 5 };
+
+            var openLibrary = A.Fake<IOpenLibraryHelper>();
+            A.CallTo(() => openLibrary.Search(A<string>.Ignored, A<string>.Ignored, A<string>.Ignored, A<int>.Ignored))
+                .Throws(new SearchUnavailableException(new HttpRequestException()));
+            var searchHelper = new SearchHelper(A.Fake<IQueryHelper>(), A.Fake<ISearchMapper>(), A.Fake<ISearchRunner>(), openLibrary);
+
+            var result = await searchHelper.SearchBooksByTitle(search);
+
+            Assert.That(result, Is.Empty);
         }
     }
 }

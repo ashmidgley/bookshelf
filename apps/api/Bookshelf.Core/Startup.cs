@@ -51,6 +51,7 @@ namespace Bookshelf.Core
             // Configuration
             services.AddSingleton<IJwtConfiguration>(Configuration.GetSection("Jwt").Get<JwtConfiguration>());
             services.AddSingleton<IGoogleBooksConfiguration>(Configuration.GetSection("GoogleBooks").Get<GoogleBooksConfiguration>());
+            services.AddSingleton<IOpenLibraryConfiguration>(Configuration.GetSection("OpenLibrary").Get<OpenLibraryConfiguration>());
             services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("Email").Get<EmailConfiguration>());
             
             // Services
@@ -61,6 +62,12 @@ namespace Bookshelf.Core
             // A typed HttpClient also avoids the socket exhaustion of a per-instance
             // 'new HttpClient()'.
             services.AddHttpClient<ISearchService, SearchService>()
+                .AddPolicyHandler(GetSearchRetryPolicy());
+
+            // Open Library is the fallback search when Google Books is down. It asks
+            // clients to identify themselves with a descriptive User-Agent.
+            services.AddHttpClient<IOpenLibraryService, OpenLibraryService>(client =>
+                client.DefaultRequestHeaders.UserAgent.ParseAdd(Configuration["OpenLibrary:UserAgent"]))
                 .AddPolicyHandler(GetSearchRetryPolicy());
 
             // Repositories
@@ -75,6 +82,7 @@ namespace Bookshelf.Core
             services.AddTransient<ISearchMapper, SearchMapper>();
             services.AddTransient<ISearchRunner, SearchRunner>();
             services.AddTransient<IQueryHelper, QueryHelper>();
+            services.AddTransient<IOpenLibraryHelper, OpenLibraryHelper>();
             services.AddTransient<IEmailHelper, EmailHelper>();
 
             // Validators
@@ -87,7 +95,7 @@ namespace Bookshelf.Core
         }
 
         // Retries transient HTTP failures (5xx, 408, network errors) and 429 throttling
-        // from Google Books, backing off 400ms, 800ms, then 1600ms between attempts.
+        // from the book search APIs, backing off 400ms, 800ms, then 1600ms between attempts.
         private static IAsyncPolicy<HttpResponseMessage> GetSearchRetryPolicy()
         {
             return HttpPolicyExtensions
