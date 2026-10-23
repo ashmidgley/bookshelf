@@ -4,6 +4,10 @@ namespace Bookshelf.Core
 {
     public class QueryHelper : IQueryHelper
     {
+        // Google Books' intitle: operator returns no results when combined with any other
+        // term, so titles are sent as plain search words. inauthor: works, but only unquoted.
+        private const string Filters = "printType=books&langRestrict=en";
+
         private readonly IGoogleBooksConfiguration _config;
 
         public QueryHelper(IGoogleBooksConfiguration config)
@@ -28,17 +32,17 @@ namespace Bookshelf.Core
 
         public string GetUrl(string title, string author, string orderBy, int maxResults)
         {
-            return $"{_config.Url}/volumes?q=intitle:{title}+inauthor:{author}&orderBy={orderBy}&maxResults={maxResults}&key={_config.Key}";
+            return $"{_config.Url}/volumes?q={title}+inauthor:{author}&orderBy={orderBy}&maxResults={maxResults}&{Filters}&key={_config.Key}";
         }
 
         public string GetTitleUrl(string title, string orderBy, int maxResults)
         {
-            return $"{_config.Url}/volumes?q=intitle:{title}&orderBy={orderBy}&maxResults={maxResults}&key={_config.Key}";
+            return $"{_config.Url}/volumes?q={title}&orderBy={orderBy}&maxResults={maxResults}&{Filters}&key={_config.Key}";
         }
 
         public string GetAuthorUrl(string author, string orderBy, int maxResults)
         {
-            return $"{_config.Url}/volumes?q=inauthor:{author}&orderBy={orderBy}&maxResults={maxResults}&key={_config.Key}";
+            return $"{_config.Url}/volumes?q=inauthor:{author}&orderBy={orderBy}&maxResults={maxResults}&{Filters}&key={_config.Key}";
         }
     }
 }

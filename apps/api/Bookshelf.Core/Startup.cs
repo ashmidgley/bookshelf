@@ -93,7 +93,7 @@ namespace Bookshelf.Core
             return HttpPolicyExtensions
                 .HandleTransientHttpError()
                 .OrResult(response => (int)response.StatusCode == 429)
-                .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromMilliseconds(200 * Math.Pow(2, retryAttempt)));
+                .WaitAndRetryAsync(4, retryAttempt => TimeSpan.FromMilliseconds(250 * Math.Pow(2, retryAttempt)));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

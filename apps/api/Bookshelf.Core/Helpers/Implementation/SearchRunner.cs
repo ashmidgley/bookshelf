@@ -29,9 +29,9 @@ namespace Bookshelf.Core
             catch(Exception ex) when (ex is HttpRequestException || ex is TaskCanceledException || ex is JsonException)
             {
                 // Google Books is unavailable, throttling, or returned an unparseable
-                // response (after retries are exhausted). Degrade to an empty result
-                // rather than surfacing an unhandled 500 to the client.
-                return new GoogleBookSearchDto();
+                // response (after retries are exhausted). Surface it as a distinct failure
+                // so the client can tell "search is down" apart from "no matches".
+                throw new SearchUnavailableException(ex);
             }
         }
     }

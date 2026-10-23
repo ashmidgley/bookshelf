@@ -24,5 +24,32 @@ namespace Bookshelf.Tests
             var subject = new QueryHelper(null);
             return subject.GetOrderBy(input);
         }
+
+        private static QueryHelper CreateSubject()
+        {
+            var config = new GoogleBooksConfiguration { Url = "https://books.test/v1", Key = "abc" };
+            return new QueryHelper(config);
+        }
+
+        [Test]
+        public void SendTitleAsPlainTerms_OnCallToGetUrl()
+        {
+            var url = CreateSubject().GetUrl("dark+age", "pierce+brown", "relevance", 40);
+            Assert.That(url, Is.EqualTo("https://books.test/v1/volumes?q=dark+age+inauthor:pierce+brown&orderBy=relevance&maxResults=40&printType=books&langRestrict=en&key=abc"));
+        }
+
+        [Test]
+        public void SendTitleAsPlainTerms_OnCallToGetTitleUrl()
+        {
+            var url = CreateSubject().GetTitleUrl("dark+age", "newest", 40);
+            Assert.That(url, Is.EqualTo("https://books.test/v1/volumes?q=dark+age&orderBy=newest&maxResults=40&printType=books&langRestrict=en&key=abc"));
+        }
+
+        [Test]
+        public void ScopeToAuthor_OnCallToGetAuthorUrl()
+        {
+            var url = CreateSubject().GetAuthorUrl("pierce+brown", "relevance", 40);
+            Assert.That(url, Is.EqualTo("https://books.test/v1/volumes?q=inauthor:pierce+brown&orderBy=relevance&maxResults=40&printType=books&langRestrict=en&key=abc"));
+        }
     }
 }
