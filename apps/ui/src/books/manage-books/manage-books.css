@@ -1,0 +1,250 @@
+.mb {
+  font-family: "Fraunces", Georgia, serif;
+  color: #f1e6d2;
+  padding-bottom: 60px;
+}
+
+.mb-toolbar {
+  margin-bottom: 18px;
+}
+
+.mb-search {
+  width: 100%;
+  max-width: 460px;
+  padding: 11px 16px;
+  border: 1px solid rgba(201, 162, 39, 0.4);
+  border-radius: 4px;
+  background: #f4ead5;
+  color: #2a190c;
+  font-family: "Fraunces", Georgia, serif;
+  font-style: italic;
+  font-size: 17px;
+  outline: none;
+}
+
+.mb-search:focus {
+  border-color: #c9a227;
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.25);
+}
+
+.mb-search::placeholder {
+  color: rgba(42, 25, 12, 0.45);
+}
+
+/* the ledger: a dark panel with brass hairlines between entries */
+.mb-ledger {
+  background: rgba(42, 29, 20, 0.85);
+  border: 1px solid rgba(201, 162, 39, 0.25);
+  border-radius: 4px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+  transition: opacity 0.15s ease;
+}
+
+.mb-fetching {
+  opacity: 0.55;
+}
+
+.mb-row {
+  display: grid;
+  grid-template-columns: 48px minmax(0, 1fr) 120px 160px 60px 210px;
+  align-items: center;
+  gap: 18px;
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(201, 162, 39, 0.14);
+  transition: background 0.15s ease;
+}
+
+.mb-row:last-child {
+  border-bottom: 0;
+}
+
+.mb-row:not(.mb-head):hover {
+  background: rgba(201, 162, 39, 0.05);
+}
+
+.mb-head {
+  padding-top: 14px;
+  padding-bottom: 10px;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #c9a227;
+  border-bottom-color: rgba(201, 162, 39, 0.35);
+}
+
+.mb-cover {
+  width: 48px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 1px 3px 3px 1px;
+  box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.5);
+}
+
+.mb-title {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  color: #f1e6d2;
+}
+
+.mb-title:hover {
+  color: #f3d67a;
+}
+
+.mb-title strong {
+  color: inherit;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.25;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mb-title em {
+  font-size: 14px;
+  color: #b9a88a;
+}
+
+.mb-date {
+  font-size: 14px;
+  color: #c7b48f;
+}
+
+.mb-category {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #e9dcc2;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mb-emoji,
+.mb-rating {
+  font-size: 20px;
+}
+
+.mb-missing {
+  font-size: 14px;
+  font-style: italic;
+  color: #8f7f64;
+}
+
+.mb-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 14px;
+}
+
+.mb-link {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 15px;
+  color: #f3d67a;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: rgba(243, 214, 122, 0.35);
+  text-underline-offset: 3px;
+}
+
+.mb-link:hover {
+  color: #fff0b8;
+}
+
+.mb-link-danger {
+  color: #e8a08c;
+  text-decoration-color: rgba(232, 160, 140, 0.35);
+}
+
+.mb-confirming {
+  background: rgba(122, 36, 36, 0.18);
+}
+
+.mb-confirm-text {
+  font-style: italic;
+  font-size: 14px;
+  color: #f0b4a0;
+  white-space: nowrap;
+}
+
+.mb-confirming .mb-actions {
+  gap: 8px;
+}
+
+.mb-empty {
+  padding: 40px 20px;
+  text-align: center;
+  font-style: italic;
+  font-size: 17px;
+  color: #b9a88a;
+}
+
+.mb-inline-link {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font: inherit;
+  color: #f3d67a;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.mb-pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.mb-page {
+  font-style: italic;
+  color: #b9a88a;
+}
+
+@media (max-width: 900px) {
+  .mb-row {
+    grid-template-columns: 48px minmax(0, 1fr) 40px auto;
+  }
+
+  .mb-date,
+  .mb-category,
+  .mb-head span:nth-child(3),
+  .mb-head span:nth-child(4) {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .mb-head {
+    display: none;
+  }
+
+  .mb-row {
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  .mb-cover {
+    width: 40px;
+    height: 58px;
+  }
+
+  .mb-rating {
+    display: none;
+  }
+
+  .mb-actions {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+  }
+}

@@ -106,3 +106,18 @@
   background: rgba(0, 0, 0, 0.2);
   color: inherit;
 }
+
+.nav-library-link {
+  margin-top: 6px;
+  padding: 4px 6px;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 15px;
+  color: #e9dcc2;
+  border-bottom: 1px solid transparent;
+}
+
+.nav-library-link:hover,
+.nav-library-link.is-active {
+  color: #f3d67a;
+  border-bottom-color: rgba(243, 214, 122, 0.6);
+}

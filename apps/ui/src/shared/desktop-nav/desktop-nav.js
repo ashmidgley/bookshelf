@@ -73,7 +73,7 @@ const DesktopNav = ({ history }) => {
     <nav id="desktop-nav" className="navbar">
       <div className="container">
         <div className="navbar-brand">
-          <Link className="navbar-item" to={user ? `/shelf/${user.id}` : "/"}>
+          <Link className="navbar-item" to="/">
             <img
               src="/images/bookshelf.png"
               alt="Small bookshelf"
@@ -96,6 +96,13 @@ const DesktopNav = ({ history }) => {
               </div>
             ) : (
               <div className="nav-user-actions">
+                <NavLink
+                  className="nav-library-link"
+                  activeClassName="is-active"
+                  to={`/shelf/${user.id}`}
+                >
+                  Library
+                </NavLink>
                 <button
                   className="nav-add-book"
                   onClick={() => openQuickAdd()}

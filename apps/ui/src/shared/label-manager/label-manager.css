@@ -1,0 +1,251 @@
+.lm {
+  font-family: "Fraunces", Georgia, serif;
+  color: #f1e6d2;
+  padding-bottom: 60px;
+}
+
+/* the cabinet: a wooden frame holding a grid of drawers */
+.lm-cabinet {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  padding: 18px;
+  background: linear-gradient(90deg, #24160b, #3a2412 8%, #3a2412 92%, #24160b);
+  border: 12px solid #2a190c;
+  border-image: linear-gradient(180deg, #5c3a1e, #2a190c) 1;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.55), inset 0 0 50px rgba(0, 0, 0, 0.5);
+}
+
+.lm-drawer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-height: 190px;
+  padding: 26px 16px 16px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, #5a3a1f, #462c16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -3px 0 rgba(0, 0, 0, 0.25),
+    0 6px 14px rgba(0, 0, 0, 0.45);
+  text-align: center;
+  transition: transform 0.2s ease;
+}
+
+.lm-drawer:not(.lm-editing):not(.lm-confirming):hover {
+  transform: translateY(-3px);
+}
+
+/* brass pull handle */
+.lm-handle {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  width: 46px;
+  height: 8px;
+  margin-left: -23px;
+  border-radius: 0 0 8px 8px;
+  background: linear-gradient(180deg, #f3d67a, #a8811a);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.lm-emoji {
+  font-size: 46px;
+  line-height: 1.2;
+  margin-top: 6px;
+}
+
+.lm-name {
+  display: inline-block;
+  max-width: 100%;
+  padding: 3px 12px;
+  background: #f4ead5;
+  color: #2a190c;
+  font-weight: 600;
+  font-size: 17px;
+  border-radius: 2px;
+  box-shadow: inset 0 0 0 2px #c9a227;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.lm-count {
+  font-size: 13px;
+  font-style: italic;
+  color: #c7b48f;
+}
+
+.lm-item-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: auto;
+  padding-top: 8px;
+  opacity: 0.7;
+  transition: opacity 0.15s ease;
+}
+
+.lm-drawer:hover .lm-item-actions,
+.lm-drawer:focus-within .lm-item-actions {
+  opacity: 1;
+}
+
+.lm-link {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 14px;
+  color: #f3d67a;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: rgba(243, 214, 122, 0.35);
+  text-underline-offset: 3px;
+}
+
+.lm-link-danger {
+  color: #e8a08c;
+  text-decoration-color: rgba(232, 160, 140, 0.35);
+}
+
+/* editing / confirming states use a parchment card */
+.lm-editing,
+.lm-confirming {
+  background: #f4ead5;
+  color: #2a190c;
+  gap: 10px;
+}
+
+.lm-emoji-input {
+  width: 84px;
+  height: 64px;
+  border: 2px dashed #c9a227;
+  border-radius: 6px;
+  background: #fffaf0;
+  text-align: center;
+  font-size: 36px;
+  outline: none;
+}
+
+.lm-emoji-input:focus {
+  border-style: solid;
+}
+
+.lm-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+}
+
+.lm-suggestion {
+  width: 30px;
+  height: 30px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  font-size: 17px;
+  cursor: pointer;
+}
+
+.lm-suggestion:hover {
+  background: #eadbbb;
+}
+
+.lm-picked {
+  border-color: #5b1e1e;
+  background: #eadbbb;
+}
+
+.lm-name-input {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid #c9b48a;
+  border-radius: 3px;
+  background: #fffaf0;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 16px;
+  color: #2a190c;
+  text-align: center;
+  outline: none;
+}
+
+.lm-name-input:focus {
+  border-color: #5b1e1e;
+}
+
+.lm-form-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.lm-editing .nl-btn-ghost,
+.lm-confirming .nl-btn-ghost {
+  color: #2a190c;
+  border-color: #c9b48a;
+}
+
+.lm-editing .nl-btn-ghost:hover,
+.lm-confirming .nl-btn-ghost:hover {
+  background: #eadbbb;
+  color: #2a190c;
+}
+
+.lm-emojipedia {
+  font-size: 12px;
+  font-style: italic;
+  color: #7a6040;
+}
+
+.lm-confirm-text {
+  font-weight: 600;
+  font-size: 17px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.lm-confirm-text small {
+  font-weight: 400;
+  font-style: italic;
+  font-size: 13px;
+  color: #7a4a2a;
+}
+
+/* "new" drawer, styled like the ghost book on the shelf */
+.lm-ghost {
+  justify-content: center;
+  border: 2px dashed rgba(243, 214, 122, 0.5);
+  background: rgba(243, 214, 122, 0.04);
+  box-shadow: none;
+  color: #f3d67a;
+  font-family: "Fraunces", Georgia, serif;
+  font-size: 16px;
+  font-style: italic;
+  cursor: pointer;
+}
+
+.lm-ghost:hover {
+  background: rgba(243, 214, 122, 0.1);
+}
+
+.lm-ghost-plus {
+  font-size: 44px;
+  font-weight: 300;
+  font-style: normal;
+  line-height: 1;
+}
+
+@media (max-width: 600px) {
+  .lm-cabinet {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-width: 8px;
+    padding: 10px;
+    gap: 10px;
+  }
+
+  .lm-item-actions {
+    opacity: 1;
+  }
+}

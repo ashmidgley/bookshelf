@@ -91,7 +91,7 @@ const MobileNav = ({ history }) => {
           </button>
           <Link
             id="mobile-nav-icon"
-            to={user ? `/shelf/${user.id}` : "/"}
+            to="/"
             className="navbar-item"
           >
             <img
